@@ -1,585 +1,162 @@
 {
-    "Uuid":  "8f4c1a2e-0a11-4b6e-9c01-aa0000000009",
-    "IsCustomNode":  false,
-    "Description":  "Calcula cuantas laminas hacen falta para las vistas de assembly pendientes (simulando el mismo empaquetado que 02_Colocar vistas en laminas) y crea esa cantidad exacta, con la vineta y numeracion elegidas.",
-    "Name":  "01_Calcular y crear laminas",
-    "ElementResolver":  {
-                            "ResolutionMap":  {
-
-                                              }
-                        },
-    "Inputs":  [
-                   {
-                       "Id":  "b9010000000000000000000000000001",
-                       "Name":  "Viñeta (Title Block) — elegir del dropdown",
-                       "Type":  "selection",
-                       "Type2":  "dropdownSelection",
-                       "Value":  "BIOS_E_VINE_A1_NOVANDINO:Formato-DETALLE",
-                       "Description":  "All family types available in the document.",
-                       "SelectedIndex":  13
-                   },
-                   {
-                       "Id":  "b9020000000000000000000000000001",
-                       "Name":  "Numero del primer sheet",
-                       "Type":  "string",
-                       "Type2":  "string",
-                       "Value":  "A1",
-                       "Description":  "Creates a string."
-                   },
-                   {
-                       "Id":  "b9030000000000000000000000000001",
-                       "Name":  "Nombre del primer sheet",
-                       "Type":  "string",
-                       "Type2":  "string",
-                       "Value":  "A1",
-                       "Description":  "Creates a string."
-                   },
-                   {
-                       "Id":  "b9040000000000000000000000000001",
-                       "Name":  "Procesar TODOS los assemblies",
-                       "Type":  "boolean",
-                       "Type2":  "boolean",
-                       "Value":  "true",
-                       "Description":  "Enables selection between True and False"
-                   },
-                   {
-                       "Id":  "b9050000000000000000000000000001",
-                       "Name":  "Filtro assemblies (si TODOS = False)",
-                       "Type":  "string",
-                       "Type2":  "string",
-                       "Value":  "",
-                       "Description":  "Creates a string."
-                   },
-                   {
-                       "Id":  "b9060000000000000000000000000001",
-                       "Name":  "Margen y separacion (mm)",
-                       "Type":  "number",
-                       "Type2":  "number",
-                       "Value":  "5",
-                       "MaximumValue":  50.0,
-                       "MinimumValue":  5.0,
-                       "StepValue":  1.0,
-                       "NumberType":  "Integer",
-                       "Description":  "Produces integer values"
-                   },
-                   {
-                       "Id":  "b9070000000000000000000000000001",
-                       "Name":  "Reserva lado derecho (mm)",
-                       "Type":  "number",
-                       "Type2":  "number",
-                       "Value":  "150",
-                       "MaximumValue":  200.0,
-                       "MinimumValue":  0.0,
-                       "StepValue":  5.0,
-                       "NumberType":  "Integer",
-                       "Description":  "Produces integer values"
-                   }
-               ],
-    "Outputs":  [
-                    {
-                        "Id":  "c9010000000000000000000000000001",
-                        "Name":  "Log",
-                        "Type":  "unknown",
-                        "InitialValue":  "",
-                        "Description":  "Visualizes a node\u0027s output"
-                    }
-                ],
-    "Nodes":  [
-                  {
-                      "ConcreteType":  "DSRevitNodesUI.FamilyTypes, DSRevitNodesUI",
-                      "SelectedIndex":  13,
-                      "SelectedString":  "BIOS_E_VINE_A1_NOVANDINO:Formato-DETALLE",
-                      "Id":  "b9010000000000000000000000000001",
-                      "NodeType":  "ExtensionNode",
-                      "Inputs":  [
-
-                                 ],
-                      "Outputs":  [
-                                      {
-                                          "Id":  "b9010000000000000000000000000002",
-                                          "Name":  "Family Type",
-                                          "Description":  "The selected Family Type",
-                                          "UsingDefaultValue":  false,
-                                          "Level":  2,
-                                          "UseLevels":  false,
-                                          "KeepListStructure":  false
-                                      }
-                                  ],
-                      "Replication":  "Disabled",
-                      "Description":  "All family types available in the document."
-                  },
-                  {
-                      "ConcreteType":  "CoreNodeModels.Input.StringInput, CoreNodeModels",
-                      "SerializedWidth":  0,
-                      "SerializedHeight":  0,
-                      "Id":  "b9020000000000000000000000000001",
-                      "NodeType":  "StringInputNode",
-                      "Inputs":  [
-
-                                 ],
-                      "Outputs":  [
-                                      {
-                                          "Id":  "b9020000000000000000000000000002",
-                                          "Name":  "",
-                                          "Description":  "String",
-                                          "UsingDefaultValue":  false,
-                                          "Level":  2,
-                                          "UseLevels":  false,
-                                          "KeepListStructure":  false
-                                      }
-                                  ],
-                      "Replication":  "Disabled",
-                      "Description":  "Creates a string.",
-                      "InputValue":  "A1"
-                  },
-                  {
-                      "ConcreteType":  "CoreNodeModels.Input.StringInput, CoreNodeModels",
-                      "SerializedWidth":  0,
-                      "SerializedHeight":  0,
-                      "Id":  "b9030000000000000000000000000001",
-                      "NodeType":  "StringInputNode",
-                      "Inputs":  [
-
-                                 ],
-                      "Outputs":  [
-                                      {
-                                          "Id":  "b9030000000000000000000000000002",
-                                          "Name":  "",
-                                          "Description":  "String",
-                                          "UsingDefaultValue":  false,
-                                          "Level":  2,
-                                          "UseLevels":  false,
-                                          "KeepListStructure":  false
-                                      }
-                                  ],
-                      "Replication":  "Disabled",
-                      "Description":  "Creates a string.",
-                      "InputValue":  "A1"
-                  },
-                  {
-                      "ConcreteType":  "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
-                      "Id":  "b9040000000000000000000000000001",
-                      "NodeType":  "BooleanInputNode",
-                      "Inputs":  [
-
-                                 ],
-                      "Outputs":  [
-                                      {
-                                          "Id":  "b9040000000000000000000000000002",
-                                          "Name":  "",
-                                          "Description":  "Boolean",
-                                          "UsingDefaultValue":  false,
-                                          "Level":  2,
-                                          "UseLevels":  false,
-                                          "KeepListStructure":  false
-                                      }
-                                  ],
-                      "Replication":  "Disabled",
-                      "Description":  "Enables selection between True and False",
-                      "InputValue":  true
-                  },
-                  {
-                      "ConcreteType":  "CoreNodeModels.Input.StringInput, CoreNodeModels",
-                      "SerializedWidth":  0,
-                      "SerializedHeight":  0,
-                      "Id":  "b9050000000000000000000000000001",
-                      "NodeType":  "StringInputNode",
-                      "Inputs":  [
-
-                                 ],
-                      "Outputs":  [
-                                      {
-                                          "Id":  "b9050000000000000000000000000002",
-                                          "Name":  "",
-                                          "Description":  "String",
-                                          "UsingDefaultValue":  false,
-                                          "Level":  2,
-                                          "UseLevels":  false,
-                                          "KeepListStructure":  false
-                                      }
-                                  ],
-                      "Replication":  "Disabled",
-                      "Description":  "Creates a string.",
-                      "InputValue":  ""
-                  },
-                  {
-                      "ConcreteType":  "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
-                      "NumberType":  "Integer",
-                      "MaximumValue":  50,
-                      "MinimumValue":  0,
-                      "StepValue":  1,
-                      "Id":  "b9060000000000000000000000000001",
-                      "NodeType":  "NumberInputNode",
-                      "Inputs":  [
-
-                                 ],
-                      "Outputs":  [
-                                      {
-                                          "Id":  "b9060000000000000000000000000002",
-                                          "Name":  "",
-                                          "Description":  "Int64",
-                                          "UsingDefaultValue":  false,
-                                          "Level":  2,
-                                          "UseLevels":  false,
-                                          "KeepListStructure":  false
-                                      }
-                                  ],
-                      "Replication":  "Disabled",
-                      "Description":  "Produces integer values",
-                      "InputValue":  5
-                  },
-                  {
-                      "ConcreteType":  "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
-                      "NumberType":  "Integer",
-                      "MaximumValue":  400,
-                      "MinimumValue":  0,
-                      "StepValue":  10,
-                      "Id":  "b9070000000000000000000000000001",
-                      "NodeType":  "NumberInputNode",
-                      "Inputs":  [
-
-                                 ],
-                      "Outputs":  [
-                                      {
-                                          "Id":  "b9070000000000000000000000000002",
-                                          "Name":  "",
-                                          "Description":  "Int64",
-                                          "UsingDefaultValue":  false,
-                                          "Level":  2,
-                                          "UseLevels":  false,
-                                          "KeepListStructure":  false
-                                      }
-                                  ],
-                      "Replication":  "Disabled",
-                      "Description":  "Produces integer values",
-                      "InputValue":  150
-                  },
-                  {
-                      "ConcreteType":  "PythonNodeModels.PythonNode, PythonNodeModels",
-                      "Code":  "# 01_Calcular y crear laminas - ACERO\n# Calcula cuantas laminas hacen falta para las vistas de assembly pendientes,\n# simulando EXACTAMENTE el mismo empaquetado que 02_Colocar vistas en laminas, y\n# crea esa cantidad con la numeracion incremental de siempre.\n#\n# Regla de aislamiento (estandar del proyecto): cada lamina contiene vistas de UN\n# SOLO assembly. Las vistas de un assembly fluyen por tantas laminas como haga\n# falta, pero el assembly siguiente SIEMPRE empieza en una lamina nueva.\n#\n# La tabla de cantidades (06) va unicamente en la PRIMERA lamina de cada assembly,\n# asi que la reserva del lado derecho solo se descuenta en esa lamina; las\n# siguientes del mismo assembly aprovechan el ancho completo.\n#\n# Revit 2027 / Dynamo 4 / CPython3\n# IN[0] = tipo de vineta (dropdown Family Types)\n# IN[1] = numero del primer sheet\n# IN[2] = nombre del primer sheet\n# IN[3] = procesar todos los assemblies (bool)\n# IN[4] = filtro de assemblies si IN[3] es False (parcial, comas)\n# IN[5] = margen y separacion entre vistas (mm) - debe coincidir con el mismo\n#         input de 02_Colocar vistas en laminas para que el calculo sea exacto\n# IN[6] = reserva del lado derecho para la tabla de 06 (mm) - idem, debe coincidir\n\nimport clr\nimport re\nclr.AddReference('RevitAPI')\nclr.AddReference('RevitServices')\nfrom Autodesk.Revit.DB import (FilteredElementCollector, AssemblyInstance, ViewSheet,\n                               Viewport, View, BuiltInCategory, Element, ElementId)\nfrom RevitServices.Persistence import DocumentManager\nfrom RevitServices.Transactions import TransactionManager\n\ndoc = DocumentManager.Instance.CurrentDBDocument\n\ntb_type = UnwrapElement(IN[0])\nfirst_number = (IN[1] or '').strip()\nfirst_name = (IN[2] or '').strip()\nprocess_all = bool(IN[3])\nfilter_text = (IN[4] or '').strip()\nmargin = float(IN[5]) / 304.8\nright_reserve = float(IN[6]) / 304.8\n\nlog = []\n\n# --- contrato de nombres con 00_Vistas de assembly ---\nSUF_NIPB = ' - NIPB'\nSUF_PT = ' - P.T.'\nSUF_TA = ' - T.A. '\nSUF_EJE = ' - EJE '\n\n# alto reservado bajo cada vista para su titulo (mm de papel)\nlabel_h_planta = 12.0 / 304.8\nlabel_h_elev = (12.0 + 14.0) / 304.8\n\n\ndef elem_name(e):\n    try:\n        return e.Name\n    except Exception:\n        return Element.Name.__get__(e)\n\n\ndef es_elevacion(nombre):\n    return SUF_EJE in nombre\n\n\ndef clave_natural(s):\n    # ordena \"2\" antes que \"13\" y \"13a\" despues de \"13\"\n    partes = re.split('(\\\\d+)', s)\n    return [(1, int(p), '') if p.isdigit() else (0, 0, p.lower()) for p in partes if p != '']\n\n\ndef tb_label(t):\n    try:\n        return '{} : {}'.format(t.FamilyName, elem_name(t))\n    except Exception:\n        return 'Id ' + str(t.Id)\n\n\ndef list_titleblocks():\n    col = (FilteredElementCollector(doc)\n           .OfCategory(BuiltInCategory.OST_TitleBlocks)\n           .WhereElementIsElementType())\n    return list(col)\n\n\ndef paper_size(v):\n    # tama\u00f1o en papel (pies) = crop del modelo / escala\n    cb = v.CropBox\n    s = v.Scale if v.Scale > 0 else 1\n    return ((cb.Max.X - cb.Min.X) / s, (cb.Max.Y - cb.Min.Y) / s)\n\n\ndef tamano_con_titulo(v):\n    w, h = paper_size(v)\n    return (w, h + (label_h_elev if es_elevacion(elem_name(v)) else label_h_planta))\n\n\ndef usable_rect(sheet, con_reserva):\n    # area util = bbox de la vineta menos margenes. La reserva derecha (tabla de\n    # 06) solo se descuenta en la PRIMERA lamina de cada assembly.\n    reserva = right_reserve if con_reserva else 0.0\n    col = FilteredElementCollector(doc, sheet.Id).OfCategory(BuiltInCategory.OST_TitleBlocks)\n    tb = col.FirstElement()\n    if tb is not None:\n        bb = tb.get_BoundingBox(sheet)\n        if bb is not None:\n            return (bb.Min.X + margin, bb.Min.Y + margin,\n                    bb.Max.X - margin - reserva, bb.Max.Y - margin)\n    o = sheet.Outline\n    return (o.Min.U + margin, o.Min.V + margin,\n            o.Max.U - margin - reserva, o.Max.V - margin)\n\n\ndef empaquetar(tamanos, rect_1, rect_n, margin):\n    # Flujo izquierda->derecha, arriba->abajo. Cuando una vista no cabe a lo ancho\n    # salta de fila; cuando no cabe a lo alto salta a la lamina siguiente DEL MISMO\n    # assembly (que ya no descuenta la reserva de la tabla).\n    # Devuelve (posiciones, n_laminas, avisos) con posiciones = [(idx, x_izq, y_sup)].\n    pos = []\n    avisos = []\n    idx = 0\n    x0, y0, x1, y1 = rect_1\n    cx, cy, row_h = x0, y1, 0.0\n    for w, h in tamanos:\n        if cx > x0 and cx + w > x1:\n            cx = x0\n            cy -= row_h + margin\n            row_h = 0.0\n        fresco = (abs(cx - x0) < 1e-9 and abs(cy - y1) < 1e-9)\n        if cy - h < y0 and not fresco:\n            idx += 1\n            x0, y0, x1, y1 = rect_n\n            cx, cy, row_h = x0, y1, 0.0\n            fresco = True\n        if fresco and (w > (x1 - x0) or h > (y1 - y0)):\n            avisos.append((w, h))\n        pos.append((idx, cx, cy))\n        cx += w + margin\n        if h > row_h:\n            row_h = h\n    return pos, idx + 1, avisos\n\n\ndef bump(text, steps):\n    # incrementa el ULTIMO bloque numerico conservando el ancho (ceros a la izquierda)\n    last = None\n    for m in re.finditer('\\\\d+', text):\n        last = m\n    if last is None:\n        return '{} {:02d}'.format(text, steps + 1)\n    width = len(last.group(0))\n    val = int(last.group(0)) + steps\n    return text[:last.start()] + str(val).zfill(width) + text[last.end():]\n\n\n# --- validar la vineta seleccionada ---\ntb_cat_id = ElementId(BuiltInCategory.OST_TitleBlocks)\nis_tb = (tb_type is not None\n         and tb_type.Category is not None\n         and tb_type.Category.Id == tb_cat_id)\n\nif not is_tb:\n    log.append('ERROR: el tipo seleccionado en el dropdown NO es una vineta (Title Block).')\n    log.append('Selecciona una de estas vinetas cargadas en el proyecto:')\n    tbs = list_titleblocks()\n    if not tbs:\n        log.append('  (no hay vinetas cargadas en el proyecto)')\n    for t in tbs:\n        log.append('  - ' + tb_label(t))\n    OUT = log\nelse:\n    by_type = {}\n    for ai in FilteredElementCollector(doc).OfClass(AssemblyInstance):\n        by_type.setdefault(ai.AssemblyTypeName, []).append(ai)\n\n    names = sorted(by_type.keys())\n    if not names:\n        log.append('AVISO: no hay ningun Assembly en el modelo; no hay nada que calcular.')\n    if not process_all:\n        tokens = [t.strip().lower() for t in filter_text.split(',') if t.strip()]\n        if tokens:\n            names = [n for n in names if any(tok in n.lower() for tok in tokens)]\n        else:\n            names = []\n            log.append('ERROR: \"Todos\" esta en False y el filtro esta vacio.')\n\n    view_by_name = {}\n    for v in FilteredElementCollector(doc).OfClass(View):\n        if not v.IsTemplate:\n            view_by_name[elem_name(v)] = v\n\n    placed_ids = set()\n    for vp in FilteredElementCollector(doc).OfClass(Viewport):\n        placed_ids.add(vp.ViewId.Value)\n\n    def vistas_pendientes(nombre):\n        # orden de lamina: NIPB -> P.T. -> plantas T.A. ascendentes -> elevaciones de eje\n        res = []\n        v = view_by_name.get(nombre + SUF_NIPB)\n        if v is None:\n            log.append('AVISO: no existe la vista \"{}\" (corre 00_Vistas de assembly).'.format(nombre + SUF_NIPB))\n        elif v.Id.Value not in placed_ids:\n            res.append(v)\n        # la P.T. (punto de trabajo) va SEGUNDA, entre la NIPB y las T.A.\n        v = view_by_name.get(nombre + SUF_PT)\n        if v is None:\n            log.append('AVISO: no existe la vista \"{}\" (corre 00_Vistas de assembly).'.format(nombre + SUF_PT))\n        elif v.Id.Value not in placed_ids:\n            res.append(v)\n        for n in sorted(k for k in view_by_name if k.startswith(nombre + SUF_TA)):\n            if view_by_name[n].Id.Value not in placed_ids:\n                res.append(view_by_name[n])\n        ejes = [k for k in view_by_name if k.startswith(nombre + SUF_EJE)]\n        ejes.sort(key=lambda k: clave_natural(k[len(nombre + SUF_EJE):]))\n        for n in ejes:\n            if view_by_name[n].Id.Value not in placed_ids:\n                res.append(view_by_name[n])\n        return res\n\n    pendientes = {}\n    for n in names:\n        vs = vistas_pendientes(n)\n        if vs:\n            pendientes[n] = vs\n\n    if not pendientes:\n        log.append('No hay vistas pendientes de colocar; no se creo ninguna lamina.')\n        OUT = log\n    else:\n        created = 0\n        sheets_needed = 0\n        TransactionManager.Instance.EnsureInTransaction(doc)\n        try:\n            if hasattr(tb_type, 'IsActive') and not tb_type.IsActive:\n                tb_type.Activate()\n\n            # --- medir el area util real de esta vineta con una lamina de prueba ---\n            probe = ViewSheet.Create(doc, tb_type.Id)\n            doc.Regenerate()\n            rect_1 = usable_rect(probe, True)\n            rect_n = usable_rect(probe, False)\n            doc.Delete(probe.Id)\n\n            # --- simulacion en seco, assembly por assembly ---\n            for n in sorted(pendientes.keys()):\n                vistas = pendientes[n]\n                tamanos = [tamano_con_titulo(v) for v in vistas]\n                pos, n_lam, avisos = empaquetar(tamanos, rect_1, rect_n, margin)\n                sheets_needed += n_lam\n                for w, h in avisos:\n                    log.append('AVISO {}: una vista de {:.0f} x {:.0f} mm en papel excede el area util de una lamina completa; ocupara una lamina para si sola.'.format(\n                        n, w * 304.8, h * 304.8))\n                log.append('{}: {} vista(s) -> {} lamina(s).'.format(n, len(vistas), n_lam))\n\n            # --- crear esa cantidad de laminas, con la numeracion de siempre ---\n            if not first_number:\n                first_number = 'A-001'\n                log.append('AVISO: numero inicial vacio, se usa A-001.')\n            if not first_name:\n                first_name = 'SIN NOMBRE 01'\n                log.append('AVISO: nombre inicial vacio, se usa SIN NOMBRE 01.')\n\n            existing = set()\n            for vs in FilteredElementCollector(doc).OfClass(ViewSheet):\n                existing.add(vs.SheetNumber)\n\n            plan = []\n            produced = 0\n            offset = 0\n            while produced < sheets_needed and offset < sheets_needed + 1000:\n                num = first_number if offset == 0 else bump(first_number, offset)\n                offset += 1\n                if num in existing:\n                    log.append('AVISO: el numero {} ya existe en el proyecto, se salta.'.format(num))\n                    continue\n                name = first_name if produced == 0 else bump(first_name, produced)\n                plan.append((num, name))\n                existing.add(num)\n                produced += 1\n\n            for num, name in plan:\n                try:\n                    sheet = ViewSheet.Create(doc, tb_type.Id)\n                    sheet.SheetNumber = num\n                    try:\n                        sheet.Name = name\n                    except Exception:\n                        Element.Name.__set__(sheet, name)\n                    created += 1\n                    log.append('OK: {}  |  {}'.format(num, name))\n                except Exception as e:\n                    log.append('ERROR creando {}: {}'.format(num, e))\n        finally:\n            TransactionManager.Instance.TransactionTaskDone()\n\n        log.insert(0, 'Vineta usada: ' + tb_label(tb_type))\n        log.insert(1, 'Assemblies con vistas pendientes: {} | laminas necesarias: {} | creadas: {}'.format(\n            len(pendientes), sheets_needed, created))\n        log.append('Listo. Ahora corre 02_Colocar vistas en laminas para distribuir las vistas.')\n        OUT = log\n",
-                      "Engine":  "PythonNet3",
-                      "VariableInputPorts":  true,
-                      "Id":  "a9010000000000000000000000000001",
-                      "NodeType":  "PythonScriptNode",
-                      "Inputs":  [
-                                     {
-                                         "Id":  "a9010000000000000000000000000002",
-                                         "Name":  "IN[0]",
-                                         "Description":  "Input #0",
-                                         "UsingDefaultValue":  false,
-                                         "Level":  2,
-                                         "UseLevels":  false,
-                                         "KeepListStructure":  false
-                                     },
-                                     {
-                                         "Id":  "a9010000000000000000000000000003",
-                                         "Name":  "IN[1]",
-                                         "Description":  "Input #1",
-                                         "UsingDefaultValue":  false,
-                                         "Level":  2,
-                                         "UseLevels":  false,
-                                         "KeepListStructure":  false
-                                     },
-                                     {
-                                         "Id":  "a9010000000000000000000000000004",
-                                         "Name":  "IN[2]",
-                                         "Description":  "Input #2",
-                                         "UsingDefaultValue":  false,
-                                         "Level":  2,
-                                         "UseLevels":  false,
-                                         "KeepListStructure":  false
-                                     },
-                                     {
-                                         "Id":  "a9010000000000000000000000000005",
-                                         "Name":  "IN[3]",
-                                         "Description":  "Input #3",
-                                         "UsingDefaultValue":  false,
-                                         "Level":  2,
-                                         "UseLevels":  false,
-                                         "KeepListStructure":  false
-                                     },
-                                     {
-                                         "Id":  "a9010000000000000000000000000006",
-                                         "Name":  "IN[4]",
-                                         "Description":  "Input #4",
-                                         "UsingDefaultValue":  false,
-                                         "Level":  2,
-                                         "UseLevels":  false,
-                                         "KeepListStructure":  false
-                                     },
-                                     {
-                                         "Id":  "a9010000000000000000000000000007",
-                                         "Name":  "IN[5]",
-                                         "Description":  "Input #5",
-                                         "UsingDefaultValue":  false,
-                                         "Level":  2,
-                                         "UseLevels":  false,
-                                         "KeepListStructure":  false
-                                     },
-                                     {
-                                         "Id":  "a9010000000000000000000000000008",
-                                         "Name":  "IN[6]",
-                                         "Description":  "Input #6",
-                                         "UsingDefaultValue":  false,
-                                         "Level":  2,
-                                         "UseLevels":  false,
-                                         "KeepListStructure":  false
-                                     }
-                                 ],
-                      "Outputs":  [
-                                      {
-                                          "Id":  "a9010000000000000000000000000009",
-                                          "Name":  "OUT",
-                                          "Description":  "Result of the python script",
-                                          "UsingDefaultValue":  false,
-                                          "Level":  2,
-                                          "UseLevels":  false,
-                                          "KeepListStructure":  false
-                                      }
-                                  ],
-                      "Replication":  "Disabled",
-                      "Description":  "Runs an embedded Python script."
-                  },
-                  {
-                      "ConcreteType":  "CoreNodeModels.Watch, CoreNodeModels",
-                      "WatchWidth":  620.0,
-                      "WatchHeight":  400.0,
-                      "Id":  "c9010000000000000000000000000001",
-                      "NodeType":  "ExtensionNode",
-                      "Inputs":  [
-                                     {
-                                         "Id":  "c9010000000000000000000000000002",
-                                         "Name":  "",
-                                         "Description":  "Node to show output from",
-                                         "UsingDefaultValue":  false,
-                                         "Level":  2,
-                                         "UseLevels":  false,
-                                         "KeepListStructure":  false
-                                     }
-                                 ],
-                      "Outputs":  [
-                                      {
-                                          "Id":  "c9010000000000000000000000000003",
-                                          "Name":  "",
-                                          "Description":  "Node output",
-                                          "UsingDefaultValue":  false,
-                                          "Level":  2,
-                                          "UseLevels":  false,
-                                          "KeepListStructure":  false
-                                      }
-                                  ],
-                      "Replication":  "Disabled",
-                      "Description":  "Visualizes a node\u0027s output"
-                  }
-              ],
-    "Connectors":  [
-                       {
-                           "Start":  "b9010000000000000000000000000002",
-                           "End":  "a9010000000000000000000000000002",
-                           "Id":  "d9010000000000000000000000000001",
-                           "IsHidden":  "False"
-                       },
-                       {
-                           "Start":  "b9020000000000000000000000000002",
-                           "End":  "a9010000000000000000000000000003",
-                           "Id":  "d9010000000000000000000000000002",
-                           "IsHidden":  "False"
-                       },
-                       {
-                           "Start":  "b9030000000000000000000000000002",
-                           "End":  "a9010000000000000000000000000004",
-                           "Id":  "d9010000000000000000000000000003",
-                           "IsHidden":  "False"
-                       },
-                       {
-                           "Start":  "b9040000000000000000000000000002",
-                           "End":  "a9010000000000000000000000000005",
-                           "Id":  "d9010000000000000000000000000004",
-                           "IsHidden":  "False"
-                       },
-                       {
-                           "Start":  "b9050000000000000000000000000002",
-                           "End":  "a9010000000000000000000000000006",
-                           "Id":  "d9010000000000000000000000000005",
-                           "IsHidden":  "False"
-                       },
-                       {
-                           "Start":  "b9060000000000000000000000000002",
-                           "End":  "a9010000000000000000000000000007",
-                           "Id":  "d9010000000000000000000000000006",
-                           "IsHidden":  "False"
-                       },
-                       {
-                           "Start":  "b9070000000000000000000000000002",
-                           "End":  "a9010000000000000000000000000008",
-                           "Id":  "d9010000000000000000000000000007",
-                           "IsHidden":  "False"
-                       },
-                       {
-                           "Start":  "a9010000000000000000000000000009",
-                           "End":  "c9010000000000000000000000000002",
-                           "Id":  "d9010000000000000000000000000008",
-                           "IsHidden":  "False"
-                       }
-                   ],
-    "Dependencies":  [
-
-                     ],
-    "NodeLibraryDependencies":  [
-
-                                ],
-    "EnableLegacyPolyCurveBehavior":  false,
-    "Thumbnail":  "",
-    "GraphDocumentationURL":  null,
-    "ExtensionWorkspaceData":  [
-                                   {
-                                       "ExtensionGuid":  "28992e1d-abb9-417f-8b1b-05e053bee670",
-                                       "Name":  "Properties",
-                                       "Version":  "4.0",
-                                       "Data":  {
-
-                                                }
-                                   },
-                                   {
-                                       "ExtensionGuid":  "DFBD9CC0-DB40-457A-939E-8C8555555A9D",
-                                       "Name":  "Generative Design",
-                                       "Version":  "10.3",
-                                       "Data":  {
-
-                                                }
-                                   }
-                               ],
-    "Author":  "",
-    "Linting":  {
-                    "activeLinter":  "None",
-                    "activeLinterId":  "7b75fb44-43fd-4631-a878-29f4d5d8399a",
-                    "warningCount":  0,
-                    "errorCount":  0
-                },
-    "Bindings":  [
-
-                 ],
-    "View":  {
-                 "Dynamo":  {
-                                "ScaleFactor":  1.0,
-                                "HasRunWithoutCrash":  true,
-                                "IsVisibleInDynamoLibrary":  true,
-                                "Version":  "4.0.2.3852",
-                                "RunType":  "Manual",
-                                "RunPeriod":  "1000"
-                            },
-                 "Camera":  {
-                                "Name":  "_Background Preview",
-                                "EyeX":  -17.0,
-                                "EyeY":  24.0,
-                                "EyeZ":  50.0,
-                                "LookX":  12.0,
-                                "LookY":  -13.0,
-                                "LookZ":  -58.0,
-                                "UpX":  0.0,
-                                "UpY":  1.0,
-                                "UpZ":  0.0
-                            },
-                 "ConnectorPins":  [
-
-                                   ],
-                 "NodeViews":  [
-                                   {
-                                       "Id":  "b9010000000000000000000000000001",
-                                       "Name":  "Vineta (Title Block) - elegir del dropdown",
-                                       "IsSetAsInput":  true,
-                                       "IsSetAsOutput":  false,
-                                       "Excluded":  false,
-                                       "ShowGeometry":  true,
-                                       "X":  0.0,
-                                       "Y":  0.0
-                                   },
-                                   {
-                                       "Id":  "b9020000000000000000000000000001",
-                                       "Name":  "Numero del primer sheet",
-                                       "IsSetAsInput":  true,
-                                       "IsSetAsOutput":  false,
-                                       "Excluded":  false,
-                                       "ShowGeometry":  true,
-                                       "X":  0.0,
-                                       "Y":  130.0
-                                   },
-                                   {
-                                       "Id":  "b9030000000000000000000000000001",
-                                       "Name":  "Nombre del primer sheet",
-                                       "IsSetAsInput":  true,
-                                       "IsSetAsOutput":  false,
-                                       "Excluded":  false,
-                                       "ShowGeometry":  true,
-                                       "X":  0.0,
-                                       "Y":  260.0
-                                   },
-                                   {
-                                       "Id":  "b9040000000000000000000000000001",
-                                       "Name":  "Procesar TODOS los assemblies",
-                                       "IsSetAsInput":  true,
-                                       "IsSetAsOutput":  false,
-                                       "Excluded":  false,
-                                       "ShowGeometry":  true,
-                                       "X":  0.0,
-                                       "Y":  390.0
-                                   },
-                                   {
-                                       "Id":  "b9050000000000000000000000000001",
-                                       "Name":  "Filtro assemblies (si TODOS = False)",
-                                       "IsSetAsInput":  true,
-                                       "IsSetAsOutput":  false,
-                                       "Excluded":  false,
-                                       "ShowGeometry":  true,
-                                       "X":  0.0,
-                                       "Y":  520.0
-                                   },
-                                   {
-                                       "Id":  "b9060000000000000000000000000001",
-                                       "Name":  "Margen y separacion (mm)",
-                                       "IsSetAsInput":  true,
-                                       "IsSetAsOutput":  false,
-                                       "Excluded":  false,
-                                       "ShowGeometry":  true,
-                                       "X":  0.0,
-                                       "Y":  650.0
-                                   },
-                                   {
-                                       "Id":  "b9070000000000000000000000000001",
-                                       "Name":  "Reserva para la tabla, lado derecho (mm)",
-                                       "IsSetAsInput":  true,
-                                       "IsSetAsOutput":  false,
-                                       "Excluded":  false,
-                                       "ShowGeometry":  true,
-                                       "X":  0.0,
-                                       "Y":  780.0
-                                   },
-                                   {
-                                       "Id":  "a9010000000000000000000000000001",
-                                       "Name":  "PY | Calcular y crear laminas (1 assembly por lamina)",
-                                       "IsSetAsInput":  false,
-                                       "IsSetAsOutput":  false,
-                                       "Excluded":  false,
-                                       "ShowGeometry":  true,
-                                       "X":  520.0,
-                                       "Y":  300.0
-                                   },
-                                   {
-                                       "Id":  "c9010000000000000000000000000001",
-                                       "Name":  "Log",
-                                       "IsSetAsInput":  false,
-                                       "IsSetAsOutput":  true,
-                                       "Excluded":  false,
-                                       "ShowGeometry":  true,
-                                       "X":  860.0,
-                                       "Y":  300.0
-                                   }
-                               ],
-                 "Annotations":  [
-
-                                 ],
-                 "X":  89.0,
-                 "Y":  17.0,
-                 "Zoom":  0.8
-             }
+  "Uuid": "8f4c1a2e-0a11-4b6e-9c01-aa0000000009",
+  "IsCustomNode": false,
+  "Description": "Cuenta las vistas de sector pendientes y crea las laminas necesarias.",
+  "Name": "01_Calcular y crear laminas",
+  "ElementResolver": { "ResolutionMap": {} },
+  "Inputs": [
+    { "Id": "b9010000000000000000000000000001", "Name": "01. Vineta (Title Block) - elegir del dropdown", "Type": "selection", "Type2": "dropdownSelection", "Value": "", "SelectedIndex": -1, "Description": "All family types available in the document." },
+    { "Id": "b9020000000000000000000000000001", "Name": "02. Numero del primer sheet", "Type": "string", "Type2": "string", "Value": "A1", "Description": "Creates a string." },
+    { "Id": "b9030000000000000000000000000001", "Name": "03. Nombre del primer sheet", "Type": "string", "Type2": "string", "Value": "A1", "Description": "Creates a string." },
+    { "Id": "b9040000000000000000000000000001", "Name": "04. Procesar TODOS los sectores", "Type": "boolean", "Type2": "boolean", "Value": "true", "Description": "Enables selection between True and False" },
+    { "Id": "b9050000000000000000000000000001", "Name": "05. Filtro de sectores (si TODOS = False)", "Type": "string", "Type2": "string", "Value": "", "Description": "Creates a string." },
+    { "Id": "b9060000000000000000000000000001", "Name": "06. Margen y separacion (mm)", "Type": "number", "Type2": "number", "Value": "5", "MaximumValue": 50.0, "MinimumValue": 0.0, "StepValue": 1.0, "NumberType": "Integer", "Description": "Produces integer values" }
+  ],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "Engine": "PythonNet3",
+      "VariableInputPorts": true,
+      "Id": "a9010000000000000000000000000001",
+      "NodeType": "PythonScriptNode",
+      "Inputs": [
+      { "Id": "a9010000000000000000000000000010", "Name": "IN[0]", "Description": "Input #0", "UsingDefaultValue": false, "Level": 2, "UseLevels": false, "KeepListStructure": false },
+      { "Id": "a9010000000000000000000000000011", "Name": "IN[1]", "Description": "Input #1", "UsingDefaultValue": false, "Level": 2, "UseLevels": false, "KeepListStructure": false },
+      { "Id": "a9010000000000000000000000000012", "Name": "IN[2]", "Description": "Input #2", "UsingDefaultValue": false, "Level": 2, "UseLevels": false, "KeepListStructure": false },
+      { "Id": "a9010000000000000000000000000013", "Name": "IN[3]", "Description": "Input #3", "UsingDefaultValue": false, "Level": 2, "UseLevels": false, "KeepListStructure": false },
+      { "Id": "a9010000000000000000000000000014", "Name": "IN[4]", "Description": "Input #4", "UsingDefaultValue": false, "Level": 2, "UseLevels": false, "KeepListStructure": false },
+      { "Id": "a9010000000000000000000000000015", "Name": "IN[5]", "Description": "Input #5", "UsingDefaultValue": false, "Level": 2, "UseLevels": false, "KeepListStructure": false }
+      ],
+      "Outputs": [
+        { "Id": "a9010000000000000000000000000002", "Name": "OUT", "Description": "Result of the python script", "UsingDefaultValue": false, "Level": 2, "UseLevels": false, "KeepListStructure": false }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script.",
+      "Code": "# 01_Calcular y crear laminas - ILUMINACION\n# Calcula cuantas laminas hacen falta para las vistas de sector pendientes,\n# simulando EXACTAMENTE el mismo empaquetado que 02_Colocar vistas en laminas, y\n# crea esa cantidad con la numeracion incremental de siempre.\n#\n# Regla de aislamiento (estandar del proyecto): cada lamina contiene vistas de UN\n# SOLO sector. Las vistas de un sector fluyen por tantas laminas como haga falta,\n# pero el sector siguiente SIEMPRE empieza en una lamina nueva.\n#\n# Revit 2027 / Dynamo 4 / CPython3\n# IN[0] = tipo de vineta (dropdown Family Types)\n# IN[1] = numero del primer sheet\n# IN[2] = nombre del primer sheet\n# IN[3] = procesar todos los sectores (bool)\n# IN[4] = filtro de sectores si IN[3] es False (parcial, comas)\n# IN[5] = margen y separacion entre vistas (mm) - debe coincidir con el mismo\n#         input de 02_Colocar vistas en laminas para que el calculo sea exacto\n#\n# QUE DESAPARECIO RESPECTO DEL 01 DE ACERO (T003), Y POR QUE\n#\n# La reserva del lado derecho. En acero, 06_Tabla de assemblies estampaba una tabla\n# de cantidades en la PRIMERA lamina de cada assembly, asi que esa lamina -y solo\n# esa- perdia 150 mm de ancho. Eso obligaba a manejar DOS rectangulos utiles\n# (rect_1 y rect_n) y a que empaquetar() supiera cual usar segun la lamina.\n#\n# Aca no hay tabla: las vistas usan el lienzo COMPLETO de la vineta en todas las\n# laminas. Con un solo rectangulo, empaquetar() pierde el parametro rect_n y la\n# rama que cambiaba de rectangulo al saltar de lamina.\n#\n# OJO: empaquetar() TIENE que ser identica a la de 02_Colocar vistas en laminas. Si\n# las dos versiones se separan, 01 calcula una cantidad de laminas que no coincide\n# con lo que 02 termina colocando, y el error aparece recien al final, con laminas\n# de mas o vistas sin colocar.\n\nimport clr\nimport re\nclr.AddReference(\u0027RevitAPI\u0027)\nclr.AddReference(\u0027RevitServices\u0027)\nfrom Autodesk.Revit.DB import (FilteredElementCollector, ViewSheet,\n                               Viewport, View, BuiltInCategory, Element, ElementId)\nfrom RevitServices.Persistence import DocumentManager\nfrom RevitServices.Transactions import TransactionManager\n\ndoc = DocumentManager.Instance.CurrentDBDocument\n\ntb_type = UnwrapElement(IN[0])\nfirst_number = (IN[1] or \u0027\u0027).strip()\nfirst_name = (IN[2] or \u0027\u0027).strip()\nprocess_all = bool(IN[3])\nfilter_text = (IN[4] or \u0027\u0027).strip()\nmargin = float(IN[5]) / 304.8\n\nlog = []\n\n# --- contrato de nombres con 00_Vistas de sector ---\nSUF_PLANTA = \u0027 - PLANTA\u0027\nSUF_ELEV = \u0027 - ELEV \u0027\n\n# Orden de las elevaciones en la lamina. Es el MISMO orden que fija la tupla\n# ELEVACIONES de 00 (A Norte, B Este, C Sur, D Oeste): cambiarlo alla y no aca\n# dejaria las elevaciones colocadas en un orden que no corresponde con el de sus\n# marcas de corte en la planta.\nLETRAS = (\u0027A\u0027, \u0027B\u0027, \u0027C\u0027, \u0027D\u0027)\n\n# alto reservado bajo cada vista para su titulo (mm de papel)\nlabel_h_planta = 12.0 / 304.8\nlabel_h_elev = (12.0 + 14.0) / 304.8\n\n\ndef elem_name(e):\n    try:\n        return e.Name\n    except Exception:\n        return Element.Name.__get__(e)\n\n\ndef es_elevacion(nombre):\n    return SUF_ELEV in nombre\n\n\ndef tb_label(t):\n    try:\n        return \u0027{} : {}\u0027.format(t.FamilyName, elem_name(t))\n    except Exception:\n        return \u0027Id \u0027 + str(t.Id)\n\n\ndef list_titleblocks():\n    col = (FilteredElementCollector(doc)\n           .OfCategory(BuiltInCategory.OST_TitleBlocks)\n           .WhereElementIsElementType())\n    return list(col)\n\n\ndef paper_size(v):\n    # tamaño en papel (pies) = crop del modelo / escala\n    cb = v.CropBox\n    s = v.Scale if v.Scale \u003e 0 else 1\n    return ((cb.Max.X - cb.Min.X) / s, (cb.Max.Y - cb.Min.Y) / s)\n\n\ndef tamano_con_titulo(v):\n    w, h = paper_size(v)\n    return (w, h + (label_h_elev if es_elevacion(elem_name(v)) else label_h_planta))\n\n\ndef usable_rect(sheet):\n    # area util = bbox de la vineta menos margenes, sin reservar nada: las vistas\n    # ocupan el lienzo completo.\n    col = FilteredElementCollector(doc, sheet.Id).OfCategory(BuiltInCategory.OST_TitleBlocks)\n    tb = col.FirstElement()\n    if tb is not None:\n        bb = tb.get_BoundingBox(sheet)\n        if bb is not None:\n            return (bb.Min.X + margin, bb.Min.Y + margin,\n                    bb.Max.X - margin, bb.Max.Y - margin)\n    o = sheet.Outline\n    return (o.Min.U + margin, o.Min.V + margin,\n            o.Max.U - margin, o.Max.V - margin)\n\n\ndef empaquetar(tamanos, rect, margin):\n    # Flujo izquierda-\u003ederecha, arriba-\u003eabajo. Cuando una vista no cabe a lo ancho\n    # salta de fila; cuando no cabe a lo alto salta a la lamina siguiente DEL MISMO\n    # sector.\n    # Devuelve (posiciones, n_laminas, avisos) con posiciones = [(idx, x_izq, y_sup)].\n    pos = []\n    avisos = []\n    idx = 0\n    x0, y0, x1, y1 = rect\n    cx, cy, row_h = x0, y1, 0.0\n    for w, h in tamanos:\n        if cx \u003e x0 and cx + w \u003e x1:\n            cx = x0\n            cy -= row_h + margin\n            row_h = 0.0\n        fresco = (abs(cx - x0) \u003c 1e-9 and abs(cy - y1) \u003c 1e-9)\n        if cy - h \u003c y0 and not fresco:\n            idx += 1\n            cx, cy, row_h = x0, y1, 0.0\n            fresco = True\n        if fresco and (w \u003e (x1 - x0) or h \u003e (y1 - y0)):\n            avisos.append((w, h))\n        pos.append((idx, cx, cy))\n        cx += w + margin\n        if h \u003e row_h:\n            row_h = h\n    return pos, idx + 1, avisos\n\n\ndef bump(text, steps):\n    # incrementa el ULTIMO bloque numerico conservando el ancho (ceros a la izquierda)\n    last = None\n    for m in re.finditer(\u0027\\\\d+\u0027, text):\n        last = m\n    if last is None:\n        return \u0027{} {:02d}\u0027.format(text, steps + 1)\n    width = len(last.group(0))\n    val = int(last.group(0)) + steps\n    return text[:last.start()] + str(val).zfill(width) + text[last.end():]\n\n\n# --- validar la vineta seleccionada ---\ntb_cat_id = ElementId(BuiltInCategory.OST_TitleBlocks)\nis_tb = (tb_type is not None\n         and tb_type.Category is not None\n         and tb_type.Category.Id == tb_cat_id)\n\nif not is_tb:\n    log.append(\u0027ERROR: el tipo seleccionado en el dropdown NO es una vineta (Title Block).\u0027)\n    log.append(\u0027Selecciona una de estas vinetas cargadas en el proyecto:\u0027)\n    tbs = list_titleblocks()\n    if not tbs:\n        log.append(\u0027  (no hay vinetas cargadas en el proyecto)\u0027)\n    for t in tbs:\n        log.append(\u0027  - \u0027 + tb_label(t))\n    OUT = log\nelse:\n    view_by_name = {}\n    for v in FilteredElementCollector(doc).OfClass(View):\n        if not v.IsTemplate:\n            view_by_name[elem_name(v)] = v\n\n    # --- sectores = los que 00 EFECTIVAMENTE documento ---\n    #\n    # La lista sale de las VISTAS que existen, no de recorrer las vistas 3D con\n    # Section Box. La diferencia importa: 00 es quien decide que es un sector, y\n    # puede haber corrido con un filtro. Si 01 volviera a mirar las vistas 3D por su\n    # cuenta, las dos respuestas se pueden separar.\n    #\n    # Y se separan de la peor manera. El 2026-08-11 este graph conto 9 laminas en vez\n    # de 1: habia SIETE vistas 3D de trabajo (DETALLE 1, DET 2 LAM-004, \"detalle\n    # nuevo fe\"...) con el Section Box encendido, y tener el Section Box encendido no\n    # significa ser un sector. La cuenta era correcta para lo que se le dio de comer;\n    # el problema era de donde salia la lista.\n    #\n    # Leyendo las vistas ya creadas, 01 no puede inventar un sector que 00 no\n    # documento: si no hay \"\u003calgo\u003e - PLANTA\", ese sector no existe para este graph.\n    nombres = []\n    for n in view_by_name:\n        if n.endswith(SUF_PLANTA):\n            nombres.append(n[:-len(SUF_PLANTA)])\n    nombres.sort()\n\n    if not nombres:\n        log.append(\u0027AVISO: no hay ninguna vista \"\u003csector\u003e - PLANTA\" en el modelo; corre antes 00_Vistas de sector.\u0027)\n    if not process_all:\n        tokens = [t.strip().lower() for t in filter_text.split(\u0027,\u0027) if t.strip()]\n        if tokens:\n            nombres = [n for n in nombres if any(tok in n.lower() for tok in tokens)]\n        else:\n            nombres = []\n            log.append(\u0027ERROR: \"Todos\" esta en False y el filtro esta vacio.\u0027)\n    log.append(\u0027Sectores documentados por 00: \u0027 + (\u0027, \u0027.join(nombres) if nombres else \u0027(ninguno)\u0027))\n\n    placed_ids = set()\n    for vp in FilteredElementCollector(doc).OfClass(Viewport):\n        placed_ids.add(vp.ViewId.Value)\n\n    def vistas_pendientes(sname):\n        # orden de lamina: la planta primero, despues las cuatro elevaciones A-\u003eD\n        res = []\n        v = view_by_name.get(sname + SUF_PLANTA)\n        if v is None:\n            log.append(\u0027AVISO: no existe la vista \"{}\" (corre 00_Vistas de sector).\u0027.format(sname + SUF_PLANTA))\n        elif v.Id.Value not in placed_ids:\n            res.append(v)\n        for letra in LETRAS:\n            n = sname + SUF_ELEV + letra\n            v = view_by_name.get(n)\n            if v is None:\n                log.append(\u0027AVISO: no existe la vista \"{}\" (corre 00_Vistas de sector).\u0027.format(n))\n            elif v.Id.Value not in placed_ids:\n                res.append(v)\n        return res\n\n    pendientes = {}\n    for n in nombres:\n        vs = vistas_pendientes(n)\n        if vs:\n            pendientes[n] = vs\n\n    if not pendientes:\n        log.append(\u0027No hay vistas pendientes de colocar; no se creo ninguna lamina.\u0027)\n        OUT = log\n    else:\n        created = 0\n        sheets_needed = 0\n        TransactionManager.Instance.EnsureInTransaction(doc)\n        try:\n            if hasattr(tb_type, \u0027IsActive\u0027) and not tb_type.IsActive:\n                tb_type.Activate()\n\n            # --- medir el area util real de esta vineta con una lamina de prueba ---\n            probe = ViewSheet.Create(doc, tb_type.Id)\n            doc.Regenerate()\n            rect = usable_rect(probe)\n            doc.Delete(probe.Id)\n            log.append(\u0027Area util de la vineta: {:.0f} x {:.0f} mm (margen {:.0f} mm).\u0027.format(\n                (rect[2] - rect[0]) * 304.8, (rect[3] - rect[1]) * 304.8, margin * 304.8))\n\n            # --- simulacion en seco, sector por sector ---\n            for n in sorted(pendientes.keys()):\n                vistas = pendientes[n]\n                tamanos = [tamano_con_titulo(v) for v in vistas]\n                pos, n_lam, avisos = empaquetar(tamanos, rect, margin)\n                sheets_needed += n_lam\n                for w, h in avisos:\n                    log.append(\u0027AVISO {}: una vista de {:.0f} x {:.0f} mm en papel excede el area util de una lamina completa; ocupara una lamina para si sola.\u0027.format(\n                        n, w * 304.8, h * 304.8))\n                log.append(\u0027{}: {} vista(s) -\u003e {} lamina(s).\u0027.format(n, len(vistas), n_lam))\n\n            # --- crear esa cantidad de laminas, con la numeracion de siempre ---\n            if not first_number:\n                first_number = \u0027A-001\u0027\n                log.append(\u0027AVISO: numero inicial vacio, se usa A-001.\u0027)\n            if not first_name:\n                first_name = \u0027SIN NOMBRE 01\u0027\n                log.append(\u0027AVISO: nombre inicial vacio, se usa SIN NOMBRE 01.\u0027)\n\n            existing = set()\n            for vs in FilteredElementCollector(doc).OfClass(ViewSheet):\n                existing.add(vs.SheetNumber)\n\n            plan = []\n            produced = 0\n            offset = 0\n            while produced \u003c sheets_needed and offset \u003c sheets_needed + 1000:\n                num = first_number if offset == 0 else bump(first_number, offset)\n                offset += 1\n                if num in existing:\n                    log.append(\u0027AVISO: el numero {} ya existe en el proyecto, se salta.\u0027.format(num))\n                    continue\n                name = first_name if produced == 0 else bump(first_name, produced)\n                plan.append((num, name))\n                existing.add(num)\n                produced += 1\n\n            for num, name in plan:\n                try:\n                    sheet = ViewSheet.Create(doc, tb_type.Id)\n                    sheet.SheetNumber = num\n                    try:\n                        sheet.Name = name\n                    except Exception:\n                        Element.Name.__set__(sheet, name)\n                    created += 1\n                    log.append(\u0027OK: {}  |  {}\u0027.format(num, name))\n                except Exception as e:\n                    log.append(\u0027ERROR creando {}: {}\u0027.format(num, e))\n        finally:\n            TransactionManager.Instance.TransactionTaskDone()\n\n        log.insert(0, \u0027Vineta usada: \u0027 + tb_label(tb_type))\n        log.insert(1, \u0027Sectores con vistas pendientes: {} | laminas necesarias: {} | creadas: {}\u0027.format(\n            len(pendientes), sheets_needed, created))\n        log.append(\u0027Listo. Ahora corre 02_Colocar vistas en laminas para distribuir las vistas.\u0027)\n        OUT = log\n"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
+      "WatchWidth": 620.0,
+      "WatchHeight": 400.0,
+      "Id": "c9010000000000000000000000000001",
+      "NodeType": "ExtensionNode",
+      "Inputs": [
+        { "Id": "c9010000000000000000000000000002", "Name": "", "Description": "Node to show output from", "UsingDefaultValue": false, "Level": 2, "UseLevels": false, "KeepListStructure": false }
+      ],
+      "Outputs": [
+        { "Id": "c9010000000000000000000000000003", "Name": "", "Description": "Node output", "UsingDefaultValue": false, "Level": 2, "UseLevels": false, "KeepListStructure": false }
+      ],
+      "Replication": "Disabled",
+      "Description": "Visualizes a node's output"
+    },
+    {
+      "ConcreteType": "DSRevitNodesUI.FamilyTypes, DSRevitNodesUI",
+      "SelectedIndex": -1, "SelectedString": "", "Id": "b9010000000000000000000000000001",
+      "NodeType": "ExtensionNode",
+      "Inputs": [],
+      "Outputs": [
+        { "Id": "b9010000000000000000000000000002", "Name": "Family Type", "Description": "The selected Family Type", "UsingDefaultValue": false, "Level": 2, "UseLevels": false, "KeepListStructure": false }
+      ],
+      "Replication": "Disabled",
+      "Description": "All family types available in the document."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "SerializedWidth": 0.0, "SerializedHeight": 0.0, "Id": "b9020000000000000000000000000001",
+      "NodeType": "StringInputNode",
+      "Inputs": [],
+      "Outputs": [
+        { "Id": "b9020000000000000000000000000002", "Name": "", "Description": "String", "UsingDefaultValue": false, "Level": 2, "UseLevels": false, "KeepListStructure": false }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string.",
+      "InputValue": "A1"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "SerializedWidth": 0.0, "SerializedHeight": 0.0, "Id": "b9030000000000000000000000000001",
+      "NodeType": "StringInputNode",
+      "Inputs": [],
+      "Outputs": [
+        { "Id": "b9030000000000000000000000000002", "Name": "", "Description": "String", "UsingDefaultValue": false, "Level": 2, "UseLevels": false, "KeepListStructure": false }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string.",
+      "InputValue": "A1"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "Id": "b9040000000000000000000000000001",
+      "NodeType": "BooleanInputNode",
+      "Inputs": [],
+      "Outputs": [
+        { "Id": "b9040000000000000000000000000002", "Name": "", "Description": "Boolean", "UsingDefaultValue": false, "Level": 2, "UseLevels": false, "KeepListStructure": false }
+      ],
+      "Replication": "Disabled",
+      "Description": "Enables selection between True and False",
+      "InputValue": true
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "SerializedWidth": 0.0, "SerializedHeight": 0.0, "Id": "b9050000000000000000000000000001",
+      "NodeType": "StringInputNode",
+      "Inputs": [],
+      "Outputs": [
+        { "Id": "b9050000000000000000000000000002", "Name": "", "Description": "String", "UsingDefaultValue": false, "Level": 2, "UseLevels": false, "KeepListStructure": false }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string.",
+      "InputValue": ""
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
+      "NumberType": "Integer", "MaximumValue": 50, "MinimumValue": 0, "StepValue": 1, "Id": "b9060000000000000000000000000001",
+      "NodeType": "NumberInputNode",
+      "Inputs": [],
+      "Outputs": [
+        { "Id": "b9060000000000000000000000000002", "Name": "", "Description": "Int64", "UsingDefaultValue": false, "Level": 2, "UseLevels": false, "KeepListStructure": false }
+      ],
+      "Replication": "Disabled",
+      "Description": "Produces integer values",
+      "InputValue": 5
+    }
+  ],
+  "Connectors": [
+    { "Start": "b9010000000000000000000000000002", "End": "a9010000000000000000000000000010", "Id": "d9010000000000000000000000000001", "IsHidden": "False" },
+    { "Start": "b9020000000000000000000000000002", "End": "a9010000000000000000000000000011", "Id": "d9010000000000000000000000000002", "IsHidden": "False" },
+    { "Start": "b9030000000000000000000000000002", "End": "a9010000000000000000000000000012", "Id": "d9010000000000000000000000000003", "IsHidden": "False" },
+    { "Start": "b9040000000000000000000000000002", "End": "a9010000000000000000000000000013", "Id": "d9010000000000000000000000000004", "IsHidden": "False" },
+    { "Start": "b9050000000000000000000000000002", "End": "a9010000000000000000000000000014", "Id": "d9010000000000000000000000000005", "IsHidden": "False" },
+    { "Start": "b9060000000000000000000000000002", "End": "a9010000000000000000000000000015", "Id": "d9010000000000000000000000000006", "IsHidden": "False" },
+    { "Start": "a9010000000000000000000000000002", "End": "c9010000000000000000000000000002", "Id": "d90100000000000000000000000000ff", "IsHidden": "False" }
+  ],
+  "Dependencies": [],
+  "NodeLibraryDependencies": [],
+  "EnableLegacyPolyCurveBehavior": true,
+  "Thumbnail": "",
+  "GraphDocumentationURL": null,
+  "ExtensionWorkspaceData": [],
+  "Author": "",
+  "Linting": { "activeLinter": "None", "activeLinterId": "7b75fb44-43fd-4631-a878-29f4d5d8399a", "warningCount": 0, "errorCount": 0 },
+  "Bindings": [],
+  "View": {
+    "Dynamo": { "ScaleFactor": 1.0, "HasRunWithoutCrash": false, "IsVisibleInDynamoLibrary": true, "Version": "4.0.2.3852", "RunType": "Manual", "RunPeriod": "1000" },
+    "Camera": { "Name": "_Background Preview", "EyeX": -17.0, "EyeY": 24.0, "EyeZ": 50.0, "LookX": 12.0, "LookY": -13.0, "LookZ": -58.0, "UpX": 0.0, "UpY": 1.0, "UpZ": 0.0 },
+    "ConnectorPins": [],
+    "NodeViews": [
+      { "Id": "a9010000000000000000000000000001", "Name": "PY | cuenta vistas pendientes y crea las laminas", "IsSetAsInput": false, "IsSetAsOutput": false, "Excluded": false, "ShowGeometry": true, "X": 480.0, "Y": 100.0 },
+      { "Id": "c9010000000000000000000000000001", "Name": "Log", "IsSetAsInput": false, "IsSetAsOutput": true, "Excluded": false, "ShowGeometry": true, "X": 820.0, "Y": 100.0 },
+    { "Id": "b9010000000000000000000000000001", "Name": "01. Vineta (Title Block) - elegir del dropdown", "IsSetAsInput": true, "IsSetAsOutput": false, "Excluded": false, "ShowGeometry": true, "X": 0.0, "Y": 0.0 },
+    { "Id": "b9020000000000000000000000000001", "Name": "02. Numero del primer sheet", "IsSetAsInput": true, "IsSetAsOutput": false, "Excluded": false, "ShowGeometry": true, "X": 0.0, "Y": 90.0 },
+    { "Id": "b9030000000000000000000000000001", "Name": "03. Nombre del primer sheet", "IsSetAsInput": true, "IsSetAsOutput": false, "Excluded": false, "ShowGeometry": true, "X": 0.0, "Y": 180.0 },
+    { "Id": "b9040000000000000000000000000001", "Name": "04. Procesar TODOS los sectores", "IsSetAsInput": true, "IsSetAsOutput": false, "Excluded": false, "ShowGeometry": true, "X": 0.0, "Y": 270.0 },
+    { "Id": "b9050000000000000000000000000001", "Name": "05. Filtro de sectores (si TODOS = False)", "IsSetAsInput": true, "IsSetAsOutput": false, "Excluded": false, "ShowGeometry": true, "X": 0.0, "Y": 360.0 },
+    { "Id": "b9060000000000000000000000000001", "Name": "06. Margen y separacion (mm)", "IsSetAsInput": true, "IsSetAsOutput": false, "Excluded": false, "ShowGeometry": true, "X": 0.0, "Y": 450.0 }
+    ],
+    "Annotations": [],
+    "X": 0.0,
+    "Y": 0.0,
+    "Zoom": 0.7
+  }
 }

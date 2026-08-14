@@ -1,8 +1,8 @@
 {
   "Uuid": "8f4c1a2e-0a11-4b6e-9c01-aa0000000007",
   "IsCustomNode": false,
-  "Description": "Por assembly: pone un Multi-Category Tag sobre cada perfil, eligiendo entre un tipo corto y uno largo segun lo que entre en la pieza. En las plantas T.A. un tag por viga, girado con la viga; en las elevaciones de eje, un tag por pieza que este sobre el eje.",
-  "Name": "05_Rotulos de perfil",
+  "Description": "Anotaciones generales de las laminas del sector: taggear en plantas y en cortes. PENDIENTE DE PORTAR A ELE01 -- el contenido de abajo todavia es el de T003 (ACERO): Multi-Category Tag por perfil, tipo corto o largo segun lo que entre en la pieza, girado con la viga en planta y sobre el eje en las elevaciones. Se conserva como referencia de mecanica de colocacion/rotacion de tags mientras se define que se etiqueta en ELE01.",
+  "Name": "03_Taggear plantas y cortes",
   "ElementResolver": {
     "ResolutionMap": {}
   },

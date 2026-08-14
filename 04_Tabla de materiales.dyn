@@ -1,8 +1,8 @@
 {
   "Uuid": "8f4c1a2e-0a11-4b6e-9c01-aa0000000009",
   "IsCustomNode": false,
-  "Description": "Crea una tabla (schedule nativo multi-categoria) por cada ASSEMBLY del modelo y la coloca en la PRIMERA lamina de ese assembly, en la franja que 01/02 dejan reservada a la derecha. Reproduce la LISTA DE MATERIALES del plano tipo: una fila por tipo de familia miembro (recursivo), con DESCRIPCION / CANT-UNIDAD / DIMENSIONES / KG-M / UNIT KG / TOTAL KG / OBSERVACION, encabezados agrupados y fila de totales.",
-  "Name": "06_Tabla de assemblies",
+  "Description": "Tabla (schedule nativo multi-categoria) por sector, colocada en la PRIMERA lamina del sector, en la franja que 01/02 dejan reservada a la derecha. PENDIENTE DE PORTAR A ELE01 -- el contenido de abajo todavia es el de T003 (ACERO): agrupa por ASSEMBLY y reproduce la LISTA DE MATERIALES del plano tipo, con DESCRIPCION / CANT-UNIDAD / DIMENSIONES / KG-M / UNIT KG / TOTAL KG / OBSERVACION. Hay que reemplazar el agrupado por assembly (el sector ahora es un Section Box en una vista 3D) y las columnas de peso por las que corresponda a iluminacion.",
+  "Name": "04_Tabla de materiales",
   "ElementResolver": { "ResolutionMap": {} },
   "Inputs": [
     { "Id": "b6010000000000000000000000000001", "Name": "01. Margen (mm)", "Type": "number", "Type2": "number", "Value": "20", "MaximumValue": 50.0, "MinimumValue": 5.0, "StepValue": 1.0, "NumberType": "Integer", "Description": "Produces integer values" },

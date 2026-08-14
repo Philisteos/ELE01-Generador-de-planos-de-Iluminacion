@@ -1,7 +1,7 @@
 {
   "Uuid": "8f4c1a2e-0a11-4b6e-9c01-aa0000000007",
   "IsCustomNode": false,
-  "Description": "Anotaciones generales de las laminas del sector: taggear en plantas y en cortes. PENDIENTE DE PORTAR A ELE01 -- el contenido de abajo todavia es el de T003 (ACERO): Multi-Category Tag por perfil, tipo corto o largo segun lo que entre en la pieza, girado con la viga en planta y sobre el eje en las elevaciones. Se conserva como referencia de mecanica de colocacion/rotacion de tags mientras se define que se etiqueta en ELE01.",
+  "Description": "Cadena de cotas exteriores entre los rieles RUC de suelo, en las plantas de sector: una cadena arriba, una abajo, una a la izquierda y una a la derecha, por fuera del marco de la vista.",
   "Name": "03_Taggear plantas y cortes",
   "ElementResolver": {
     "ResolutionMap": {}
@@ -9,93 +9,85 @@
   "Inputs": [
     {
       "Id": "b6010000000000000000000000000001",
-      "Name": "01. Procesar TODOS los assemblies",
-      "Type": "boolean",
-      "Type2": "boolean",
-      "Value": "true",
-      "Description": "Enables selection between True and False"
-    },
-    {
-      "Id": "b6020000000000000000000000000001",
-      "Name": "02. Filtro por nombre (si TODOS = False)",
-      "Type": "string",
-      "Type2": "string",
-      "Value": "",
-      "Description": "Creates a string."
-    },
-    {
-      "Id": "b6030000000000000000000000000001",
-      "Name": "03. Tipo de C-MultiCat del rotulo CORTO",
-      "Type": "string",
-      "Type2": "string",
-      "Value": "Modelo",
-      "Description": "Creates a string."
-    },
-    {
-      "Id": "b6100000000000000000000000000001",
-      "Name": "04. Tipo de C-MultiCat del rotulo LARGO",
-      "Type": "string",
-      "Type2": "string",
-      "Value": "Item_TBL",
-      "Description": "Creates a string."
-    },
-    {
-      "Id": "b6040000000000000000000000000001",
-      "Name": "05. Margen libre a cada lado del rotulo (mm de papel)",
-      "Type": "number",
-      "Type2": "number",
-      "Value": "2",
-      "MaximumValue": 20.0,
-      "MinimumValue": 0.0,
-      "StepValue": 1.0,
-      "NumberType": "Integer",
-      "Description": "Produces integer values"
-    },
-    {
-      "Id": "b6050000000000000000000000000001",
-      "Name": "06. Familias a NO rotular (parcial, comas)",
-      "Type": "string",
-      "Type2": "string",
-      "Value": "GRATING",
-      "Description": "Creates a string."
-    },
-    {
-      "Id": "b6060000000000000000000000000001",
-      "Name": "07. Rehacer los rotulos existentes",
+      "Name": "01. Procesar TODOS los sectores",
       "Type": "boolean",
       "Type2": "boolean",
       "Value": "false",
       "Description": "Enables selection between True and False"
     },
     {
-      "Id": "b6070000000000000000000000000001",
-      "Name": "08. Rotular tambien las elevaciones de eje",
-      "Type": "boolean",
-      "Type2": "boolean",
-      "Value": "true",
-      "Description": "Enables selection between True and False"
+      "Id": "b6020000000000000000000000000001",
+      "Name": "02. Filtro de sectores (si TODOS = False)",
+      "Type": "string",
+      "Type2": "string",
+      "Value": "SECTOR",
+      "Description": "Creates a string."
     },
     {
-      "Id": "b6080000000000000000000000000001",
-      "Name": "09. Elevaciones: solo lo que este a menos de (cm) del eje",
+      "Id": "b6030000000000000000000000000001",
+      "Name": "03. La familia del riel EMPIEZA con",
+      "Type": "string",
+      "Type2": "string",
+      "Value": "RIEL RUC",
+      "Description": "Creates a string."
+    },
+    {
+      "Id": "b6040000000000000000000000000001",
+      "Name": "04. ...y ademas CONTIENE (vacio = no filtra mas)",
+      "Type": "string",
+      "Type2": "string",
+      "Value": "SUELO",
+      "Description": "Creates a string."
+    },
+    {
+      "Id": "b6050000000000000000000000000001",
+      "Name": "05. Separacion de la cadena al borde del marco (mm de papel)",
       "Type": "number",
       "Type2": "number",
-      "Value": "30",
-      "MaximumValue": 100.0,
-      "MinimumValue": 0.0,
-      "StepValue": 1.0,
+      "Value": "15",
+      "MaximumValue": 60,
+      "MinimumValue": 0,
+      "StepValue": 1,
       "NumberType": "Integer",
       "Description": "Produces integer values"
     },
     {
-      "Id": "b6090000000000000000000000000001",
-      "Name": "10. Elevaciones: separacion del tag a la pieza (mm de papel)",
+      "Id": "b6060000000000000000000000000001",
+      "Name": "06. Separacion minima entre dos cotas de la cadena (mm de papel)",
       "Type": "number",
       "Type2": "number",
       "Value": "2",
-      "MaximumValue": 100.0,
-      "MinimumValue": 0.0,
-      "StepValue": 1.0,
+      "MaximumValue": 20,
+      "MinimumValue": 0,
+      "StepValue": 1,
+      "NumberType": "Integer",
+      "Description": "Produces integer values"
+    },
+    {
+      "Id": "b6070000000000000000000000000001",
+      "Name": "07. Tipo de cota (vacio = el por defecto)",
+      "Type": "string",
+      "Type2": "string",
+      "Value": "",
+      "Description": "Creates a string."
+    },
+    {
+      "Id": "b6080000000000000000000000000001",
+      "Name": "08. Rehacer las cadenas de riel existentes",
+      "Type": "boolean",
+      "Type2": "boolean",
+      "Value": "false",
+      "Description": "Enables selection between True and False"
+    },
+    {
+      "Id": "b6090000000000000000000000000001",
+      "Name": "09. Margen extra del annotation crop (mm de papel)",
+      "Type": "number",
+      "Type2": "number",
+      "Value": "10",
+      "MaximumValue": 60,
+      "MinimumValue": 0,
+      "StepValue": 1,
       "NumberType": "Integer",
       "Description": "Produces integer values"
     }
@@ -128,14 +120,13 @@
       ],
       "Replication": "Disabled",
       "Description": "Enables selection between True and False",
-      "InputValue": true
+      "InputValue": false
     },
     {
       "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
-      "SerializedWidth": 0.0,
-      "SerializedHeight": 0.0,
-      "Id": "b6020000000000000000000000000001",
       "NodeType": "StringInputNode",
+      "InputValue": "SECTOR",
+      "Id": "b6020000000000000000000000000001",
       "Inputs": [],
       "Outputs": [
         {
@@ -149,15 +140,13 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Creates a string.",
-      "InputValue": ""
+      "Description": "Creates a string"
     },
     {
       "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
-      "SerializedWidth": 0.0,
-      "SerializedHeight": 0.0,
-      "Id": "b6030000000000000000000000000001",
       "NodeType": "StringInputNode",
+      "InputValue": "RIEL RUC",
+      "Id": "b6030000000000000000000000000001",
       "Inputs": [],
       "Outputs": [
         {
@@ -171,19 +160,17 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Creates a string.",
-      "InputValue": "Modelo"
+      "Description": "Creates a string"
     },
     {
       "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
-      "SerializedWidth": 0.0,
-      "SerializedHeight": 0.0,
-      "Id": "b6100000000000000000000000000001",
       "NodeType": "StringInputNode",
+      "InputValue": "SUELO",
+      "Id": "b6040000000000000000000000000001",
       "Inputs": [],
       "Outputs": [
         {
-          "Id": "b6100000000000000000000000000002",
+          "Id": "b6040000000000000000000000000002",
           "Name": "",
           "Description": "String",
           "UsingDefaultValue": false,
@@ -193,8 +180,31 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Creates a string.",
-      "InputValue": "Item_TBL"
+      "Description": "Creates a string"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
+      "NumberType": "Integer",
+      "MaximumValue": 60,
+      "MinimumValue": 0,
+      "StepValue": 1,
+      "Id": "b6050000000000000000000000000001",
+      "NodeType": "NumberInputNode",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b6050000000000000000000000000002",
+          "Name": "",
+          "Description": "Int64",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Produces integer values",
+      "InputValue": 15
     },
     {
       "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
@@ -202,12 +212,12 @@
       "MaximumValue": 20,
       "MinimumValue": 0,
       "StepValue": 1,
-      "Id": "b6040000000000000000000000000001",
+      "Id": "b6060000000000000000000000000001",
       "NodeType": "NumberInputNode",
       "Inputs": [],
       "Outputs": [
         {
-          "Id": "b6040000000000000000000000000002",
+          "Id": "b6060000000000000000000000000002",
           "Name": "",
           "Description": "Int64",
           "UsingDefaultValue": false,
@@ -222,14 +232,13 @@
     },
     {
       "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
-      "SerializedWidth": 0.0,
-      "SerializedHeight": 0.0,
-      "Id": "b6050000000000000000000000000001",
       "NodeType": "StringInputNode",
+      "InputValue": "",
+      "Id": "b6070000000000000000000000000001",
       "Inputs": [],
       "Outputs": [
         {
-          "Id": "b6050000000000000000000000000002",
+          "Id": "b6070000000000000000000000000002",
           "Name": "",
           "Description": "String",
           "UsingDefaultValue": false,
@@ -239,17 +248,16 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Creates a string.",
-      "InputValue": "GRATING"
+      "Description": "Creates a string"
     },
     {
       "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
-      "Id": "b6060000000000000000000000000001",
+      "Id": "b6080000000000000000000000000001",
       "NodeType": "BooleanInputNode",
       "Inputs": [],
       "Outputs": [
         {
-          "Id": "b6060000000000000000000000000002",
+          "Id": "b6080000000000000000000000000002",
           "Name": "",
           "Description": "Boolean",
           "UsingDefaultValue": false,
@@ -263,53 +271,9 @@
       "InputValue": false
     },
     {
-      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
-      "Id": "b6070000000000000000000000000001",
-      "NodeType": "BooleanInputNode",
-      "Inputs": [],
-      "Outputs": [
-        {
-          "Id": "b6070000000000000000000000000002",
-          "Name": "",
-          "Description": "Boolean",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Disabled",
-      "Description": "Enables selection between True and False",
-      "InputValue": true
-    },
-    {
       "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
       "NumberType": "Integer",
-      "MaximumValue": 100,
-      "MinimumValue": 0,
-      "StepValue": 1,
-      "Id": "b6080000000000000000000000000001",
-      "NodeType": "NumberInputNode",
-      "Inputs": [],
-      "Outputs": [
-        {
-          "Id": "b6080000000000000000000000000002",
-          "Name": "",
-          "Description": "Int64",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Disabled",
-      "Description": "Produces integer values",
-      "InputValue": 30
-    },
-    {
-      "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
-      "NumberType": "Integer",
-      "MaximumValue": 100,
+      "MaximumValue": 60,
       "MinimumValue": 0,
       "StepValue": 1,
       "Id": "b6090000000000000000000000000001",
@@ -328,15 +292,15 @@
       ],
       "Replication": "Disabled",
       "Description": "Produces integer values",
-      "InputValue": 2
+      "InputValue": 10
     },
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
-      "Code": "# 05_Rotulos de perfil - ACERO\n#\n# Pone un Multi-Category Tag sobre cada perfil, en dos sitios distintos:\n#   - PLANTAS T.A.: un tag por viga, girado con la viga y centrado en su eje.\n#   - ELEVACIONES de eje: un tag por pieza que este sobre el eje de la vista, horizontal\n#     por encima de las vigas y girado 90 grados a la izquierda de las columnas.\n# En LOS DOS casos se elige entre un tipo corto y uno largo segun lo que entre en la\n# pieza: es el mismo par de tipos para todo el graph.\n#\n# POR QUE DOS TIPOS DE TAG Y NO TEXTO CORTADO. Hasta hace poco la planta se rotulaba con\n# TextNote: un IndependentTag muestra lo que dice su etiqueta y la API no deja\n# sobrescribir ese texto por instancia, asi que con tags no se podia truncar, y en planta\n# truncar es obligatorio porque el nombre no entra en el largo de la viga. La familia\n# C-MultiCat resuelve eso desde el otro lado: trae un tipo corto y uno largo (los\n# parametros TagCorto / TagLargo del propio tipo), asi que \"acortar\" ya no es cortar un\n# string sino elegir el otro tipo de tag. Con eso los rotulos de planta pasan a ser tags\n# de verdad -- asociativos, se actualizan solos si alguien le cambia el perfil a la\n# pieza -- que es lo que se pidio.\n#\n# POR QUE LA ELEVACION TAMBIEN ELIGE. Se penso que en la elevacion el nombre entraba\n# siempre y no habia nada que decidir, pero el tag se dibuja a lo ancho de la pieza igual\n# que en planta -- horizontal sobre la viga, girado sobre la columna -- asi que una viga\n# corta o una columna baja desbordan lo mismo. Es el mismo criterio, medido contra la\n# dimension que la pieza ocupa EN LA DIRECCION EN QUE SE LEE EL TAG: el largo proyectado\n# sobre el \"derecha\" de la vista para las vigas, sobre el \"arriba\" para las columnas.\n#\n# COMO SE DECIDE SI CABE. No se estima el ancho de la fuente ni se cuentan caracteres:\n# se MIDE el tag. Por cada tipo de pieza se crea un tag de prueba horizontal fuera del\n# crop, se regenera UNA sola vez por vista (el regenerate es lo caro, no el tag) y se lee\n# su bounding box. Con eso el \"cabe o no cabe\" queda en un if contra el largo de la pieza.\n#\n# ROTULOS VIEJOS. Los TextNote que escribia la version anterior se barren al pasar, pero\n# solo aquellos cuyo texto coincide con un nombre de perfil de esa misma vista (entero o\n# cortado en la \"x\", que es como acortaba antes): un TextNote con cualquier otro texto es\n# una nota que puso alguien a mano y no se toca.\n#\n# Revit 2027 / Dynamo 4 / CPython3\n# IN[0] = procesar todos los assemblies (bool)\n# IN[1] = filtro por nombre si IN[0] es False (parcial, comas)\n# IN[2] = tipo de C-MultiCat del rotulo CORTO\n# IN[3] = tipo de C-MultiCat del rotulo LARGO\n# IN[4] = margen libre a cada lado del rotulo, en mm de papel\n# IN[5] = familias a NO rotular (parcial, comas)\n# IN[6] = rehacer los rotulos que ya existan (bool)\n# IN[7] = rotular tambien las elevaciones de eje (bool)\n# IN[8] = en elevacion solo se rotula lo que este a menos de esto del eje, en cm\n# IN[9] = separacion del tag a la pieza en la elevacion, en mm de papel\n\nimport math\nimport clr\nclr.AddReference('RevitAPI')\nclr.AddReference('RevitServices')\nfrom Autodesk.Revit.DB import (FilteredElementCollector, AssemblyInstance, View, XYZ,\n                               ElementId, BuiltInCategory, Element,\n                               FamilyInstance, FamilySymbol, Line, Reference, Grid,\n                               ElementTransformUtils,\n                               IndependentTag, TagOrientation, TextNote,\n                               FailureProcessingResult, FailureSeverity)\nfrom System.Collections.Generic import List\nfrom RevitServices.Persistence import DocumentManager\nfrom RevitServices.Transactions import TransactionManager\n\ndoc = DocumentManager.Instance.CurrentDBDocument\n\nprocess_all = bool(IN[0])\nfilter_text = (IN[1] or '').strip()\ncorto_pedido = (IN[2] or '').strip()\nlargo_pedido = (IN[3] or '').strip()\nmargen_mm = float(IN[4])\nexcluidas = [t.strip().lower() for t in (IN[5] or '').split(',') if t.strip()]\nrehacer = bool(IN[6])\nhacer_elevaciones = bool(IN[7])\ntol_eje_cm = float(IN[8])\nsep_tag_mm = float(IN[9])\n\nlog = []\n\nSUF_TA = ' - T.A. '\nSUF_EJE = ' - EJE '\nPIE = 304.8\nTOL_PLANTA = 0.0033      # pies (~1 mm): por debajo la viga es un punto en planta\n\n# Que categorias reciben rotulo. Barandas y escaleras entran desde el 2026-08-11: antes\n# solo estaban vigas y columnas, asi que una baranda no recibia tag ni aunque cayera\n# justo sobre el eje. En este modelo la escalera es Structural Framing (ESCALERA\n# METALICA), pero OST_Stairs va igual por si algun proyecto la modela como escalera de\n# sistema. Los nombres se resuelven con getattr porque no todas esas categorias existen\n# en todas las versiones de Revit.\nCATS_ROTULABLES = [BuiltInCategory.OST_StructuralFraming,\n                   BuiltInCategory.OST_StructuralColumns]\nfor _n in ('OST_StairsRailing', 'OST_Railings', 'OST_RailingSystem', 'OST_Stairs'):\n    try:\n        CATS_ROTULABLES.append(getattr(BuiltInCategory, _n))\n    except Exception:\n        pass\nCATS_ROTULABLES = tuple(CATS_ROTULABLES)\n\nID_CAT_TAGS = ElementId(BuiltInCategory.OST_MultiCategoryTags)\n\n\ndef encender_tags(v, tname, label):\n    # ⚠ Un tag creado en una vista que tiene su categoria APAGADA existe en el modelo\n    # pero no se dibuja, y FilteredElementCollector(doc, view.Id) tampoco lo devuelve.\n    # Eso rompe dos cosas a la vez: desde el script parece que nunca se creo, y como\n    # tags_previos() tampoco lo ve, la idempotencia deja de funcionar y cada corrida\n    # apila tags invisibles encima de los anteriores.\n    #\n    # Medido el 2026-08-04: los 110 tags de las elevaciones estaban en el documento y no\n    # se veia ninguno, porque el view template ESTRUCTURAS trae Multi-Category Tags\n    # apagada. Es la misma trampa que 03 ya tiene resuelta para Dimensions, Spot\n    # Elevations y Lines. Por eso esto va ANTES de tags_previos() y de medir: si no, se\n    # borraria sobre una lista vacia y se mediria contra un bounding box que no existe.\n    try:\n        if not v.GetCategoryHidden(ID_CAT_TAGS):\n            return\n        v.SetCategoryHidden(ID_CAT_TAGS, False)\n        log.append('{}: {} - se encendio la categoria Multi-Category Tags (estaba apagada).'.format(\n            tname, label))\n    except Exception as e:\n        log.append('AVISO {}: la categoria Multi-Category Tags esta apagada en {} y no se pudo '\n                   'encender ({}). Los tags se crean pero NO se ven: hay que encenderla en el '\n                   'view template.'.format(tname, label, e))\n\n\ndef elem_name(e):\n    try:\n        return e.Name\n    except Exception:\n        return Element.Name.__get__(e)\n\n\ndef nombre_tipo(el):\n    # el Type Name del perfil. Ya no se escribe en ningun lado: sirve para reconocer\n    # los TextNote que dejo la version anterior del script y barrerlos.\n    try:\n        s = el.Symbol\n        if s is not None:\n            return elem_name(s)\n    except Exception:\n        pass\n    try:\n        t = doc.GetElement(el.GetTypeId())\n        if t is not None:\n            return elem_name(t)\n    except Exception:\n        pass\n    return ''\n\n\ndef acortar(nombre):\n    # como acortaba la version anterior: se tiraba todo lo que va desde la \"x\" en\n    # adelante, que es el peso en kg/m y no el perfil. Insensible a mayusculas porque el\n    # modelo tiene L8x7,07 y L8X7,07 conviviendo.\n    i = nombre.lower().find('x')\n    if i <= 0:\n        return nombre\n    return nombre[:i].strip()\n\n\ndef nombre_familia(el):\n    try:\n        return el.Symbol.FamilyName\n    except Exception:\n        return ''\n\n\ndef excluida(el):\n    if not excluidas:\n        return False\n    n = (nombre_familia(el) + ' ' + nombre_tipo(el)).lower()\n    return any(t in n for t in excluidas)\n\n\ndef tipo_de_tag(nombre, para):\n    # FamilySymbol de Multi-Category Tag con ese nombre de tipo. Se activa si hacia\n    # falta: un simbolo no activado no se puede colocar.\n    disponibles = []\n    elegido = None\n    for fs in (FilteredElementCollector(doc).OfClass(FamilySymbol)\n               .OfCategory(BuiltInCategory.OST_MultiCategoryTags)):\n        n = elem_name(fs)\n        try:\n            disponibles.append('{} : {}'.format(fs.FamilyName, n))\n        except Exception:\n            disponibles.append(n)\n        if n.strip().lower() == nombre.strip().lower():\n            elegido = fs\n    if elegido is None:\n        log.append('ERROR: no existe el tag Multi-Category \"{}\" (era para {}). Disponibles: {}.'.format(\n            nombre, para, ', '.join(sorted(set(disponibles))) or '(ninguno)'))\n        return None\n    try:\n        if not elegido.IsActive:\n            elegido.Activate()\n            doc.Regenerate()\n    except Exception as e:\n        log.append('AVISO: no se pudo activar el tag \"{}\": {}'.format(nombre, e))\n    return elegido\n\n\ndef eje_en_planta(el):\n    try:\n        loc = el.Location\n        c = loc.Curve if (loc is not None and hasattr(loc, 'Curve')) else None\n    except Exception:\n        c = None\n    if c is None or not isinstance(c, Line):\n        return None\n    p0 = c.GetEndPoint(0)\n    p1 = c.GetEndPoint(1)\n    a = XYZ(p0.X, p0.Y, 0.0)\n    b = XYZ(p1.X, p1.Y, 0.0)\n    if a.DistanceTo(b) < TOL_PLANTA:\n        return None\n    return a, b\n\n\ndef z_de_vista(v):\n    zs = [v.Origin.Z]\n    try:\n        lv = v.GenLevel\n        if lv is not None and abs(lv.ProjectElevation - zs[0]) > 1e-9:\n            zs.append(lv.ProjectElevation)\n    except Exception:\n        pass\n    return zs\n\n\ndef tags_previos(v, tipo_ids):\n    ids = set(t.Value for t in tipo_ids)\n    prev = []\n    for t in FilteredElementCollector(doc, v.Id).OfClass(IndependentTag):\n        try:\n            if t.GetTypeId().Value in ids:\n                prev.append(t.Id)\n        except Exception:\n            pass\n    return prev\n\n\n# ------------------------------------------------- medicion del ancho del tag\n\n_anchos = {}\n\n\ndef _clave(el, tag_type, v):\n    try:\n        tid = el.GetTypeId().Value\n    except Exception:\n        tid = -1\n    return (tag_type.Id.Value, tid, v.Scale)\n\n\ndef medir_tags(v, piezas, tag_type, lejos):\n    # largo de lectura del tag EN UNIDADES DE MODELO para la escala de esta vista. Se\n    # mide creando un tag de prueba sin girar y lejos del crop, y se borra enseguida. Los\n    # de prueba se crean TODOS de una y se regenera una sola vez, porque lo caro es el\n    # regenerate y no el tag. Se cachea por (tipo de tag, tipo de pieza, escala): los\n    # perfiles se repiten decenas de veces.\n    #\n    # El bounding box viene en coordenadas de MODELO, asi que no sirve leer Max.X - Min.X:\n    # eso solo daria el ancho del tag si el \"derecha\" de la vista fuera el eje X del\n    # modelo. En las plantas suele serlo, pero las elevaciones de eje miran segun el eje\n    # del edificio. Se proyecta la diagonal del bbox sobre RightDirection, que para un tag\n    # plano y sin girar da el ancho exacto sea cual sea la orientacion de la vista.\n    rd = v.RightDirection\n    pruebas = []\n    nuevos = set()\n    for el in piezas:\n        k = _clave(el, tag_type, v)\n        if k in _anchos or k in nuevos:\n            continue\n        nuevos.add(k)\n        try:\n            t = IndependentTag.Create(doc, tag_type.Id, v.Id, Reference(el), False,\n                                      TagOrientation.Horizontal, lejos)\n            pruebas.append((k, t))\n        except Exception:\n            _anchos[k] = None\n    if not pruebas:\n        return\n    doc.Regenerate()\n    for k, t in pruebas:\n        ancho = None\n        try:\n            bb = t.get_BoundingBox(v)\n            if bb is not None:\n                d = bb.Max - bb.Min\n                ancho = abs(d.X * rd.X) + abs(d.Y * rd.Y) + abs(d.Z * rd.Z)\n        except Exception:\n            ancho = None\n        _anchos[k] = ancho if (ancho is not None and ancho > 0) else None\n    try:\n        doc.Delete(List[ElementId]([t.Id for k, t in pruebas]))\n    except Exception as e:\n        log.append('AVISO: no se pudieron borrar los tags de prueba: {}'.format(e))\n\n\n# ------------------------------------------------------------ tags en las plantas\n\ndef rotulos_texto_viejos(v, nombres):\n    # la version anterior rotulaba la planta con TextNote. Se barren al pasar, pero solo\n    # los que dicen exactamente un nombre de perfil de esta vista (entero o cortado en la\n    # \"x\"): cualquier otro TextNote es una nota que puso alguien a mano.\n    viejos = []\n    for tn in FilteredElementCollector(doc, v.Id).OfClass(TextNote):\n        try:\n            if tn.Text.strip() in nombres:\n                viejos.append(tn.Id)\n        except Exception:\n            pass\n    return viejos\n\n\ndef rotular_planta(v, label, ids_miembros, tag_corto, tag_largo, tname):\n    # antes que nada, que la vista pueda MOSTRAR lo que se le va a dibujar\n    encender_tags(v, tname, label)\n    prev = tags_previos(v, [tag_corto.Id, tag_largo.Id])\n    if prev:\n        if not rehacer:\n            log.append('{}: {} ya tiene {} rotulo(s), se salta.'.format(tname, label, len(prev)))\n            return 0, 0, 0, 0\n        try:\n            doc.Delete(List[ElementId](prev))\n        except Exception as e:\n            log.append('AVISO {}: no se pudieron borrar los rotulos previos de {}: {}'.format(\n                tname, label, e))\n\n    try:\n        vigas = [e for e in (FilteredElementCollector(doc, v.Id)\n                             .OfCategory(BuiltInCategory.OST_StructuralFraming)\n                             .WhereElementIsNotElementType())\n                 if e.Id.Value in ids_miembros and not excluida(e)]\n    except Exception as e:\n        log.append('ERROR {}: no se pudieron listar las vigas de {}: {}'.format(tname, label, e))\n        return 0, 0, 0, 0\n    if not vigas:\n        log.append('{}: {} no muestra vigas del assembly; sin rotulos.'.format(tname, label))\n        return 0, 0, 0, 0\n\n    esc = v.Scale if v.Scale > 0 else 1\n    margen = margen_mm / PIE * esc\n    zs = z_de_vista(v)\n    # punto de descarte para los tags de medicion, bien fuera del crop\n    lejos = XYZ(v.Origin.X + 1.0e5, v.Origin.Y + 1.0e5, zs[0])\n\n    nombres = set()\n    for el in vigas:\n        n = nombre_tipo(el)\n        if n:\n            nombres.add(n)\n            nombres.add(acortar(n))\n    viejos = rotulos_texto_viejos(v, nombres)\n    if viejos:\n        try:\n            doc.Delete(List[ElementId](viejos))\n            log.append('{}: {} tenia {} rotulo(s) de texto de la version anterior; se barrieron.'.format(\n                tname, label, len(viejos)))\n        except Exception as e:\n            log.append('AVISO {}: no se pudieron borrar los rotulos de texto viejos de {}: {}'.format(\n                tname, label, e))\n\n    medir_tags(v, vigas, tag_largo, lejos)\n    medir_tags(v, vigas, tag_corto, lejos)\n\n    hechos = 0\n    cortos = 0\n    apretados = 0\n    sin_curva = 0\n    fallidos = 0\n    ultimo = None\n    for el in vigas:\n        ejes = eje_en_planta(el)\n        if ejes is None:\n            sin_curva += 1\n            continue\n        a, b = ejes\n        disponible = a.DistanceTo(b) - 2.0 * margen\n\n        # sin medida se deja el largo, que es el rotulo completo; el log lo anota\n        tipo = tag_largo\n        ancho = _anchos.get(_clave(el, tag_largo, v))\n        if ancho is not None and ancho > disponible:\n            tipo = tag_corto\n            cortos += 1\n            ancho_corto = _anchos.get(_clave(el, tag_corto, v))\n            # si ni el corto entra se pone igual: mejor una viga rotulada de mas que una\n            # sin identificar. Queda contado en el log.\n            if ancho_corto is not None and ancho_corto > disponible:\n                apretados += 1\n\n        d = XYZ(b.X - a.X, b.Y - a.Y, 0.0).Normalize()\n        ang = math.atan2(d.Y, d.X)\n        # el rotulo nunca se lee de cabeza: se normaliza a (-90, 90]\n        if ang > math.pi / 2.0:\n            ang -= math.pi\n        elif ang <= -math.pi / 2.0:\n            ang += math.pi\n        medio = XYZ((a.X + b.X) / 2.0, (a.Y + b.Y) / 2.0, 0.0)\n\n        creado = None\n        z_usado = zs[0]\n        for z in zs:\n            try:\n                creado = IndependentTag.Create(doc, tipo.Id, v.Id, Reference(el), False,\n                                               TagOrientation.Horizontal,\n                                               XYZ(medio.X, medio.Y, z))\n                z_usado = z\n                break\n            except Exception as e:\n                ultimo = e\n        if creado is None:\n            fallidos += 1\n            continue\n        hechos += 1\n        if abs(ang) > 1e-9:\n            # el tag se crea horizontal y se gira sobre su propia cabeza, que esta en el\n            # medio de la viga: asi queda centrado en el eje, igual que el texto de antes\n            try:\n                p = XYZ(medio.X, medio.Y, z_usado)\n                ElementTransformUtils.RotateElement(\n                    doc, creado.Id, Line.CreateBound(p, p.Add(XYZ(0.0, 0.0, 1.0))), ang)\n            except Exception as e:\n                ultimo = e\n    if fallidos:\n        log.append('AVISO {}: {} rotulo(s) no se pudieron colocar en {}: {}'.format(\n            tname, fallidos, label, ultimo))\n    log.append('OK {}: {} rotulo(s) en {} sobre {} viga(s) [{} cortos, {} no entran ni cortos].'.format(\n        tname, hechos, label, len(vigas), cortos, apretados))\n    return hechos, cortos, apretados, sin_curva\n\n\n# ------------------------------------------------- tags en las elevaciones\n\ndef eje_de_pieza(el):\n    # (punto medio, direccion, largo) de la pieza. Las columnas suelen tener LocationPoint\n    # en vez de curva, asi que el plan B es el bbox: su centro y su lado mas largo.\n    try:\n        loc = el.Location\n        c = loc.Curve if (loc is not None and hasattr(loc, 'Curve')) else None\n        if c is not None:\n            a = c.GetEndPoint(0)\n            b = c.GetEndPoint(1)\n            if a.DistanceTo(b) > TOL_PLANTA:\n                return c.Evaluate(0.5, True), (b - a).Normalize(), a.DistanceTo(b)\n    except Exception:\n        pass\n    try:\n        bb = el.get_BoundingBox(None)\n        if bb is None:\n            return None, None, 0.0\n        medio = XYZ((bb.Min.X + bb.Max.X) / 2.0, (bb.Min.Y + bb.Max.Y) / 2.0,\n                    (bb.Min.Z + bb.Max.Z) / 2.0)\n        dx = bb.Max.X - bb.Min.X\n        dy = bb.Max.Y - bb.Min.Y\n        dz = bb.Max.Z - bb.Min.Z\n        if dz >= dx and dz >= dy:\n            return medio, XYZ(0.0, 0.0, 1.0), dz\n        if dx >= dy:\n            return medio, XYZ(1.0, 0.0, 0.0), dx\n        return medio, XYZ(0.0, 1.0, 0.0), dy\n    except Exception:\n        return None, None, 0.0\n\n\n_grids = {}\n_grids_cargados = [False]\n\n\ndef punto_del_eje(gname):\n    # Un punto de la linea del eje que esta elevacion documenta.\n    #\n    # NO se usa v.Origin para esto. 00 arma el crop de la elevacion con una caja que\n    # abarca TODO el ancho del assembly en profundidad (de lzmin a lzmax respecto del\n    # plano del eje) y ViewSection.CreateSection deja el plano de la vista en la CARA\n    # FRONTAL de esa caja. O sea que v.Origin no esta sobre el eje: esta a medio ancho\n    # del assembly de distancia -- metros, no centimetros. Medir la tolerancia contra el\n    # descartaba el 100% de las piezas (1762 de 1762 en la corrida del 2026-08-04).\n    if not _grids_cargados[0]:\n        _grids_cargados[0] = True\n        for g in FilteredElementCollector(doc).OfClass(Grid):\n            try:\n                _grids[elem_name(g).strip().lower()] = g\n            except Exception:\n                pass\n    g = _grids.get(gname.strip().lower())\n    if g is None:\n        return None\n    try:\n        return g.Curve.GetEndPoint(0)\n    except Exception:\n        return None\n\n\ndef rotular_elevacion(v, label, gname, ids_miembros, tag_corto, tag_largo, tname):\n    # un tag por pieza que este SOBRE el eje de la vista. Una elevacion muestra en\n    # profundidad todo lo que entre en el Far Clip - en la vista del modelador son 87\n    # vigas - y rotularlas todas seria ilegible: el plano-tipo lleva 10 tags, los del\n    # marco que la elevacion documenta.\n    p_eje = punto_del_eje(gname)\n    if p_eje is None:\n        # sin el eje no hay con que filtrar por profundidad, y una elevacion muestra en\n        # profundidad decenas de piezas: rotularlas todas seria ilegible\n        log.append('ERROR {}: no existe el eje \"{}\"; no se rotula {}.'.format(tname, gname, label))\n        return 0, 0, 0, 0\n\n    # antes que nada, que la vista pueda MOSTRAR lo que se le va a dibujar\n    encender_tags(v, tname, label)\n    prev = tags_previos(v, [tag_corto.Id, tag_largo.Id])\n    if prev:\n        if not rehacer:\n            log.append('{}: {} ya tiene {} tag(s), se salta.'.format(tname, label, len(prev)))\n            return 0, 0, 0, 0\n        try:\n            doc.Delete(List[ElementId](prev))\n        except Exception as e:\n            log.append('AVISO {}: no se pudieron borrar los tags previos de {}: {}'.format(\n                tname, label, e))\n    rd = v.RightDirection\n    ud = v.UpDirection\n    vd = v.ViewDirection\n    esc = v.Scale if v.Scale > 0 else 1\n    sep = sep_tag_mm / PIE * esc\n    margen = margen_mm / PIE * esc\n    tol = tol_eje_cm / 30.48        # cm -> pies\n    piezas = []\n    for cat in CATS_ROTULABLES:\n        try:\n            piezas.extend([e for e in (FilteredElementCollector(doc, v.Id)\n                                       .OfCategory(cat).WhereElementIsNotElementType())\n                           if e.Id.Value in ids_miembros and not excluida(e)])\n        except Exception as e:\n            log.append('AVISO {}: no se pudieron listar las piezas de {}: {}'.format(tname, label, e))\n    if not piezas:\n        log.append('{}: {} no muestra piezas del assembly; sin tags.'.format(tname, label))\n        return 0, 0, 0, 0\n\n    # UN tag por cada TIPO de familia presente en la vista, no uno por pieza. Una\n    # elevacion muestra en profundidad todo lo que entre en el Far Clip -en la vista del\n    # modelador son 87 vigas- y rotular pieza por pieza es ilegible: medido el\n    # 2026-08-04, sin filtro ES-1002 EJE E daba 51 tags sobre 66 piezas. Con un tag por\n    # tipo la cantidad de rotulos deja de depender de cuantas piezas haya, que es\n    # justamente lo que hacia falta.\n    #\n    # El representante de cada tipo es la pieza MAS CERCANA al plano del eje: es la que\n    # la elevacion esta documentando. Y tol_eje_cm dejo de ser un filtro DURO para pasar\n    # a ser una PREFERENCIA: si de un tipo no hay ninguna pieza sobre el eje se rotula\n    # igual la mas cercana, en vez de perder el tipo entero. Sin eso, la escalera y las\n    # barandas no recibirian tag nunca, porque casi nunca caen sobre el plano del eje.\n    mejores = {}\n    cerca = None\n    for el in piezas:\n        medio, d, largo = eje_de_pieza(el)\n        if medio is None:\n            continue\n        dist = abs((medio - p_eje).DotProduct(vd))\n        if cerca is None or dist < cerca:\n            cerca = dist\n        try:\n            k = el.Symbol.Id.Value\n        except Exception:\n            k = el.GetTypeId().Value\n        # sobre el eje le gana siempre a fuera del eje; entre iguales, la mas cercana, y\n        # a igual distancia la mas larga, que es a la que mejor le entra el rotulo largo.\n        rank = (0 if dist <= tol else 1, dist, -largo)\n        if k not in mejores or rank < mejores[k][0]:\n            mejores[k] = (rank, el, medio, d, largo)\n    representantes = [mejores[k] for k in mejores]\n    lejos_del_eje = sum(1 for r in representantes if r[0][0] == 1)\n\n    # punto de descarte para los tags de medicion, bien fuera del crop\n    lejos = v.Origin.Add(rd.Multiply(1.0e5)).Add(ud.Multiply(1.0e5))\n    elegidas = [r[1] for r in representantes]\n    medir_tags(v, elegidas, tag_largo, lejos)\n    medir_tags(v, elegidas, tag_corto, lejos)\n\n    hechos = 0\n    cortos = 0\n    apretados = 0\n    fallidos = 0\n    ultimo = None\n    for _rank, el, medio, d, largo in representantes:\n        # el tag es una anotacion de la vista: su punto va en el plano de la elevacion.\n        # Aca SI va v.Origin y no p_eje: son dos planos distintos y cada uno cumple su\n        # papel. El filtro de arriba pregunta \"esta sobre el eje\", que se mide contra el\n        # eje; esto de aca decide donde se dibuja la anotacion, que va en el plano de la\n        # vista -- el plano del eje puede quedar detras del near y el tag se clipearia.\n        p = medio.Subtract(vd.Multiply((medio - v.Origin).DotProduct(vd)))\n        vertical = abs(d.DotProduct(ud)) > abs(d.DotProduct(rd))\n        if vertical:\n            # columna: el rotulo va girado y a la izquierda de la pieza, asi que lo que\n            # lo limita es la ALTURA de la columna en la vista\n            p = p.Subtract(rd.Multiply(sep))\n            orient = TagOrientation.Vertical\n            disponible = largo * abs(d.DotProduct(ud)) - 2.0 * margen\n        else:\n            p = p.Add(ud.Multiply(sep))\n            orient = TagOrientation.Horizontal\n            disponible = largo * abs(d.DotProduct(rd)) - 2.0 * margen\n\n        # sin medida se deja el largo, que es el rotulo completo; el log lo anota\n        tipo = tag_largo\n        ancho = _anchos.get(_clave(el, tag_largo, v))\n        if ancho is not None and ancho > disponible:\n            tipo = tag_corto\n            cortos += 1\n            ancho_corto = _anchos.get(_clave(el, tag_corto, v))\n            # si ni el corto entra se pone igual: mejor una pieza rotulada de mas que una\n            # sin identificar. Queda contado en el log.\n            if ancho_corto is not None and ancho_corto > disponible:\n                apretados += 1\n        try:\n            IndependentTag.Create(doc, tipo.Id, v.Id, Reference(el), False, orient, p)\n            hechos += 1\n        except Exception as e:\n            fallidos += 1\n            ultimo = e\n    if fallidos:\n        log.append('AVISO {}: {} tag(s) no se pudieron colocar en {}: {}'.format(\n            tname, fallidos, label, ultimo))\n    log.append('OK {}: {} tag(s) en {} - uno por tipo: {} tipo(s) distinto(s) sobre {} '\n               'pieza(s) visibles [{} tipo(s) sin ninguna pieza sobre el eje, {} cortos, '\n               '{} no entran ni cortos].'.format(\n                   tname, hechos, label, len(representantes), len(piezas),\n                   lejos_del_eje, cortos, apretados))\n    if cerca is not None and cerca > tol:\n        # Ningun tipo tiene una pieza SOBRE el eje. Ya no se pierde ningun rotulo -se\n        # rotula igual la mas cercana- pero conviene saberlo: 00 crea una elevacion por\n        # cada eje MARCADO, y un eje puede quedar marcado sin tocar ninguna pieza del\n        # assembly. Si la mas cercana esta a metros, la elevacion no documenta nada y\n        # sobra; si esta a decenas de cm, es el input 09 el que se quedo corto.\n        log.append('DIAG {} \\\\ {}: nada a menos de {:.0f} cm del eje {}; la pieza mas cercana '\n                   'esta a {:.0f} cm. Se rotula igual, porque el input 09 ya no descarta nada '\n                   'y solo elige representante; pero metros = el eje no toca el assembly y la '\n                   'elevacion sobra.'.format(tname, label, tol_eje_cm, gname, cerca * 30.48))\n    return hechos, lejos_del_eje, cortos, apretados\n\n\ndef miembros_recursivos(ai):\n    res = []\n    pila = [doc.GetElement(mid) for mid in ai.GetMemberIds()]\n    vistos = set()\n    while pila:\n        el = pila.pop()\n        if el is None:\n            continue\n        try:\n            eid = el.Id.Value\n        except Exception:\n            eid = None\n        if eid is not None:\n            if eid in vistos:\n                continue\n            vistos.add(eid)\n        res.append(el)\n        if isinstance(el, FamilyInstance):\n            try:\n                for sid in el.GetSubComponentIds():\n                    pila.append(doc.GetElement(sid))\n            except Exception:\n                pass\n    return res\n\n\n# ------------------------------------------------------------------ main\n\nby_type = {}\nfor ai in FilteredElementCollector(doc).OfClass(AssemblyInstance):\n    by_type.setdefault(ai.AssemblyTypeName, []).append(ai)\n\nif not by_type:\n    log.append('AVISO: no hay ningun Assembly en el modelo; nada que rotular.')\n\nif process_all:\n    targets = sorted(by_type.keys())\nelse:\n    tokens = [t.strip().lower() for t in filter_text.split(',') if t.strip()]\n    if tokens:\n        targets = [n for n in sorted(by_type.keys())\n                   if any(tok in n.lower() for tok in tokens)]\n    else:\n        targets = []\n        log.append('ERROR: \"Todos\" esta en False y el filtro esta vacio.')\n\nviews = {}\nfor v in FilteredElementCollector(doc).OfClass(View):\n    if not v.IsTemplate:\n        views[elem_name(v)] = v\n\npuestos = 0\ncortados = 0\napretados = 0\nsin_eje = 0\ntags = 0\nfuera_eje = 0\ncortados_elev = 0\napretados_elev = 0\nfallas = {}\n\n\ndef _resolver_fallas(sender, args):\n    try:\n        fa = args.GetFailuresAccessor()\n        resultado = FailureProcessingResult.Continue\n        for f in fa.GetFailureMessages():\n            try:\n                try:\n                    desc = f.GetDescriptionText()\n                except Exception:\n                    desc = '(sin descripcion)'\n                es_aviso = f.GetSeverity() == FailureSeverity.Warning\n                clave = '{}: {}'.format('AVISO' if es_aviso else 'ERROR', desc)\n                fallas[clave] = fallas.get(clave, 0) + 1\n                if es_aviso:\n                    fa.DeleteWarning(f)\n                    continue\n                ids = list(f.GetFailingElementIds())\n                if ids:\n                    fa.DeleteElements(List[ElementId](ids))\n                    resultado = FailureProcessingResult.ProceedWithCommit\n                elif f.HasResolutions():\n                    fa.ResolveFailure(f)\n                    resultado = FailureProcessingResult.ProceedWithCommit\n            except Exception:\n                pass\n        args.SetProcessingResult(resultado)\n    except Exception:\n        pass\n\n\napp = doc.Application\napp.FailuresProcessing += _resolver_fallas\nTransactionManager.Instance.EnsureInTransaction(doc)\ntry:\n    tag_corto = tipo_de_tag(corto_pedido, 'el rotulo corto') if (corto_pedido and targets) else None\n    tag_largo = tipo_de_tag(largo_pedido, 'el rotulo largo') if (largo_pedido and targets) else None\n    # hacen falta los DOS tipos: sin el corto no habria con que acortar, y rotular\n    # decenas de piezas con el tag equivocado es peor que no rotular\n    hay_tags = tag_corto is not None and tag_largo is not None\n    if targets and not hay_tags:\n        log.append('ERROR: faltan los tipos de tag; no se rotulo nada.')\n    for tname in targets:\n        if not hay_tags:\n            break\n        ai = by_type[tname][0]\n        try:\n            ids_miembros = set()\n            for el in miembros_recursivos(ai):\n                try:\n                    ids_miembros.add(el.Id.Value)\n                except Exception:\n                    pass\n\n            # --- plantas T.A. ---\n            plantas = [(views[n], n[len(tname) + 3:])\n                       for n in sorted(k for k in views if k.startswith(tname + SUF_TA))]\n            if not plantas:\n                log.append('AVISO {}: no existen las plantas T.A. (corre 00_Vistas de assembly).'.format(tname))\n            for v, label in plantas:\n                try:\n                    h, c, ap, se = rotular_planta(v, label, ids_miembros,\n                                                  tag_corto, tag_largo, tname)\n                    puestos += h\n                    cortados += c\n                    apretados += ap\n                    sin_eje += se\n                except Exception as e:\n                    log.append('ERROR {}: rotulos en {}: {}'.format(tname, label, e))\n\n            # --- elevaciones de eje ---\n            if hacer_elevaciones:\n                # label = \"EJE B\" para el log; gname = \"B\" para buscar el eje en el modelo\n                elevaciones = [(views[n], n[len(tname) + 3:], n[len(tname) + len(SUF_EJE):])\n                               for n in sorted(k for k in views if k.startswith(tname + SUF_EJE))]\n                if not elevaciones:\n                    log.append('AVISO {}: no existen las elevaciones de eje (corre 00_Vistas de assembly).'.format(tname))\n                for v, label, gname in elevaciones:\n                    try:\n                        h, f, c, ap = rotular_elevacion(v, label, gname, ids_miembros,\n                                                        tag_corto, tag_largo, tname)\n                        tags += h\n                        fuera_eje += f\n                        cortados_elev += c\n                        apretados_elev += ap\n                    except Exception as e:\n                        log.append('ERROR {}: tags en {}: {}'.format(tname, label, e))\n        except Exception as e:\n            log.append('ERROR {}: {}'.format(tname, e))\nfinally:\n    try:\n        TransactionManager.Instance.TransactionTaskDone()\n        TransactionManager.Instance.ForceCloseTransaction()\n    finally:\n        app.FailuresProcessing -= _resolver_fallas\n\nif sin_eje:\n    log.append('AVISO: {} viga(s) sin curva de ubicacion recta; no se pudieron rotular.'.format(sin_eje))\nif fallas:\n    log.append('--- mensajes de Revit al comitear ---')\n    for clave in sorted(fallas.keys()):\n        log.append('{} (x{})'.format(clave, fallas[clave]))\n\nlog.insert(0, 'PLANTAS - tags puestos: {} | con el tipo corto por falta de espacio: {} | no entran ni cortos: {}'.format(\n    puestos, cortados, apretados))\nlog.insert(1, 'ELEVACIONES - tags puestos: {} | con el tipo corto: {} | no entran ni cortos: {} | piezas salteadas por estar fuera del eje: {}'.format(\n    tags, cortados_elev, apretados_elev, fuera_eje))\nlog.insert(2, 'Assemblies procesados: {}'.format(len(targets)))\nOUT = log\n",
       "Engine": "PythonNet3",
       "VariableInputPorts": true,
       "Id": "a6010000000000000000000000000001",
       "NodeType": "PythonScriptNode",
+      "Code": "# 03_Taggear plantas y cortes - ILUMINACION\n#\n# Primera anotacion del paso: CADENAS DE COTAS EXTERIORES entre los RIELES RUC DE\n# SUELO, en las PLANTAS de sector. Cuatro cadenas por planta -arriba, abajo,\n# izquierda y derecha-, dibujadas por fuera del marco de la vista.\n#\n# Revit 2027 / Dynamo 4 / CPython3\n# IN[0] = procesar todos los sectores (bool)\n# IN[1] = filtro de sectores si IN[0] es False (parcial, comas)\n# IN[2] = la familia del riel EMPIEZA con (string, ej. RIEL RUC)\n# IN[3] = y ademas CONTIENE (string, ej. SUELO; vacio = no filtra mas)\n# IN[4] = separacion de la cadena respecto al borde del crop, en mm de papel\n# IN[5] = separacion minima entre dos cotas de la cadena, en mm de papel\n# IN[6] = nombre del tipo de cota (vacio = el tipo por defecto del documento)\n# IN[7] = rehacer: borra las cadenas de riel previas de la vista y las vuelve a hacer\n# IN[8] = margen extra del annotation crop mas alla de la cadena, en mm de papel\n#\n#\n# QUE VISTAS TOCA, Y POR QUE NO HACE FALTA UN SELLO NUEVO\n#\n# Solo las plantas que genero 00_Vistas de sector, reconocidas por el MISMO contrato de\n# nombres que ya comparten 00, 01 y 02: la planta de un sector se llama\n# \"<sector> - PLANTA\". El modelo tiene cientos de vistas de otras disciplinas, pero\n# ninguna se llama asi, y las que 00 crea se llaman asi SIEMPRE porque 00 las nombra.\n# Agregar un parametro-sello ademas del nombre seria describir dos veces la misma\n# pertenencia, con el riesgo de que las dos descripciones se desincronicen -el mismo\n# motivo por el que 00 dejo de aislar elemento por elemento y se quedo con la caja-.\n#\n# Las ELEVACIONES no se tocan: los rieles se acotan en planta y nada mas.\n#\n#\n# QUE RIELES ENTRAN\n#\n# Familias que EMPIEZAN con \"RIEL RUC\", no que lo contengan. La diferencia no es\n# cosmetica: el modelo tiene 294 Electrical Fixtures con \"RIEL RUC\" en el nombre de\n# familia, pero 77 de esas son \"MORDAZA PARA RIEL RUC 42x42 PARA PERNO 3-8''\", que son\n# abrazaderas y no rieles. Con \"contiene\" se acotarian las mordazas; con \"empieza\",\n# no, y siguen entrando \"RIEL RUC 01\", \"RIEL RUC GALVANIZADO\" o \"RIEL RUC NUEVO\".\n#\n# Ademas, solo las de SUELO (IN[3]). Las de muro son otra cosa: \"RIEL RUC GALVANIZADO\n# MURO VERT.\" en planta es un cuadradito de 42x42 sin direccion util, y mezclarla en\n# una cadena con rieles de suelo daria una cota que no significa nada.\n#\n# Los rieles se recolectan CONTRA LA VISTA -FilteredElementCollector(doc, v.Id)-, no\n# contra el documento. Con eso el crop, el view range y lo que este oculto ya deciden\n# que rieles pertenecen al sector, sin volver a describir la caja. Importa mas de lo\n# que parece: los rieles de suelo de este modelo van de Z=0,5 m a Z=4,0 m, asi que\n# \"los del sector\" NO es una propiedad del riel sino de que planta lo mira.\n#\n#\n# COMO SE REPARTE CADA RIEL A SU CADENA: LA ORIENTACION ELIGE EL EJE, LA POSICION EL LADO\n#\n# Un riel se acota SIEMPRE perpendicular a su propio eje, que es lo normal en dibujo:\n# un riel de 1000 mm no se localiza por el punto medio de su propio largo, se localiza\n# por donde pasa su eje. Entonces:\n#\n#   riel que corre horizontal en la planta  -> se mide su Y -> cadena IZQUIERDA o DERECHA\n#   riel que corre vertical   en la planta  -> se mide su X -> cadena ARRIBA o ABAJO\n#\n# Elegido el PAR de cadenas, la POSICION elige cual de las dos: la mas cercana. Para un\n# riel horizontal, izquierda o derecha segun de que lado del centro del crop caiga; para\n# uno vertical, arriba o abajo. Ese corte por el centro es exactamente la frontera entre\n# los dos triangulos opuestos del reparto en diagonal, y es lo que evita el problema que\n# motivo todo esto: que la cadena de la derecha se lleve elementos del lado izquierdo.\n#\n# Los ejes NO son X e Y del modelo sino RightDirection y UpDirection de la vista, asi\n# que una planta rotada se comporta igual.\n#\n#\n# CONTRA QUE SE ACOTA: EL PLANO DE EJE DE LA FAMILIA, NO SUS CARAS\n#\n# Eje a eje, siempre. Una Dimension necesita un Reference, no un punto, asi que el eje\n# del riel tiene que existir como referencia de Revit: son los planos \"Center\n# (Left/Right)\" y \"Center (Front/Back)\" que trae toda familia, vistos con\n# FamilyInstance.GetReferences(FamilyInstanceReferenceType...).\n#\n# Cual de los dos se usa depende de en que direccion se mide, y eso se decide con la\n# TRANSFORMADA DE LA INSTANCIA y no resolviendo la geometria de la referencia: la normal\n# del plano Center (Left/Right) es el BasisX de la instancia, y la del Center\n# (Front/Back) es su BasisY. Comparar esas dos normales contra el eje de medida es una\n# cuenta exacta y barata; pedirle a Revit el GeometryObject de una referencia de plano\n# es fragil y a veces devuelve nada.\n#\n# NO se acota contra las caras del solido. En T003 se intento y quedo documentado que\n# Revit DESCARTA esas referencias al comitear: la cota se crea sin error y desaparece.\n#\n# Si una familia de riel no tiene sus planos de eje marcados como referencia, este graph\n# NO inventa un plan B silencioso: salta ese riel y lo dice en el log con nombre y\n# ElementId. Un plan B posible seria dibujar detail lines y acotar contra ellas, pero eso\n# da cotas NO ASOCIATIVAS -si alguien mueve el riel la cota miente-, y una cota que\n# miente es peor que una cota que falta.\n#\n#\n# LAS DOS TRAMPAS QUE HACEN QUE UNA COTA SE CREE Y NO SE VEA\n#\n# 1. EL ANNOTATION CROP. La cadena va por fuera del marco, y el annotation crop recorta\n#    todo lo que no entre en el. Una cota fuera de el se crea sin error y no se dibuja\n#    -la misma trampa ya documentada en T003 para las categorias apagadas-. Por eso, si\n#    la vista tiene el annotation crop activo, se agrandan sus cuatro offsets hasta pasar\n#    la cadena. Si esta apagado no se toca nada: apagado no recorta, no hay que \"arreglar\"\n#    lo que ya funciona.\n#\n# 2. EL PARALELISMO ENTRE REFERENCIAS. Revit exige que TODAS las referencias de una\n#    cadena sean paralelas ENTRE SI, con un criterio muchisimo mas estricto que\n#    Application.AngularTolerance. Un solo riel torcido no da una cota fea: hace fallar la\n#    cadena COMPLETA. Por eso, igual que alinear_grupo() en T003, se calcula la direccion\n#    dominante del grupo y se descartan los desviados, contandolos en el log. El desvio se\n#    mide con el producto CRUZ y no el escalar porque cerca del paralelismo el coseno\n#    pierde toda la precision, mientras que el seno vale el angulo.\n#\n#\n# RIELES APILADOS\n#\n# Hay rieles con IDENTICA posicion en planta y distinto Z -por ejemplo 6721757 y 6721758,\n# mismo X e Y, uno a 2519 mm y otro a 2019 mm-. En planta son el mismo punto y entre\n# ellos saldria una cota de valor cero. La cadena los FUSIONA cuando quedan mas cerca que\n# IN[5] y avisa cuantos fusiono; el log va a mostrar bastantes fusiones y es lo esperado.\n\nimport clr\nimport math\nclr.AddReference('RevitAPI')\nclr.AddReference('RevitServices')\nfrom Autodesk.Revit.DB import (FilteredElementCollector, ViewPlan, XYZ, Line,\n                               ReferenceArray, Dimension, DimensionType, Element,\n                               BuiltInCategory, BuiltInParameter,\n                               FamilyInstance, FamilyInstanceReferenceType)\nfrom RevitServices.Persistence import DocumentManager\nfrom RevitServices.Transactions import TransactionManager\n\ndoc = DocumentManager.Instance.CurrentDBDocument\n\nprocess_all = bool(IN[0])\nfilter_text = (IN[1] or '').strip()\nfam_prefijo = (IN[2] or '').strip()\nfam_contiene = (IN[3] or '').strip()\noff_mm = float(IN[4])\nsep_min_mm = float(IN[5])\ndim_type_name = (IN[6] or '').strip()\nrehacer = bool(IN[7])\nannot_extra_mm = float(IN[8])\n\nlog = []\n\n# --- contrato de nombres con 00_Vistas de sector ---\nSUF_PLANTA = ' - PLANTA'\n\n# Tolerancia de paralelismo entre referencias de una misma cadena, medida como SENO del\n# angulo. 1e-6 son unas 0.00006 grados: mucho mas fino que cualquier desalineacion que un\n# modelador vea a ojo, y aun asi holgado frente a los rieles bien colocados, que coinciden\n# entre si al orden de 1e-15. Lo que cae afuera esta genuinamente torcido.\nTOL_PARALELO = 1e-6\n\n# Cuanto tiene que separar la normal del plano de eje respecto del eje de medida para\n# considerar que ese plano NO sirve para esta cadena.\nTOL_NORMAL = 1e-3\n\nLADOS = ('arriba', 'abajo', 'izquierda', 'derecha')\n\n\ndef elem_name(e):\n    try:\n        return Element.Name.GetValue(e)\n    except Exception:\n        try:\n            return e.Name\n        except Exception:\n            return ''\n\n\ndef coincide(nombre, texto):\n    # filtro parcial separado por comas, insensible a mayusculas. Mismo criterio que\n    # usan 00, 01 y 02 para elegir sectores.\n    if not texto:\n        return True\n    alto = (nombre or '').upper()\n    for t in texto.split(','):\n        t = t.strip().upper()\n        if t and t in alto:\n            return True\n    return False\n\n\ndef fam_name(el):\n    try:\n        return el.Symbol.Family.Name or ''\n    except Exception:\n        return ''\n\n\ndef es_riel(el):\n    f = fam_name(el).upper()\n    if not f:\n        return False\n    if fam_prefijo and not f.startswith(fam_prefijo.upper()):\n        return False\n    if fam_contiene and fam_contiene.upper() not in f:\n        return False\n    return True\n\n\ndef plantas_de_sector():\n    # Las vistas que creo 00, reconocidas por el sufijo del contrato de nombres.\n    res = []\n    for v in FilteredElementCollector(doc).OfClass(ViewPlan):\n        if v.IsTemplate:\n            continue\n        n = elem_name(v)\n        if not n.endswith(SUF_PLANTA):\n            continue\n        sector = n[:-len(SUF_PLANTA)]\n        if not process_all and not coincide(sector, filter_text):\n            continue\n        res.append((v, sector))\n    res.sort(key=lambda p: p[1])\n    return res\n\n\ndef rectangulo_de_crop(v, ex, ey):\n    # Extremos del crop proyectados sobre los ejes de la VISTA. Se toman las cuatro\n    # esquinas y se transforman a modelo en vez de leer Min/Max directo, porque el\n    # CropBox vive en el sistema de su propia Transform y no en el del modelo.\n    cb = v.CropBox\n    t = cb.Transform\n    us = []\n    ws = []\n    for x in (cb.Min.X, cb.Max.X):\n        for y in (cb.Min.Y, cb.Max.Y):\n            p = t.OfPoint(XYZ(x, y, 0.0))\n            us.append(p.DotProduct(ex))\n            ws.append(p.DotProduct(ey))\n    return min(us), max(us), min(ws), max(ws)\n\n\ndef extremos_en_ejes(el, ex, ey):\n    # Proyeccion del bbox del riel sobre los dos ejes de la vista. El bbox viene en\n    # coordenadas de modelo y se proyectan sus 8 vertices, que es exacto mientras el riel\n    # este alineado con los ejes del proyecto -que es el caso de todos los RIEL RUC de\n    # este modelo- y conservador si no lo estuviera.\n    bb = el.get_BoundingBox(None)\n    if bb is None:\n        return None\n    us = []\n    ws = []\n    for x in (bb.Min.X, bb.Max.X):\n        for y in (bb.Min.Y, bb.Max.Y):\n            for z in (bb.Min.Z, bb.Max.Z):\n                p = XYZ(x, y, z)\n                us.append(p.DotProduct(ex))\n                ws.append(p.DotProduct(ey))\n    return min(us), max(us), min(ws), max(ws)\n\n\ndef referencia_de_eje(inst, eje_medida):\n    # El plano de eje de la familia cuya NORMAL es paralela al eje de medida. Devuelve\n    # (Reference, normal) o (None, None).\n    try:\n        tr = inst.GetTransform()\n    except Exception:\n        return None, None\n    candidatos = ((FamilyInstanceReferenceType.CenterLeftRight, tr.BasisX),\n                  (FamilyInstanceReferenceType.CenterFrontBack, tr.BasisY))\n    for tipo, normal in candidatos:\n        try:\n            n = normal.Normalize()\n        except Exception:\n            continue\n        if abs(abs(n.DotProduct(eje_medida)) - 1.0) > TOL_NORMAL:\n            continue\n        try:\n            refs = list(inst.GetReferences(tipo))\n        except Exception:\n            refs = []\n        if refs:\n            return refs[0], n\n    return None, None\n\n\ndef desvio(d, dom):\n    # seno del angulo entre dos direcciones unitarias en planta. Producto CRUZ y no\n    # escalar: cerca del paralelismo el coseno pierde toda la precision.\n    return abs(d.X * dom.Y - d.Y * dom.X)\n\n\ndef canonica(n):\n    # Un plano no tiene \"sentido\": su normal y la opuesta describen el mismo plano. Para\n    # poder comparar normales hay que elegir siempre el mismo representante de cada par.\n    #\n    # El umbral NO puede ser cero. Dos rieles paralelos al eje Y tienen normal (0, 1, 0)\n    # nominal, pero en doubles reales una sale (+1e-17, 1, 0) y la otra (-1e-17, 1, 0);\n    # con \"n.X > 0\" la primera se conserva y la segunda se invierte a (1e-17, -1, 0), o\n    # sea la MISMA direccion clasificada como opuesta. Terminan en cubetas distintas y la\n    # cadena se parte en dos por un error de redondeo. Con la banda muerta, cuando X es\n    # ruido decide el signo de Y, que ahi si vale 1.\n    if n.X > 1e-12:\n        return n\n    if n.X < -1e-12:\n        return n.Negate()\n    return n if n.Y >= 0 else n.Negate()\n\n\ndef alinear(items):\n    # Deja solo las referencias paralelas a la normal dominante del grupo. El corte es a\n    # TOL_PARALELO/2 y no a TOL_PARALELO a proposito: la condicion que le importa a Revit\n    # es entre CADA PAR de referencias, no contra un promedio. Dos rieles desviados +tol y\n    # -tol pasarian los dos y estarian 2*tol uno de otro; con medio umbral, cualquier par\n    # queda dentro de TOL_PARALELO.\n    if not items:\n        return [], 0, 0.0\n    cubetas = {}\n    for it in items:\n        d = canonica(it[3])\n        k = int(round(math.atan2(d.Y, d.X) / TOL_PARALELO))\n        acc = cubetas.get(k)\n        if acc is None:\n            cubetas[k] = [1, d]\n        else:\n            acc[0] += 1\n    dom = max(cubetas.values(), key=lambda a: a[0])[1]\n    ok = []\n    fuera = 0\n    peor = 0.0\n    for it in items:\n        s = desvio(canonica(it[3]), dom)\n        if s <= TOL_PARALELO / 2.0:\n            ok.append(it)\n        else:\n            fuera += 1\n            if s > peor:\n                peor = s\n    return ok, fuera, peor\n\n\ndef tipo_de_cota(nombre):\n    if not nombre:\n        return None\n    for dt in FilteredElementCollector(doc).OfClass(DimensionType):\n        if elem_name(dt) == nombre:\n            return dt\n    return None\n\n\ndef cadenas_de_riel_existentes(v, ex, ey, u0, u1, w0, w1):\n    # Que cadenas de riel ya tiene la vista, y con que Dimension. Se reconoce por LA\n    # REFERENCIA: si la primera referencia de la cota apunta a un riel, la cota es de este\n    # graph. Con eso se puede convivir con las cotas que ponga cualquier otro paso o\n    # cualquier persona a mano, sin pisarlas ni contarlas.\n    res = {}\n    for dim in FilteredElementCollector(doc, v.Id).OfClass(Dimension):\n        try:\n            primera = None\n            for ref in dim.References:\n                primera = ref\n                break\n            if primera is None:\n                continue\n            el = doc.GetElement(primera.ElementId)\n            if el is None or not isinstance(el, FamilyInstance) or not es_riel(el):\n                continue\n            c = dim.Curve\n            p = c.Evaluate(0.5, True)\n            u = p.DotProduct(ex)\n            w = p.DotProduct(ey)\n            d = c.Direction\n            if abs(d.DotProduct(ey)) < abs(d.DotProduct(ex)):\n                lado = 'arriba' if w > w1 else ('abajo' if w < w0 else None)\n            else:\n                lado = 'derecha' if u > u1 else ('izquierda' if u < u0 else None)\n            if lado:\n                res.setdefault(lado, []).append(dim.Id)\n        except Exception:\n            pass\n    return res\n\n\ndef dibujar_cadena(v, items, eje_medida, eje_perp, valor_perp, sector, etiqueta,\n                   sep_min, z_plano, dim_type):\n    # items = [(posicion sobre eje_medida, Reference, nombre, normal)]. La linea de cota\n    # corre a lo largo de eje_medida y se dibuja a \"valor_perp\" sobre eje_perp, ya\n    # desplazada por fuera del borde del crop. Los dos ejes son unitarios, perpendiculares\n    # entre si y horizontales, asi que generan el plano de la planta.\n    if len(items) < 2:\n        log.append('AVISO {}: menos de 2 rieles para la cadena {}; no se acota.'.format(\n            sector, etiqueta))\n        return 0\n    items, fuera, peor = alinear(items)\n    if fuera:\n        log.append('AVISO {}: cadena {}, {} riel(es) descartados por no ser paralelos al '\n                   'grupo (peor desvio {:.2e} rad). Con ellos adentro Revit rechazaria la '\n                   'cadena entera.'.format(sector, etiqueta, fuera, peor))\n    if len(items) < 2:\n        log.append('AVISO {}: cadena {} sin referencias suficientes tras alinear.'.format(\n            sector, etiqueta))\n        return 0\n    items.sort(key=lambda it: it[0])\n    filtrados = []\n    ultimo = None\n    for it in items:\n        if ultimo is None or it[0] - ultimo > sep_min:\n            filtrados.append(it)\n            ultimo = it[0]\n    fusionadas = len(items) - len(filtrados)\n    if len(filtrados) < 2:\n        log.append('AVISO {}: los rieles de la cadena {} caen todos en el mismo punto de '\n                   'planta; no se acota.'.format(sector, etiqueta))\n        return 0\n    ra = ReferenceArray()\n    for it in filtrados:\n        ra.Append(it[1])\n\n    def punto(pos, perp):\n        p = eje_medida.Multiply(pos).Add(eje_perp.Multiply(perp))\n        return XYZ(p.X, p.Y, z_plano)\n\n    p1 = punto(filtrados[0][0], valor_perp)\n    p2 = punto(filtrados[-1][0], valor_perp)\n    if p1.DistanceTo(p2) < 1e-6:\n        log.append('AVISO {}: la cadena {} quedaria de largo cero.'.format(sector, etiqueta))\n        return 0\n    try:\n        if dim_type is not None:\n            dim = doc.Create.NewDimension(v, Line.CreateBound(p1, p2), ra, dim_type)\n        else:\n            dim = doc.Create.NewDimension(v, Line.CreateBound(p1, p2), ra)\n    except Exception as e:\n        log.append('AVISO {}: Revit rechazo la cadena {}: {}'.format(sector, etiqueta, e))\n        return 0\n    menor = min(filtrados[i + 1][0] - filtrados[i][0] for i in range(len(filtrados) - 1))\n    log.append('OK {}: cadena {} con {} rieles, largo {:.2f} m, menor tramo {:.0f} mm{}.'.format(\n        sector, etiqueta, len(filtrados), p1.DistanceTo(p2) * 0.3048, menor * 304.8,\n        ', {} fusionados por caer en el mismo punto'.format(fusionadas) if fusionadas else ''))\n    return 1\n\n\ndef ajustar_annotation_crop(v, extra, sector):\n    # Solo si el annotation crop esta ACTIVO. Apagado no recorta nada y no hay que tocarlo.\n    p = v.get_Parameter(BuiltInParameter.VIEWER_ANNOTATION_CROP_ACTIVE)\n    if p is None or p.AsInteger() == 0:\n        return\n    try:\n        m = v.GetCropRegionShapeManager()\n        for attr in ('LeftAnnotationCropOffset', 'RightAnnotationCropOffset',\n                     'TopAnnotationCropOffset', 'BottomAnnotationCropOffset'):\n            if getattr(m, attr) < extra:\n                setattr(m, attr, extra)\n    except Exception as e:\n        log.append('AVISO {}: no se pudo agrandar el annotation crop ({}). Si las cotas no '\n                   'se ven, apagalo a mano en la vista.'.format(sector, e))\n\n\ndef anotar_planta(v, sector, dim_type):\n    escala = v.Scale or 1\n\n    def papel(mm):\n        return float(mm) / 304.8 * escala\n\n    off = papel(off_mm)\n    sep_min = papel(sep_min_mm)\n\n    if not v.CropBoxActive:\n        log.append('AVISO {}: la planta no tiene el crop activo, asi que no hay marco por '\n                   'fuera del cual dibujar. Se salta.'.format(sector))\n        return 0\n\n    ex = v.RightDirection.Normalize()\n    ey = v.UpDirection.Normalize()\n    u0, u1, w0, w1 = rectangulo_de_crop(v, ex, ey)\n    u_mid = (u0 + u1) / 2.0\n    w_mid = (w0 + w1) / 2.0\n    z_plano = v.Origin.Z\n\n    ya = cadenas_de_riel_existentes(v, ex, ey, u0, u1, w0, w1)\n    if ya and not rehacer:\n        log.append('{}: ya tiene cadena de rieles ({}), se salta. Corre con rehacer para '\n                   'volver a hacerlas.'.format(sector, ', '.join(sorted(ya.keys()))))\n        return 0\n    if ya and rehacer:\n        borradas = 0\n        for lado in ya:\n            for did in ya[lado]:\n                try:\n                    doc.Delete(did)\n                    borradas += 1\n                except Exception:\n                    pass\n        log.append('{}: rehacer, se borraron {} cadena(s) de riel previas.'.format(\n            sector, borradas))\n\n    rieles = [el for el in FilteredElementCollector(doc, v.Id)\n              .OfCategory(BuiltInCategory.OST_ElectricalFixtures)\n              .WhereElementIsNotElementType()\n              if isinstance(el, FamilyInstance) and es_riel(el)]\n    if not rieles:\n        log.append('{}: no hay rieles visibles en la planta.'.format(sector))\n        return 0\n\n    grupos = dict((lado, []) for lado in LADOS)\n    sin_ref = []\n    sin_orientacion = 0\n    for el in rieles:\n        ext = extremos_en_ejes(el, ex, ey)\n        if ext is None:\n            continue\n        au0, au1, aw0, aw1 = ext\n        span_u = au1 - au0\n        span_w = aw1 - aw0\n        uc = (au0 + au1) / 2.0\n        wc = (aw0 + aw1) / 2.0\n        # El riel tiene que ser claramente mas largo en un eje que en el otro: si es casi\n        # cuadrado en planta no tiene direccion y no hay un \"eje\" que acotar.\n        if max(span_u, span_w) < 1.2 * min(span_u, span_w):\n            sin_orientacion += 1\n            continue\n        if span_u > span_w:\n            # corre horizontal -> se mide su posicion sobre ey -> cadena vertical\n            lado = 'izquierda' if uc < u_mid else 'derecha'\n            eje_medida, pos = ey, wc\n        else:\n            # corre vertical -> se mide su posicion sobre ex -> cadena horizontal\n            lado = 'abajo' if wc < w_mid else 'arriba'\n            eje_medida, pos = ex, uc\n        ref, normal = referencia_de_eje(el, eje_medida)\n        if ref is None:\n            sin_ref.append(el)\n            continue\n        grupos[lado].append((pos, ref, elem_name(el), normal))\n\n    if sin_orientacion:\n        log.append('{}: {} riel(es) casi cuadrados en planta, sin eje que acotar; se '\n                   'omiten.'.format(sector, sin_orientacion))\n    if sin_ref:\n        familias = sorted(set(fam_name(e) for e in sin_ref))\n        log.append('AVISO {}: {} riel(es) sin plano de eje utilizable como referencia; se '\n                   'omiten. Familias: {}. Ejemplo de ElementId: {}. Hay que marcar como '\n                   '\"Is Reference\" los planos Center (Left/Right) y Center (Front/Back) de '\n                   'esas familias.'.format(sector, len(sin_ref), ', '.join(familias),\n                                           sin_ref[0].Id))\n\n    n = 0\n    n += dibujar_cadena(v, grupos['arriba'], ex, ey, w1 + off, sector, 'arriba',\n                        sep_min, z_plano, dim_type)\n    n += dibujar_cadena(v, grupos['abajo'], ex, ey, w0 - off, sector, 'abajo',\n                        sep_min, z_plano, dim_type)\n    n += dibujar_cadena(v, grupos['izquierda'], ey, ex, u0 - off, sector, 'izquierda',\n                        sep_min, z_plano, dim_type)\n    n += dibujar_cadena(v, grupos['derecha'], ey, ex, u1 + off, sector, 'derecha',\n                        sep_min, z_plano, dim_type)\n    if n:\n        ajustar_annotation_crop(v, off + papel(annot_extra_mm), sector)\n    return n\n\n\nplantas = plantas_de_sector()\nif not plantas:\n    log.append('No hay plantas de sector que coincidan con el filtro. Se esperan vistas '\n               'llamadas \"<sector>{}\", creadas por 00_Vistas de sector.'.format(SUF_PLANTA))\nelse:\n    dim_type = tipo_de_cota(dim_type_name)\n    if dim_type_name and dim_type is None:\n        log.append('AVISO: no existe el tipo de cota \"{}\"; se usa el tipo por defecto.'.format(\n            dim_type_name))\n    TransactionManager.Instance.EnsureInTransaction(doc)\n    total = 0\n    for v, sector in plantas:\n        try:\n            total += anotar_planta(v, sector, dim_type)\n        except Exception as e:\n            log.append('ERROR {}: {}'.format(sector, e))\n    TransactionManager.Instance.ForceCloseTransaction()\n    log.insert(0, '{} cadena(s) de cotas en {} planta(s) de sector.'.format(\n        total, len(plantas)))\n\nOUT = log\n",
       "Inputs": [
         {
           "Id": "a6010000000000000000000000000010",
@@ -418,15 +382,6 @@
           "Level": 2,
           "UseLevels": false,
           "KeepListStructure": false
-        },
-        {
-          "Id": "a6010000000000000000000000000019",
-          "Name": "IN[9]",
-          "Description": "Input #9",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
         }
       ],
       "Outputs": [
@@ -445,8 +400,8 @@
     },
     {
       "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
-      "WatchWidth": 620.0,
-      "WatchHeight": 400.0,
+      "WatchWidth": 620,
+      "WatchHeight": 400,
       "Id": "c6010000000000000000000000000001",
       "NodeType": "ExtensionNode",
       "Inputs": [
@@ -495,45 +450,39 @@
       "IsHidden": "False"
     },
     {
-      "Start": "b6100000000000000000000000000002",
+      "Start": "b6040000000000000000000000000002",
       "End": "a6010000000000000000000000000013",
       "Id": "d6010000000000000000000000000013",
       "IsHidden": "False"
     },
     {
-      "Start": "b6040000000000000000000000000002",
+      "Start": "b6050000000000000000000000000002",
       "End": "a6010000000000000000000000000014",
       "Id": "d6010000000000000000000000000014",
       "IsHidden": "False"
     },
     {
-      "Start": "b6050000000000000000000000000002",
+      "Start": "b6060000000000000000000000000002",
       "End": "a6010000000000000000000000000015",
       "Id": "d6010000000000000000000000000015",
       "IsHidden": "False"
     },
     {
-      "Start": "b6060000000000000000000000000002",
+      "Start": "b6070000000000000000000000000002",
       "End": "a6010000000000000000000000000016",
       "Id": "d6010000000000000000000000000016",
       "IsHidden": "False"
     },
     {
-      "Start": "b6070000000000000000000000000002",
+      "Start": "b6080000000000000000000000000002",
       "End": "a6010000000000000000000000000017",
       "Id": "d6010000000000000000000000000017",
       "IsHidden": "False"
     },
     {
-      "Start": "b6080000000000000000000000000002",
+      "Start": "b6090000000000000000000000000002",
       "End": "a6010000000000000000000000000018",
       "Id": "d6010000000000000000000000000018",
-      "IsHidden": "False"
-    },
-    {
-      "Start": "b6090000000000000000000000000002",
-      "End": "a6010000000000000000000000000019",
-      "Id": "d6010000000000000000000000000019",
       "IsHidden": "False"
     },
     {
@@ -572,8 +521,8 @@
   "Bindings": [],
   "View": {
     "Dynamo": {
-      "ScaleFactor": 1.0,
-      "HasRunWithoutCrash": true,
+      "ScaleFactor": 1,
+      "HasRunWithoutCrash": false,
       "IsVisibleInDynamoLibrary": true,
       "Version": "4.0.2.3852",
       "RunType": "Manual",
@@ -581,137 +530,127 @@
     },
     "Camera": {
       "Name": "_Background Preview",
-      "EyeX": -17.0,
-      "EyeY": 24.0,
-      "EyeZ": 50.0,
-      "LookX": 12.0,
-      "LookY": -13.0,
-      "LookZ": -58.0,
-      "UpX": 0.0,
-      "UpY": 1.0,
-      "UpZ": 0.0
+      "EyeX": -17,
+      "EyeY": 24,
+      "EyeZ": 50,
+      "LookX": 12,
+      "LookY": -13,
+      "LookZ": -58,
+      "UpX": 0,
+      "UpY": 1,
+      "UpZ": 0
     },
     "ConnectorPins": [],
     "NodeViews": [
       {
         "Id": "b6010000000000000000000000000001",
-        "Name": "01. Procesar TODOS los assemblies",
+        "Name": "01. Procesar TODOS los sectores",
         "IsSetAsInput": true,
         "IsSetAsOutput": false,
         "Excluded": false,
         "ShowGeometry": true,
-        "X": 0.0,
-        "Y": 0.0
+        "X": 0,
+        "Y": 0
       },
       {
         "Id": "b6020000000000000000000000000001",
-        "Name": "02. Filtro por nombre (si TODOS = False)",
+        "Name": "02. Filtro de sectores (si TODOS = False)",
         "IsSetAsInput": true,
         "IsSetAsOutput": false,
         "Excluded": false,
         "ShowGeometry": true,
-        "X": 0.0,
-        "Y": 130.0
+        "X": 0,
+        "Y": 130
       },
       {
         "Id": "b6030000000000000000000000000001",
-        "Name": "03. Tipo de C-MultiCat del rotulo CORTO",
+        "Name": "03. La familia del riel EMPIEZA con",
         "IsSetAsInput": true,
         "IsSetAsOutput": false,
         "Excluded": false,
         "ShowGeometry": true,
-        "X": 0.0,
-        "Y": 260.0
-      },
-      {
-        "Id": "b6100000000000000000000000000001",
-        "Name": "04. Tipo de C-MultiCat del rotulo LARGO",
-        "IsSetAsInput": true,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "ShowGeometry": true,
-        "X": 0.0,
-        "Y": 390.0
+        "X": 0,
+        "Y": 260
       },
       {
         "Id": "b6040000000000000000000000000001",
-        "Name": "05. Margen libre a cada lado del rotulo (mm de papel)",
+        "Name": "04. ...y ademas CONTIENE (vacio = no filtra mas)",
         "IsSetAsInput": true,
         "IsSetAsOutput": false,
         "Excluded": false,
         "ShowGeometry": true,
-        "X": 0.0,
-        "Y": 520.0
+        "X": 0,
+        "Y": 390
       },
       {
         "Id": "b6050000000000000000000000000001",
-        "Name": "06. Familias a NO rotular (parcial, comas)",
+        "Name": "05. Separacion de la cadena al borde del marco (mm de papel)",
         "IsSetAsInput": true,
         "IsSetAsOutput": false,
         "Excluded": false,
         "ShowGeometry": true,
-        "X": 0.0,
-        "Y": 650.0
+        "X": 0,
+        "Y": 520
       },
       {
         "Id": "b6060000000000000000000000000001",
-        "Name": "07. Rehacer los rotulos existentes",
+        "Name": "06. Separacion minima entre dos cotas de la cadena (mm de papel)",
         "IsSetAsInput": true,
         "IsSetAsOutput": false,
         "Excluded": false,
         "ShowGeometry": true,
-        "X": 0.0,
-        "Y": 780.0
+        "X": 0,
+        "Y": 650
       },
       {
         "Id": "b6070000000000000000000000000001",
-        "Name": "08. Rotular tambien las elevaciones de eje",
+        "Name": "07. Tipo de cota (vacio = el por defecto)",
         "IsSetAsInput": true,
         "IsSetAsOutput": false,
         "Excluded": false,
         "ShowGeometry": true,
-        "X": 0.0,
-        "Y": 910.0
+        "X": 0,
+        "Y": 780
       },
       {
         "Id": "b6080000000000000000000000000001",
-        "Name": "09. Elevaciones: solo lo que este a menos de (cm) del eje",
+        "Name": "08. Rehacer las cadenas de riel existentes",
         "IsSetAsInput": true,
         "IsSetAsOutput": false,
         "Excluded": false,
         "ShowGeometry": true,
-        "X": 0.0,
-        "Y": 1040.0
+        "X": 0,
+        "Y": 910
       },
       {
         "Id": "b6090000000000000000000000000001",
-        "Name": "10. Elevaciones: separacion del tag a la pieza (mm de papel)",
+        "Name": "09. Margen extra del annotation crop (mm de papel)",
         "IsSetAsInput": true,
         "IsSetAsOutput": false,
         "Excluded": false,
         "ShowGeometry": true,
-        "X": 0.0,
-        "Y": 1170.0
+        "X": 0,
+        "Y": 1040
       },
       {
         "Id": "a6010000000000000000000000000001",
-        "Name": "PY | Rotulo de perfil sobre cada viga",
+        "Name": "PY | Cadenas de cotas entre rieles RUC de suelo",
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
         "ShowGeometry": true,
-        "X": 520.0,
-        "Y": 180.0
+        "X": 560,
+        "Y": 180
       },
       {
         "Id": "c6010000000000000000000000000001",
         "Name": "Log",
         "IsSetAsInput": false,
-        "IsSetAsOutput": true,
+        "IsSetAsOutput": false,
         "Excluded": false,
         "ShowGeometry": true,
-        "X": 860.0,
-        "Y": 180.0
+        "X": 920,
+        "Y": 180
       }
     ],
     "Annotations": [],

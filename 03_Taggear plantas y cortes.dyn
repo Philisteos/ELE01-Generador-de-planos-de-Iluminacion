@@ -1,7 +1,7 @@
 {
   "Uuid": "8f4c1a2e-0a11-4b6e-9c01-aa0000000007",
   "IsCustomNode": false,
-  "Description": "Cadena de cotas exteriores entre los rieles RUC de suelo, en las plantas de sector: una cadena arriba, una abajo, una a la izquierda y una a la derecha, por fuera del marco de la vista.",
+  "Description": "Anota las plantas de sector: cadenas de cotas exteriores entre los rieles RUC de suelo, y un texto con el TIPO (R-01, R-02...) con una flecha a cada riel RUC de la planta, de suelo y de muro.",
   "Name": "03_Taggear plantas y cortes",
   "ElementResolver": {
     "ResolutionMap": {}
@@ -20,7 +20,7 @@
       "Name": "02. Filtro de sectores (si TODOS = False)",
       "Type": "string",
       "Type2": "string",
-      "Value": "SECTOR",
+      "Value": "SECTOR A",
       "Description": "Creates a string."
     },
     {
@@ -33,7 +33,7 @@
     },
     {
       "Id": "b6040000000000000000000000000001",
-      "Name": "04. ...y ademas CONTIENE (vacio = no filtra mas)",
+      "Name": "04. ...y ademas CONTIENE (solo para las cotas; vacio = no filtra mas)",
       "Type": "string",
       "Type2": "string",
       "Value": "SUELO",
@@ -44,10 +44,10 @@
       "Name": "05. Separacion de la cadena al borde del marco (mm de papel)",
       "Type": "number",
       "Type2": "number",
-      "Value": "15",
-      "MaximumValue": 60,
-      "MinimumValue": 0,
-      "StepValue": 1,
+      "Value": "9",
+      "MaximumValue": 60.0,
+      "MinimumValue": 0.0,
+      "StepValue": 1.0,
       "NumberType": "Integer",
       "Description": "Produces integer values"
     },
@@ -56,10 +56,10 @@
       "Name": "06. Separacion minima entre dos cotas de la cadena (mm de papel)",
       "Type": "number",
       "Type2": "number",
-      "Value": "2",
-      "MaximumValue": 20,
-      "MinimumValue": 0,
-      "StepValue": 1,
+      "Value": "1",
+      "MaximumValue": 20.0,
+      "MinimumValue": 0.0,
+      "StepValue": 1.0,
       "NumberType": "Integer",
       "Description": "Produces integer values"
     },
@@ -73,10 +73,10 @@
     },
     {
       "Id": "b6080000000000000000000000000001",
-      "Name": "08. Rehacer las cadenas de riel existentes",
+      "Name": "08. Rehacer las cotas y los tags de riel existentes",
       "Type": "boolean",
       "Type2": "boolean",
-      "Value": "false",
+      "Value": "true",
       "Description": "Enables selection between True and False"
     },
     {
@@ -85,22 +85,74 @@
       "Type": "number",
       "Type2": "number",
       "Value": "10",
-      "MaximumValue": 60,
-      "MinimumValue": 0,
-      "StepValue": 1,
+      "MaximumValue": 60.0,
+      "MinimumValue": 0.0,
+      "StepValue": 1.0,
+      "NumberType": "Integer",
+      "Description": "Produces integer values"
+    },
+    {
+      "Id": "b6100000000000000000000000000001",
+      "Name": "10. Parametro con el largo del riel",
+      "Type": "string",
+      "Type2": "string",
+      "Value": "Longitud",
+      "Description": "Creates a string."
+    },
+    {
+      "Id": "b6110000000000000000000000000001",
+      "Name": "11. Parametro donde se escribe el codigo de tipo",
+      "Type": "string",
+      "Type2": "string",
+      "Value": "TEXTO PARA TAG",
+      "Description": "Creates a string."
+    },
+    {
+      "Id": "b6120000000000000000000000000001",
+      "Name": "12. Tipo de texto del tag (vacio = el por defecto)",
+      "Type": "string",
+      "Type2": "string",
+      "Value": "2mm wf 0.85 RomanD",
+      "Description": "Creates a string."
+    },
+    {
+      "Id": "b6130000000000000000000000000001",
+      "Name": "13. Radio para agrupar rieles bajo un mismo texto (mm de papel)",
+      "Type": "number",
+      "Type2": "number",
+      "Value": "30",
+      "MaximumValue": 200.0,
+      "MinimumValue": 0.0,
+      "StepValue": 1.0,
+      "NumberType": "Integer",
+      "Description": "Produces integer values"
+    },
+    {
+      "Id": "b6140000000000000000000000000001",
+      "Name": "14. Separacion del texto al grupo (mm de papel)",
+      "Type": "number",
+      "Type2": "number",
+      "Value": "4",
+      "MaximumValue": 60.0,
+      "MinimumValue": 0.0,
+      "StepValue": 1.0,
+      "NumberType": "Integer",
+      "Description": "Produces integer values"
+    },
+    {
+      "Id": "b6150000000000000000000000000001",
+      "Name": "15. Maximo de rieles por texto (0 = sin tope)",
+      "Type": "number",
+      "Type2": "number",
+      "Value": "4",
+      "MaximumValue": 20.0,
+      "MinimumValue": 0.0,
+      "StepValue": 1.0,
       "NumberType": "Integer",
       "Description": "Produces integer values"
     }
   ],
-  "Outputs": [
-    {
-      "Id": "c6010000000000000000000000000001",
-      "Name": "Log",
-      "Type": "unknown",
-      "InitialValue": "",
-      "Description": "Visualizes a node's output"
-    }
-  ],
+  "Outputs": [],
   "Nodes": [
     {
       "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
@@ -124,9 +176,10 @@
     },
     {
       "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
-      "NodeType": "StringInputNode",
-      "InputValue": "SECTOR",
+      "SerializedWidth": 0.0,
+      "SerializedHeight": 0.0,
       "Id": "b6020000000000000000000000000001",
+      "NodeType": "StringInputNode",
       "Inputs": [],
       "Outputs": [
         {
@@ -140,13 +193,15 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Creates a string"
+      "Description": "Creates a string.",
+      "InputValue": "SECTOR A"
     },
     {
       "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
-      "NodeType": "StringInputNode",
-      "InputValue": "RIEL RUC",
+      "SerializedWidth": 0.0,
+      "SerializedHeight": 0.0,
       "Id": "b6030000000000000000000000000001",
+      "NodeType": "StringInputNode",
       "Inputs": [],
       "Outputs": [
         {
@@ -160,13 +215,15 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Creates a string"
+      "Description": "Creates a string.",
+      "InputValue": "RIEL RUC"
     },
     {
       "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
-      "NodeType": "StringInputNode",
-      "InputValue": "SUELO",
+      "SerializedWidth": 0.0,
+      "SerializedHeight": 0.0,
       "Id": "b6040000000000000000000000000001",
+      "NodeType": "StringInputNode",
       "Inputs": [],
       "Outputs": [
         {
@@ -180,7 +237,8 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Creates a string"
+      "Description": "Creates a string.",
+      "InputValue": "SUELO"
     },
     {
       "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
@@ -204,7 +262,7 @@
       ],
       "Replication": "Disabled",
       "Description": "Produces integer values",
-      "InputValue": 15
+      "InputValue": 9
     },
     {
       "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
@@ -228,13 +286,14 @@
       ],
       "Replication": "Disabled",
       "Description": "Produces integer values",
-      "InputValue": 2
+      "InputValue": 1
     },
     {
       "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
-      "NodeType": "StringInputNode",
-      "InputValue": "",
+      "SerializedWidth": 0.0,
+      "SerializedHeight": 0.0,
       "Id": "b6070000000000000000000000000001",
+      "NodeType": "StringInputNode",
       "Inputs": [],
       "Outputs": [
         {
@@ -248,7 +307,8 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Creates a string"
+      "Description": "Creates a string.",
+      "InputValue": ""
     },
     {
       "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
@@ -268,7 +328,7 @@
       ],
       "Replication": "Disabled",
       "Description": "Enables selection between True and False",
-      "InputValue": false
+      "InputValue": true
     },
     {
       "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
@@ -296,11 +356,11 @@
     },
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "Code": "# 03_Taggear plantas y cortes - ILUMINACION (AGRUPACION CONTINUA + MULTIFLECHAS + ANTICOLISIÓN)\n\nimport clr\nimport math\nimport re\nclr.AddReference('RevitAPI')\nclr.AddReference('RevitServices')\nfrom Autodesk.Revit.DB import (FilteredElementCollector, ViewPlan, XYZ, Line,\n                               ReferenceArray, Dimension, DimensionType, Element,\n                               BuiltInCategory, BuiltInParameter, StorageType, ElementId,\n                               FamilyInstance, FamilyInstanceReferenceType, Category,\n                               TextNote, TextNoteType, TextNoteLeaderTypes,\n                               ElementTypeGroup)\nfrom RevitServices.Persistence import DocumentManager\nfrom RevitServices.Transactions import TransactionManager\n\ndoc = DocumentManager.Instance.CurrentDBDocument\n\nprocess_all = bool(IN[0])\nfilter_text = (IN[1] or '').strip()\nfam_prefijo = (IN[2] or '').strip()\nfam_contiene = (IN[3] or '').strip()\noff_mm = float(IN[4]) if IN[4] is not None else 25.0\nsep_min_mm = float(IN[5]) if IN[5] is not None else 500.0\ndim_type_name = (IN[6] or '').strip()\nrehacer = bool(IN[7])\nannot_extra_mm = float(IN[8]) if IN[8] is not None else 15.0\nparam_largo = (IN[9] or 'Longitud').strip()\nparam_codigo = (IN[10] or 'TEXTO PARA TAG').strip()\ntipo_texto_nombre = (IN[11] or '').strip()\nradio_tag_mm = float(IN[12]) if IN[12] is not None else 30.0\nsep_tag_mm = float(IN[13]) if IN[13] is not None else 4.0\nmax_por_texto_in = int(IN[14]) if IN[14] is not None else 0\n\nlog = []\nSUF_PLANTA = ' - PLANTA'\nTOL_PARALELO = 1e-6\nTOL_NORMAL = 1e-3\nLADOS = ('arriba', 'abajo', 'izquierda', 'derecha')\nPREFIJO_TIPO = 'R-'\nRE_CODIGO = re.compile(r'^' + re.escape(PREFIJO_TIPO) + r'\\d+$')\n\n\ndef elem_name(e):\n    try:\n        return Element.Name.GetValue(e)\n    except Exception:\n        try:\n            return e.Name\n        except Exception:\n            return ''\n\n\ndef coincide(nombre, texto):\n    if not texto:\n        return True\n    alto = (nombre or '').upper()\n    for t in texto.split(','):\n        t = t.strip().upper()\n        if t and t in alto:\n            return True\n    return False\n\n\ndef fam_name(el):\n    try:\n        return el.Symbol.Family.Name or ''\n    except Exception:\n        return ''\n\n\ndef es_riel(el):\n    f = fam_name(el).upper()\n    if not f:\n        return False\n    return not fam_prefijo or f.startswith(fam_prefijo.upper())\n\n\ndef es_riel_de_cota(el):\n    if not es_riel(el):\n        return False\n    f = fam_name(el).upper()\n    return not fam_contiene or fam_contiene.upper() in f\n\n\ndef plantas_de_sector():\n    res = []\n    for v in FilteredElementCollector(doc).OfClass(ViewPlan):\n        if v.IsTemplate:\n            continue\n        n = elem_name(v)\n        if not n.endswith(SUF_PLANTA):\n            continue\n        sector = n[:-len(SUF_PLANTA)]\n        if not process_all and not coincide(sector, filter_text):\n            continue\n        res.append((v, sector))\n    res.sort(key=lambda p: p[1])\n    return res\n\n\ndef extremos_en_ejes(el, ex, ey):\n    bb = el.get_BoundingBox(None)\n    if bb is None:\n        return None\n    us, ws = [], []\n    for x in (bb.Min.X, bb.Max.X):\n        for y in (bb.Min.Y, bb.Max.Y):\n            for z in (bb.Min.Z, bb.Max.Z):\n                p = XYZ(x, y, z)\n                us.append(p.DotProduct(ex))\n                ws.append(p.DotProduct(ey))\n    return min(us), max(us), min(ws), max(ws)\n\n\ndef envolvente_de_elementos(elementos, ex, ey):\n    us, ws = [], []\n    for el in elementos:\n        ext = extremos_en_ejes(el, ex, ey)\n        if ext:\n            us.extend([ext[0], ext[1]])\n            ws.extend([ext[2], ext[3]])\n    if not us:\n        return 0, 0, 0, 0\n    return min(us), max(us), min(ws), max(ws)\n\n\ndef referencia_de_eje(inst, eje_medida):\n    try:\n        tr = inst.GetTransform()\n    except Exception:\n        return None, None\n    candidatos = ((FamilyInstanceReferenceType.CenterLeftRight, tr.BasisX),\n                  (FamilyInstanceReferenceType.CenterFrontBack, tr.BasisY))\n    for tipo, normal in candidatos:\n        try:\n            n = normal.Normalize()\n        except Exception:\n            continue\n        if abs(abs(n.DotProduct(eje_medida)) - 1.0) > TOL_NORMAL:\n            continue\n        try:\n            refs = list(inst.GetReferences(tipo))\n        except Exception:\n            refs = []\n        if refs:\n            return refs[0], n\n    return None, None\n\n\ndef canonica(n):\n    if n.X > 1e-12:\n        return n\n    if n.X < -1e-12:\n        return n.Negate()\n    return n if n.Y >= 0 else n.Negate()\n\n\ndef alinear(items):\n    if not items:\n        return [], 0, 0.0\n    cubetas = {}\n    for it in items:\n        d = canonica(it[3])\n        k = int(round(math.atan2(d.Y, d.X) / TOL_PARALELO))\n        acc = cubetas.get(k)\n        if acc is None:\n            cubetas[k] = [1, d]\n        else:\n            acc[0] += 1\n    dom = max(cubetas.values(), key=lambda a: a[0])[1]\n    ok = []\n    fuera = 0\n    peor = 0.0\n    for it in items:\n        s = abs(it[3].X * dom.Y - it[3].Y * dom.X)\n        if s <= TOL_PARALELO / 2.0:\n            ok.append(it)\n        else:\n            fuera += 1\n            if s > peor:\n                peor = s\n    return ok, fuera, peor\n\n\ndef tipo_de_cota(nombre):\n    if not nombre:\n        return None\n    for dt in FilteredElementCollector(doc).OfClass(DimensionType):\n        if elem_name(dt) == nombre:\n            return dt\n    return None\n\n\ndef cadenas_de_riel_existentes(v):\n    res = []\n    for dim in FilteredElementCollector(doc, v.Id).OfClass(Dimension):\n        try:\n            for ref in dim.References:\n                el = doc.GetElement(ref.ElementId)\n                if el is not None and isinstance(el, FamilyInstance) and es_riel(el):\n                    res.append(dim.Id)\n                    break\n        except Exception:\n            pass\n    return res\n\n\ndef dibujar_cadena(v, items, eje_medida, eje_perp, valor_perp, sep_min, z_plano, dim_type):\n    if len(items) < 2:\n        return 0\n    items, _, _ = alinear(items)\n    if len(items) < 2:\n        return 0\n    items.sort(key=lambda it: it[0])\n    filtrados = []\n    ultimo = None\n    for it in items:\n        if ultimo is None or it[0] - ultimo > sep_min:\n            filtrados.append(it)\n            ultimo = it[0]\n    if len(filtrados) < 2:\n        return 0\n    ra = ReferenceArray()\n    for it in filtrados:\n        ra.Append(it[1])\n\n    p1 = eje_medida.Multiply(filtrados[0][0]).Add(eje_perp.Multiply(valor_perp))\n    p2 = eje_medida.Multiply(filtrados[-1][0]).Add(eje_perp.Multiply(valor_perp))\n    p1 = XYZ(p1.X, p1.Y, z_plano)\n    p2 = XYZ(p2.X, p2.Y, z_plano)\n\n    if p1.DistanceTo(p2) < 1e-6:\n        return 0\n    try:\n        if dim_type is not None:\n            doc.Create.NewDimension(v, Line.CreateBound(p1, p2), ra, dim_type)\n        else:\n            doc.Create.NewDimension(v, Line.CreateBound(p1, p2), ra)\n        return 1\n    except Exception:\n        return 0\n\n\ndef anotar_planta(v, sector, dim_type):\n    escala = v.Scale or 1\n    papel = lambda mm: float(mm) / 304.8 * escala\n\n    off = papel(off_mm)\n    sep_min = papel(sep_min_mm)\n\n    if rehacer:\n        for did in cadenas_de_riel_existentes(v):\n            try:\n                doc.Delete(did)\n            except Exception:\n                pass\n\n    rieles = [el for el in FilteredElementCollector(doc, v.Id)\n              .OfCategory(BuiltInCategory.OST_ElectricalFixtures)\n              .WhereElementIsNotElementType()\n              if isinstance(el, FamilyInstance) and es_riel_de_cota(el)]\n    if not rieles:\n        return 0\n\n    ex = v.RightDirection.Normalize()\n    ey = v.UpDirection.Normalize()\n    z_plano = v.Origin.Z\n\n    u0_r, u1_r, w0_r, w1_r = envolvente_de_elementos(rieles, ex, ey)\n    u_mid = (u0_r + u1_r) / 2.0\n    w_mid = (w0_r + w1_r) / 2.0\n\n    grupos = dict((lado, []) for lado in LADOS)\n    for el in rieles:\n        ext = extremos_en_ejes(el, ex, ey)\n        if ext is None:\n            continue\n        au0, au1, aw0, aw1 = ext\n        span_u, span_w = au1 - au0, aw1 - aw0\n        uc, wc = (au0 + au1) / 2.0, (aw0 + aw1) / 2.0\n\n        if max(span_u, span_w) < 1.2 * min(span_u, span_w):\n            continue\n        if span_u > span_w:\n            lado = 'izquierda' if uc < u_mid else 'derecha'\n            eje_medida, pos = ey, wc\n        else:\n            lado = 'abajo' if wc < w_mid else 'arriba'\n            eje_medida, pos = ex, uc\n\n        ref, normal = referencia_de_eje(el, eje_medida)\n        if ref:\n            grupos[lado].append((pos, ref, elem_name(el), normal))\n\n    n = 0\n    n += dibujar_cadena(v, grupos['arriba'], ex, ey, w1_r + off, sep_min, z_plano, dim_type)\n    n += dibujar_cadena(v, grupos['abajo'], ex, ey, w0_r - off, sep_min, z_plano, dim_type)\n    n += dibujar_cadena(v, grupos['izquierda'], ey, ex, u0_r - off, sep_min, z_plano, dim_type)\n    n += dibujar_cadena(v, grupos['derecha'], ey, ex, u1_r + off, sep_min, z_plano, dim_type)\n    return n\n\n\n# ----------------------------- TAGS CON AGRUPACIÓN REAL Y ANTICOLISIÓN -----------------------------\n\ndef largo_mm(el):\n    try:\n        p = el.LookupParameter(param_largo)\n        return int(round(p.AsDouble() * 304.8)) if p and p.HasValue else None\n    except Exception:\n        return None\n\n\ndef rieles_del_modelo():\n    return [el for el in FilteredElementCollector(doc)\n            .OfCategory(BuiltInCategory.OST_ElectricalFixtures)\n            .WhereElementIsNotElementType()\n            if isinstance(el, FamilyInstance) and es_riel(el)]\n\n\ndef tabla_de_tipos(rieles):\n    largos = sorted(set(l for l in (largo_mm(e) for e in rieles) if l is not None))\n    return dict((l, '{}{:02d}'.format(PREFIJO_TIPO, i + 1)) for i, l in enumerate(largos))\n\n\ndef tipo_de_texto(nombre):\n    objetivo = (nombre or '').strip().upper()\n    for tt in FilteredElementCollector(doc).OfClass(TextNoteType):\n        if objetivo and elem_name(tt).upper() == objetivo:\n            return tt.Id\n    return doc.GetDefaultElementTypeId(ElementTypeGroup.TextNoteType)\n\n\ndef agrupar_rieles_contiguos(rieles_info, radio_gap_ft, max_tope, ex, ey):\n    \"\"\"\n    Agrupa rieles por LÍNEA FÍSICA y por CÓDIGO de forma continua, generando 1 solo grupo por código por tramo.\n    \"\"\"\n    if not rieles_info:\n        return []\n\n    TOL_EJE = 0.8  # Tolerancia alineación en pies (~25 cm)\n    lineas_fisicas = []\n    usados = set()\n    n = len(rieles_info)\n\n    # 1. Identificar tramos lineales\n    for i in range(n):\n        if i in usados:\n            continue\n        item_i = rieles_info[i]\n        linea_actual = [item_i]\n        usados.add(i)\n\n        for j in range(i + 1, n):\n            if j in usados:\n                continue\n            item_j = rieles_info[j]\n\n            dx = abs(item_i[1].X - item_j[1].X)\n            dy = abs(item_i[1].Y - item_j[1].Y)\n\n            if dy < TOL_EJE or dx < TOL_EJE:\n                linea_actual.append(item_j)\n                usados.add(j)\n\n        lineas_fisicas.append(linea_actual)\n\n    # 2. Agrupar por CODIGO dentro de cada tramo\n    grupos_finales = []\n    for linea in lineas_fisicas:\n        por_codigo = {}\n        for item in linea:\n            cod = item[3]\n            if cod not in por_codigo:\n                por_codigo[cod] = []\n            por_codigo[cod].append(item)\n\n        for cod, items_cod in por_codigo.items():\n            us = [it[1].DotProduct(ex) for it in items_cod]\n            ws = [it[1].DotProduct(ey) for it in items_cod]\n            es_horiz = (max(us) - min(us)) >= (max(ws) - min(ws))\n\n            if es_horiz:\n                items_cod.sort(key=lambda it: it[1].DotProduct(ex))\n            else:\n                items_cod.sort(key=lambda it: it[1].DotProduct(ey))\n\n            sub_grupo = [items_cod[0]]\n            for it in items_cod[1:]:\n                prev = sub_grupo[-1]\n                dist = it[1].DistanceTo(prev[1])\n                if dist <= radio_gap_ft:\n                    sub_grupo.append(it)\n                else:\n                    grupos_finales.append(sub_grupo)\n                    sub_grupo = [it]\n            if sub_grupo:\n                grupos_finales.append(sub_grupo)\n\n    # 3. Aplicar tope máximo si está configurado (> 0)\n    grupos_con_tope = []\n    for g in grupos_finales:\n        if max_tope > 0 and len(g) > max_tope:\n            for sub_i in range(0, len(g), max_tope):\n                grupos_con_tope.append(g[sub_i:sub_i + max_tope])\n        else:\n            grupos_con_tope.append(g)\n\n    return grupos_con_tope\n\n\ndef resolver_posicion_tag(pt_base, ex, ey, dist_pegado, es_horiz, colocados, escala):\n    \"\"\"\n    Desplaza la nota de texto si detecta un texto ya colocado en la misma coordenada.\n    \"\"\"\n    if not colocados:\n        return pt_base\n\n    ft_a_mm_papel = lambda ft: (ft * 304.8) / escala\n    u_b = pt_base.DotProduct(ex)\n    w_b = pt_base.DotProduct(ey)\n    z = pt_base.Z\n\n    candidatos = [pt_base]\n\n    if es_horiz:\n        # Alternar lado (+dist / -dist)\n        candidatos.append(XYZ(ex.Multiply(u_b).Add(ey.Multiply(w_b - 2.0 * dist_pegado)).X,\n                              ex.Multiply(u_b).Add(ey.Multiply(w_b - 2.0 * dist_pegado)).Y, z))\n        # Desplazamientos a lo largo del eje\n        for shift_mm in [12.0, -12.0, 24.0, -24.0]:\n            sh_ft = (shift_mm / 304.8) * escala\n            candidatos.append(XYZ(ex.Multiply(u_b + sh_ft).Add(ey.Multiply(w_b)).X,\n                                  ex.Multiply(u_b + sh_ft).Add(ey.Multiply(w_b)).Y, z))\n    else:\n        candidatos.append(XYZ(ex.Multiply(u_b - 2.0 * dist_pegado).Add(ey.Multiply(w_b)).X,\n                              ex.Multiply(u_b - 2.0 * dist_pegado).Add(ey.Multiply(w_b)).Y, z))\n        for shift_mm in [12.0, -12.0, 24.0, -24.0]:\n            sh_ft = (shift_mm / 304.8) * escala\n            candidatos.append(XYZ(ex.Multiply(u_b).Add(ey.Multiply(w_b + sh_ft)).X,\n                                  ex.Multiply(u_b).Add(ey.Multiply(w_b + sh_ft)).Y, z))\n\n    min_gap_mm = 10.0  # Distancia mínima entre etiquetas en espacio de papel\n\n    for cand in candidatos:\n        conflict = False\n        for exist in colocados:\n            if ft_a_mm_papel(cand.DistanceTo(exist)) < min_gap_mm:\n                conflict = True\n                break\n        if not conflict:\n            return cand\n\n    return candidatos[0]\n\n\ndef crear_texto_etiqueta_multiflecha(v, texto, pt_texto, pts_destino, tt_id, ex):\n    tn = TextNote.Create(doc, v.Id, pt_texto, texto, tt_id)\n    u_texto = pt_texto.DotProduct(ex)\n\n    for pt_dest in pts_destino:\n        u_dest = pt_dest.DotProduct(ex)\n        tipo = TextNoteLeaderTypes.TNLT_STRAIGHT_R if u_dest >= u_texto else TextNoteLeaderTypes.TNLT_STRAIGHT_L\n        try:\n            ld = tn.AddLeader(tipo)\n            ld.End = pt_dest\n        except Exception:\n            pass\n    return tn\n\n\ndef taggear_planta(v, sector, tt_id, mapa):\n    escala = v.Scale or 1\n    papel = lambda mm: float(mm) / 304.8 * escala\n\n    rad_mm = radio_tag_mm if radio_tag_mm > 0 else 50.0\n    radio_gap_ft = papel(rad_mm)\n    dist_pegado = max(papel(sep_tag_mm), papel(5.0))\n\n    if rehacer:\n        for tn in FilteredElementCollector(doc, v.Id).OfClass(TextNote):\n            if RE_CODIGO.match((tn.Text or '').strip()):\n                try:\n                    doc.Delete(tn.Id)\n                except Exception:\n                    pass\n\n    rieles = [el for el in FilteredElementCollector(doc, v.Id)\n              .OfCategory(BuiltInCategory.OST_ElectricalFixtures)\n              .WhereElementIsNotElementType()\n              if isinstance(el, FamilyInstance) and es_riel(el)]\n    if not rieles:\n        return 0\n\n    ex = v.RightDirection.Normalize()\n    ey = v.UpDirection.Normalize()\n    z_plano = v.Origin.Z\n\n    u0_r, u1_r, w0_r, w1_r = envolvente_de_elementos(rieles, ex, ey)\n    u_mid = (u0_r + u1_r) / 2.0\n    w_mid = (w0_r + w1_r) / 2.0\n\n    rieles_info = []\n    for el in rieles:\n        l = largo_mm(el)\n        if l and l in mapa:\n            bb = el.get_BoundingBox(v) or el.get_BoundingBox(None)\n            if bb:\n                centro = XYZ((bb.Min.X + bb.Max.X) / 2.0, (bb.Min.Y + bb.Max.Y) / 2.0, z_plano)\n                rieles_info.append((el, centro, bb, mapa[l]))\n\n    grupos = agrupar_rieles_contiguos(rieles_info, radio_gap_ft, max_por_texto_in, ex, ey)\n    puestos = 0\n    textos_colocados = []\n\n    for grupo in grupos:\n        codigo = grupo[0][3]\n        pts_destino = [m[1] for m in grupo]\n        us = [p.DotProduct(ex) for p in pts_destino]\n        ws = [p.DotProduct(ey) for p in pts_destino]\n\n        span_u = max(us) - min(us)\n        span_w = max(ws) - min(ws)\n        es_horiz = span_u >= span_w\n\n        u_centro = (min(us) + max(us)) / 2.0\n        w_centro = (min(ws) + max(ws)) / 2.0\n\n        if es_horiz:\n            u_texto = u_centro\n            w_texto = min(ws) - dist_pegado if w_centro > w_mid else max(ws) + dist_pegado\n        else:\n            w_texto = w_centro\n            u_texto = min(us) - dist_pegado if u_centro > u_mid else max(us) + dist_pegado\n\n        pt_base = ex.Multiply(u_texto).Add(ey.Multiply(w_texto))\n        pt_base = XYZ(pt_base.X, pt_base.Y, z_plano)\n\n        pt_texto = resolver_posicion_tag(pt_base, ex, ey, dist_pegado, es_horiz, textos_colocados, escala)\n        textos_colocados.append(pt_texto)\n\n        try:\n            crear_texto_etiqueta_multiflecha(v, codigo, pt_texto, pts_destino, tt_id, ex)\n            puestos += 1\n        except Exception:\n            pass\n\n    return puestos\n\n\n# --- EJECUCIÓN PRINCIPAL ---\nplantas = plantas_de_sector()\nif plantas:\n    dim_type = tipo_de_cota(dim_type_name)\n    tt_id = tipo_de_texto(tipo_texto_nombre)\n\n    TransactionManager.Instance.EnsureInTransaction(doc)\n    rieles_modelo = rieles_del_modelo()\n    mapa = tabla_de_tipos(rieles_modelo)\n\n    cotas, tags = 0, 0\n    for v, sector in plantas:\n        cotas += anotar_planta(v, sector, dim_type)\n        if mapa:\n            tags += taggear_planta(v, sector, tt_id, mapa)\n\n    TransactionManager.Instance.ForceCloseTransaction()\n    log.append('Proceso completado: Etiquetas unificadas por tramo con multiflecha limpias.')\n\nOUT = log",
       "Engine": "PythonNet3",
       "VariableInputPorts": true,
       "Id": "a6010000000000000000000000000001",
       "NodeType": "PythonScriptNode",
-      "Code": "# 03_Taggear plantas y cortes - ILUMINACION\n#\n# Primera anotacion del paso: CADENAS DE COTAS EXTERIORES entre los RIELES RUC DE\n# SUELO, en las PLANTAS de sector. Cuatro cadenas por planta -arriba, abajo,\n# izquierda y derecha-, dibujadas por fuera del marco de la vista.\n#\n# Revit 2027 / Dynamo 4 / CPython3\n# IN[0] = procesar todos los sectores (bool)\n# IN[1] = filtro de sectores si IN[0] es False (parcial, comas)\n# IN[2] = la familia del riel EMPIEZA con (string, ej. RIEL RUC)\n# IN[3] = y ademas CONTIENE (string, ej. SUELO; vacio = no filtra mas)\n# IN[4] = separacion de la cadena respecto al borde del crop, en mm de papel\n# IN[5] = separacion minima entre dos cotas de la cadena, en mm de papel\n# IN[6] = nombre del tipo de cota (vacio = el tipo por defecto del documento)\n# IN[7] = rehacer: borra las cadenas de riel previas de la vista y las vuelve a hacer\n# IN[8] = margen extra del annotation crop mas alla de la cadena, en mm de papel\n#\n#\n# QUE VISTAS TOCA, Y POR QUE NO HACE FALTA UN SELLO NUEVO\n#\n# Solo las plantas que genero 00_Vistas de sector, reconocidas por el MISMO contrato de\n# nombres que ya comparten 00, 01 y 02: la planta de un sector se llama\n# \"<sector> - PLANTA\". El modelo tiene cientos de vistas de otras disciplinas, pero\n# ninguna se llama asi, y las que 00 crea se llaman asi SIEMPRE porque 00 las nombra.\n# Agregar un parametro-sello ademas del nombre seria describir dos veces la misma\n# pertenencia, con el riesgo de que las dos descripciones se desincronicen -el mismo\n# motivo por el que 00 dejo de aislar elemento por elemento y se quedo con la caja-.\n#\n# Las ELEVACIONES no se tocan: los rieles se acotan en planta y nada mas.\n#\n#\n# QUE RIELES ENTRAN\n#\n# Familias que EMPIEZAN con \"RIEL RUC\", no que lo contengan. La diferencia no es\n# cosmetica: el modelo tiene 294 Electrical Fixtures con \"RIEL RUC\" en el nombre de\n# familia, pero 77 de esas son \"MORDAZA PARA RIEL RUC 42x42 PARA PERNO 3-8''\", que son\n# abrazaderas y no rieles. Con \"contiene\" se acotarian las mordazas; con \"empieza\",\n# no, y siguen entrando \"RIEL RUC 01\", \"RIEL RUC GALVANIZADO\" o \"RIEL RUC NUEVO\".\n#\n# Ademas, solo las de SUELO (IN[3]). Las de muro son otra cosa: \"RIEL RUC GALVANIZADO\n# MURO VERT.\" en planta es un cuadradito de 42x42 sin direccion util, y mezclarla en\n# una cadena con rieles de suelo daria una cota que no significa nada.\n#\n# Los rieles se recolectan CONTRA LA VISTA -FilteredElementCollector(doc, v.Id)-, no\n# contra el documento. Con eso el crop, el view range y lo que este oculto ya deciden\n# que rieles pertenecen al sector, sin volver a describir la caja. Importa mas de lo\n# que parece: los rieles de suelo de este modelo van de Z=0,5 m a Z=4,0 m, asi que\n# \"los del sector\" NO es una propiedad del riel sino de que planta lo mira.\n#\n#\n# COMO SE REPARTE CADA RIEL A SU CADENA: LA ORIENTACION ELIGE EL EJE, LA POSICION EL LADO\n#\n# Un riel se acota SIEMPRE perpendicular a su propio eje, que es lo normal en dibujo:\n# un riel de 1000 mm no se localiza por el punto medio de su propio largo, se localiza\n# por donde pasa su eje. Entonces:\n#\n#   riel que corre horizontal en la planta  -> se mide su Y -> cadena IZQUIERDA o DERECHA\n#   riel que corre vertical   en la planta  -> se mide su X -> cadena ARRIBA o ABAJO\n#\n# Elegido el PAR de cadenas, la POSICION elige cual de las dos: la mas cercana. Para un\n# riel horizontal, izquierda o derecha segun de que lado del centro del crop caiga; para\n# uno vertical, arriba o abajo. Ese corte por el centro es exactamente la frontera entre\n# los dos triangulos opuestos del reparto en diagonal, y es lo que evita el problema que\n# motivo todo esto: que la cadena de la derecha se lleve elementos del lado izquierdo.\n#\n# Los ejes NO son X e Y del modelo sino RightDirection y UpDirection de la vista, asi\n# que una planta rotada se comporta igual.\n#\n#\n# CONTRA QUE SE ACOTA: EL PLANO DE EJE DE LA FAMILIA, NO SUS CARAS\n#\n# Eje a eje, siempre. Una Dimension necesita un Reference, no un punto, asi que el eje\n# del riel tiene que existir como referencia de Revit: son los planos \"Center\n# (Left/Right)\" y \"Center (Front/Back)\" que trae toda familia, vistos con\n# FamilyInstance.GetReferences(FamilyInstanceReferenceType...).\n#\n# Cual de los dos se usa depende de en que direccion se mide, y eso se decide con la\n# TRANSFORMADA DE LA INSTANCIA y no resolviendo la geometria de la referencia: la normal\n# del plano Center (Left/Right) es el BasisX de la instancia, y la del Center\n# (Front/Back) es su BasisY. Comparar esas dos normales contra el eje de medida es una\n# cuenta exacta y barata; pedirle a Revit el GeometryObject de una referencia de plano\n# es fragil y a veces devuelve nada.\n#\n# NO se acota contra las caras del solido. En T003 se intento y quedo documentado que\n# Revit DESCARTA esas referencias al comitear: la cota se crea sin error y desaparece.\n#\n# Si una familia de riel no tiene sus planos de eje marcados como referencia, este graph\n# NO inventa un plan B silencioso: salta ese riel y lo dice en el log con nombre y\n# ElementId. Un plan B posible seria dibujar detail lines y acotar contra ellas, pero eso\n# da cotas NO ASOCIATIVAS -si alguien mueve el riel la cota miente-, y una cota que\n# miente es peor que una cota que falta.\n#\n#\n# LAS DOS TRAMPAS QUE HACEN QUE UNA COTA SE CREE Y NO SE VEA\n#\n# 1. EL ANNOTATION CROP. La cadena va por fuera del marco, y el annotation crop recorta\n#    todo lo que no entre en el. Una cota fuera de el se crea sin error y no se dibuja\n#    -la misma trampa ya documentada en T003 para las categorias apagadas-. Por eso, si\n#    la vista tiene el annotation crop activo, se agrandan sus cuatro offsets hasta pasar\n#    la cadena. Si esta apagado no se toca nada: apagado no recorta, no hay que \"arreglar\"\n#    lo que ya funciona.\n#\n# 2. EL PARALELISMO ENTRE REFERENCIAS. Revit exige que TODAS las referencias de una\n#    cadena sean paralelas ENTRE SI, con un criterio muchisimo mas estricto que\n#    Application.AngularTolerance. Un solo riel torcido no da una cota fea: hace fallar la\n#    cadena COMPLETA. Por eso, igual que alinear_grupo() en T003, se calcula la direccion\n#    dominante del grupo y se descartan los desviados, contandolos en el log. El desvio se\n#    mide con el producto CRUZ y no el escalar porque cerca del paralelismo el coseno\n#    pierde toda la precision, mientras que el seno vale el angulo.\n#\n#\n# RIELES APILADOS\n#\n# Hay rieles con IDENTICA posicion en planta y distinto Z -por ejemplo 6721757 y 6721758,\n# mismo X e Y, uno a 2519 mm y otro a 2019 mm-. En planta son el mismo punto y entre\n# ellos saldria una cota de valor cero. La cadena los FUSIONA cuando quedan mas cerca que\n# IN[5] y avisa cuantos fusiono; el log va a mostrar bastantes fusiones y es lo esperado.\n\nimport clr\nimport math\nclr.AddReference('RevitAPI')\nclr.AddReference('RevitServices')\nfrom Autodesk.Revit.DB import (FilteredElementCollector, ViewPlan, XYZ, Line,\n                               ReferenceArray, Dimension, DimensionType, Element,\n                               BuiltInCategory, BuiltInParameter,\n                               FamilyInstance, FamilyInstanceReferenceType)\nfrom RevitServices.Persistence import DocumentManager\nfrom RevitServices.Transactions import TransactionManager\n\ndoc = DocumentManager.Instance.CurrentDBDocument\n\nprocess_all = bool(IN[0])\nfilter_text = (IN[1] or '').strip()\nfam_prefijo = (IN[2] or '').strip()\nfam_contiene = (IN[3] or '').strip()\noff_mm = float(IN[4])\nsep_min_mm = float(IN[5])\ndim_type_name = (IN[6] or '').strip()\nrehacer = bool(IN[7])\nannot_extra_mm = float(IN[8])\n\nlog = []\n\n# --- contrato de nombres con 00_Vistas de sector ---\nSUF_PLANTA = ' - PLANTA'\n\n# Tolerancia de paralelismo entre referencias de una misma cadena, medida como SENO del\n# angulo. 1e-6 son unas 0.00006 grados: mucho mas fino que cualquier desalineacion que un\n# modelador vea a ojo, y aun asi holgado frente a los rieles bien colocados, que coinciden\n# entre si al orden de 1e-15. Lo que cae afuera esta genuinamente torcido.\nTOL_PARALELO = 1e-6\n\n# Cuanto tiene que separar la normal del plano de eje respecto del eje de medida para\n# considerar que ese plano NO sirve para esta cadena.\nTOL_NORMAL = 1e-3\n\nLADOS = ('arriba', 'abajo', 'izquierda', 'derecha')\n\n\ndef elem_name(e):\n    try:\n        return Element.Name.GetValue(e)\n    except Exception:\n        try:\n            return e.Name\n        except Exception:\n            return ''\n\n\ndef coincide(nombre, texto):\n    # filtro parcial separado por comas, insensible a mayusculas. Mismo criterio que\n    # usan 00, 01 y 02 para elegir sectores.\n    if not texto:\n        return True\n    alto = (nombre or '').upper()\n    for t in texto.split(','):\n        t = t.strip().upper()\n        if t and t in alto:\n            return True\n    return False\n\n\ndef fam_name(el):\n    try:\n        return el.Symbol.Family.Name or ''\n    except Exception:\n        return ''\n\n\ndef es_riel(el):\n    f = fam_name(el).upper()\n    if not f:\n        return False\n    if fam_prefijo and not f.startswith(fam_prefijo.upper()):\n        return False\n    if fam_contiene and fam_contiene.upper() not in f:\n        return False\n    return True\n\n\ndef plantas_de_sector():\n    # Las vistas que creo 00, reconocidas por el sufijo del contrato de nombres.\n    res = []\n    for v in FilteredElementCollector(doc).OfClass(ViewPlan):\n        if v.IsTemplate:\n            continue\n        n = elem_name(v)\n        if not n.endswith(SUF_PLANTA):\n            continue\n        sector = n[:-len(SUF_PLANTA)]\n        if not process_all and not coincide(sector, filter_text):\n            continue\n        res.append((v, sector))\n    res.sort(key=lambda p: p[1])\n    return res\n\n\ndef rectangulo_de_crop(v, ex, ey):\n    # Extremos del crop proyectados sobre los ejes de la VISTA. Se toman las cuatro\n    # esquinas y se transforman a modelo en vez de leer Min/Max directo, porque el\n    # CropBox vive en el sistema de su propia Transform y no en el del modelo.\n    cb = v.CropBox\n    t = cb.Transform\n    us = []\n    ws = []\n    for x in (cb.Min.X, cb.Max.X):\n        for y in (cb.Min.Y, cb.Max.Y):\n            p = t.OfPoint(XYZ(x, y, 0.0))\n            us.append(p.DotProduct(ex))\n            ws.append(p.DotProduct(ey))\n    return min(us), max(us), min(ws), max(ws)\n\n\ndef extremos_en_ejes(el, ex, ey):\n    # Proyeccion del bbox del riel sobre los dos ejes de la vista. El bbox viene en\n    # coordenadas de modelo y se proyectan sus 8 vertices, que es exacto mientras el riel\n    # este alineado con los ejes del proyecto -que es el caso de todos los RIEL RUC de\n    # este modelo- y conservador si no lo estuviera.\n    bb = el.get_BoundingBox(None)\n    if bb is None:\n        return None\n    us = []\n    ws = []\n    for x in (bb.Min.X, bb.Max.X):\n        for y in (bb.Min.Y, bb.Max.Y):\n            for z in (bb.Min.Z, bb.Max.Z):\n                p = XYZ(x, y, z)\n                us.append(p.DotProduct(ex))\n                ws.append(p.DotProduct(ey))\n    return min(us), max(us), min(ws), max(ws)\n\n\ndef referencia_de_eje(inst, eje_medida):\n    # El plano de eje de la familia cuya NORMAL es paralela al eje de medida. Devuelve\n    # (Reference, normal) o (None, None).\n    try:\n        tr = inst.GetTransform()\n    except Exception:\n        return None, None\n    candidatos = ((FamilyInstanceReferenceType.CenterLeftRight, tr.BasisX),\n                  (FamilyInstanceReferenceType.CenterFrontBack, tr.BasisY))\n    for tipo, normal in candidatos:\n        try:\n            n = normal.Normalize()\n        except Exception:\n            continue\n        if abs(abs(n.DotProduct(eje_medida)) - 1.0) > TOL_NORMAL:\n            continue\n        try:\n            refs = list(inst.GetReferences(tipo))\n        except Exception:\n            refs = []\n        if refs:\n            return refs[0], n\n    return None, None\n\n\ndef desvio(d, dom):\n    # seno del angulo entre dos direcciones unitarias en planta. Producto CRUZ y no\n    # escalar: cerca del paralelismo el coseno pierde toda la precision.\n    return abs(d.X * dom.Y - d.Y * dom.X)\n\n\ndef canonica(n):\n    # Un plano no tiene \"sentido\": su normal y la opuesta describen el mismo plano. Para\n    # poder comparar normales hay que elegir siempre el mismo representante de cada par.\n    #\n    # El umbral NO puede ser cero. Dos rieles paralelos al eje Y tienen normal (0, 1, 0)\n    # nominal, pero en doubles reales una sale (+1e-17, 1, 0) y la otra (-1e-17, 1, 0);\n    # con \"n.X > 0\" la primera se conserva y la segunda se invierte a (1e-17, -1, 0), o\n    # sea la MISMA direccion clasificada como opuesta. Terminan en cubetas distintas y la\n    # cadena se parte en dos por un error de redondeo. Con la banda muerta, cuando X es\n    # ruido decide el signo de Y, que ahi si vale 1.\n    if n.X > 1e-12:\n        return n\n    if n.X < -1e-12:\n        return n.Negate()\n    return n if n.Y >= 0 else n.Negate()\n\n\ndef alinear(items):\n    # Deja solo las referencias paralelas a la normal dominante del grupo. El corte es a\n    # TOL_PARALELO/2 y no a TOL_PARALELO a proposito: la condicion que le importa a Revit\n    # es entre CADA PAR de referencias, no contra un promedio. Dos rieles desviados +tol y\n    # -tol pasarian los dos y estarian 2*tol uno de otro; con medio umbral, cualquier par\n    # queda dentro de TOL_PARALELO.\n    if not items:\n        return [], 0, 0.0\n    cubetas = {}\n    for it in items:\n        d = canonica(it[3])\n        k = int(round(math.atan2(d.Y, d.X) / TOL_PARALELO))\n        acc = cubetas.get(k)\n        if acc is None:\n            cubetas[k] = [1, d]\n        else:\n            acc[0] += 1\n    dom = max(cubetas.values(), key=lambda a: a[0])[1]\n    ok = []\n    fuera = 0\n    peor = 0.0\n    for it in items:\n        s = desvio(canonica(it[3]), dom)\n        if s <= TOL_PARALELO / 2.0:\n            ok.append(it)\n        else:\n            fuera += 1\n            if s > peor:\n                peor = s\n    return ok, fuera, peor\n\n\ndef tipo_de_cota(nombre):\n    if not nombre:\n        return None\n    for dt in FilteredElementCollector(doc).OfClass(DimensionType):\n        if elem_name(dt) == nombre:\n            return dt\n    return None\n\n\ndef cadenas_de_riel_existentes(v, ex, ey, u0, u1, w0, w1):\n    # Que cadenas de riel ya tiene la vista, y con que Dimension. Se reconoce por LA\n    # REFERENCIA: si la primera referencia de la cota apunta a un riel, la cota es de este\n    # graph. Con eso se puede convivir con las cotas que ponga cualquier otro paso o\n    # cualquier persona a mano, sin pisarlas ni contarlas.\n    res = {}\n    for dim in FilteredElementCollector(doc, v.Id).OfClass(Dimension):\n        try:\n            primera = None\n            for ref in dim.References:\n                primera = ref\n                break\n            if primera is None:\n                continue\n            el = doc.GetElement(primera.ElementId)\n            if el is None or not isinstance(el, FamilyInstance) or not es_riel(el):\n                continue\n            c = dim.Curve\n            p = c.Evaluate(0.5, True)\n            u = p.DotProduct(ex)\n            w = p.DotProduct(ey)\n            d = c.Direction\n            if abs(d.DotProduct(ey)) < abs(d.DotProduct(ex)):\n                lado = 'arriba' if w > w1 else ('abajo' if w < w0 else None)\n            else:\n                lado = 'derecha' if u > u1 else ('izquierda' if u < u0 else None)\n            if lado:\n                res.setdefault(lado, []).append(dim.Id)\n        except Exception:\n            pass\n    return res\n\n\ndef dibujar_cadena(v, items, eje_medida, eje_perp, valor_perp, sector, etiqueta,\n                   sep_min, z_plano, dim_type):\n    # items = [(posicion sobre eje_medida, Reference, nombre, normal)]. La linea de cota\n    # corre a lo largo de eje_medida y se dibuja a \"valor_perp\" sobre eje_perp, ya\n    # desplazada por fuera del borde del crop. Los dos ejes son unitarios, perpendiculares\n    # entre si y horizontales, asi que generan el plano de la planta.\n    if len(items) < 2:\n        log.append('AVISO {}: menos de 2 rieles para la cadena {}; no se acota.'.format(\n            sector, etiqueta))\n        return 0\n    items, fuera, peor = alinear(items)\n    if fuera:\n        log.append('AVISO {}: cadena {}, {} riel(es) descartados por no ser paralelos al '\n                   'grupo (peor desvio {:.2e} rad). Con ellos adentro Revit rechazaria la '\n                   'cadena entera.'.format(sector, etiqueta, fuera, peor))\n    if len(items) < 2:\n        log.append('AVISO {}: cadena {} sin referencias suficientes tras alinear.'.format(\n            sector, etiqueta))\n        return 0\n    items.sort(key=lambda it: it[0])\n    filtrados = []\n    ultimo = None\n    for it in items:\n        if ultimo is None or it[0] - ultimo > sep_min:\n            filtrados.append(it)\n            ultimo = it[0]\n    fusionadas = len(items) - len(filtrados)\n    if len(filtrados) < 2:\n        log.append('AVISO {}: los rieles de la cadena {} caen todos en el mismo punto de '\n                   'planta; no se acota.'.format(sector, etiqueta))\n        return 0\n    ra = ReferenceArray()\n    for it in filtrados:\n        ra.Append(it[1])\n\n    def punto(pos, perp):\n        p = eje_medida.Multiply(pos).Add(eje_perp.Multiply(perp))\n        return XYZ(p.X, p.Y, z_plano)\n\n    p1 = punto(filtrados[0][0], valor_perp)\n    p2 = punto(filtrados[-1][0], valor_perp)\n    if p1.DistanceTo(p2) < 1e-6:\n        log.append('AVISO {}: la cadena {} quedaria de largo cero.'.format(sector, etiqueta))\n        return 0\n    try:\n        if dim_type is not None:\n            dim = doc.Create.NewDimension(v, Line.CreateBound(p1, p2), ra, dim_type)\n        else:\n            dim = doc.Create.NewDimension(v, Line.CreateBound(p1, p2), ra)\n    except Exception as e:\n        log.append('AVISO {}: Revit rechazo la cadena {}: {}'.format(sector, etiqueta, e))\n        return 0\n    menor = min(filtrados[i + 1][0] - filtrados[i][0] for i in range(len(filtrados) - 1))\n    log.append('OK {}: cadena {} con {} rieles, largo {:.2f} m, menor tramo {:.0f} mm{}.'.format(\n        sector, etiqueta, len(filtrados), p1.DistanceTo(p2) * 0.3048, menor * 304.8,\n        ', {} fusionados por caer en el mismo punto'.format(fusionadas) if fusionadas else ''))\n    return 1\n\n\ndef ajustar_annotation_crop(v, extra, sector):\n    # Solo si el annotation crop esta ACTIVO. Apagado no recorta nada y no hay que tocarlo.\n    p = v.get_Parameter(BuiltInParameter.VIEWER_ANNOTATION_CROP_ACTIVE)\n    if p is None or p.AsInteger() == 0:\n        return\n    try:\n        m = v.GetCropRegionShapeManager()\n        for attr in ('LeftAnnotationCropOffset', 'RightAnnotationCropOffset',\n                     'TopAnnotationCropOffset', 'BottomAnnotationCropOffset'):\n            if getattr(m, attr) < extra:\n                setattr(m, attr, extra)\n    except Exception as e:\n        log.append('AVISO {}: no se pudo agrandar el annotation crop ({}). Si las cotas no '\n                   'se ven, apagalo a mano en la vista.'.format(sector, e))\n\n\ndef anotar_planta(v, sector, dim_type):\n    escala = v.Scale or 1\n\n    def papel(mm):\n        return float(mm) / 304.8 * escala\n\n    off = papel(off_mm)\n    sep_min = papel(sep_min_mm)\n\n    if not v.CropBoxActive:\n        log.append('AVISO {}: la planta no tiene el crop activo, asi que no hay marco por '\n                   'fuera del cual dibujar. Se salta.'.format(sector))\n        return 0\n\n    ex = v.RightDirection.Normalize()\n    ey = v.UpDirection.Normalize()\n    u0, u1, w0, w1 = rectangulo_de_crop(v, ex, ey)\n    u_mid = (u0 + u1) / 2.0\n    w_mid = (w0 + w1) / 2.0\n    z_plano = v.Origin.Z\n\n    ya = cadenas_de_riel_existentes(v, ex, ey, u0, u1, w0, w1)\n    if ya and not rehacer:\n        log.append('{}: ya tiene cadena de rieles ({}), se salta. Corre con rehacer para '\n                   'volver a hacerlas.'.format(sector, ', '.join(sorted(ya.keys()))))\n        return 0\n    if ya and rehacer:\n        borradas = 0\n        for lado in ya:\n            for did in ya[lado]:\n                try:\n                    doc.Delete(did)\n                    borradas += 1\n                except Exception:\n                    pass\n        log.append('{}: rehacer, se borraron {} cadena(s) de riel previas.'.format(\n            sector, borradas))\n\n    rieles = [el for el in FilteredElementCollector(doc, v.Id)\n              .OfCategory(BuiltInCategory.OST_ElectricalFixtures)\n              .WhereElementIsNotElementType()\n              if isinstance(el, FamilyInstance) and es_riel(el)]\n    if not rieles:\n        log.append('{}: no hay rieles visibles en la planta.'.format(sector))\n        return 0\n\n    grupos = dict((lado, []) for lado in LADOS)\n    sin_ref = []\n    sin_orientacion = 0\n    for el in rieles:\n        ext = extremos_en_ejes(el, ex, ey)\n        if ext is None:\n            continue\n        au0, au1, aw0, aw1 = ext\n        span_u = au1 - au0\n        span_w = aw1 - aw0\n        uc = (au0 + au1) / 2.0\n        wc = (aw0 + aw1) / 2.0\n        # El riel tiene que ser claramente mas largo en un eje que en el otro: si es casi\n        # cuadrado en planta no tiene direccion y no hay un \"eje\" que acotar.\n        if max(span_u, span_w) < 1.2 * min(span_u, span_w):\n            sin_orientacion += 1\n            continue\n        if span_u > span_w:\n            # corre horizontal -> se mide su posicion sobre ey -> cadena vertical\n            lado = 'izquierda' if uc < u_mid else 'derecha'\n            eje_medida, pos = ey, wc\n        else:\n            # corre vertical -> se mide su posicion sobre ex -> cadena horizontal\n            lado = 'abajo' if wc < w_mid else 'arriba'\n            eje_medida, pos = ex, uc\n        ref, normal = referencia_de_eje(el, eje_medida)\n        if ref is None:\n            sin_ref.append(el)\n            continue\n        grupos[lado].append((pos, ref, elem_name(el), normal))\n\n    if sin_orientacion:\n        log.append('{}: {} riel(es) casi cuadrados en planta, sin eje que acotar; se '\n                   'omiten.'.format(sector, sin_orientacion))\n    if sin_ref:\n        familias = sorted(set(fam_name(e) for e in sin_ref))\n        log.append('AVISO {}: {} riel(es) sin plano de eje utilizable como referencia; se '\n                   'omiten. Familias: {}. Ejemplo de ElementId: {}. Hay que marcar como '\n                   '\"Is Reference\" los planos Center (Left/Right) y Center (Front/Back) de '\n                   'esas familias.'.format(sector, len(sin_ref), ', '.join(familias),\n                                           sin_ref[0].Id))\n\n    n = 0\n    n += dibujar_cadena(v, grupos['arriba'], ex, ey, w1 + off, sector, 'arriba',\n                        sep_min, z_plano, dim_type)\n    n += dibujar_cadena(v, grupos['abajo'], ex, ey, w0 - off, sector, 'abajo',\n                        sep_min, z_plano, dim_type)\n    n += dibujar_cadena(v, grupos['izquierda'], ey, ex, u0 - off, sector, 'izquierda',\n                        sep_min, z_plano, dim_type)\n    n += dibujar_cadena(v, grupos['derecha'], ey, ex, u1 + off, sector, 'derecha',\n                        sep_min, z_plano, dim_type)\n    if n:\n        ajustar_annotation_crop(v, off + papel(annot_extra_mm), sector)\n    return n\n\n\nplantas = plantas_de_sector()\nif not plantas:\n    log.append('No hay plantas de sector que coincidan con el filtro. Se esperan vistas '\n               'llamadas \"<sector>{}\", creadas por 00_Vistas de sector.'.format(SUF_PLANTA))\nelse:\n    dim_type = tipo_de_cota(dim_type_name)\n    if dim_type_name and dim_type is None:\n        log.append('AVISO: no existe el tipo de cota \"{}\"; se usa el tipo por defecto.'.format(\n            dim_type_name))\n    TransactionManager.Instance.EnsureInTransaction(doc)\n    total = 0\n    for v, sector in plantas:\n        try:\n            total += anotar_planta(v, sector, dim_type)\n        except Exception as e:\n            log.append('ERROR {}: {}'.format(sector, e))\n    TransactionManager.Instance.ForceCloseTransaction()\n    log.insert(0, '{} cadena(s) de cotas en {} planta(s) de sector.'.format(\n        total, len(plantas)))\n\nOUT = log\n",
       "Inputs": [
         {
           "Id": "a6010000000000000000000000000010",
@@ -382,6 +442,60 @@
           "Level": 2,
           "UseLevels": false,
           "KeepListStructure": false
+        },
+        {
+          "Id": "a6010000000000000000000000000019",
+          "Name": "IN[9]",
+          "Description": "Input #9",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a601000000000000000000000000001a",
+          "Name": "IN[10]",
+          "Description": "Input #10",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a601000000000000000000000000001b",
+          "Name": "IN[11]",
+          "Description": "Input #11",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a601000000000000000000000000001c",
+          "Name": "IN[12]",
+          "Description": "Input #12",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a601000000000000000000000000001d",
+          "Name": "IN[13]",
+          "Description": "Input #13",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a601000000000000000000000000001e",
+          "Name": "IN[14]",
+          "Description": "Input #14",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
         }
       ],
       "Outputs": [
@@ -400,8 +514,8 @@
     },
     {
       "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
-      "WatchWidth": 620,
-      "WatchHeight": 400,
+      "WatchWidth": 620.0,
+      "WatchHeight": 400.0,
       "Id": "c6010000000000000000000000000001",
       "NodeType": "ExtensionNode",
       "Inputs": [
@@ -428,6 +542,144 @@
       ],
       "Replication": "Disabled",
       "Description": "Visualizes a node's output"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "SerializedWidth": 0.0,
+      "SerializedHeight": 0.0,
+      "Id": "b6100000000000000000000000000001",
+      "NodeType": "StringInputNode",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b6100000000000000000000000000002",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string.",
+      "InputValue": "Longitud"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "SerializedWidth": 0.0,
+      "SerializedHeight": 0.0,
+      "Id": "b6110000000000000000000000000001",
+      "NodeType": "StringInputNode",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b6110000000000000000000000000002",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string.",
+      "InputValue": "TEXTO PARA TAG"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "SerializedWidth": 0.0,
+      "SerializedHeight": 0.0,
+      "Id": "b6120000000000000000000000000001",
+      "NodeType": "StringInputNode",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b6120000000000000000000000000002",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string.",
+      "InputValue": "2mm wf 0.85 RomanD"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
+      "NumberType": "Integer",
+      "MaximumValue": 200,
+      "MinimumValue": 0,
+      "StepValue": 1,
+      "Id": "b6130000000000000000000000000001",
+      "NodeType": "NumberInputNode",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b6130000000000000000000000000002",
+          "Name": "",
+          "Description": "Int64",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Produces integer values",
+      "InputValue": 30
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
+      "NumberType": "Integer",
+      "MaximumValue": 60,
+      "MinimumValue": 0,
+      "StepValue": 1,
+      "Id": "b6140000000000000000000000000001",
+      "NodeType": "NumberInputNode",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b6140000000000000000000000000002",
+          "Name": "",
+          "Description": "Int64",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Produces integer values",
+      "InputValue": 4
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
+      "NumberType": "Integer",
+      "MaximumValue": 20,
+      "MinimumValue": 0,
+      "StepValue": 1,
+      "Id": "b6150000000000000000000000000001",
+      "NodeType": "NumberInputNode",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b6150000000000000000000000000002",
+          "Name": "",
+          "Description": "Int64",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Produces integer values",
+      "InputValue": 4
     }
   ],
   "Connectors": [
@@ -490,6 +742,42 @@
       "End": "c6010000000000000000000000000002",
       "Id": "d6010000000000000000000000000005",
       "IsHidden": "False"
+    },
+    {
+      "Start": "b6100000000000000000000000000002",
+      "End": "a6010000000000000000000000000019",
+      "Id": "d6010000000000000000000000000019",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "b6110000000000000000000000000002",
+      "End": "a601000000000000000000000000001a",
+      "Id": "d601000000000000000000000000001a",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "b6120000000000000000000000000002",
+      "End": "a601000000000000000000000000001b",
+      "Id": "d601000000000000000000000000001b",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "b6130000000000000000000000000002",
+      "End": "a601000000000000000000000000001c",
+      "Id": "d601000000000000000000000000001c",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "b6140000000000000000000000000002",
+      "End": "a601000000000000000000000000001d",
+      "Id": "d601000000000000000000000000001d",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "b6150000000000000000000000000002",
+      "End": "a601000000000000000000000000001e",
+      "Id": "d601000000000000000000000000001e",
+      "IsHidden": "False"
     }
   ],
   "Dependencies": [],
@@ -521,8 +809,8 @@
   "Bindings": [],
   "View": {
     "Dynamo": {
-      "ScaleFactor": 1,
-      "HasRunWithoutCrash": false,
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
       "IsVisibleInDynamoLibrary": true,
       "Version": "4.0.2.3852",
       "RunType": "Manual",
@@ -530,15 +818,15 @@
     },
     "Camera": {
       "Name": "_Background Preview",
-      "EyeX": -17,
-      "EyeY": 24,
-      "EyeZ": 50,
-      "LookX": 12,
-      "LookY": -13,
-      "LookZ": -58,
-      "UpX": 0,
-      "UpY": 1,
-      "UpZ": 0
+      "EyeX": -17.0,
+      "EyeY": 24.0,
+      "EyeZ": 50.0,
+      "LookX": 12.0,
+      "LookY": -13.0,
+      "LookZ": -58.0,
+      "UpX": 0.0,
+      "UpY": 1.0,
+      "UpZ": 0.0
     },
     "ConnectorPins": [],
     "NodeViews": [
@@ -549,8 +837,8 @@
         "IsSetAsOutput": false,
         "Excluded": false,
         "ShowGeometry": true,
-        "X": 0,
-        "Y": 0
+        "X": -1766.4466631341916,
+        "Y": 39.863394372562766
       },
       {
         "Id": "b6020000000000000000000000000001",
@@ -559,8 +847,8 @@
         "IsSetAsOutput": false,
         "Excluded": false,
         "ShowGeometry": true,
-        "X": 0,
-        "Y": 130
+        "X": -1402.693189484555,
+        "Y": 30.341514068592915
       },
       {
         "Id": "b6030000000000000000000000000001",
@@ -569,18 +857,18 @@
         "IsSetAsOutput": false,
         "Excluded": false,
         "ShowGeometry": true,
-        "X": 0,
-        "Y": 260
+        "X": -1572.1126155679476,
+        "Y": 200.2049084411558
       },
       {
         "Id": "b6040000000000000000000000000001",
-        "Name": "04. ...y ademas CONTIENE (vacio = no filtra mas)",
+        "Name": "04. ...y ademas CONTIENE (solo para las cotas; vacio = no filtra mas)",
         "IsSetAsInput": true,
         "IsSetAsOutput": false,
         "Excluded": false,
         "ShowGeometry": true,
-        "X": 0,
-        "Y": 390
+        "X": -891.9434490860936,
+        "Y": 51.16114783321564
       },
       {
         "Id": "b6050000000000000000000000000001",
@@ -589,8 +877,8 @@
         "IsSetAsOutput": false,
         "Excluded": false,
         "ShowGeometry": true,
-        "X": 0,
-        "Y": 520
+        "X": -1053.8884887246304,
+        "Y": 226.00746650234896
       },
       {
         "Id": "b6060000000000000000000000000001",
@@ -599,8 +887,8 @@
         "IsSetAsOutput": false,
         "Excluded": false,
         "ShowGeometry": true,
-        "X": 0,
-        "Y": 650
+        "X": -313.92423068393236,
+        "Y": 251.36605627437143
       },
       {
         "Id": "b6070000000000000000000000000001",
@@ -609,18 +897,18 @@
         "IsSetAsOutput": false,
         "Excluded": false,
         "ShowGeometry": true,
-        "X": 0,
-        "Y": 780
+        "X": -316.41569283221816,
+        "Y": 416.24652635036387
       },
       {
         "Id": "b6080000000000000000000000000001",
-        "Name": "08. Rehacer las cadenas de riel existentes",
+        "Name": "08. Rehacer las cotas y los tags de riel existentes",
         "IsSetAsInput": true,
         "IsSetAsOutput": false,
         "Excluded": false,
         "ShowGeometry": true,
-        "X": 0,
-        "Y": 910
+        "X": -341.3303143150697,
+        "Y": 598.5672314643527
       },
       {
         "Id": "b6090000000000000000000000000001",
@@ -629,18 +917,18 @@
         "IsSetAsOutput": false,
         "Excluded": false,
         "ShowGeometry": true,
-        "X": 0,
-        "Y": 1040
+        "X": -894.4349112343791,
+        "Y": 601.5026619018086
       },
       {
         "Id": "a6010000000000000000000000000001",
-        "Name": "PY | Cadenas de cotas entre rieles RUC de suelo",
+        "Name": "PY | Cotas entre rieles de suelo + tags de tipo de riel",
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
         "ShowGeometry": true,
-        "X": 560,
-        "Y": 180
+        "X": 2339.278282028949,
+        "Y": 118.37164490669431
       },
       {
         "Id": "c6010000000000000000000000000001",
@@ -649,13 +937,73 @@
         "IsSetAsOutput": false,
         "Excluded": false,
         "ShowGeometry": true,
-        "X": 920,
-        "Y": 180
+        "X": 3235.030383514448,
+        "Y": 240.72895939140176
+      },
+      {
+        "Id": "b6100000000000000000000000000001",
+        "Name": "10. Parametro con el largo del riel",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": -331.1878937873803,
+        "Y": 786.2425992622417
+      },
+      {
+        "Id": "b6110000000000000000000000000001",
+        "Name": "11. Parametro donde se escribe el codigo de tipo",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 325.93094309234266,
+        "Y": 458.887888793954
+      },
+      {
+        "Id": "b6120000000000000000000000000001",
+        "Name": "12. Tipo de texto del tag (vacio = el por defecto)",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 712.3168191776201,
+        "Y": 746.5964096450878
+      },
+      {
+        "Id": "b6130000000000000000000000000001",
+        "Name": "13. Radio para agrupar rieles bajo un mismo texto (mm de papel)",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 1542.9453771632145,
+        "Y": 834.6650577111243
+      },
+      {
+        "Id": "b6140000000000000000000000000001",
+        "Name": "14. Separacion del texto al grupo (mm de papel)",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 1565.9572175969106,
+        "Y": 1000.3530919184285
+      },
+      {
+        "Id": "b6150000000000000000000000000001",
+        "Name": "15. Maximo de rieles por texto (0 = sin tope)",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 1566.6371506412338,
+        "Y": 1145.980343444497
       }
     ],
     "Annotations": [],
-    "X": 158.3655896949886,
-    "Y": -203.1587322990091,
-    "Zoom": 1.050019642
+    "X": -564.8122934895599,
+    "Y": 50.913363298976776,
+    "Zoom": 0.436610821213238
   }
 }

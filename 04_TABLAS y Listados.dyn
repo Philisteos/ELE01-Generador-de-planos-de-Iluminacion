@@ -1,0 +1,974 @@
+{
+  "Uuid": "8f4c1a2e-0a11-4b6e-9c01-aa0000000014",
+  "IsCustomNode": false,
+  "Description": "Estampa la TABLA N.1 de tipos de riel RUC en cada lamina de sector, con las filas de los tipos que se ven en esa lamina.",
+  "Name": "04_TABLAS y Listados",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [
+    {
+      "Id": "f6010000000000000000000000000001",
+      "Name": "01. Procesar TODOS los sectores",
+      "Type": "boolean",
+      "Type2": "boolean",
+      "Value": "false",
+      "Description": "Enables selection between True and False"
+    },
+    {
+      "Id": "f6020000000000000000000000000001",
+      "Name": "02. Filtro de sectores (si TODOS = False)",
+      "Type": "string",
+      "Type2": "string",
+      "Value": "SECTOR A",
+      "Description": "Creates a string."
+    },
+    {
+      "Id": "f6030000000000000000000000000001",
+      "Name": "03. La familia del riel EMPIEZA con",
+      "Type": "string",
+      "Type2": "string",
+      "Value": "RIEL RUC",
+      "Description": "Creates a string."
+    },
+    {
+      "Id": "f6040000000000000000000000000001",
+      "Name": "04. Parametro de donde se LEE el largo del riel",
+      "Type": "string",
+      "Type2": "string",
+      "Value": "Longitud",
+      "Description": "Creates a string."
+    },
+    {
+      "Id": "f6050000000000000000000000000001",
+      "Name": "05. Parametro numerico donde se COPIA el largo (se crea si no existe)",
+      "Type": "string",
+      "Type2": "string",
+      "Value": "LARGO_TBL",
+      "Description": "Creates a string."
+    },
+    {
+      "Id": "f6060000000000000000000000000001",
+      "Name": "06. Parametro donde se escribe el codigo de tipo",
+      "Type": "string",
+      "Type2": "string",
+      "Value": "TEXTO PARA TAG",
+      "Description": "Creates a string."
+    },
+    {
+      "Id": "f6070000000000000000000000000001",
+      "Name": "07. Parametro donde se marca en que lamina aparece",
+      "Type": "string",
+      "Type2": "string",
+      "Value": "En plano",
+      "Description": "Creates a string."
+    },
+    {
+      "Id": "f6080000000000000000000000000001",
+      "Name": "08. Parametro donde se escribe el ITEM (vacio = sin columna)",
+      "Type": "string",
+      "Type2": "string",
+      "Value": "ITEM",
+      "Description": "Creates a string."
+    },
+    {
+      "Id": "f6090000000000000000000000000001",
+      "Name": "09. Titulo de la tabla",
+      "Type": "string",
+      "Type2": "string",
+      "Value": "TABLA N°1 (NOTA 9)",
+      "Description": "Creates a string."
+    },
+    {
+      "Id": "f60a0000000000000000000000000001",
+      "Name": "10. Margen de la lamina (mm) - el mismo que 01 y 02",
+      "Type": "number",
+      "Type2": "number",
+      "Value": "5",
+      "MaximumValue": 60,
+      "MinimumValue": 0,
+      "StepValue": 1,
+      "NumberType": "Integer",
+      "Description": "Produces integer values"
+    },
+    {
+      "Id": "f60b0000000000000000000000000001",
+      "Name": "11. Franja inferior reservada de la vineta (mm)",
+      "Type": "number",
+      "Type2": "number",
+      "Value": "55",
+      "MaximumValue": 200,
+      "MinimumValue": 0,
+      "StepValue": 1,
+      "NumberType": "Integer",
+      "Description": "Produces integer values"
+    },
+    {
+      "Id": "f60c0000000000000000000000000001",
+      "Name": "12. Ancho del cajetin desde el borde derecho (mm)",
+      "Type": "number",
+      "Type2": "number",
+      "Value": "290",
+      "MaximumValue": 600,
+      "MinimumValue": 0,
+      "StepValue": 1,
+      "NumberType": "Integer",
+      "Description": "Produces integer values"
+    },
+    {
+      "Id": "f60d0000000000000000000000000001",
+      "Name": "13. Alto del cajetin (mm)",
+      "Type": "number",
+      "Type2": "number",
+      "Value": "105",
+      "MaximumValue": 400,
+      "MinimumValue": 0,
+      "StepValue": 1,
+      "NumberType": "Integer",
+      "Description": "Produces integer values"
+    },
+    {
+      "Id": "f60e0000000000000000000000000001",
+      "Name": "14. Esquina desde donde buscar hueco",
+      "Type": "string",
+      "Type2": "string",
+      "Value": "abajo-derecha",
+      "Description": "Creates a string."
+    },
+    {
+      "Id": "f60f0000000000000000000000000001",
+      "Name": "15. Rehacer las tablas existentes",
+      "Type": "boolean",
+      "Type2": "boolean",
+      "Value": "false",
+      "Description": "Enables selection between True and False"
+    }
+  ],
+  "Outputs": [
+    {
+      "Id": "c7010000000000000000000000000001",
+      "Name": "Log",
+      "Type": "unknown",
+      "InitialValue": "",
+      "Description": "Visualizes a node's output"
+    }
+  ],
+  "Nodes": [
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "Id": "f6010000000000000000000000000001",
+      "NodeType": "BooleanInputNode",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "f6010000000000000000000000000002",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Enables selection between True and False",
+      "InputValue": false
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "SECTOR A",
+      "Id": "f6020000000000000000000000000001",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "f6020000000000000000000000000002",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "RIEL RUC",
+      "Id": "f6030000000000000000000000000001",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "f6030000000000000000000000000002",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "Longitud",
+      "Id": "f6040000000000000000000000000001",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "f6040000000000000000000000000002",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "LARGO_TBL",
+      "Id": "f6050000000000000000000000000001",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "f6050000000000000000000000000002",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "TEXTO PARA TAG",
+      "Id": "f6060000000000000000000000000001",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "f6060000000000000000000000000002",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "En plano",
+      "Id": "f6070000000000000000000000000001",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "f6070000000000000000000000000002",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "ITEM",
+      "Id": "f6080000000000000000000000000001",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "f6080000000000000000000000000002",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "TABLA N°1 (NOTA 9)",
+      "Id": "f6090000000000000000000000000001",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "f6090000000000000000000000000002",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
+      "NumberType": "Integer",
+      "MaximumValue": 60,
+      "MinimumValue": 0,
+      "StepValue": 1,
+      "Id": "f60a0000000000000000000000000001",
+      "NodeType": "NumberInputNode",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "f60a0000000000000000000000000002",
+          "Name": "",
+          "Description": "Int64",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Produces integer values",
+      "InputValue": 5
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
+      "NumberType": "Integer",
+      "MaximumValue": 200,
+      "MinimumValue": 0,
+      "StepValue": 1,
+      "Id": "f60b0000000000000000000000000001",
+      "NodeType": "NumberInputNode",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "f60b0000000000000000000000000002",
+          "Name": "",
+          "Description": "Int64",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Produces integer values",
+      "InputValue": 55
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
+      "NumberType": "Integer",
+      "MaximumValue": 600,
+      "MinimumValue": 0,
+      "StepValue": 1,
+      "Id": "f60c0000000000000000000000000001",
+      "NodeType": "NumberInputNode",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "f60c0000000000000000000000000002",
+          "Name": "",
+          "Description": "Int64",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Produces integer values",
+      "InputValue": 290
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
+      "NumberType": "Integer",
+      "MaximumValue": 400,
+      "MinimumValue": 0,
+      "StepValue": 1,
+      "Id": "f60d0000000000000000000000000001",
+      "NodeType": "NumberInputNode",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "f60d0000000000000000000000000002",
+          "Name": "",
+          "Description": "Int64",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Produces integer values",
+      "InputValue": 105
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "abajo-derecha",
+      "Id": "f60e0000000000000000000000000001",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "f60e0000000000000000000000000002",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "Id": "f60f0000000000000000000000000001",
+      "NodeType": "BooleanInputNode",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "f60f0000000000000000000000000002",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Enables selection between True and False",
+      "InputValue": false
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "Engine": "PythonNet3",
+      "VariableInputPorts": true,
+      "Id": "a7010000000000000000000000000001",
+      "NodeType": "PythonScriptNode",
+      "Code": "# 04_TABLAS y Listados - ILUMINACION\n#\n# Estampa la TABLA N.1 -la tabla de tipos de RIEL RUC- en las laminas de sector, una por\n# lamina, con las filas de los tipos que aparecen EN ESA LAMINA.\n#\n#   +-------------------------------------+\n#   |        TABLA N.1 (NOTA 9)           |\n#   +--------+----------+-----------------+\n#   |  ITEM  |   TIPO   |   LARGO (mm)    |\n#   +--------+----------+-----------------+\n#   |    1   |   R-01   |       100       |\n#   |    3   |   R-03   |       300       |\n#   |    4   |   R-04   |       400       |\n#   +--------+----------+-----------------+\n#\n# Revit 2027 / Dynamo 4 / CPython3\n# IN[0]  = procesar todos los sectores (bool)\n# IN[1]  = filtro de sectores si IN[0] es False (parcial, comas)\n# IN[2]  = la familia del riel EMPIEZA con (string, ej. RIEL RUC)\n# IN[3]  = parametro de donde se LEE el largo del riel (string, ej. Longitud)\n# IN[4]  = parametro numerico donde se COPIA el largo para que el schedule pueda usarlo\n#          (string, ej. LARGO_TBL); se crea como parametro de proyecto si no existe\n# IN[5]  = parametro donde se escribe el codigo de tipo (string, ej. TEXTO PARA TAG)\n# IN[6]  = parametro donde se marca en que lamina aparece (string, ej. En plano)\n# IN[7]  = parametro donde se escribe el ITEM (string; vacio = tabla sin columna ITEM)\n# IN[8]  = titulo de la tabla (string)\n# IN[9]  = margen de la lamina, en mm - el mismo que usan 01 y 02\n# IN[10] = alto de la franja inferior reservada de la vineta, en mm\n# IN[11] = ancho del cajetin medido desde el borde derecho, en mm\n# IN[12] = alto del cajetin medido desde el borde inferior, en mm\n# IN[13] = esquina por la que se empieza a buscar hueco (abajo-derecha, abajo-izquierda,\n#          arriba-derecha, arriba-izquierda)\n# IN[14] = rehacer: reconfigura las tablas existentes y las vuelve a colocar\n#\n#\n# QUE HACE HOY Y QUE NO\n#\n# Solo la tabla de rieles. El paso se llama \"TABLAS y Listados\" en plural porque va a\n# juntar mas -listado de circuitos, de luminarias, notas-, pero cada una se agrega cuando\n# este definida, no antes. Este archivo reemplaza por completo a \"04_Tabla de materiales\",\n# que era la tabla de acero heredada de T003 y no tenia nada que ver con iluminacion: no se\n# adapto, se tiro. Esta en el historial de git si alguna vez hace falta mirarla.\n#\n#\n# QUE LAMINAS TOCA\n#\n# Las que tienen vistas del pipeline, reconocidas por el MISMO contrato de nombres que\n# comparten 00, 01, 02 y 03: \"<sector> - PLANTA\" y \"<sector> - ELEV X\". No hay parametro\n# sello ni lista de laminas que mantener: si una lamina tiene una vista de sector, es del\n# pipeline. Vale ademas la regla de aislamiento que fija 01 -cada lamina lleva vistas de UN\n# SOLO sector-, asi que \"el sector de esta lamina\" nunca es ambiguo.\n#\n#\n# QUE FILAS LLEVA CADA TABLA, Y POR QUE NO ES LA MISMA EN TODAS LAS LAMINAS\n#\n# Las de los tipos que se ven en LAS VISTAS DE ESA LAMINA, no las del sector entero. Un\n# sector puede ocupar varias laminas, y una tabla que liste tipos que no estan dibujados en\n# la hoja que uno tiene delante obliga a buscarlos en otra hoja: es informacion equivocada,\n# no informacion de mas.\n#\n# \"Se ve en la lamina\" es la union de lo que se ve en cada viewport: la planta y las cuatro\n# elevaciones. No solo la planta, porque cuando un sector se derrama a una segunda lamina\n# esa lamina puede llevar solo elevaciones, y su tabla tiene que decir algo igual.\n#\n#\n# EL CODIGO R-xx: MISMA REGLA QUE 03, Y POR QUE SE VUELVE A CALCULAR ACA\n#\n# Los largos de TODOS los rieles RUC del modelo, ordenados de menor a mayor, numerados\n# R-01, R-02, R-03... El codigo es global al modelo -R-02 significa lo mismo en todas las\n# laminas- y sale del parametro de instancia de IN[3], redondeado al milimetro entero.\n# Es, letra por letra, la regla de 03_Taggear plantas y cortes: tiene que serlo, porque el\n# texto que 03 dibuja en la planta y la fila que esta tabla imprime son el mismo dato.\n#\n# Se recalcula aca en vez de leerse de lo que dejo 03 para que este paso funcione solo -se\n# puede correr sin haber corrido 03, y no depende de en que orden se corrieron-. El precio\n# es que la regla vive escrita en dos graphs: si se cambia en uno hay que cambiarla en el\n# otro, y el sintoma seria un plano que dice R-05 con una tabla que dice R-06. Es la deuda\n# conocida de este paso; la forma de saldarla es que 03 vuelva a escribir el parametro y\n# que aca solo se lea.\n#\n#\n# POR QUE HAY DOS PARAMETROS DE LARGO\n#\n# Porque el largo de verdad no se puede poner en un schedule. \"Longitud\" es un parametro\n# DE FAMILIA de las familias de riel -no es compartido ni de proyecto-, y Revit no ofrece\n# los parametros de familia como campos de schedule: no aparecen en la lista y no hay API\n# que los agregue. Se comprueba en un minuto y conviene saberlo antes de disenar nada:\n# una MORDAZA, que es otra familia de la misma categoria, NO tiene \"Longitud\", mientras que\n# \"En plano\" si aparece en la mordaza y hasta en las vistas, que es la firma de un\n# parametro de PROYECTO.\n#\n# Asi que el largo se lee de \"Longitud\" (IN[3]) y se COPIA a un parametro numerico de\n# proyecto (IN[4]) que si es schedulable, y la columna LARGO imprime esa copia. Si ese\n# parametro no existe en el modelo, el graph lo crea -parametro compartido con un GUID\n# derivado de su nombre, para que sea el mismo en todos los modelos de la oficina, y\n# vinculado como parametro de instancia de Electrical Fixtures-. Es la misma maquinaria\n# que usaba la tabla de acero de T003 por el mismo motivo.\n#\n# El valor copiado son MILIMETROS como numero pelado, no una longitud de Revit. Un\n# parametro de tipo Number no convierte unidades, asi que 100 se guarda 100 y se imprime\n# 100, sin depender de si el proyecto trabaja en metros o en pies.\n#\n# La copia es un dato derivado, y los datos derivados se desactualizan: si alguien cambia\n# el largo de un riel, la columna miente hasta que se vuelva a correr este paso. No hay\n# manera de evitarlo con un schedule nativo -esa es la parte del trato-.\n#\n#\n# COMO SABE UN SCHEDULE QUE RIELES SON DE SU LAMINA\n#\n# No lo sabe: un schedule de Revit no puede filtrar por \"esta dibujado en tal lamina\". Hay\n# que decirselo con un dato del modelo, y ese dato es el parametro de IN[5] -por defecto\n# \"En plano\", que las familias de riel ya traen vacio-. El graph escribe ahi la lista de\n# laminas donde el riel aparece, y el schedule de cada lamina filtra por \"contiene\".\n#\n# La lista va con punto y coma alrededor de cada numero -\";A1;A2;\"- y el filtro busca\n# \";A1;\" y no \"A1\". Sin los delimitadores, la lamina A1 se llevaria tambien los rieles de\n# A11 y A12, que es el clasico error de filtrar numeros de lamina por substring.\n#\n# El campo del filtro se agrega OCULTO al schedule: hace falta que este entre los campos\n# para poder filtrar por el, pero no tiene que salir impreso en la tabla.\n#\n#\n# LO QUE HAY QUE MIRAR EN EL PRIMER RUN: SI LAS FILAS COLAPSAN\n#\n# La tabla tiene que mostrar una fila POR TIPO, no una por riel, y eso se consigue apagando\n# \"Itemize every instance\". Revit colapsa las filas que tienen todos los campos iguales, y\n# el campo oculto del filtro NO es igual entre rieles -uno puede estar en \";A1;\" y otro en\n# \";A1;A2;\"-. Si Revit resultara considerar tambien los campos ocultos para colapsar, la\n# tabla saldria con una fila por riel.\n#\n# En vez de afirmar que funciona, el graph se fija y lo dice: compara las filas que quedaron\n# en el cuerpo del schedule contra la cantidad de tipos distintos que le corresponden a esa\n# lamina, y si no coinciden lo avisa en el log con las dos cifras. Si aparece ese aviso, la\n# salida es dejar de filtrar por parametro y dibujar la tabla con lineas y textos, que da\n# control total a cambio de que no quede viva.\n#\n#\n# LA COLUMNA ITEM ES EL NUMERO DEL CODIGO, NO UN CONTADOR DE FILA\n#\n# En el plano tipo la tabla va 1, 2, 3, 4 junto a R-01, R-02, R-03, R-04: ITEM es el\n# correlativo de la fila y coincide con el codigo porque ahi estan todos los tipos. Cuando\n# una lamina usa solo algunos, las dos cosas dejan de coincidir, y hay que elegir.\n#\n# Aca ITEM es el NUMERO DEL CODIGO: la lamina que usa R-01, R-03 y R-04 imprime 1, 3 y 4.\n# No es capricho sino una consecuencia del mecanismo: un schedule de Revit no tiene campo\n# \"numero de fila\", asi que el ITEM tiene que ser un parametro escrito en el riel, y un\n# riel que aparece en dos laminas tendria que tener dos ITEM distintos al mismo tiempo si\n# el numero fuera por tabla. Con el numero del codigo el dato es uno solo y no se\n# contradice. Ademas se lee mejor de lo que parece: ITEM y TIPO dicen lo mismo, y el salto\n# avisa que ese tipo no esta en esta hoja.\n#\n# Si IN[6] queda vacio, la tabla sale con dos columnas y sin ITEM.\n#\n#\n# DONDE SE PARA LA TABLA\n#\n# En el hueco libre mas cercano a la esquina de IN[12]. Hace falta buscarlo porque 01 y 02\n# reparten las vistas por el lienzo COMPLETO de la vineta: cuando se escribieron, este paso\n# no existia, y el comentario de los dos dice \"aca no hay tabla\". Antes que reabrir esa\n# decision y tocar tres graphs -mas laminas, otro empaquetado-, este paso se arregla solo\n# con lo que sobra.\n#\n# Ocupado es: los viewports con su titulo, la franja inferior de la vineta (IN[9]) y el\n# cajetin (IN[10] x IN[11]). Esos tres rectangulos no se pueden deducir de la geometria de\n# la vineta -es una sola familia que ocupa toda la hoja- asi que son inputs, y son\n# constantes del proyecto: se cargan una vez y no se tocan mas.\n#\n# El tamano de la tabla no se estima: se coloca, se le mide el bounding box real y recien\n# ahi se la mueve al hueco. Estimar el alto de un schedule por la cantidad de filas y el\n# tipo de letra es adivinar, y un error de dos milimetros la deja pisando una vista.\n#\n# Si no hay hueco, la tabla se coloca igual en la esquina pedida y el log avisa: una tabla\n# encimada se ve y se corrige a mano, una tabla que no se coloco pasa desapercibida.\n\nimport clr\nimport math\nimport os\nimport hashlib\nimport tempfile\nclr.AddReference('RevitAPI')\nclr.AddReference('RevitServices')\nfrom Autodesk.Revit.DB import (FilteredElementCollector, ViewSheet, ViewSchedule,\n                               ScheduleSheetInstance, ScheduleFilter, ScheduleFilterType,\n                               ScheduleSortGroupField, Viewport, View, XYZ, Element,\n                               ElementId, BuiltInCategory, BuiltInParameter, StorageType,\n                               FamilyInstance, FormatOptions, UnitTypeId, SectionType,\n                               CategorySet, CategoryType, GroupTypeId, SpecTypeId,\n                               ExternalDefinitionCreationOptions)\nfrom RevitServices.Persistence import DocumentManager\nfrom RevitServices.Transactions import TransactionManager\nfrom System import Guid\n\ndoc = DocumentManager.Instance.CurrentDBDocument\napp = doc.Application\n\nprocess_all = bool(IN[0])\nfilter_text = (IN[1] or '').strip()\nfam_prefijo = (IN[2] or '').strip()\nparam_largo = (IN[3] or 'Longitud').strip()\nparam_largo_tbl = (IN[4] or 'LARGO_TBL').strip()\nparam_codigo = (IN[5] or 'TEXTO PARA TAG').strip()\nparam_lamina = (IN[6] or 'En plano').strip()\nparam_item = (IN[7] or '').strip()\ntitulo_tabla = (IN[8] or 'TABLA N1').strip()\nmargen = float(IN[9]) / 304.8\nfranja_inferior = float(IN[10]) / 304.8\ncajetin_ancho = float(IN[11]) / 304.8\ncajetin_alto = float(IN[12]) / 304.8\nesquina = (IN[13] or 'abajo-derecha').strip().lower()\nrehacer = bool(IN[14])\n\nlog = []\n\n# --- contrato de nombres con 00_Vistas de sector ---\nSUF_PLANTA = ' - PLANTA'\nSUF_ELEV = ' - ELEV '\n\nPREFIJO_TIPO = 'R-'\nPREFIJO_SCHEDULE = 'TBL_RIELES_'\n\nH_ITEM = 'ITEM'\nH_TIPO = 'TIPO'\nH_LARGO = 'LARGO (mm)'\n\n# Paso de la grilla con que se barre la lamina buscando hueco, en mm de papel. 5 mm es mas\n# fino que cualquier ajuste que alguien haga despues a mano y deja el barrido en unos pocos\n# miles de posiciones por lamina.\nPASO_BUSQUEDA = 5.0 / 304.8\n\n\ndef elem_name(e):\n    try:\n        return Element.Name.GetValue(e)\n    except Exception:\n        try:\n            return e.Name\n        except Exception:\n            return ''\n\n\ndef coincide(nombre, texto):\n    # filtro parcial separado por comas, insensible a mayusculas. Mismo criterio que usan\n    # 00, 01, 02 y 03 para elegir sectores.\n    if not texto:\n        return True\n    alto = (nombre or '').upper()\n    for t in texto.split(','):\n        t = t.strip().upper()\n        if t and t in alto:\n            return True\n    return False\n\n\ndef fam_name(el):\n    try:\n        return el.Symbol.Family.Name or ''\n    except Exception:\n        return ''\n\n\ndef es_riel(el):\n    f = fam_name(el).upper()\n    if not f:\n        return False\n    return not fam_prefijo or f.startswith(fam_prefijo.upper())\n\n\ndef largo_mm(el):\n    # El largo sale del parametro de INSTANCIA y de ningun otro lado, redondeado al\n    # milimetro. Mismo criterio que 03: el nombre de tipo miente -hay un \"150 mm\" que mide\n    # 600- y ademas no es consistente entre familias.\n    try:\n        p = el.LookupParameter(param_largo)\n    except Exception:\n        return None\n    if p is None or not p.HasValue or p.StorageType != StorageType.Double:\n        return None\n    mm = int(round(p.AsDouble() * 304.8))\n    return mm if mm > 0 else None\n\n\ndef rieles_del_modelo():\n    return [el for el in FilteredElementCollector(doc)\n            .OfCategory(BuiltInCategory.OST_ElectricalFixtures)\n            .WhereElementIsNotElementType()\n            if isinstance(el, FamilyInstance) and es_riel(el)]\n\n\ndef tabla_de_tipos(rieles):\n    largos = sorted(set(l for l in (largo_mm(e) for e in rieles) if l is not None))\n    return dict((l, i + 1) for i, l in enumerate(largos))\n\n\ndef codigo_de(numero):\n    return '{}{:02d}'.format(PREFIJO_TIPO, numero)\n\n\ndef sector_de_vista(v):\n    n = elem_name(v)\n    if n.endswith(SUF_PLANTA):\n        return n[:-len(SUF_PLANTA)]\n    i = n.find(SUF_ELEV)\n    if i > 0:\n        return n[:i]\n    return None\n\n\ndef laminas_de_sector():\n    # Lamina -> (sector, [vistas]). Una lamina es del pipeline si tiene alguna vista que\n    # cumple el contrato de nombres; por la regla de aislamiento de 01, todas sus vistas de\n    # sector son del mismo sector.\n    res = []\n    for sh in FilteredElementCollector(doc).OfClass(ViewSheet):\n        if sh.IsTemplate:\n            continue\n        vistas = []\n        sectores = set()\n        for vp in FilteredElementCollector(doc, sh.Id).OfClass(Viewport):\n            v = doc.GetElement(vp.ViewId)\n            if v is None:\n                continue\n            s = sector_de_vista(v)\n            if s is None:\n                continue\n            vistas.append(v)\n            sectores.add(s)\n        if not vistas:\n            continue\n        sector = sorted(sectores)[0]\n        if len(sectores) > 1:\n            log.append('AVISO: la lamina {} tiene vistas de mas de un sector ({}). La tabla '\n                       'igual lista lo que se ve en la lamina, pero eso rompe la regla de '\n                       'aislamiento que fija 01.'.format(sh.SheetNumber,\n                                                         ', '.join(sorted(sectores))))\n        if not process_all and not coincide(sector, filter_text):\n            continue\n        res.append((sh, sector, vistas))\n    res.sort(key=lambda t: t[0].SheetNumber)\n    return res\n\n\ndef rieles_de_lamina(vistas):\n    # Union de los rieles visibles en cada viewport de la lamina. Se recolecta CONTRA LA\n    # VISTA, asi que el crop, el view range y lo oculto ya deciden que se ve y que no, sin\n    # volver a describir la caja del sector.\n    vistos = {}\n    for v in vistas:\n        for el in (FilteredElementCollector(doc, v.Id)\n                   .OfCategory(BuiltInCategory.OST_ElectricalFixtures)\n                   .WhereElementIsNotElementType()):\n            if isinstance(el, FamilyInstance) and es_riel(el):\n                vistos[el.Id.Value] = el\n    return list(vistos.values())\n\n\ndef guid_para(nombre):\n    # GUID derivado del nombre: el parametro creado es el MISMO en todos los modelos de la\n    # oficina sin depender de un archivo de parametros compartidos versionado.\n    h = hashlib.md5(('ELE01_TBL::' + nombre.upper()).encode('utf-8')).hexdigest()\n    return Guid(h)\n\n\ndef existe_como_campo(nombre):\n    # La prueba de fuego no es que el parametro exista en el elemento, sino que Revit lo\n    # ofrezca como CAMPO DE SCHEDULE. Un parametro de familia existe en el riel y no sirve.\n    try:\n        probe = ViewSchedule.CreateSchedule(doc, ElementId(BuiltInCategory.OST_ElectricalFixtures))\n    except Exception:\n        return False\n    try:\n        for f in probe.Definition.GetSchedulableFields():\n            try:\n                if f.GetName(doc) == nombre:\n                    return True\n            except Exception:\n                continue\n        return False\n    finally:\n        try:\n            doc.Delete(probe.Id)\n        except Exception:\n            pass\n\n\ndef asegurar_param_numerico(nombre):\n    # Crea el parametro como COMPARTIDO y lo vincula como parametro de proyecto de instancia\n    # de Electrical Fixtures. Compartido y no de proyecto a secas porque asi ademas se puede\n    # etiquetar y exportar, y porque el GUID derivado del nombre lo hace reproducible.\n    if existe_como_campo(nombre):\n        return True\n    ruta = os.path.join(tempfile.gettempdir(), 'ELE01_params_tabla.txt')\n    if not os.path.exists(ruta):\n        # el archivo de parametros compartidos es un TSV con esta cabecera exacta; Revit no\n        # lo crea solo y sin el OpenSharedParameterFile devuelve None\n        tab = '\\t'\n        cab = ['# This is a Revit shared parameter file.',\n               '*META' + tab + 'VERSION' + tab + 'MINVERSION',\n               'META' + tab + '2' + tab + '1',\n               '*GROUP' + tab + 'ID' + tab + 'NAME',\n               '*PARAM' + tab + tab.join(['GUID', 'NAME', 'DATATYPE', 'DATACATEGORY',\n                                          'GROUP', 'VISIBLE', 'DESCRIPTION',\n                                          'USERMODIFIABLE', 'HIDEWHENNOVALUE'])]\n        with open(ruta, 'w') as f:\n            f.write('\\n'.join(cab) + '\\n')\n    anterior = None\n    try:\n        anterior = app.SharedParametersFilename\n    except Exception:\n        pass\n    try:\n        app.SharedParametersFilename = ruta\n        df = app.OpenSharedParameterFile()\n        if df is None:\n            log.append('ERROR: no se pudo abrir el archivo temporal de parametros compartidos.')\n            return False\n        grupo = None\n        for g in df.Groups:\n            if g.Name == 'TABLA_ILUMINACION':\n                grupo = g\n                break\n        if grupo is None:\n            grupo = df.Groups.Create('TABLA_ILUMINACION')\n        defn = None\n        for d in grupo.Definitions:\n            if d.Name == nombre:\n                defn = d\n                break\n        if defn is None:\n            opts = ExternalDefinitionCreationOptions(nombre, SpecTypeId.Number)\n            opts.GUID = guid_para(nombre)\n            opts.Visible = True\n            defn = grupo.Definitions.Create(opts)\n        cats = CategorySet()\n        cats.Insert(doc.Settings.Categories.get_Item(BuiltInCategory.OST_ElectricalFixtures))\n        binding = app.Create.NewInstanceBinding(cats)\n        ok = False\n        try:\n            ok = doc.ParameterBindings.Insert(defn, binding, GroupTypeId.Data)\n        except Exception:\n            try:\n                ok = doc.ParameterBindings.Insert(defn, binding)\n            except Exception:\n                ok = False\n        if not ok:\n            try:\n                ok = doc.ParameterBindings.ReInsert(defn, binding)\n            except Exception:\n                ok = False\n        if ok:\n            log.append('Se creo el parametro de proyecto \"{}\" (Number, instancia, Electrical '\n                       'Fixtures) para la columna LARGO.'.format(nombre))\n        else:\n            log.append('ERROR: no se pudo crear ni vincular el parametro \"{}\"; la tabla se '\n                       'va a quedar sin la columna del largo.'.format(nombre))\n        return ok\n    except Exception as e:\n        log.append('ERROR creando el parametro \"{}\": {}'.format(nombre, e))\n        return False\n    finally:\n        try:\n            if anterior is not None:\n                app.SharedParametersFilename = anterior\n        except Exception:\n            pass\n\n\ndef set_double(el, nombre, valor):\n    if not nombre:\n        return None\n    try:\n        p = el.LookupParameter(nombre)\n    except Exception:\n        return None\n    if p is None or p.IsReadOnly or p.StorageType != StorageType.Double:\n        return False\n    try:\n        if abs((p.AsDouble() or 0.0) - valor) > 1e-9:\n            p.Set(valor)\n        return True\n    except Exception:\n        return False\n\n\ndef set_string(el, nombre, valor):\n    if not nombre:\n        return None\n    try:\n        p = el.LookupParameter(nombre)\n    except Exception:\n        return None\n    if p is None or p.IsReadOnly or p.StorageType != StorageType.String:\n        return False\n    try:\n        if (p.AsString() or '') != valor:\n            p.Set(valor)\n        return True\n    except Exception:\n        return False\n\n\ndef marcar_rieles(mapa, laminas):\n    # Escribe en cada riel del modelo su codigo, su ITEM y la lista de laminas donde\n    # aparece. Se escribe sobre TODOS los rieles y no solo sobre los de las laminas\n    # procesadas: el que ya no aparece en ninguna tiene que quedar con la marca VACIA, o su\n    # tabla vieja lo seguiria contando.\n    donde = {}\n    for sh, sector, vistas in laminas:\n        for el in rieles_de_lamina(vistas):\n            donde.setdefault(el.Id.Value, []).append(sh.SheetNumber)\n\n    escritos = 0\n    sin_largo = 0\n    sin_param = set()\n    for el in rieles_del_modelo():\n        l = largo_mm(el)\n        if l is None or l not in mapa:\n            sin_largo += 1\n            continue\n        numero = mapa[l]\n        hojas = sorted(set(donde.get(el.Id.Value, [])))\n        marca = ';{};'.format(';'.join(hojas)) if hojas else ''\n        for nombre, valor in ((param_codigo, codigo_de(numero)),\n                              (param_item, str(numero)),\n                              (param_lamina, marca)):\n            r = set_string(el, nombre, valor)\n            if r is False:\n                sin_param.add(nombre)\n        if set_double(el, param_largo_tbl, float(l)) is False:\n            sin_param.add(param_largo_tbl)\n        escritos += 1\n    log.append('Marcados {} riel(es) del modelo: codigo en \"{}\", lamina en \"{}\"{}.'.format(\n        escritos, param_codigo, param_lamina,\n        ', ITEM en \"{}\"'.format(param_item) if param_item else ''))\n    if sin_largo:\n        log.append('AVISO: {} riel(es) sin \"{}\" inicializado; no entran en ninguna '\n                   'tabla.'.format(sin_largo, param_largo))\n    for nombre in sorted(sin_param):\n        log.append('AVISO: el parametro \"{}\" no existe en los rieles, o es de solo lectura. '\n                   'La columna que depende de el va a salir vacia.'.format(nombre))\n    return donde\n\n\n# ---------------------------- EL SCHEDULE ----------------------------\n\ndef campo_por_nombre(schedulable, nombre):\n    for f in schedulable:\n        try:\n            if f.GetName(doc) == nombre:\n                return f\n        except Exception:\n            continue\n    return None\n\n\ndef limpiar_definicion(definition):\n    # Deja la definicion en blanco para reconfigurarla desde cero, sin importar como haya\n    # quedado en una corrida anterior. Mismo retrofit que usaba la tabla de acero.\n    while definition.GetSortGroupFieldCount() > 0:\n        definition.RemoveSortGroupField(0)\n    while definition.GetFilterCount() > 0:\n        definition.RemoveFilter(0)\n    for i in range(definition.GetFieldCount() - 1, -1, -1):\n        definition.RemoveField(definition.GetField(i).FieldId)\n\n\ndef formato_mm(campo):\n    # La copia del largo es un Number sin unidades -guarda 100 y no 0,1 m-, asi que lo unico\n    # que hay que decirle es que no ponga decimales ni separador de miles.\n    try:\n        fo = FormatOptions(UnitTypeId.General)\n        fo.Accuracy = 1.0\n        try:\n            fo.UseGrouping = False\n        except Exception:\n            pass\n        try:\n            fo.SuppressTrailingZeros = True\n        except Exception:\n            pass\n        campo.SetFormatOptions(fo)\n        return True\n    except Exception:\n        return False\n\n\ndef poner_titulo(sched, titulo):\n    # El titulo que se ve sobre la tabla es el nombre del schedule, y el nombre tiene que ser\n    # unico en el documento -uno por lamina-. Asi que el nombre queda \"TBL_RIELES_A1\" para el\n    # navegador y la celda de encabezado se sobreescribe con el titulo del plano tipo.\n    try:\n        sd = sched.GetTableData().GetSectionData(SectionType.Header)\n        if sd is None or sd.NumberOfRows < 1:\n            return False\n        sd.SetCellText(0, 0, titulo)\n        return True\n    except Exception:\n        return False\n\n\ndef configurar_schedule(sched, numero_lamina):\n    definition = sched.Definition\n    limpiar_definicion(definition)\n    definition.IsItemized = False\n\n    schedulable = definition.GetSchedulableFields()\n    faltan = []\n\n    campo_lam = campo_por_nombre(schedulable, param_lamina)\n    if campo_lam is None:\n        faltan.append(param_lamina)\n    campo_tipo = campo_por_nombre(schedulable, param_codigo)\n    if campo_tipo is None:\n        faltan.append(param_codigo)\n    campo_largo = campo_por_nombre(schedulable, param_largo_tbl)\n    if campo_largo is None:\n        faltan.append(param_largo_tbl)\n    campo_item = campo_por_nombre(schedulable, param_item) if param_item else None\n    if param_item and campo_item is None:\n        faltan.append(param_item)\n    if faltan:\n        return False, faltan\n\n    # ITEM, TIPO y LARGO en ese orden; el campo del filtro va al final y oculto\n    if campo_item is not None:\n        f_item = definition.AddField(campo_item)\n        f_item.ColumnHeading = H_ITEM\n    f_tipo = definition.AddField(campo_tipo)\n    f_tipo.ColumnHeading = H_TIPO\n    f_largo = definition.AddField(campo_largo)\n    f_largo.ColumnHeading = H_LARGO\n    formato_mm(f_largo)\n\n    f_lam = definition.AddField(campo_lam)\n    try:\n        f_lam.IsHidden = True\n    except Exception:\n        log.append('AVISO {}: no se pudo ocultar la columna \"{}\"; va a salir impresa en la '\n                   'tabla.'.format(numero_lamina, param_lamina))\n\n    definition.AddFilter(ScheduleFilter(f_lam.FieldId, ScheduleFilterType.Contains,\n                                        ';{};'.format(numero_lamina)))\n    try:\n        definition.AddSortGroupField(ScheduleSortGroupField(f_largo.FieldId))\n    except Exception:\n        pass\n    return True, []\n\n\ndef filas_del_cuerpo(sched):\n    try:\n        sd = sched.GetTableData().GetSectionData(SectionType.Body)\n        return sd.NumberOfRows if sd is not None else -1\n    except Exception:\n        return -1\n\n\n# ---------------------------- DONDE SE PARA ----------------------------\n\ndef rect_util(sheet):\n    # area util = bbox de la vineta menos margenes. Identica a usable_rect() de 02, que es\n    # la que decide donde caben las vistas.\n    col = FilteredElementCollector(doc, sheet.Id).OfCategory(BuiltInCategory.OST_TitleBlocks)\n    tb = col.FirstElement()\n    if tb is not None:\n        bb = tb.get_BoundingBox(sheet)\n        if bb is not None:\n            return (bb.Min.X + margen, bb.Min.Y + margen,\n                    bb.Max.X - margen, bb.Max.Y - margen)\n    o = sheet.Outline\n    return (o.Min.U + margen, o.Min.V + margen, o.Max.U - margen, o.Max.V - margen)\n\n\ndef ocupado_en(sheet):\n    # Rectangulos que la tabla no puede pisar: cada viewport con su titulo, la franja\n    # inferior de la vineta y el cajetin.\n    rects = []\n    for vp in FilteredElementCollector(doc, sheet.Id).OfClass(Viewport):\n        for getter in ('GetBoxOutline', 'GetLabelOutline'):\n            try:\n                o = getattr(vp, getter)()\n            except Exception:\n                continue\n            if o is not None:\n                rects.append((o.MinimumPoint.X, o.MinimumPoint.Y,\n                              o.MaximumPoint.X, o.MaximumPoint.Y))\n    x0, y0, x1, y1 = rect_util(sheet)\n    if franja_inferior > 0:\n        rects.append((x0 - margen, y0 - margen, x1 + margen, y0 + franja_inferior))\n    if cajetin_ancho > 0 and cajetin_alto > 0:\n        rects.append((x1 - cajetin_ancho, y0 - margen, x1 + margen, y0 + cajetin_alto))\n    return rects\n\n\ndef se_pisan(a, b, holgura):\n    return not (a[2] + holgura <= b[0] or b[2] + holgura <= a[0] or\n                a[3] + holgura <= b[1] or b[3] + holgura <= a[1])\n\n\ndef buscar_hueco(sheet, ancho, alto):\n    # Barrido en grilla sobre el area util: la primera posicion -de las que no pisan nada- que\n    # quede mas cerca de la esquina pedida. Es fuerza bruta y esta bien que lo sea: son unos\n    # miles de posiciones por lamina y evita toda la maquinaria de \"mayor rectangulo vacio\",\n    # que aca no compra nada.\n    x0, y0, x1, y1 = rect_util(sheet)\n    if ancho > x1 - x0 or alto > y1 - y0:\n        return None\n    ocupados = ocupado_en(sheet)\n    derecha = 'derecha' in esquina\n    arriba = 'arriba' in esquina\n    ref_x = x1 - ancho if derecha else x0\n    ref_y = y1 - alto if arriba else y0\n\n    mejor = None\n    mejor_d = None\n    n = int((x1 - x0 - ancho) / PASO_BUSQUEDA) + 1\n    m = int((y1 - y0 - alto) / PASO_BUSQUEDA) + 1\n    for i in range(max(n, 1)):\n        for j in range(max(m, 1)):\n            px = x0 + i * PASO_BUSQUEDA\n            py = y0 + j * PASO_BUSQUEDA\n            if px + ancho > x1 or py + alto > y1:\n                continue\n            cand = (px, py, px + ancho, py + alto)\n            choca = False\n            for r in ocupados:\n                if se_pisan(cand, r, margen):\n                    choca = True\n                    break\n            if choca:\n                continue\n            d = math.hypot(px - ref_x, py - ref_y)\n            if mejor_d is None or d < mejor_d:\n                mejor_d = d\n                mejor = cand\n    return mejor\n\n\ndef esquina_de_ultimo_recurso(sheet, ancho, alto):\n    x0, y0, x1, y1 = rect_util(sheet)\n    px = (x1 - ancho) if 'derecha' in esquina else x0\n    py = (y1 - alto) if 'arriba' in esquina else y0\n    return (px, py, px + ancho, py + alto)\n\n\ndef colocar(sheet, sched, numero_lamina):\n    # Se coloca primero -en cualquier lado-, se le mide el bounding box real y recien\n    # despues se la manda al hueco. El alto de un schedule depende del tipo de letra y de\n    # cuantas filas quedaron: estimarlo es adivinar, y errarle por dos milimetros la deja\n    # pisando una vista.\n    x0, y0, x1, y1 = rect_util(sheet)\n    try:\n        ssi = ScheduleSheetInstance.Create(doc, sheet.Id, sched.Id, XYZ(x0, y1, 0.0))\n    except Exception as e:\n        log.append('ERROR {}: Revit no permitio colocar la tabla ({}).'.format(numero_lamina, e))\n        return None\n    doc.Regenerate()\n    bb = ssi.get_BoundingBox(sheet)\n    if bb is None:\n        log.append('AVISO {}: no se pudo medir la tabla; queda en la esquina superior '\n                   'izquierda.'.format(numero_lamina))\n        return ssi\n    ancho = bb.Max.X - bb.Min.X\n    alto = bb.Max.Y - bb.Min.Y\n\n    destino = buscar_hueco(sheet, ancho, alto)\n    if destino is None:\n        destino = esquina_de_ultimo_recurso(sheet, ancho, alto)\n        log.append('AVISO {}: no hay hueco libre de {:.0f}x{:.0f} mm en la lamina; la tabla '\n                   'se coloca en la esquina {} y puede quedar montada sobre una vista.'.format(\n                       numero_lamina, ancho * 304.8, alto * 304.8, esquina))\n    # el punto de insercion es la esquina SUPERIOR izquierda del schedule\n    delta_x = destino[0] - bb.Min.X\n    delta_y = destino[3] - bb.Max.Y\n    try:\n        ssi.Point = XYZ(ssi.Point.X + delta_x, ssi.Point.Y + delta_y, 0.0)\n    except Exception as e:\n        log.append('AVISO {}: no se pudo mover la tabla al hueco ({}).'.format(numero_lamina, e))\n    return ssi\n\n\n# ---------------------------- EJECUCION ----------------------------\n\nlaminas = laminas_de_sector()\nif not laminas:\n    log.append('No hay laminas con vistas de sector que coincidan con el filtro. Se esperan '\n               'laminas con vistas \"<sector>{}\" o \"<sector>{}X\", creadas por 01 y 02.'.format(\n                   SUF_PLANTA, SUF_ELEV))\nelse:\n    TransactionManager.Instance.EnsureInTransaction(doc)\n\n    mapa = tabla_de_tipos(rieles_del_modelo())\n    if not mapa:\n        log.append('AVISO: ningun riel del modelo tiene largo legible en \"{}\"; no hay tabla '\n                   'que armar.'.format(param_largo))\n    else:\n        asegurar_param_numerico(param_largo_tbl)\n        marcar_rieles(mapa, laminas)\n\n        schedules = {}\n        for v in FilteredElementCollector(doc).OfClass(ViewSchedule):\n            schedules[elem_name(v)] = v\n        instancias = {}\n        for ssi in FilteredElementCollector(doc).OfClass(ScheduleSheetInstance):\n            instancias.setdefault(ssi.ScheduleId.Value, []).append(ssi)\n\n        puestas = 0\n        for sh, sector, vistas in laminas:\n            numero = sh.SheetNumber\n            nombre_sched = PREFIJO_SCHEDULE + numero\n            tipos = sorted(set(mapa[largo_mm(el)] for el in rieles_de_lamina(vistas)\n                               if largo_mm(el) in mapa))\n            if not tipos:\n                log.append('{} ({}): no se ve ningun riel en las vistas de la lamina; no se '\n                           'pone tabla.'.format(numero, sector))\n                continue\n\n            sched = schedules.get(nombre_sched)\n            if sched is not None and not rehacer:\n                log.append('{} ({}): ya tiene tabla, se salta. Corre con rehacer para '\n                           'reconfigurarla.'.format(numero, sector))\n                continue\n            if sched is None:\n                sched = ViewSchedule.CreateSchedule(\n                    doc, ElementId(BuiltInCategory.OST_ElectricalFixtures))\n                try:\n                    sched.Name = nombre_sched\n                except Exception as e:\n                    log.append('AVISO {}: no se pudo nombrar la tabla \"{}\" ({}); queda con '\n                               'el nombre que le puso Revit.'.format(numero, nombre_sched, e))\n                schedules[nombre_sched] = sched\n\n            ok, faltan = configurar_schedule(sched, numero)\n            if not ok:\n                log.append('ERROR {}: los rieles no tienen estos parametros como campo de '\n                           'schedule: {}. Sin ellos la tabla no se puede armar.'.format(\n                               numero, ', '.join(faltan)))\n                continue\n            doc.Regenerate()\n            if not poner_titulo(sched, titulo_tabla):\n                log.append('AVISO {}: no se pudo escribir el titulo \"{}\" en la tabla; queda '\n                           'el nombre del schedule.'.format(numero, titulo_tabla))\n\n            # una fila de mas es el encabezado de columnas; muchas mas significa que Revit\n            # no colapso y esta imprimiendo un riel por fila\n            filas = filas_del_cuerpo(sched)\n            if filas > len(tipos) + 1:\n                log.append('AVISO {}: la tabla quedo con {} fila(s) y en la lamina se ven {} '\n                           'tipo(s). Si son muchas mas, Revit no esta colapsando las filas '\n                           '-mira la nota del encabezado sobre \"Itemize\"-.'.format(\n                               numero, filas, len(tipos)))\n\n            for vieja in instancias.get(sched.Id.Value, []):\n                try:\n                    doc.Delete(vieja.Id)\n                except Exception:\n                    pass\n            if colocar(sh, sched, numero) is not None:\n                puestas += 1\n                log.append('OK {} ({}): tabla con {} tipo(s): {}.'.format(\n                    numero, sector, len(tipos),\n                    ', '.join(codigo_de(t) for t in tipos)))\n\n        log.insert(0, '{} tabla(s) de rieles en {} lamina(s) de sector.'.format(\n            puestas, len(laminas)))\n\n    TransactionManager.Instance.ForceCloseTransaction()\n\nOUT = log\n",
+      "Inputs": [
+        {
+          "Id": "a7010000000000000000000000000010",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a7010000000000000000000000000011",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a7010000000000000000000000000012",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a7010000000000000000000000000013",
+          "Name": "IN[3]",
+          "Description": "Input #3",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a7010000000000000000000000000014",
+          "Name": "IN[4]",
+          "Description": "Input #4",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a7010000000000000000000000000015",
+          "Name": "IN[5]",
+          "Description": "Input #5",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a7010000000000000000000000000016",
+          "Name": "IN[6]",
+          "Description": "Input #6",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a7010000000000000000000000000017",
+          "Name": "IN[7]",
+          "Description": "Input #7",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a7010000000000000000000000000018",
+          "Name": "IN[8]",
+          "Description": "Input #8",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a7010000000000000000000000000019",
+          "Name": "IN[9]",
+          "Description": "Input #9",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a701000000000000000000000000001a",
+          "Name": "IN[10]",
+          "Description": "Input #10",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a701000000000000000000000000001b",
+          "Name": "IN[11]",
+          "Description": "Input #11",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a701000000000000000000000000001c",
+          "Name": "IN[12]",
+          "Description": "Input #12",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a701000000000000000000000000001d",
+          "Name": "IN[13]",
+          "Description": "Input #13",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a701000000000000000000000000001e",
+          "Name": "IN[14]",
+          "Description": "Input #14",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "a7010000000000000000000000000005",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
+      "WatchWidth": 460,
+      "WatchHeight": 320,
+      "Id": "c7010000000000000000000000000001",
+      "NodeType": "ExtensionNode",
+      "Inputs": [
+        {
+          "Id": "c7010000000000000000000000000002",
+          "Name": "",
+          "Description": "Node to evaluate.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "c7010000000000000000000000000003",
+          "Name": "",
+          "Description": "Watch contents.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Visualizes a node's output"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "f6010000000000000000000000000002",
+      "End": "a7010000000000000000000000000010",
+      "Id": "d7010000000000000000000000000010",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "f6020000000000000000000000000002",
+      "End": "a7010000000000000000000000000011",
+      "Id": "d7010000000000000000000000000011",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "f6030000000000000000000000000002",
+      "End": "a7010000000000000000000000000012",
+      "Id": "d7010000000000000000000000000012",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "f6040000000000000000000000000002",
+      "End": "a7010000000000000000000000000013",
+      "Id": "d7010000000000000000000000000013",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "f6050000000000000000000000000002",
+      "End": "a7010000000000000000000000000014",
+      "Id": "d7010000000000000000000000000014",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "f6060000000000000000000000000002",
+      "End": "a7010000000000000000000000000015",
+      "Id": "d7010000000000000000000000000015",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "f6070000000000000000000000000002",
+      "End": "a7010000000000000000000000000016",
+      "Id": "d7010000000000000000000000000016",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "f6080000000000000000000000000002",
+      "End": "a7010000000000000000000000000017",
+      "Id": "d7010000000000000000000000000017",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "f6090000000000000000000000000002",
+      "End": "a7010000000000000000000000000018",
+      "Id": "d7010000000000000000000000000018",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "f60a0000000000000000000000000002",
+      "End": "a7010000000000000000000000000019",
+      "Id": "d7010000000000000000000000000019",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "f60b0000000000000000000000000002",
+      "End": "a701000000000000000000000000001a",
+      "Id": "d701000000000000000000000000001a",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "f60c0000000000000000000000000002",
+      "End": "a701000000000000000000000000001b",
+      "Id": "d701000000000000000000000000001b",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "f60d0000000000000000000000000002",
+      "End": "a701000000000000000000000000001c",
+      "Id": "d701000000000000000000000000001c",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "f60e0000000000000000000000000002",
+      "End": "a701000000000000000000000000001d",
+      "Id": "d701000000000000000000000000001d",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "f60f0000000000000000000000000002",
+      "End": "a701000000000000000000000000001e",
+      "Id": "d701000000000000000000000000001e",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "a7010000000000000000000000000005",
+      "End": "c7010000000000000000000000000002",
+      "Id": "d7010000000000000000000000000005",
+      "IsHidden": "False"
+    }
+  ],
+  "Dependencies": [],
+  "NodeLibraryDependencies": [],
+  "EnableLegacyPolyCurveBehavior": true,
+  "Thumbnail": "",
+  "GraphDocumentationURL": null,
+  "ExtensionWorkspaceData": [],
+  "Author": "",
+  "Linting": {
+    "activeLinter": "None",
+    "activeLinterId": "7b75fb44-43fd-4631-a878-29f4d5d8399a",
+    "warningCount": 0,
+    "errorCount": 0
+  },
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "4.0.2.3852",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "_Background Preview",
+      "EyeX": -17,
+      "EyeY": 24,
+      "EyeZ": 50,
+      "LookX": 12,
+      "LookY": -13,
+      "LookZ": -58,
+      "UpX": 0,
+      "UpY": 1,
+      "UpZ": 0
+    },
+    "ConnectorPins": [],
+    "NodeViews": [
+      {
+        "Id": "f6010000000000000000000000000001",
+        "Name": "01. Procesar TODOS los sectores",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 0
+      },
+      {
+        "Id": "f6020000000000000000000000000001",
+        "Name": "02. Filtro de sectores (si TODOS = False)",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 130
+      },
+      {
+        "Id": "f6030000000000000000000000000001",
+        "Name": "03. La familia del riel EMPIEZA con",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 260
+      },
+      {
+        "Id": "f6040000000000000000000000000001",
+        "Name": "04. Parametro de donde se LEE el largo del riel",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 390
+      },
+      {
+        "Id": "f6050000000000000000000000000001",
+        "Name": "05. Parametro numerico donde se COPIA el largo (se crea si no existe)",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 520
+      },
+      {
+        "Id": "f6060000000000000000000000000001",
+        "Name": "06. Parametro donde se escribe el codigo de tipo",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 650
+      },
+      {
+        "Id": "f6070000000000000000000000000001",
+        "Name": "07. Parametro donde se marca en que lamina aparece",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 780
+      },
+      {
+        "Id": "f6080000000000000000000000000001",
+        "Name": "08. Parametro donde se escribe el ITEM (vacio = sin columna)",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 910
+      },
+      {
+        "Id": "f6090000000000000000000000000001",
+        "Name": "09. Titulo de la tabla",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 1040
+      },
+      {
+        "Id": "f60a0000000000000000000000000001",
+        "Name": "10. Margen de la lamina (mm) - el mismo que 01 y 02",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 1170
+      },
+      {
+        "Id": "f60b0000000000000000000000000001",
+        "Name": "11. Franja inferior reservada de la vineta (mm)",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 1300
+      },
+      {
+        "Id": "f60c0000000000000000000000000001",
+        "Name": "12. Ancho del cajetin desde el borde derecho (mm)",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 1430
+      },
+      {
+        "Id": "f60d0000000000000000000000000001",
+        "Name": "13. Alto del cajetin (mm)",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 1560
+      },
+      {
+        "Id": "f60e0000000000000000000000000001",
+        "Name": "14. Esquina desde donde buscar hueco",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 1690
+      },
+      {
+        "Id": "f60f0000000000000000000000000001",
+        "Name": "15. Rehacer las tablas existentes",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 1820
+      },
+      {
+        "Id": "a7010000000000000000000000000001",
+        "Name": "PY | Tabla de tipos de riel por lamina",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 560,
+        "Y": 260
+      },
+      {
+        "Id": "c7010000000000000000000000000001",
+        "Name": "Log",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": true,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 920,
+        "Y": 260
+      }
+    ],
+    "Annotations": [],
+    "X": 0,
+    "Y": 0,
+    "Zoom": 0.8
+  }
+}

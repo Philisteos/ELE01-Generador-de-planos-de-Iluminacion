@@ -2,7 +2,8 @@
 
 Pipeline de graphs de Dynamo (4.0, CPython3, **sin paquetes externos**) para documentar
 sectores de una planta de iluminación: planta y cuatro elevaciones por sector, distribución
-en láminas, cotas y tags de riel RUC, y la tabla de tipos de riel por lámina.
+en láminas, cotas y tags de riel RUC, la tabla de tipos de riel por lámina, y las leyendas y
+notas de la hoja.
 
 > **El sector ES la caja.** Un sector es una **vista 3D con el Section Box activo**, y nada
 > más: ni assemblies, ni grupos, ni ejes marcados. Lo que delimita el sector ya es
@@ -38,21 +39,31 @@ Modelo de referencia: `1820-400-E-MOD-001_detached`, escala de trabajo **1:75**.
 |---|---|
 | Rieles RUC en el modelo | **217** (+ 77 mordazas que quedan fuera por el prefijo de familia) |
 | Familias de riel | `RIEL RUC GALVANIZADO SUELO`, `... MURO`, `... MURO VERT.` |
-| Tipos distintos por largo | **11** (R-01 … R-11) |
+| Tipos distintos por largo | **10** (el código es el largo: R-01, R-02, R-25, R-03…) |
 | Sectores documentados | SECTOR A (láminas A1 y A2) |
 
 ## Orden de ejecución
 
 | # | Graph | Estado | Qué hace |
 |---|-------|--------|----------|
-| 0 | `00_Vistas de sector.dyn` | ✅ | Por cada vista 3D con Section Box: 1 planta + 4 elevaciones (A/B/C/D) |
+| 0 | `00_Vistas de sector.dyn` | ✅ | Por cada vista 3D con Section Box: 1 planta + 4 elevaciones (A/B/C/D), con los vínculos y el CAD en halftone |
 | 1 | `01_Calcular y crear laminas.dyn` | ✅ | Calcula cuántas láminas hacen falta y las crea |
 | 2 | `02_Colocar vistas en laminas.dyn` | ✅ | Coloca las vistas en flujo dentro de las láminas |
-| 3 | `03_Taggear plantas y cortes.dyn` | ✅ | Cadenas de cotas entre rieles de suelo + tags de tipo (`R-01`, `R-02`…) sobre todos los rieles |
-| 4 | `04_TABLAS y Listados.dyn` | ✅ | La TABLA N°1 de tipos de riel, las leyendas pegadas a la esquina y el bloque de notas |
+| 3 | `03_Rieles RUC - cotas y tags.dyn` | ✅ | Cadenas de cotas entre rieles de suelo + tags de tipo (`R-01`, `R-02`…) sobre todos los rieles |
+| 4 | `04_Rieles RUC - tabla de tipos.dyn` | ✅ | La TABLA N°1 de tipos de riel, una por lámina |
+| 5 | `05_Leyendas y notas.dyn` | ✅ | Las leyendas de la hoja pegadas a la esquina y el bloque de notas generales |
 
-**Flujo**: 00 → 01 → 02 → 03 → 04. El 04 va al final porque necesita las láminas ya armadas
-y las vistas ya colocadas para saber qué se ve en cada hoja.
+**Flujo**: 00 → 01 → 02 → 03 → **05 → 04**. Del 00 al 03 el orden es obligatorio. Los dos
+últimos son independientes entre sí, pero al dibujo le conviene **05 antes que 04**: las
+leyendas y las notas van a lugar fijo y no negocian, mientras que la tabla de 04 busca hueco y
+cuenta como ocupado todo lo que ya esté en la lámina. Si se corre al revés sobre una lámina
+nueva, 05 avisa en el log y basta volver a correr 04 con *rehacer*.
+
+**03 y 04 son los dos pasos del riel RUC**: todo lo que hacen sale del parámetro `Longitud`
+de un riel, y en una lámina sin rieles no harían nada. **05 es de la hoja**: la simbología, la
+nomenclatura y las notas estarían igual en una lámina sin un solo riel. Por eso están
+separados — hasta el 2026-08-19 las tres cosas vivían en un solo paso llamado
+`04_TABLAS y Listados`, con diecinueve inputs y tres temas que no se tocaban entre sí.
 
 ---
 
@@ -76,33 +87,58 @@ con el riesgo de que las dos descripciones se desincronicen.
 fluyen por tantas láminas como haga falta, pero el sector siguiente siempre empieza en una
 lámina nueva. Gracias a eso, "el sector de esta lámina" nunca es ambiguo en 04.
 
-### 3. El código `R-xx` sale del largo
+### 3. El código `R-xx` **es** el largo
 
-El código de tipo de riel es una consecuencia del largo, no un dato nuevo: se juntan los
-largos de **todos** los rieles RUC del modelo, se ordenan de menor a mayor y se reparten
-`R-01`, `R-02`, `R-03`… La numeración es **global al modelo**, así que `R-02` significa lo
-mismo en todos los planos del paquete.
+El número del código es el largo en mm con los ceros sobrantes sacados, sin bajar de los
+cientos:
 
-El largo sale del parámetro de **instancia** `Longitud`, redondeado al milímetro. Un riel
-sin ese parámetro inicializado no se etiqueta y no entra en ninguna tabla.
+| Largo (mm) | 100 | 200 | 240 | 241 | 250 | 300 | 900 | 1000 | *108* |
+|---|---|---|---|---|---|---|---|---|---|
+| Código | R-01 | R-02 | R-24 | R-241 | R-25 | R-03 | R-09 | R-10 | *R-108* |
+
+El largo sale del parámetro de **instancia** `Longitud`, redondeado al milímetro. Un riel sin
+ese parámetro inicializado —o con un largo que no sea positivo— no se etiqueta y no entra en
+ninguna tabla.
+
+> **Hasta el 2026-08-18 el número era la posición** del largo en la lista ordenada de todos
+> los largos del modelo. Se cambió por dos motivos, y ninguno es comodidad de lectura:
+>
+> 1. **La posición no es estable.** Borrar o agregar un largo corría a todos los de arriba,
+>    así que un plano ya emitido dejaba de coincidir con el modelo sin que nadie lo notara.
+>    Pasó de verdad: al corregir un riel de 108 mm que en realidad era un 100, desapareció un
+>    código y todo lo que estaba encima se desplazó.
+> 2. **La posición dependía del conjunto.** Como el número salía de la lista completa,
+>    cualquier diferencia entre lo que recolecta 03 y lo que recolecta 04 desplazaba la
+>    numeración entera, en silencio. Ahora **el código de un riel depende solo de ese riel**:
+>    los dos pasos no pueden discrepar ni queriendo, y no importa en qué orden se corran.
+
+**El regalo: un riel mal modelado se delata.** El 108 salía `R-02`, indistinguible de un tipo
+legítimo, y se encontró de casualidad. Con esta regla sale `R-108`, y un código que no es una
+medida redonda canta solo en el plano. Sirve como herramienta de revisión, no solo de
+etiquetado.
+
+> ⚠️ **La regla no puede distinguir X de X×10.** 50 y 500 dan los dos `R-05`; 60 y 600,
+> `R-06`; 250 y 2500, `R-25`. Es inherente a sacar ceros, y **no es teórico**: el modelo ya
+> tiene 500, 600, 700 y 900, así que un riel corto de 50 o 60 mm chocaría con uno existente.
+> Por eso los dos graphs comparan y escriben un `ERROR` en el log con los dos largos. Sin ese
+> aviso, dos tipos distintos compartirían código en el plano y en la tabla sin que nada
+> fallara.
 
 > ⚠️ **El nombre del tipo miente y no se usa nunca.** Hay un tipo llamado `150 mm` cuya
-> `Longitud` es **600 mm exactos**, y un `100mm` de MURO VERT. que mide **108,05**. Además
+> `Longitud` es **600 mm exactos**, y un `100mm` de MURO VERT. que medía **108,05**. Además
 > los nombres no son consistentes entre familias: para el mismo largo conviven `300`,
 > `300mm` y `300 mm`, y hay un `200  mm` con dos espacios. Adivinar el largo desde ahí sería
 > fabricar un dato.
 
-Tabla vigente (medida el 2026-08-18):
+Tabla vigente (tras corregir el riel de 108 mm):
 
-| Código | R-01 | R-02 | R-03 | R-04 | R-05 | R-06 | R-07 | R-08 | R-09 | R-10 | R-11 |
-|---|---|---|---|---|---|---|---|---|---|---|---|
-| Largo (mm) | 100 | **108** | 200 | 250 | 300 | 400 | 500 | **600** | 700 | 900 | 1000 |
-| Unidades | 60 | 3 | 28 | 8 | — | 50 | — | 1 | 4 | 5 | 7 |
+| Largo (mm) | 100 | 200 | 250 | 300 | 400 | 500 | 600 | 700 | 900 | 1000 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Código | R-01 | R-02 | **R-25** | R-03 | R-04 | R-05 | R-06 | R-07 | R-09 | R-10 |
 
-Los dos resaltados son datos sucios del modelo, no del pipeline: `R-02` es el `100mm` que
-mide 108,05 y `R-08` es el `150 mm` que mide 600. Se redondea al **milímetro entero** —para
+El `R-25` es el único que no es un múltiplo de 100. Se redondea al **milímetro entero** —para
 que 300,000 y 300,054 sean el mismo riel— pero **no** a la medida comercial: si un riel mide
-108, la tabla dice 108 y el problema se ve.
+241, el código dice `R-241` y el problema se ve.
 
 ---
 
@@ -117,6 +153,27 @@ aplica view template (`1P_ILU` para plantas, `1C_ILU` para elevaciones).
 > caja activa (`DETALLE 1`, `DET 2 LAM-004`, `detalle nuevo fe`). El 2026-08-11, con True,
 > el graph dejó 40 vistas y 01 pidió 9 láminas. **El filtro por nombre es lo que decide qué
 > es un sector.**
+
+### Vínculos y CAD importado en halftone
+
+Toda vista que crea o reajusta este paso deja **en halftone los vínculos de Revit y los CAD
+importados o vinculados** (input `11.`, encendido por defecto). Hoy son los 4
+`RevitLinkInstance` de `1820-E-REF-MOD-001.rvt` más lo que haya de CAD.
+
+> **Va por elemento, no por categoría ni por la pestaña *Revit Links* de la V/G.** Es la única
+> forma que sirve para las dos cosas a la vez y que no pelea con el view template:
+>
+> - Un DWG importado **no tiene una categoría**, sino las suyas propias: cada importación crea
+>   su juego de subcategorías, y habría que enumerarlas todas.
+> - La pestaña de vínculos de la V/G **es de las que un view template controla**, así que
+>   `1P_ILU` y `1C_ILU` le ganarían al graph.
+>
+> El override por elemento no lo maneja el template: se aplica **después** de aplicarlo y
+> queda.
+
+> ⚠️ **Es una foto, no una regla.** Un vínculo que se agregue al modelo después de correr este
+> paso no sale atenuado hasta que se vuelva a correr. Los vínculos se recolectan una vez para
+> todo el documento —no vista por vista— así que basta con volver a pasar 00 por los sectores.
 
 Qué desapareció respecto del 00 de acero, y por qué:
 
@@ -153,7 +210,7 @@ Qué desapareció respecto del pipeline de acero:
   assemblies. Se eliminó en vez de dejarse a medias. *(Las leyendas volvieron en 04, pero por
   lista explícita y pegadas a una esquina: no hay nada que adivinar.)*
 
-## 03 — Taggear plantas y cortes
+## 03 — Rieles RUC: cotas y tags
 
 Dos anotaciones sobre las plantas de sector. Las elevaciones no se tocan.
 
@@ -227,22 +284,34 @@ cada `R-0x` está pegado a su riel con una flecha de 10–20 mm de papel que no 
 dibujo. Es la unidad de medida del asunto. Ojo que esa vista **no etiqueta todos los
 rieles** y la nuestra sí tiene que hacerlo: siempre vamos a tener más etiquetas.
 
-## 04 — TABLAS y Listados
+## 04 — Rieles RUC: tabla de tipos
 
-Tres cosas por lámina de sector: la TABLA N°1 —tipos de riel RUC—, las leyendas de la hoja
-y el bloque de notas generales.
+La TABLA N°1 —tipos de riel RUC— en cada lámina de sector. El segundo de los dos pasos del
+riel: 03 dibuja las cotas y los tags sobre la planta, y este imprime la tabla que les da
+sentido.
 
-Se llama "TABLAS y Listados" en plural porque va a juntar más —circuitos, luminarias,
-notas—, pero cada una se agrega cuando esté definida. Reemplaza por completo a
+Se llamó un tiempo `04_TABLAS y Listados` y además estampaba las leyendas y las notas. Eso no
+habla de rieles y se fue a [05](#05--leyendas-y-notas). Antes de eso reemplazó por completo a
 `04_Tabla de materiales`, la tabla de acero heredada de T003: no se adaptó, se tiró. Está en
 el historial de git (`94c3e7a:"04_Tabla de materiales.dyn"`).
 
 ### La TABLA N°1
 
-Una por lámina de sector, con las filas de **los tipos que se ven en esa lámina**. Un sector
-repartido en dos láminas da dos tablas distintas: una tabla que liste tipos que no están
-dibujados en la hoja que uno tiene delante obliga a buscarlos en otra hoja, y eso es
-información equivocada, no información de más.
+Con las filas de **los tipos que se ven en ese sector** — la unión de lo que aparece en las
+vistas de todas sus láminas. La tabla sale **idéntica en cada hoja del sector**.
+
+> **Hasta el 2026-08-19 cada lámina listaba solo lo suyo**, con este argumento: una tabla que
+> liste tipos que no están dibujados en la hoja que uno tiene delante obliga a buscarlos en
+> otra hoja. Se cambió por el ITEM.
+>
+> El ITEM tiene que ser un **correlativo** porque en obra se usa para manejar cantidades, y
+> para eso tiene que significar lo mismo en todas las hojas. Como el ITEM vive en un parámetro
+> del riel, un riel que sale en dos tablas necesitaría dos números a la vez: **por lámina eso
+> pasa siempre** —las hojas de un sector comparten los rieles— y **por sector no pasa nunca**,
+> porque un riel es de un solo sector.
+>
+> Entre las dos cosas ganó la de obra: un número que cambia de significado de hoja en hoja no
+> le sirve a nadie, y el tipo de más se lee sin ambigüedad porque el código es la medida.
 
 Es un **`ViewSchedule` nativo por lámina** (`TBL_RIELES_A1`), así que queda vivo.
 
@@ -258,14 +327,30 @@ Es un **`ViewSchedule` nativo por lámina** (`TBL_RIELES_A1`), así que queda vi
 > mismo en todos los modelos de la oficina. La copia es dato derivado y se desactualiza: si
 > cambia un largo, la columna miente hasta que se vuelva a correr el paso.
 
-> ⚠️ **El filtro por lámina va por `En plano`**, con la lista de hojas delimitada
-> (`;A1;A2;`) y filtro por `;A1;`. Sin los delimitadores, la lámina A1 se llevaría también
-> los rieles de A11 y A12.
+> ⚠️ **El filtro va por `En plano`**, donde el graph escribe el **sector** delimitado
+> (`;SECTOR A;`) y el schedule filtra por `;SECTOR A;`. Sin los delimitadores, `SECTOR A` se
+> llevaría también los rieles de `SECTOR A2`, que es el clásico error de filtrar por
+> substring.
 
-> ⚠️ **`ITEM` es el número del código, no un contador de fila.** Un schedule no tiene campo
-> "número de fila", así que ITEM tiene que ser un parámetro escrito en el riel — y un riel
-> que aparece en dos láminas no puede tener dos ITEM distintos a la vez. La lámina que usa
-> R-01, R-03 y R-04 imprime **1, 3 y 4**.
+> ⚠️ **`ITEM` es el nombre de la columna, no el del parámetro.** La columna se llama `ITEM`
+> —así está en el plano tipo— pero el parámetro donde vive se llama `ITEM_TBL` y **lo crea el
+> graph**, igual que `LARGO_TBL`. Son dos cosas distintas y confundirlas ya costó una corrida:
+> el 2026-08-19 el parámetro `ITEM` del proyecto pasó a llamarse `NUM_CIRCUITO` —un campo de
+> datos eléctricos de verdad, vive junto a `E_Alimentado_Desde`— y la tabla dejó de armarse.
+> Un dato que es de la tabla tiene que vivir con la tabla, no tomarse prestado del proyecto.
+
+**`ITEM` es un correlativo 1, 2, 3, 4** — la posición del largo dentro de la lista de su
+sector. Se usa en obra para manejar cantidades, así que significa lo mismo en todas las hojas
+del sector.
+
+> ⚠️ **El correlativo es la razón por la que la tabla es por sector.** Un schedule no tiene
+> campo "número de fila": la columna tiene que ser un parámetro escrito en el riel. Y las
+> filas **colapsan solo cuando todos los campos coinciden**, así que dos rieles del mismo
+> largo con distinto ITEM imprimen dos filas para el mismo tipo. Con el sector como unidad,
+> cada riel pertenece a una sola tabla y las dos cosas cierran.
+>
+> El único caso que lo rompe es un riel visible en **dos sectores** — no debería pasar, las
+> cajas no se pisan. Si pasa, el graph escribe un `ERROR` en el log con los ids.
 
 **Dónde se para la tabla**: en el hueco libre más cercano a la esquina elegida. Hay que
 buscarlo porque 01 y 02 reparten las vistas por el lienzo completo (ver arriba). Ocupado es
@@ -284,14 +369,28 @@ letra es adivinar, y errarle por dos milímetros la deja pisando una vista.
 > filas no cuadran con los tipos de la lámina. Si aparece ese aviso, la salida es dibujar la
 > tabla con líneas y textos en vez de filtrar por parámetro.
 
+---
+
+## 05 — Leyendas y notas
+
+Lo que es de la **hoja** y no del riel: las leyendas de la lámina y el bloque de notas
+generales. Estaría igual en una lámina sin un solo riel, y por eso es un paso aparte de 03 y
+04.
+
+> **El orden con 04.** Las leyendas y las notas van a lugar fijo y no buscan nada; la tabla de
+> 04 sí busca hueco y cuenta como ocupado todo lo que ya esté en la lámina, viewports y notas
+> de texto incluidos. Al dibujo le conviene **05 antes que 04**, aunque el número diga lo
+> contrario. Si se corre al revés sobre una lámina nueva, este paso avisa en el log qué quedó
+> montado sobre qué, y la salida es volver a correr 04 con *rehacer*.
+
 ### Las leyendas de la lámina
 
-Además de la tabla, cada lámina de sector lleva las leyendas que se le pidan —hoy
+Cada lámina de sector lleva las leyendas que se le pidan —hoy
 `ILU-SIMBOLOGIA ILUMINACION` y `ILU-NOMENCLATURA`— **apiladas y pegadas contra la esquina
 superior derecha**, la primera tocando el borde y la siguiente tocando a la primera.
 
-Van en **todas** las láminas del sector por el mismo motivo por el que la tabla no es la
-misma en todas: la hoja que uno tiene delante tiene que poder leerse sola, y una simbología
+Van en **todas** las láminas del sector por el mismo motivo por el que la tabla de 04 no es
+la misma en todas: la hoja que uno tiene delante tiene que poder leerse sola, y una simbología
 que está en la otra hoja no sirve de nada.
 
 Son leyendas de verdad —vistas de tipo *Legend*, las únicas de Revit que se pueden colocar
@@ -320,13 +419,9 @@ vacío se cae justamente a eso y el log dice cuál eligió; si el nombre no exis
 > la viñeta hay que volver a medirla.
 
 La pila **no busca hueco**: se pega a la esquina y punto. El alto de cada leyenda se **mide**
-después de colocarla, igual que el de la tabla. Si queda montada sobre una vista se coloca
-igual y el log lo dice — 01 y 02 reparten las vistas por el lienzo completo, así que el
-choque es posible.
-
-Las leyendas se estampan **antes** que la tabla a propósito: una vez colocadas son viewports
-de la lámina, así que el barrido que busca hueco para la tabla las cuenta como ocupado sin
-que haya que decírselo.
+después de colocarla, igual que el de la tabla de 04. Si queda montada sobre una vista o sobre
+la tabla se coloca igual y el log lo dice — 01 y 02 reparten las vistas por el lienzo
+completo, así que el choque es posible.
 
 > Si las leyendas ya están en la lámina y no se corre con *rehacer*, no se tocan: puede
 > haber alguien que las movió a mano y este paso no tiene por qué saber más que esa persona.
@@ -349,7 +444,7 @@ dependen de dónde haya quedado insertada la viñeta.
 > tabulaciones con que están alineados los números de nota. Las dos cosas hay que
 > preguntárselas al documento.
 >
-> Para eso está el input `19.`: se le pasa el número de una lámina que ya tenga las notas
+> Para eso está el input `07.`: se le pasa el número de una lámina que ya tenga las notas
 > puestas a mano y el log escupe, por cada una, su posición, ancho, tipo, alineación y texto
 > con los tabs escapados, con el formato exacto que espera `NOTAS`. Se pegan esas líneas en
 > la constante y el input vuelve a quedar vacío — es una herramienta de una sola vez, no
@@ -403,15 +498,15 @@ Lo que dicen hoy, para referencia (la fuente es la constante `NOTAS`, no esta ta
 
 > La **nota 9** es la que le da sentido a la TABLA N°1 y por eso el título de la tabla es
 > `TABLA N°1 (NOTA 9)`: si alguna vez se renumeran las notas, hay que cambiar los dos.
-
 ---
 
 ## Deudas conocidas
 
-- **La regla del código `R-xx` vive escrita en dos graphs.** 03 la usa para el texto del
-  plano y 04 para las filas de la tabla, cada uno con su implementación. Si se cambia en uno
-  solo, el síntoma es un plano que dice `R-05` con una tabla que dice `R-06`. La forma de
-  saldarla: que 03 vuelva a escribir el parámetro y que 04 solo lea.
+- **La regla del código `R-xx` vive escrita en dos graphs**, 03 para el texto del plano y 04
+  para las filas de la tabla. Desde que el código **es** el largo la deuda pesa mucho menos:
+  al ser una función de un solo riel, las dos implementaciones solo pueden dar distinto si
+  alguien cambia la fórmula en una y no en la otra — ya no por el estado del modelo. La forma
+  de saldarla sigue siendo que 03 escriba el parámetro y que 04 solo lea.
 - **03 ya no escribe `TEXTO PARA TAG`.** Se perdió en una reescritura del código; hoy no
   molesta porque 04 lo escribe por su cuenta, pero es la mitad de la deuda anterior.
 - **03 se quedó sin su header de documentación** (1228 → 570 líneas). El resto del pipeline

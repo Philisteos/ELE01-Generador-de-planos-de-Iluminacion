@@ -1,0 +1,579 @@
+{
+  "Uuid": "5e0f0000-0000-0000-0000-000000000005",
+  "IsCustomNode": false,
+  "Description": "Leyendas de la hoja y bloque de notas generales en cada lamina de sector.",
+  "Name": "05_Leyendas y notas",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [
+    {
+      "Id": "e0010000000000000000000000000001",
+      "Name": "01. Procesar TODOS los sectores",
+      "Type": "boolean",
+      "Type2": "boolean",
+      "Value": "false",
+      "Description": "Enables selection between True and False"
+    },
+    {
+      "Id": "e0020000000000000000000000000001",
+      "Name": "02. Filtro de sectores (si TODOS = False)",
+      "Type": "string",
+      "Type2": "string",
+      "Value": "SECTOR A",
+      "Description": "Creates a string."
+    },
+    {
+      "Id": "e0030000000000000000000000000001",
+      "Name": "03. Margen de la lamina (mm) - el mismo que 01 y 02",
+      "Type": "number",
+      "Type2": "number",
+      "Value": "5",
+      "MaximumValue": 60,
+      "MinimumValue": 0,
+      "StepValue": 1,
+      "NumberType": "Integer",
+      "Description": "Produces integer values"
+    },
+    {
+      "Id": "e0040000000000000000000000000001",
+      "Name": "04. Leyendas a estampar, de arriba hacia abajo",
+      "Type": "string",
+      "Type2": "string",
+      "Value": "ILU-SIMBOLOGIA ILUMINACION, ILU-NOMENCLATURA",
+      "Description": "Creates a string."
+    },
+    {
+      "Id": "e0050000000000000000000000000001",
+      "Name": "05. Esquina donde se pega la pila de leyendas",
+      "Type": "string",
+      "Type2": "string",
+      "Value": "arriba-derecha",
+      "Description": "Creates a string."
+    },
+    {
+      "Id": "e0060000000000000000000000000001",
+      "Name": "06. Tipo de viewport para las leyendas",
+      "Type": "string",
+      "Type2": "string",
+      "Value": "Sin titulo",
+      "Description": "Creates a string."
+    },
+    {
+      "Id": "e0070000000000000000000000000001",
+      "Name": "07. DIAGNOSTICO: lamina de la que medir las notas (vacio = normal)",
+      "Type": "string",
+      "Type2": "string",
+      "Value": "",
+      "Description": "Creates a string."
+    },
+    {
+      "Id": "e0080000000000000000000000000001",
+      "Name": "08. Rehacer leyendas y notas existentes",
+      "Type": "boolean",
+      "Type2": "boolean",
+      "Value": "false",
+      "Description": "Enables selection between True and False"
+    }
+  ],
+  "Outputs": [
+    {
+      "Id": "c7010000000000000000000000000001",
+      "Name": "Log",
+      "Type": "unknown",
+      "InitialValue": "",
+      "Description": "Visualizes a node's output"
+    }
+  ],
+  "Nodes": [
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "Id": "e0010000000000000000000000000001",
+      "NodeType": "BooleanInputNode",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "e0010000000000000000000000000002",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Enables selection between True and False",
+      "InputValue": false
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "SECTOR A",
+      "Id": "e0020000000000000000000000000001",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "e0020000000000000000000000000002",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
+      "NumberType": "Integer",
+      "MaximumValue": 60,
+      "MinimumValue": 0,
+      "StepValue": 1,
+      "Id": "e0030000000000000000000000000001",
+      "NodeType": "NumberInputNode",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "e0030000000000000000000000000002",
+          "Name": "",
+          "Description": "Int64",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Produces integer values",
+      "InputValue": 5
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "ILU-SIMBOLOGIA ILUMINACION, ILU-NOMENCLATURA",
+      "Id": "e0040000000000000000000000000001",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "e0040000000000000000000000000002",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "arriba-derecha",
+      "Id": "e0050000000000000000000000000001",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "e0050000000000000000000000000002",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "Sin titulo",
+      "Id": "e0060000000000000000000000000001",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "e0060000000000000000000000000002",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "",
+      "Id": "e0070000000000000000000000000001",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "e0070000000000000000000000000002",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "Id": "e0080000000000000000000000000001",
+      "NodeType": "BooleanInputNode",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "e0080000000000000000000000000002",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Enables selection between True and False",
+      "InputValue": false
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "Engine": "PythonNet3",
+      "VariableInputPorts": true,
+      "Id": "a7010000000000000000000000000001",
+      "NodeType": "PythonScriptNode",
+      "Code": "# 05_Leyendas y notas - ILUMINACION\n#\n# Estampa en cada lamina de sector lo que NO depende de los rieles: las leyendas de la hoja\n# y el bloque de notas generales.\n#\n#   +-----------------------------------------------+\n#   |                              +--------------+ |\n#   |     (vistas del sector)      | SIMBOLOGIA   | |\n#   |                              +--------------+ |\n#   |                              | NOMENCLATURA | |\n#   |                              +--------------+ |\n#   |                                               |\n#   |            +-------------------+   +--------+ |\n#   |            | 8. ... 13. notas  |   |        | |\n#   |            | 1. ... 7.  notas  |   | CAJETIN| |\n#   +------------+-------------------+---+--------+-+\n#\n# Revit 2027 / Dynamo 4 / CPython3\n# IN[0] = procesar todos los sectores (bool)\n# IN[1] = filtro de sectores si IN[0] es False (parcial, comas)\n# IN[2] = margen de la lamina, en mm - el mismo que usan 01 y 02\n# IN[3] = leyendas a estampar, por nombre y separadas por coma, en el orden en que se apilan\n#         de arriba hacia abajo (vacio = no se estampa ninguna)\n# IN[4] = esquina contra la que se pega la pila de leyendas (arriba-derecha,\n#         arriba-izquierda, abajo-derecha, abajo-izquierda)\n# IN[5] = nombre del tipo de viewport con que salen las leyendas (vacio = el primero que\n#         tenga \"Show Title\" apagado)\n# IN[6] = DIAGNOSTICO: numero de una lamina que ya tenga las notas puestas a mano. El log\n#         escupe su posicion, ancho, tipo, alineacion y texto exactos con el formato de la\n#         constante NOTAS, y si NOTAS ya esta cargado verifica que coincidan. Vacio = no\n#         medir nada, que es el uso normal\n# IN[7] = rehacer: reubica las leyendas que ya estan en la lamina y reescribe las notas\n#\n#\n# POR QUE ES UN PASO APARTE\n#\n# Porque no habla de rieles. 03 y 04 son los dos pasos del RIEL RUC -las cotas y los tags en\n# la planta, y la TABLA N.1 en cada lamina-, y todo lo que hacen sale del parametro Longitud\n# de un riel. Esto no: la simbologia, la nomenclatura y las notas generales son de la HOJA, y\n# estarian igual en una lamina sin un solo riel.\n#\n# Vivieron un tiempo dentro de 04, que se llamaba \"TABLAS y Listados\", y el resultado fue un\n# paso con tres temas que no se tocaban entre si y diecinueve inputs. Separarlos no cambia lo\n# que se dibuja: cambia que cada paso se pueda leer, correr y romper por separado.\n#\n#\n# QUE LAMINAS TOCA\n#\n# Las mismas que 04: las que tienen vistas del pipeline, reconocidas por el contrato de\n# nombres que comparten 00, 01, 02, 03 y 04 -\"<sector> - PLANTA\" y \"<sector> - ELEV X\"-. No\n# hay parametro sello ni lista que mantener.\n#\n# Va en TODAS las laminas del sector, no solo en la primera. Es el mismo criterio que usa 04\n# para las filas de su tabla: la hoja que uno tiene delante tiene que poder leerse sola, y\n# una simbologia que esta en la otra hoja no sirve de nada.\n#\n#\n# EL ORDEN CONTRA 04\n#\n# Las leyendas y las notas van a lugar FIJO -una esquina y unas coordenadas- y no buscan\n# nada. La tabla de 04, en cambio, BUSCA HUECO, y cuenta como ocupado todo lo que ya este en\n# la lamina: viewports y notas de texto incluidos.\n#\n# O sea que el orden que le conviene al dibujo es 05 y despues 04, aunque el numero diga lo\n# contrario. Si se corre 04 primero sobre una lamina nueva, la tabla se para sin saber que\n# despues van a llegar las leyendas y las notas, y puede quedar debajo de ellas. Este paso lo\n# detecta y lo avisa en el log; la salida es volver a correr 04 con rehacer, que ahi si las\n# ve. Los pasos son independientes y se pueden correr en cualquier orden: el numero ordena la\n# lectura, no impone la secuencia.\n\n\nimport clr\nclr.AddReference('RevitAPI')\nclr.AddReference('RevitServices')\nfrom Autodesk.Revit.DB import (FilteredElementCollector, ViewSheet, Viewport, View, XYZ,\n                               Element, ElementId, BuiltInCategory, BuiltInParameter,\n                               StorageType, ElementType, ViewType, ScheduleSheetInstance,\n                               TextNote, TextNoteOptions, TextNoteType,\n                               HorizontalTextAlignment, VerticalTextAlignment)\nfrom RevitServices.Persistence import DocumentManager\nfrom RevitServices.Transactions import TransactionManager\n\ndoc = DocumentManager.Instance.CurrentDBDocument\n\nprocess_all = bool(IN[0])\nfilter_text = (IN[1] or '').strip()\nmargen = float(IN[2]) / 304.8\nleyendas_pedidas = [t.strip() for t in (IN[3] or '').split(',') if t.strip()]\nesquina_leyendas = (IN[4] or 'arriba-derecha').strip().lower()\ntipo_vp_leyenda = (IN[5] or '').strip()\nlamina_diagnostico = (IN[6] or '').strip()\nrehacer = bool(IN[7])\n\nlog = []\n\n# --- contrato de nombres con 00_Vistas de sector ---\nSUF_PLANTA = ' - PLANTA'\nSUF_ELEV = ' - ELEV '\n\n# Correccion fina de la pila de leyendas contra la esquina, en mm de papel. El rectangulo\n# util que usan 01 y 02 se apoya en el bounding box de la vineta, y el marco DIBUJADO no cae\n# exactamente ahi: estos dos numeros son la diferencia medida sobre la lamina. Negativo es\n# hacia la izquierda y hacia abajo.\nAJUSTE_LEYENDAS_X = -3.2 / 304.8\nAJUSTE_LEYENDAS_Y = -1.9 / 304.8\n\n# El bloque de notas generales. Cada entrada es (texto, x_mm, y_mm, ancho_mm), con x e y\n# medidos desde el VERTICE INFERIOR IZQUIERDO DE LA VINETA -no desde el origen de la lamina-,\n# que es lo unico comun entre laminas distintas.\n#\n# Los cuatro datos salen del diagnostico, no de transcribir el plano a mano: Revit no deja\n# leer la posicion de una nota desde fuera del modelo, y el texto copiado a ojo pierde\n# justamente las tabulaciones con que estan alineados los numeros. Se corre el paso una vez\n# con IN[18] apuntando a la lamina que ya tiene las notas, se pegan aca las lineas NOTA que\n# salen en el log, y a partir de ahi las notas se escriben desde cero sin depender de\n# ninguna otra lamina.\nTIPO_TEXTO_NOTAS = '2mm wf 0.7 RomanD'\nALINEACION_NOTAS_H = HorizontalTextAlignment.Left\nALINEACION_NOTAS_V = VerticalTextAlignment.Top\n\nNOTAS = [\n    # Medidas sobre A1 el 2026-08-18. La segunda nota va ARRIBA de la primera -su y es mayor\n    # y las dos se alinean por el borde superior-, que es como estan en el plano: no es un\n    # error de transcripcion y no hay que \"arreglarlo\".\n    ('1.\\t\\t\\tDIMENSIONES Y ELEVACIONES EN mm. (S.I.C.)\\r2.\\t\\t\\tCOTAS PREVALECEN SOBRE EL DIBUJO.\\r3.\\t\\t\\tFUNDACIONES, SOPORTES, POR ESPECIALIDAD OO.CC.\\r4.\\t\\t\\tPARA DETALLES DE CIRCUITOS ELECTRICOS VER DOCUMENTO N° 1820-E-LIS-002.\\r5.\\t\\t\\tLAS LUMINARIAS QUE SE ENCUENTRAN EN EL PROYECTO, DEBEN INSTALARSE SEGUN ALTURA INDICADA EN LA TABLA N°2 Y N°3. ALTURA DEFINIDAS \\t\\t\\t\\t\\tDESDE EL N.P.T. EN PLATAFORMA DE TRANSITO PEATONAL (GRATING).\\r6.\\t\\t\\tTODAS LAS LUMINARIAS EXTERIORES DEBERAN DAR CUMPLIMIENTO AL DS1/2022 DEL MMA QUE ESTABLECE LA NORMA DE EMISION PARA LA \\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\tREGULACION DE LA CONTAMINACION LUMINICA.\\r7.\\t\\t\\tLAS CANALIZACIONES A LA VISTA DEBERAN SER EN PVC Sch.80 RESISTENTE A LOS RAYOS UV. SEGUN CARACTERISTICAS MINIMAS \\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\tPRESENTADAS EN TABLA N°4.23 DEL PLIEGO TECNICO NORMATIVO RIC N°04.\\r',\n     372.239, 50.812, 174.441),\n    ('CONTINUACION DE NOTAS:\\r8.\\t\\t\\tPARA VER CANALIZACIONES DE ELECTRICIDAD E INSTRUMENTACION IR A PLANOS MENCIONADOS EN RECUADRO DE REFERENCIAS.\\r9.\\t\\t\\tTODOS LOS RIELES SON DE DIMENSION 42x42x2,5mm, DONDE LA TABLA Nº1 INDICA EL LARGO DE CADA UNO DE ELLOS.\\r10.\\t\\tEQUIPOS DE EMERGENCIA DEBEN CUMPLIR CON EL PLIEGO TECNICO RIC Nº8 PUNTO Nº10 DE ILUMINACION DE SEGURIDAD Y ANEXO 8.1,\\r\\t\\t\\t\\tADEMAS DE CUMPLIR UNA AUTONOMIA DE A LO MENOS DOS HORAS.\\r11.\\t\\tVER MEMORIA DE CALCULO DE ALUMBRADO EN DOCUMENTO Nº 1820-E-MC-002.\\r12.\\t\\tVER DETALLES DE LUMINARIA EN HOJA DE DATOS DE LUMINARIA, DOCUMENTO Nº 1820-E-HDD-001.\\r13. \\tVER POTENCIA DE LUMINARIAS EN TABLA DE SIMBOLOGIA.\\r',\n     372.239, 83.312, 174.441),\n]\n\n\ndef elem_name(e):\n    try:\n        return Element.Name.GetValue(e)\n    except Exception:\n        try:\n            return e.Name\n        except Exception:\n            return ''\n\n\ndef coincide(nombre, texto):\n    # filtro parcial separado por comas, insensible a mayusculas. Mismo criterio que usan\n    # 00, 01, 02 y 03 para elegir sectores.\n    if not texto:\n        return True\n    alto = (nombre or '').upper()\n    for t in texto.split(','):\n        t = t.strip().upper()\n        if t and t in alto:\n            return True\n    return False\n\n\ndef sector_de_vista(v):\n    n = elem_name(v)\n    if n.endswith(SUF_PLANTA):\n        return n[:-len(SUF_PLANTA)]\n    i = n.find(SUF_ELEV)\n    if i > 0:\n        return n[:i]\n    return None\n\n\ndef laminas_de_sector():\n    # Lamina -> (sector, [vistas]). Una lamina es del pipeline si tiene alguna vista que\n    # cumple el contrato de nombres; por la regla de aislamiento de 01, todas sus vistas de\n    # sector son del mismo sector.\n    res = []\n    for sh in FilteredElementCollector(doc).OfClass(ViewSheet):\n        if sh.IsTemplate:\n            continue\n        vistas = []\n        sectores = set()\n        for vp in FilteredElementCollector(doc, sh.Id).OfClass(Viewport):\n            v = doc.GetElement(vp.ViewId)\n            if v is None:\n                continue\n            s = sector_de_vista(v)\n            if s is None:\n                continue\n            vistas.append(v)\n            sectores.add(s)\n        if not vistas:\n            continue\n        sector = sorted(sectores)[0]\n        if len(sectores) > 1:\n            log.append('AVISO: la lamina {} tiene vistas de mas de un sector ({}). La tabla '\n                       'igual lista lo que se ve en la lamina, pero eso rompe la regla de '\n                       'aislamiento que fija 01.'.format(sh.SheetNumber,\n                                                         ', '.join(sorted(sectores))))\n        if not process_all and not coincide(sector, filter_text):\n            continue\n        res.append((sh, sector, vistas))\n    res.sort(key=lambda t: t[0].SheetNumber)\n    return res\n\n\ndef rect_util(sheet):\n    # area util = bbox de la vineta menos margenes. Identica a usable_rect() de 02, que es\n    # la que decide donde caben las vistas.\n    col = FilteredElementCollector(doc, sheet.Id).OfCategory(BuiltInCategory.OST_TitleBlocks)\n    tb = col.FirstElement()\n    if tb is not None:\n        bb = tb.get_BoundingBox(sheet)\n        if bb is not None:\n            return (bb.Min.X + margen, bb.Min.Y + margen,\n                    bb.Max.X - margen, bb.Max.Y - margen)\n    o = sheet.Outline\n    return (o.Min.U + margen, o.Min.V + margen, o.Max.U - margen, o.Max.V - margen)\n\n\ndef se_pisan(a, b, holgura):\n    return not (a[2] + holgura <= b[0] or b[2] + holgura <= a[0] or\n                a[3] + holgura <= b[1] or b[3] + holgura <= a[1])\n\n\n# ---------------------------- LAS LEYENDAS ----------------------------\n\ndef leyendas_del_modelo():\n    # nombre en MAYUSCULAS -> vista de leyenda. Se busca por nombre exacto y no por\n    # prefijo: cual leyenda va en la lamina es una decision de dibujo, no algo deducible.\n    res = {}\n    for v in FilteredElementCollector(doc).OfClass(View):\n        try:\n            if v.IsTemplate or v.ViewType != ViewType.Legend:\n                continue\n        except Exception:\n            continue\n        res[elem_name(v).strip().upper()] = v\n    return res\n\n\ndef sin_acentos(t):\n    tabla = {'\\u00e1': 'a', '\\u00e9': 'e', '\\u00ed': 'i', '\\u00f3': 'o', '\\u00fa': 'u',\n             '\\u00fc': 'u', '\\u00f1': 'n'}\n    return ''.join(tabla.get(c, c) for c in (t or '').lower()).strip()\n\n\ndef tipos_de_viewport():\n    # OJO: los tipos de viewport NO TIENEN CATEGORIA -su parametro Category vale -1-, asi\n    # que OfCategory(OST_Viewports).WhereElementIsElementType() devuelve CERO tipos y no un\n    # error. El sintoma de haberlo hecho por categoria es que las leyendas salen con el tipo\n    # por defecto y el log dice que no hay ningun tipo sin rotulo.\n    #\n    # Se buscan por ElementType con FamilyName \"Viewport\", y ademas se juntan los tipos que\n    # YA usan los viewports del documento. Lo segundo cubre el caso de que ese FamilyName\n    # venga traducido: los tipos en uso son tipos de viewport por construccion, sin depender\n    # de como se llame la familia en el idioma de esta instalacion.\n    res = {}\n    for t in FilteredElementCollector(doc).OfClass(ElementType):\n        try:\n            if t.FamilyName != 'Viewport':\n                continue\n        except Exception:\n            continue\n        res[t.Id.Value] = t\n    for vp in FilteredElementCollector(doc).OfClass(Viewport):\n        try:\n            t = doc.GetElement(vp.GetTypeId())\n        except Exception:\n            continue\n        if t is not None:\n            res[t.Id.Value] = t\n    return list(res.values())\n\n\ndef sin_rotulo(t):\n    try:\n        p = t.get_Parameter(BuiltInParameter.VIEWPORT_ATTR_SHOW_LABEL)\n    except Exception:\n        return False\n    return (p is not None and p.StorageType == StorageType.Integer and p.AsInteger() == 0)\n\n\ndef tipo_viewport_leyenda():\n    # Con IN[17] escrito manda ese nombre y no se discute: es el tipo de la plantilla de la\n    # oficina y el graph no tiene por que saber mas. Vacio, se busca cualquiera con\n    # \"Show Title\" apagado -y si hay varios se avisa cual se uso, porque en ese caso el\n    # resultado depende del modelo y no de una decision-.\n    tipos = tipos_de_viewport()\n    if not tipos:\n        log.append('AVISO: no se encontro ningun tipo de viewport en el modelo; las leyendas '\n                   'quedan con el tipo por defecto.')\n        return None\n\n    if tipo_vp_leyenda:\n        buscado = sin_acentos(tipo_vp_leyenda)\n        for t in tipos:\n            if sin_acentos(elem_name(t)) != buscado:\n                continue\n            if not sin_rotulo(t):\n                log.append('AVISO: el tipo de viewport \"{}\" tiene \"Show Title\" encendido; '\n                           'las leyendas van a salir con su nombre de vista escrito '\n                           'debajo.'.format(elem_name(t)))\n            log.append('Las leyendas van con el tipo de viewport \"{}\".'.format(elem_name(t)))\n            return t.Id\n        log.append('ERROR: no hay ningun tipo de viewport llamado \"{}\". Los que tiene el '\n                   'modelo son: {}.'.format(\n                       tipo_vp_leyenda,\n                       ', '.join(sorted('\"{}\"'.format(elem_name(t)) for t in tipos))))\n\n    candidatos = sorted((elem_name(t), t.Id) for t in tipos if sin_rotulo(t))\n    if not candidatos:\n        log.append('AVISO: ningun tipo de viewport tiene \"Show Title\" apagado; las leyendas '\n                   'quedan con el tipo por defecto y salen con su nombre de vista debajo.')\n        return None\n    log.append('Las leyendas van con el tipo de viewport \"{}\"{}.'.format(\n        candidatos[0][0],\n        ' (habia {} sin rotulo)'.format(len(candidatos)) if len(candidatos) > 1 else ''))\n    return candidatos[0][1]\n\n\ndef rects_ocupados(sheet, excluir):\n    # Lo que ya hay dibujado en la lamina. Los viewports -vistas y leyendas- y ADEMAS la\n    # tabla de 04, que no es un Viewport sino un ScheduleSheetInstance y por eso hay que\n    # buscarla aparte. Sirve para avisar cuando lo que este paso pega a la esquina cae\n    # encima de algo que ya estaba.\n    rects = []\n    for vp in FilteredElementCollector(doc, sheet.Id).OfClass(Viewport):\n        if vp.Id.Value in excluir:\n            continue\n        try:\n            o = vp.GetBoxOutline()\n        except Exception:\n            continue\n        if o is not None:\n            rects.append((o.MinimumPoint.X, o.MinimumPoint.Y,\n                          o.MaximumPoint.X, o.MaximumPoint.Y))\n    for ssi in FilteredElementCollector(doc, sheet.Id).OfClass(ScheduleSheetInstance):\n        try:\n            bb = ssi.get_BoundingBox(sheet)\n        except Exception:\n            continue\n        if bb is not None:\n            rects.append((bb.Min.X, bb.Min.Y, bb.Max.X, bb.Max.Y))\n    return rects\n\n\ndef colocar_leyendas(sheet, catalogo, tipo_sin_titulo, numero_lamina):\n    # La pila se pega a la esquina y crece hacia adentro, sin separacion entre leyendas. No\n    # busca hueco: la esquina es lo que se pidio, y el alto de cada leyenda se mide despues\n    # de colocarla porque un dibujo de leyenda no tiene tamano previsible.\n    x0, y0, x1, y1 = rect_util(sheet)\n    # el ajuste corre el rectangulo entero, asi que la correccion es la misma sea cual sea\n    # la esquina contra la que se apoye la pila\n    x0 += AJUSTE_LEYENDAS_X\n    x1 += AJUSTE_LEYENDAS_X\n    y0 += AJUSTE_LEYENDAS_Y\n    y1 += AJUSTE_LEYENDAS_Y\n    derecha = 'derecha' in esquina_leyendas\n    arriba = 'abajo' not in esquina_leyendas\n\n    puestos = {}\n    for vp in FilteredElementCollector(doc, sheet.Id).OfClass(Viewport):\n        puestos.setdefault(vp.ViewId.Value, []).append(vp)\n\n    pila = []\n    for nombre in leyendas_pedidas:\n        v = catalogo.get(nombre.upper())\n        if v is None:\n            log.append('AVISO {}: no hay ninguna leyenda llamada \"{}\" en el modelo; las '\n                       'demas se colocan igual.'.format(numero_lamina, nombre))\n            continue\n        pila.append(v)\n    if not pila:\n        return 0\n\n    ya = [v for v in pila if puestos.get(v.Id.Value)]\n    if len(ya) == len(pila) and not rehacer:\n        log.append('{}: ya tiene las {} leyenda(s), se dejan donde estan. Corre con rehacer '\n                   'para volver a pegarlas a la esquina.'.format(numero_lamina, len(ya)))\n        return 0\n\n    nuestros = set()\n    colocadas = []\n    # la lista viene en orden visual de arriba hacia abajo; anclada abajo se apila al reves\n    cursor = y1 if arriba else y0\n    for v in (pila if arriba else list(reversed(pila))):\n        vps = puestos.get(v.Id.Value) or []\n        if len(vps) > 1:\n            log.append('AVISO {}: la leyenda \"{}\" esta puesta {} veces en la lamina; se '\n                       'reubica una sola y las otras quedan donde estan.'.format(\n                           numero_lamina, elem_name(v), len(vps)))\n        vp = vps[0] if vps else None\n        if vp is None:\n            try:\n                if not Viewport.CanAddViewToSheet(doc, sheet.Id, v.Id):\n                    log.append('AVISO {}: Revit no deja poner la leyenda \"{}\" en esta '\n                               'lamina.'.format(numero_lamina, elem_name(v)))\n                    continue\n                vp = Viewport.Create(doc, sheet.Id, v.Id, XYZ(x0, y1, 0.0))\n            except Exception as e:\n                log.append('ERROR {}: no se pudo colocar la leyenda \"{}\" ({}).'.format(\n                    numero_lamina, elem_name(v), e))\n                continue\n        if tipo_sin_titulo is not None:\n            try:\n                if vp.GetTypeId().Value != tipo_sin_titulo.Value:\n                    vp.ChangeTypeId(tipo_sin_titulo)\n            except Exception:\n                log.append('AVISO {}: la leyenda \"{}\" no acepto el tipo de viewport sin '\n                           'rotulo; puede salir con su nombre debajo.'.format(\n                               numero_lamina, elem_name(v)))\n        nuestros.add(vp.Id.Value)\n        doc.Regenerate()\n        try:\n            o = vp.GetBoxOutline()\n            ancho = o.MaximumPoint.X - o.MinimumPoint.X\n            alto = o.MaximumPoint.Y - o.MinimumPoint.Y\n        except Exception:\n            log.append('AVISO {}: no se pudo medir la leyenda \"{}\"; queda donde cayo.'.format(\n                numero_lamina, elem_name(v)))\n            continue\n        px = (x1 - ancho) if derecha else x0\n        if arriba:\n            py = cursor - alto\n            cursor = py\n        else:\n            py = cursor\n            cursor = py + alto\n        try:\n            vp.SetBoxCenter(XYZ(px + ancho / 2.0, py + alto / 2.0, 0.0))\n        except Exception as e:\n            log.append('AVISO {}: no se pudo mover la leyenda \"{}\" a la esquina ({}).'.format(\n                numero_lamina, elem_name(v), e))\n            continue\n        colocadas.append((elem_name(v), (px, py, px + ancho, py + alto)))\n\n    if not colocadas:\n        return 0\n\n    ajenos = rects_ocupados(sheet, nuestros)\n    pisadas = [n for n, r in colocadas if any(se_pisan(r, a, 0.0) for a in ajenos)]\n    if pisadas:\n        log.append('AVISO {}: {} queda(n) montada(s) sobre una vista o sobre la tabla. La '\n                   'lamina reparte las vistas por el lienzo completo, asi que la esquina '\n                   'puede estar ocupada.'.format(numero_lamina, ', '.join(pisadas)))\n    log.append('OK {}: {} leyenda(s) pegadas a la esquina {}: {}.'.format(\n        numero_lamina, len(colocadas), esquina_leyendas,\n        ', '.join(n for n, _ in colocadas)))\n    return len(colocadas)\n\n\n# ---------------------------- LAS NOTAS ----------------------------\n\ndef notas_de(sheet):\n    return list(FilteredElementCollector(doc, sheet.Id)\n                .OfCategory(BuiltInCategory.OST_TextNotes)\n                .WhereElementIsNotElementType())\n\n\ndef origen_vineta(sheet):\n    # Vertice inferior izquierdo de la vineta. Las coordenadas de las notas se guardan\n    # RELATIVAS a este punto y no en coordenadas de lamina: asi la misma constante sirve en\n    # cualquier lamina, sin depender de donde haya quedado insertada la vineta.\n    col = FilteredElementCollector(doc, sheet.Id).OfCategory(BuiltInCategory.OST_TitleBlocks)\n    tb = col.FirstElement()\n    if tb is not None:\n        bb = tb.get_BoundingBox(sheet)\n        if bb is not None:\n            return (bb.Min.X, bb.Min.Y)\n    o = sheet.Outline\n    return (o.Min.U, o.Min.V)\n\n\ndef escapar(t):\n    # Sin literales con barra invertida a proposito: esta cadena viaja del log a un archivo\n    # de codigo y cada capa que la toca puede comerse un nivel de escape. Con chr() no hay\n    # nada que escapar.\n    barra = chr(92)\n    salida = []\n    for c in (t or ''):\n        if c == barra:\n            salida.append(barra + barra)\n        elif c == chr(9):\n            salida.append(barra + 't')\n        elif c == chr(13):\n            salida.append(barra + 'r')\n        elif c == chr(10):\n            salida.append(barra + 'n')\n        else:\n            salida.append(c)\n    return ''.join(salida)\n\n\ndef diagnostico_notas(numero_lamina):\n    # Revit no deja leer la posicion de una nota de texto desde fuera del modelo, asi que\n    # esta es la unica forma de conocerla: preguntarsela al propio documento y escribirla en\n    # el log con el formato exacto que espera NOTAS. Se corre una vez, se pegan las lineas en\n    # la constante y no se vuelve a necesitar. Tambien vuelca el texto con los tabs y saltos\n    # escapados: copiado a mano desde el plano, el texto pierde justamente eso.\n    sheet = None\n    buscado = numero_lamina.strip().upper()\n    for sh in FilteredElementCollector(doc).OfClass(ViewSheet):\n        if not sh.IsTemplate and (sh.SheetNumber or '').strip().upper() == buscado:\n            sheet = sh\n            break\n    if sheet is None:\n        log.append('DIAGNOSTICO: no hay ninguna lamina numerada \"{}\".'.format(numero_lamina))\n        return\n    notas = notas_de(sheet)\n    if not notas:\n        log.append('DIAGNOSTICO: la lamina {} no tiene notas de texto.'.format(\n            sheet.SheetNumber))\n        return\n    ox, oy = origen_vineta(sheet)\n    log.append('DIAGNOSTICO de {}: {} nota(s). Pegar las lineas NOTA de abajo dentro de '\n               'NOTAS, en este mismo orden.'.format(sheet.SheetNumber, len(notas)))\n    for n in notas:\n        try:\n            p = n.Coord\n            tipo = elem_name(doc.GetElement(n.GetTypeId()))\n            ancho = n.Width\n            ha = str(n.HorizontalAlignment)\n            va = str(n.VerticalAlignment)\n        except Exception as e:\n            log.append('DIAGNOSTICO: no se pudo leer la nota {} ({}).'.format(n.Id.Value, e))\n            continue\n        log.append('NOTA  x={:.3f}  y={:.3f}  ancho={:.3f}  tipo=\"{}\"  hAlign={}  '\n                   'vAlign={}  texto=\"{}\"'.format(\n                       (p.X - ox) * 304.8, (p.Y - oy) * 304.8, ancho * 304.8,\n                       tipo, ha, va, escapar(n.Text)))\n    if NOTAS:\n        verificar_notas(notas, ox, oy)\n\n\ndef verificar_notas(notas, ox, oy):\n    # El diagnostico ademas VERIFICA. Con NOTAS ya cargado, compara lo que dice el modelo\n    # contra lo que dice este archivo: es la unica forma de saber que la transcripcion es\n    # exacta, porque un tab de mas o un \\r convertido en \\n no se ven en el plano pero son\n    # texto distinto. Se emparejan por TEXTO y no por orden: si el emparejamiento falla, el\n    # problema es la transcripcion, y si funciona pero la posicion no, el problema es otro.\n    libres = list(range(len(NOTAS)))\n    for n in notas:\n        try:\n            texto_real = n.Text\n            p = n.Coord\n            ancho_real = n.Width * 304.8\n        except Exception as e:\n            log.append('VERIFICACION: no se pudo leer una nota ({}).'.format(e))\n            continue\n        k = None\n        for idx in libres:\n            if NOTAS[idx][0] == texto_real:\n                k = idx\n                break\n        if k is None:\n            log.append('VERIFICACION: hay una nota en la lamina cuyo texto NO coincide con '\n                       'ninguna entrada de NOTAS. Empieza con \"{}\".'.format(\n                           escapar(texto_real[:60])))\n            continue\n        libres.remove(k)\n        dx = (p.X - ox) * 304.8 - NOTAS[k][1]\n        dy = (p.Y - oy) * 304.8 - NOTAS[k][2]\n        da = ancho_real - NOTAS[k][3]\n        if abs(dx) > 0.001 or abs(dy) > 0.001 or abs(da) > 0.001:\n            log.append('VERIFICACION nota {} de NOTAS: el texto coincide exacto, pero la '\n                       'posicion difiere en {:.3f} x {:.3f} mm y el ancho en {:.3f} '\n                       'mm.'.format(k + 1, dx, dy, da))\n        else:\n            log.append('VERIFICACION nota {} de NOTAS: identica en texto, posicion y '\n                       'ancho.'.format(k + 1))\n    for idx in libres:\n        log.append('VERIFICACION: la entrada {} de NOTAS no aparece en la lamina.'.format(\n            idx + 1))\n\n\ndef tipo_de_texto(nombre):\n    for t in FilteredElementCollector(doc).OfClass(TextNoteType):\n        if elem_name(t) == nombre:\n            return t.Id\n    for t in FilteredElementCollector(doc).OfClass(TextNoteType):\n        if sin_acentos(elem_name(t)) == sin_acentos(nombre):\n            return t.Id\n    return None\n\n\ndef crear_notas(laminas):\n    # Se crean DESDE CERO en cada lamina de sector: el texto, el tipo, el ancho y la posicion\n    # son constantes de este archivo y no se leen de ninguna otra lamina. La posicion va\n    # relativa al vertice inferior izquierdo de la vineta, que es lo unico comun entre\n    # laminas distintas.\n    if not NOTAS:\n        log.append('AVISO: NOTAS esta vacio, asi que no se escribe ninguna nota. Corre el '\n                   'paso con el input de diagnostico apuntando a la lamina que ya las tiene '\n                   'y pega en NOTAS las lineas que salgan en el log.')\n        return 0\n\n    tipo_id = tipo_de_texto(TIPO_TEXTO_NOTAS)\n    if tipo_id is None:\n        log.append('ERROR: no hay ningun tipo de texto llamado \"{}\" en el modelo; las notas '\n                   'no se escriben.'.format(TIPO_TEXTO_NOTAS))\n        return 0\n\n    escritas = 0\n    for sh, sector, vistas in laminas:\n        propias = notas_de(sh)\n        if propias and not rehacer:\n            log.append('{}: ya tiene {} nota(s) de texto, se dejan como estan. Corre con '\n                       'rehacer para reescribirlas.'.format(sh.SheetNumber, len(propias)))\n            continue\n        # rehacer se lleva las notas que ya estaban, incluidas las puestas a mano. Es el\n        # mismo trato que hacen las cotas de 03: estas laminas las mantiene el pipeline y\n        # rehacer es explicito.\n        for vieja in propias:\n            try:\n                doc.Delete(vieja.Id)\n            except Exception:\n                pass\n        ox, oy = origen_vineta(sh)\n        puestas = 0\n        creadas = []\n        for texto, x_mm, y_mm, ancho_mm in NOTAS:\n            try:\n                opts = TextNoteOptions(tipo_id)\n                opts.HorizontalAlignment = ALINEACION_NOTAS_H\n                opts.VerticalAlignment = ALINEACION_NOTAS_V\n                creadas.append(TextNote.Create(doc, sh.Id,\n                                              XYZ(ox + x_mm / 304.8, oy + y_mm / 304.8, 0.0),\n                                              ancho_mm / 304.8, texto, opts))\n                puestas += 1\n            except Exception as e:\n                log.append('ERROR {}: no se pudo escribir una nota ({}).'.format(\n                    sh.SheetNumber, e))\n        escritas += puestas\n        log.append('OK {}: {} nota(s) escritas.'.format(sh.SheetNumber, puestas))\n        avisar_si_pisan(sh, creadas)\n    return escritas\n\n\ndef avisar_si_pisan(sheet, notas):\n    # Las notas van a coordenadas fijas y no negocian con nadie; la tabla de 04, en cambio,\n    # busca hueco. Si 04 corrio primero sobre una lamina nueva, se paro sin saber que estas\n    # notas iban a llegar. No se mueve nada -la posicion de la nota es el dato-, se avisa.\n    if not notas:\n        return\n    doc.Regenerate()\n    ajenos = rects_ocupados(sheet, set())\n    chocan = 0\n    for nt in notas:\n        try:\n            bb = nt.get_BoundingBox(sheet)\n        except Exception:\n            continue\n        if bb is None:\n            continue\n        r = (bb.Min.X, bb.Min.Y, bb.Max.X, bb.Max.Y)\n        if any(se_pisan(r, a, 0.0) for a in ajenos):\n            chocan += 1\n    if chocan:\n        log.append('AVISO {}: {} nota(s) quedan montadas sobre una vista o sobre la tabla. '\n                   'Corre 04 con rehacer despues de este paso: ahi la tabla ya las ve y se '\n                   'busca otro hueco.'.format(sheet.SheetNumber, chocan))\n\n\n# ---------------------------- EJECUCION ----------------------------\n\nlaminas = laminas_de_sector()\nif not laminas:\n    log.append('No hay laminas con vistas de sector que coincidan con el filtro. Se esperan '\n               'laminas con vistas \"<sector>{}\" o \"<sector>{}X\", creadas por 01 y 02.'.format(\n                   SUF_PLANTA, SUF_ELEV))\nelse:\n    TransactionManager.Instance.EnsureInTransaction(doc)\n\n    if leyendas_pedidas:\n        catalogo = leyendas_del_modelo()\n        tipo_sin_titulo = tipo_viewport_leyenda()\n        estampadas = 0\n        for sh, sector, vistas in laminas:\n            estampadas += colocar_leyendas(sh, catalogo, tipo_sin_titulo, sh.SheetNumber)\n        log.append('{} leyenda(s) estampadas en {} lamina(s) de sector.'.format(\n            estampadas, len(laminas)))\n\n    if lamina_diagnostico:\n        diagnostico_notas(lamina_diagnostico)\n    crear_notas(laminas)\n\n    TransactionManager.Instance.ForceCloseTransaction()\n\nOUT = log\n",
+      "Inputs": [
+        {
+          "Id": "a7010000000000000000000000000010",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a7010000000000000000000000000011",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a7010000000000000000000000000012",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a7010000000000000000000000000013",
+          "Name": "IN[3]",
+          "Description": "Input #3",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a7010000000000000000000000000014",
+          "Name": "IN[4]",
+          "Description": "Input #4",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a7010000000000000000000000000015",
+          "Name": "IN[5]",
+          "Description": "Input #5",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a7010000000000000000000000000016",
+          "Name": "IN[6]",
+          "Description": "Input #6",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a7010000000000000000000000000017",
+          "Name": "IN[7]",
+          "Description": "Input #7",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "a7010000000000000000000000000005",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
+      "WatchWidth": 460,
+      "WatchHeight": 320,
+      "Id": "c7010000000000000000000000000001",
+      "NodeType": "ExtensionNode",
+      "Inputs": [
+        {
+          "Id": "c7010000000000000000000000000002",
+          "Name": "",
+          "Description": "Node to evaluate.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "c7010000000000000000000000000003",
+          "Name": "",
+          "Description": "Watch contents.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Visualizes a node's output"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "e0010000000000000000000000000002",
+      "End": "a7010000000000000000000000000010",
+      "Id": "d7010000000000000000000000000010",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "e0020000000000000000000000000002",
+      "End": "a7010000000000000000000000000011",
+      "Id": "d7010000000000000000000000000011",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "e0030000000000000000000000000002",
+      "End": "a7010000000000000000000000000012",
+      "Id": "d7010000000000000000000000000012",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "e0040000000000000000000000000002",
+      "End": "a7010000000000000000000000000013",
+      "Id": "d7010000000000000000000000000013",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "e0050000000000000000000000000002",
+      "End": "a7010000000000000000000000000014",
+      "Id": "d7010000000000000000000000000014",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "e0060000000000000000000000000002",
+      "End": "a7010000000000000000000000000015",
+      "Id": "d7010000000000000000000000000015",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "e0070000000000000000000000000002",
+      "End": "a7010000000000000000000000000016",
+      "Id": "d7010000000000000000000000000016",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "e0080000000000000000000000000002",
+      "End": "a7010000000000000000000000000017",
+      "Id": "d7010000000000000000000000000017",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "a7010000000000000000000000000005",
+      "End": "c7010000000000000000000000000002",
+      "Id": "d70100000000000000000000000000f0",
+      "IsHidden": "False"
+    }
+  ],
+  "Dependencies": [],
+  "NodeLibraryDependencies": [],
+  "EnableLegacyPolyCurveBehavior": true,
+  "Thumbnail": "",
+  "GraphDocumentationURL": null,
+  "ExtensionWorkspaceData": [],
+  "Author": "",
+  "Linting": {
+    "activeLinter": "None",
+    "activeLinterId": "7b75fb44-43fd-4631-a878-29f4d5d8399a",
+    "warningCount": 0,
+    "errorCount": 0
+  },
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "4.0.2.3852",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "_Background Preview",
+      "EyeX": -17,
+      "EyeY": 24,
+      "EyeZ": 50,
+      "LookX": 12,
+      "LookY": -13,
+      "LookZ": -58,
+      "UpX": 0,
+      "UpY": 1,
+      "UpZ": 0
+    },
+    "ConnectorPins": [],
+    "NodeViews": [
+      {
+        "Id": "e0010000000000000000000000000001",
+        "Name": "01. Procesar TODOS los sectores",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 0
+      },
+      {
+        "Id": "e0020000000000000000000000000001",
+        "Name": "02. Filtro de sectores (si TODOS = False)",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 130
+      },
+      {
+        "Id": "e0030000000000000000000000000001",
+        "Name": "03. Margen de la lamina (mm) - el mismo que 01 y 02",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 260
+      },
+      {
+        "Id": "e0040000000000000000000000000001",
+        "Name": "04. Leyendas a estampar, de arriba hacia abajo",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 390
+      },
+      {
+        "Id": "e0050000000000000000000000000001",
+        "Name": "05. Esquina donde se pega la pila de leyendas",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 520
+      },
+      {
+        "Id": "e0060000000000000000000000000001",
+        "Name": "06. Tipo de viewport para las leyendas",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 650
+      },
+      {
+        "Id": "e0070000000000000000000000000001",
+        "Name": "07. DIAGNOSTICO: lamina de la que medir las notas (vacio = normal)",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 780
+      },
+      {
+        "Id": "e0080000000000000000000000000001",
+        "Name": "08. Rehacer leyendas y notas existentes",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 910
+      },
+      {
+        "Id": "a7010000000000000000000000000001",
+        "Name": "PY | Leyendas y notas de la lamina",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 560,
+        "Y": 160
+      },
+      {
+        "Id": "c7010000000000000000000000000001",
+        "Name": "Log",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": true,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 920,
+        "Y": 160
+      }
+    ],
+    "Annotations": [],
+    "X": 0,
+    "Y": 0,
+    "Zoom": 0.8
+  }
+}

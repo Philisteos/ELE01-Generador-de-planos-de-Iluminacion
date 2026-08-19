@@ -2,8 +2,8 @@
 
 Pipeline de graphs de Dynamo (4.0, CPython3, **sin paquetes externos**) para documentar
 sectores de una planta de iluminación: planta y cuatro elevaciones por sector, distribución
-en láminas, cotas y tags de riel RUC, la tabla de tipos de riel por lámina, y las leyendas y
-notas de la hoja.
+en láminas, cotas y tags de riel RUC, la tabla de tipos de riel por lámina, la numeración
+`L1, L2, L3…` de las luminarias con su tabla de alturas, y las leyendas y notas de la hoja.
 
 > **El sector ES la caja.** Un sector es una **vista 3D con el Section Box activo**, y nada
 > más: ni assemblies, ni grupos, ni ejes marcados. Lo que delimita el sector ya es
@@ -31,7 +31,7 @@ guardar. Eso registra los inputs para Dynamo Player. Después se opera todo desd
 > ⚠️ **Cuando un paso suma o renombra inputs hay que volver a abrirlo en Dynamo**, o Player
 > sigue mostrando la lista vieja.
 
-### Estado al 2026-08-18
+### Estado al 2026-08-19
 
 Modelo de referencia: `1820-400-E-MOD-001_detached`, escala de trabajo **1:75**.
 
@@ -40,6 +40,9 @@ Modelo de referencia: `1820-400-E-MOD-001_detached`, escala de trabajo **1:75**.
 | Rieles RUC en el modelo | **217** (+ 77 mordazas que quedan fuera por el prefijo de familia) |
 | Familias de riel | `RIEL RUC GALVANIZADO SUELO`, `... MURO`, `... MURO VERT.` |
 | Tipos distintos por largo | **10** (el código es el largo: R-01, R-02, R-25, R-03…) |
+| Luminarias en el modelo | **25**, todas de la familia `VAPORLITE III-LED` (tipos `50 W` y `70 W`) |
+| Numeración de luminaria | `L1`…`L25`, correlativo **global**, barrido horario desde la esquina superior izquierda |
+| Luminarias de emergencia | **ninguna** — `EMERGENCY LIGHT` vale 0 en los dos tipos cargados |
 | Sectores documentados | SECTOR A (láminas A1 y A2) |
 
 ## Orden de ejecución
@@ -52,18 +55,40 @@ Modelo de referencia: `1820-400-E-MOD-001_detached`, escala de trabajo **1:75**.
 | 3 | `03_Rieles RUC - cotas y tags.dyn` | ✅ | Cadenas de cotas entre rieles de suelo + tags de tipo (`R-01`, `R-02`…) sobre todos los rieles |
 | 4 | `04_Rieles RUC - tabla de tipos.dyn` | ✅ | La TABLA N°1 de tipos de riel, una por lámina |
 | 5 | `05_Leyendas y notas.dyn` | ✅ | Las leyendas de la hoja pegadas a la esquina y el bloque de notas generales |
+| 6 | `06_Luminarias - tags Lx.dyn` | ✅ | Numera las luminarias `L1, L2, L3…` con un barrido horario y estampa el texto en la planta y en las cuatro elevaciones |
+| 7 | `07_Luminarias - tabla de alturas.dyn` | ⚠️ | La TABLA N°2 de alturas de montaje, una fila por luminaria. **La columna de altura va vacía** (ver abajo) |
 
-**Flujo**: 00 → 01 → 02 → 03 → **05 → 04**. Del 00 al 03 el orden es obligatorio. Los dos
-últimos son independientes entre sí, pero al dibujo le conviene **05 antes que 04**: las
-leyendas y las notas van a lugar fijo y no negocian, mientras que la tabla de 04 busca hueco y
-cuenta como ocupado todo lo que ya esté en la lámina. Si se corre al revés sobre una lámina
-nueva, 05 avisa en el log y basta volver a correr 04 con *rehacer*.
+**Flujo**: 00 → 01 → 02 → 03 → **06 → 05 → 04 → 07**. Del 00 al 03 el orden es obligatorio, y
+06 tiene que ir antes que 07 —07 solo lee el código que escribe 06—. El resto es cuestión de
+dibujo, y la regla es una sola: **lo que va a lugar fijo, primero; lo que busca hueco,
+después**. Las leyendas y las notas de 05 no negocian; las tablas de 04 y 07 sí, y cuentan
+como ocupado todo lo que ya esté en la lámina. Si se corre al revés sobre una lámina nueva,
+05 avisa en el log y basta volver a correr las tablas con *rehacer*.
 
-**03 y 04 son los dos pasos del riel RUC**: todo lo que hacen sale del parámetro `Longitud`
-de un riel, y en una lámina sin rieles no harían nada. **05 es de la hoja**: la simbología, la
-nomenclatura y las notas estarían igual en una lámina sin un solo riel. Por eso están
-separados — hasta el 2026-08-19 las tres cosas vivían en un solo paso llamado
-`04_TABLAS y Listados`, con diecinueve inputs y tres temas que no se tocaban entre sí.
+> **Las dos tablas se ven entre sí.** Cada una arranca por una esquina distinta —04 por
+> abajo-derecha, 07 por abajo-izquierda— y las dos cuentan a la otra como ocupada, así que en
+> el caso normal ni se rozan. Hasta el 2026-08-19 esto no era cierto: 04 no miraba las tablas
+> de la lámina porque era la única que había, y al aparecer la TABLA N°2 las dos se disputaban
+> el mismo hueco y quedaban encimadas. Se le agregó a 04 el mismo `ocupado_en` que usa 07.
+
+Los pasos vienen **de a pares, uno por elemento documentado**:
+
+| Par | Pasos | Todo lo que hacen sale de… | En una lámina sin ese elemento |
+|---|---|---|---|
+| Riel RUC | 03 + 04 | el parámetro `Longitud` de un riel | no harían nada |
+| Luminaria | 06 + 07 | la **posición** de la luminaria en la planta | no harían nada |
+| La hoja | 05 | nada del modelo: son constantes del graph | estaría igual |
+
+En los dos pares el primer paso dibuja sobre las vistas y el segundo imprime la tabla que le
+da sentido. La diferencia está en **dónde vive el dato**: el código `R-xx` de un riel es una
+función de ese riel y los dos pasos lo recalculan por su cuenta, mientras que el `Lx` de una
+luminaria depende de dónde están *todas* las demás, así que lo calcula 06, lo guarda en un
+parámetro y 07 solo lo lee. Ver los contratos 3 y 4.
+
+**05 es de la hoja** y por eso está aparte: la simbología, la nomenclatura y las notas estarían
+igual en una lámina sin un solo riel ni una sola luminaria. Hasta el 2026-08-19 las leyendas,
+las notas y la tabla de rieles vivían en un solo paso llamado `04_TABLAS y Listados`, con
+diecinueve inputs y tres temas que no se tocaban entre sí.
 
 ---
 
@@ -139,6 +164,37 @@ Tabla vigente (tras corregir el riel de 108 mm):
 El `R-25` es el único que no es un múltiplo de 100. Se redondea al **milímetro entero** —para
 que 300,000 y 300,054 sean el mismo riel— pero **no** a la medida comercial: si un riel mide
 241, el código dice `R-241` y el problema se ve.
+
+### 4. El código `Lx` lo escribe 06 y nadie más lo recalcula
+
+Es el contrario exacto del anterior, y la diferencia no es de estilo: **el `R-xx` de un riel
+es una función de ese riel**, así que 03 y 04 pueden calcularlo cada uno por su lado sin
+riesgo de discrepar. **El `Lx` de una luminaria es una función de dónde están todas las
+demás** —sale de un barrido sobre el conjunto— así que dos implementaciones podrían dar
+resultados distintos con solo ver conjuntos distintos.
+
+Por eso hay una sola: 06 barre, numera y **escribe el resultado** en dos parámetros de la
+luminaria, y todo lo demás lee.
+
+| Parámetro | Qué guarda | Quién lo escribe | Quién lo lee |
+|---|---|---|---|
+| `LUMINARIAS` | el código visible, `L7` | 06 | los textos de 06, la columna `LX` de 07 |
+| `ORDEN_LUM` | el mismo número, `7`, como número | 06 | el orden de las filas de 07 |
+| `En plano` | el sector donde aparece, `;SECTOR A;` | 07 | el filtro del schedule de 07 |
+
+`LUMINARIAS` ya existe en el modelo —viene con la familia, con su propio GUID— y 06 lo
+reconoce y no lo toca. Los otros dos los crea el graph si faltan, con GUID derivado del
+nombre, igual que `LARGO_TBL` e `ITEM_TBL` en 04.
+
+> **Por qué el número va dos veces.** Un schedule ordena el texto alfabéticamente, así que
+> ordenar la tabla por `LUMINARIAS` daría L1, L10, L11, L12, …, L2, L20. La salida obvia
+> —escribir `L01`— ordenaría bien y cambiaría **lo que se lee en el plano**, que es lo único
+> que no se toca. Así que el orden viaja aparte, en un campo numérico oculto.
+
+> ⚠️ **Es una foto, no una regla.** Si alguien mueve una luminaria, o agrega una, el barrido
+> cambia y los códigos escritos quedan viejos: el plano miente hasta que se vuelva a correr 06
+> con *rehacer*. Es el mismo trato que los tags de riel de 03 y por el mismo motivo — un
+> `TextNote` no es asociativo.
 
 ---
 
@@ -497,11 +553,240 @@ Lo que dicen hoy, para referencia (la fuente es la constante `NOTAS`, no esta ta
 | 13 | VER POTENCIA DE LUMINARIAS EN TABLA DE SIMBOLOGIA. |
 
 > La **nota 9** es la que le da sentido a la TABLA N°1 y por eso el título de la tabla es
-> `TABLA N°1 (NOTA 9)`: si alguna vez se renumeran las notas, hay que cambiar los dos.
+> `TABLA N°1 (NOTA 9)`. Lo mismo pasa con la **nota 5** y la TABLA N°2 de 07
+> (`TABLA N°2 (NOTA 5)`): si alguna vez se renumeran las notas, hay que cambiar los títulos.
+---
+
+## 06 — Luminarias: tags `Lx`
+
+El primero de los dos pasos de la luminaria. Numera **todas** las luminarias del modelo con
+un correlativo `L1, L2, L3…`, escribe el código en la luminaria y lo estampa como texto en la
+planta **y en las cuatro elevaciones** de cada sector.
+
+### El barrido horario
+
+Las luminarias se ordenan por el **ángulo con que se las ve desde el centro de la planta**,
+arrancando en **la luminaria de más arriba a la izquierda** y girando en sentido horario hasta
+volver a ella. Una manilla de reloj que arranca a las 10:30 y da una vuelta entera.
+
+```
+ L1 -> L2 -> L3 -> L4
+  ^  +--------------+  |
+  |  |              |  v
+ L12 |   (centro)   |  L5      inicio: hacia la esquina superior izquierda
+  ^  |              |  |       giro:   horario
+  |  +--------------+  v
+ L11 <- L10 <- L9 <- L8
+```
+
+Es un criterio poco común —lo natural sería de arriba a abajo y de izquierda a derecha— pero
+es el que piden los ingenieros y el graph no lo discute.
+
+### El arranque es una luminaria, no un ángulo
+
+La **semilla** es la luminaria más cercana al vértice superior izquierdo del rectángulo
+envolvente: exactamente la que uno señalaría con el dedo diciendo *"esa, la de más arriba a la
+izquierda"*. Se le da el `L1` y el resto sale girando horario desde ella.
+
+> ⚠️ **Esto es la corrección de un bug, no un detalle de implementación.** La primera versión
+> arrancaba en la dirección fija de **135°**, dando por sentado que la esquina superior
+> izquierda está a 135° del centro. **Solo lo está si la planta es cuadrada.** En SECTOR A esa
+> luminaria está a **135,84°** —0,84° pasada de la raya— así que el módulo la mandaba a
+> `giro ≈ 360°` y se llevaba el **último** número. Justo la luminaria que cualquiera mira
+> primero para comprobar que el barrido está bien.
+>
+> Anclando en la semilla el problema desaparece de raíz en vez de atenuarse: su propio giro es
+> `(a − a) mod 2π`, que da **cero exacto** en cualquier máquina. No queda borde donde caerse,
+> porque el corte de la vuelta está puesto justo encima de la luminaria que tiene que abrirla.
+>
+> El log dice qué id abrió la vuelta — es lo primero que hay que mirar, y no hay otra forma de
+> verlo sin contar tags a mano.
+
+> **El centro es el del rectángulo envolvente, no el promedio de las posiciones.** Suena
+> parecido y no lo es: el promedio se corre hacia donde haya más luminarias juntas, así que un
+> racimo denso en una esquina movería el centro y con él el orden de todo el resto. El
+> rectángulo envolvente depende solo de los cuatro extremos, que es lo que cualquiera entiende
+> por "el centro del plano".
+
+**Los empates** —dos luminarias exactamente en la misma dirección desde el centro— se rompen
+por distancia al centro, de adentro hacia afuera, y a igualdad de todo por id de elemento. Es
+una regla arbitraria y está bien que lo sea: lo único que importa es que sea **estable**,
+porque un plano ya emitido tiene que seguir coincidiendo con el modelo. El log dice cuántos
+empates hubo, que es la única forma de enterarse de que la regla estuvo en juego.
+
+**La orientación** (qué es "arriba" y qué "izquierda") sale de los ejes X/Y del proyecto. Si
+el modelo trabajara girado, el input `10.` acepta el nombre de una vista de planta y se usan
+los de ella.
+
+### La numeración es global, no por sector
+
+`L1..Ln` recorre **todas** las luminarias del modelo de una sola vez. Una luminaria se llama
+igual en todos los planos donde salga.
+
+Es lo contrario del `ITEM` de la TABLA N°1, que reinicia en cada sector, y el motivo de la
+diferencia es para qué sirve cada número: el `ITEM` del riel es un renglón de cantidades —tiene
+que ser un correlativo sin huecos dentro de su tabla— mientras que el `Lx` de una luminaria es
+un **nombre**, y un nombre que significa dos cosas distintas según la hoja no es un nombre.
+
+> **Consecuencia visible**: la tabla de un sector **no arranca en L1 ni lleva números
+> seguidos**. Va a decir L3, L7, L8, L15… y eso es correcto, no un error de filtrado.
+
+Por eso el paso **escribe el parámetro en todas las luminarias del modelo** aunque se corra
+filtrando un solo sector: si escribiera solo las del sector procesado, el correlativo
+dependería de por cuál sector se empezó. Los *tags dibujados* sí se limitan al filtro.
+
+### El texto
+
+Un `TextNote` por luminaria, **sin flecha**, **abajo de la luminaria y centrado con ella**. Es
+la misma decisión que los tags de riel de 03 —no hay familia de etiqueta que dibuje el
+parámetro donde vive el código, y ninguna API dice qué parámetro dibuja el label de una
+anotación— con una diferencia que vale la pena entender:
+
+| | Tag de riel (03) | Tag de luminaria (06) |
+|---|---|---|
+| Qué dice el código | un **tipo** (`R-04` = 400 mm) | una **identidad** (`L7` = esa luminaria) |
+| Agrupación | un texto con flechas a todos los rieles de ese tipo que tenga cerca | uno por luminaria, sin flecha |
+
+Agrupar dos `Lx` sería borrar justamente el dato que se quiere mostrar.
+
+**La colocación** prueba ocho posiciones alrededor de la luminaria y se abre a 2× y 3× la
+separación si están todas tomadas. El orden en que las prueba no es caprichoso: primero abajo
+y centrado, después **abajo pero corrido a un costado** —así la etiqueta se sigue leyendo como
+"la de abajo", que es lo que importa—, luego los lados, y arriba al final. Las luminarias se
+recorren **en el orden del barrido**, no en el que las devuelve Revit: si dos tags se pelean el
+mismo hueco gana el de número más bajo, y dos corridas seguidas dan el mismo plano. Los que no
+encuentran hueco quedan abajo igual y el log los cuenta.
+
+> ⚠️ **El punto que se le pasa a `TextNote.Create` es un ancla, no el centro del texto**, y por
+> defecto el ancla es el borde **izquierdo**. Con la etiqueta al costado eso no se notaba —el
+> texto crecía hacia afuera, que era justo lo que se quería— pero abajo de la luminaria deja el
+> `L7` corrido a la derecha, y **con dos dígitos se corre más que con uno**: las etiquetas de
+> una misma corrida ni siquiera quedarían alineadas entre sí. Por eso cada nota se centra en
+> horizontal y se ancla por arriba en vertical, con lo que además la separación que se pide en
+> el input `08.` es la que se mide en el papel.
+>
+> Va **por instancia**, no tocando el tipo de texto: ese tipo lo comparten las notas generales
+> de 05 y los tags de riel de 03, y centrarlo ahí les cambiaría la alineación a todos.
+
+> Si la vista ya tiene tags y no se corre con *rehacer*, **no se toca**. Volver a dibujarlos
+> encima dejaría dos textos idénticos superpuestos, que en el plano se ven como uno solo y solo
+> aparecen cuando alguien mueve el de arriba.
+
+### Por qué las elevaciones no recalculan nada
+
+El número de una luminaria no se puede deducir mirándola: sale de dónde está respecto de las
+demás. Una elevación ve una franja del edificio y no sabe qué hay detrás, así que un barrido
+hecho ahí daría otros números.
+
+Que las cuatro elevaciones y la planta digan lo mismo **no es una comprobación que haya que
+hacer**: es una consecuencia de que el dato exista en un solo lugar. La planta y las
+elevaciones comparten todo el código de colocación; lo único que las separa es una función de
+tres líneas que apoya el punto contra el plano de la vista.
+
+---
+
+## 07 — Luminarias: tabla de alturas
+
+La TABLA N°2 en cada lámina de sector, con **una fila por luminaria**.
+
+```
++---------------------------+
+|    TABLA N°2 (NOTA 5)     |
++------+--------------------+
+|  LX  | ALTURA DE MONTAJE  |
+|      |        (mm)        |
++------+--------------------+
+|  L3  |                    |
+|  L7  |                    |
+|  L8  |                    |
++------+--------------------+
+```
+
+### ⚠️ La columna de altura va vacía a propósito
+
+El paso **crea** el parámetro de la altura y le hace la columna, pero **no escribe ni un
+valor**. No es una etapa a medio hacer: todavía no está decidido de dónde sale el número, y las
+opciones dan resultados distintos.
+
+Lo que se sabe: las luminarias **no están asociadas a un nivel** —`Level` vale −1 y
+`Elevation from Level` vale 0 en las 25— así que no hay ningún parámetro que ya traiga la
+altura. Habría que calcularla, y la **nota 5 dice desde dónde**: *"desde el N.P.T. en
+plataforma de tránsito peatonal (GRATING)"*. O sea, contra el grating que cada luminaria tenga
+debajo, no contra una cota fija del proyecto.
+
+Medir la Z cruda sobre `nivel 1 luminarias` —que está en cota 0— sería lo cómodo y daría
+valores como 5918, 7669 o 3454 mm. La tabla del plano de referencia dice 4900, 4000, 5200:
+números redondos, que no son esas Z ni sus redondeos. **La diferencia es precisamente el
+grating.**
+
+Escribir un número calculado con la regla equivocada sería peor que dejar la columna vacía,
+porque una altura mal puesta se ve igual de bien que una altura correcta hasta que alguien va a
+instalar. La columna vacía se ve.
+
+> **Por eso el parámetro es de texto y no numérico.** Uno numérico que nadie escribió puede
+> imprimir un `0`, y un 0 en una columna de alturas es un dato falso; uno de texto sin escribir
+> imprime la celda vacía, que es lo que hay que ver. Además el valor final es un entero de
+> milímetros sin unidades ni decimales, así que el texto lo guarda tal cual y no hace falta la
+> maquinaria de `FormatOptions` que sí necesitó el LARGO de la TABLA N°1.
+
+Cuando se decida la regla, lo único que hay que agregar es el cálculo y un `set_string` sobre
+el parámetro: la columna, el orden y el filtro ya están.
+
+### Una fila por luminaria — es lo contrario de la TABLA N°1
+
+La TABLA N°1 lista **tipos**: colapsa las filas iguales y una fila representa a los treinta
+rieles de 400 mm del sector. Ésta lista **individuos**: `L3` es una luminaria y solo una.
+
+En la mecánica del schedule eso es exactamente **`Itemize every instance` encendido**, el
+opuesto de 04. Vale decirlo porque es el único parámetro que separa una tabla de la otra, y
+confundirlo da una tabla que se ve razonable y está mal: con *itemize* apagado, dos luminarias
+a la misma altura colapsarían en una sola fila y el plano perdería una luminaria sin avisar.
+El graph se autochequea al revés que 04 —avisa si salieron **menos** filas que luminarias— y lo
+dice en el log.
+
+### Qué filas lleva cada tabla
+
+Las luminarias que se ven en las vistas del **sector** —la unión de sus láminas—, no solo las
+de la hoja que uno tiene delante. Es el mismo criterio que la TABLA N°1, aunque acá **no hay
+ninguna obligación técnica** de que lo sea: en 04 la tabla *tiene* que ser por sector porque el
+`ITEM` es un correlativo que vive en el riel, y acá el `Lx` es global y una luminaria puede
+salir en cuantas tablas haga falta sin ambigüedad. Es por consistencia: las dos tablas del
+plano se leen con la misma regla.
+
+> **Una luminaria visible en dos sectores no es un error**, justamente porque el `Lx` es
+> global: sale en las dos tablas, con el mismo número en las dos. El mismo caso en 04 es un
+> `ERROR` en el log, porque ahí el riel necesitaría dos `ITEM` a la vez.
+
+El filtro por sector funciona igual que en 04: el graph escribe `;SECTOR A;` en `En plano` y el
+schedule filtra por *contiene* `;SECTOR A;`. Sin los delimitadores, `SECTOR A` se llevaría
+también las de `SECTOR A2`.
+
+### Dónde se para
+
+Mismo barrido en grilla que 04 —se coloca, se le mide el bounding box real y recién ahí se la
+manda al hueco más cercano a la esquina pedida—, con una diferencia: **lo ocupado incluye las
+otras tablas de la lámina**, excluyendo la propia (que se acaba de colocar para poder medirla,
+y si no se excluyera se bloquearía a sí misma). La esquina por defecto es **abajo-izquierda**,
+la contraria a la de 04.
+
+Con *itemize* encendido son tantas filas como luminarias, así que esta tabla puede ser
+bastante más alta que la de 04. En SECTOR A son 25 filas.
+
 ---
 
 ## Deudas conocidas
 
+- **La altura de montaje de la TABLA N°2 no está resuelta** — es la deuda grande, y está
+  abierta a propósito. La nota 5 la mide desde el grating que cada luminaria tiene debajo, no
+  desde una cota fija, así que hay que tirar un rayo hacia abajo desde cada luminaria y medir
+  contra la cara superior del piso que encuentre. Falta decidir qué pasa cuando no hay nada
+  abajo. Toda la tabla —columna, orden, filtro, colocación— ya está hecha esperando ese número.
+- **La TABLA N°3 (luminarias de emergencia) no existe.** La nota 5 la nombra junto a la N°2, y
+  en el modelo está dibujada a mano como la leyenda `ILU-LISTADO ALTURA LUMINARIAS EMER.` — la
+  N°2 es su gemela `ILU-LISTADO ALTURA LUMINARIAS`. El discriminador sería el parámetro de tipo
+  `EMERGENCY LIGHT`, que **hoy vale 0 en los dos tipos cargados**, así que la N°3 saldría vacía
+  y las de emergencia entran hoy en la numeración común. Cuando haya alguna hay que decidir si
+  comparte la secuencia `Lx` o lleva la suya.
 - **La regla del código `R-xx` vive escrita en dos graphs**, 03 para el texto del plano y 04
   para las filas de la tabla. Desde que el código **es** el largo la deuda pesa mucho menos:
   al ser una función de un solo riel, las dos implementaciones solo pueden dar distinto si

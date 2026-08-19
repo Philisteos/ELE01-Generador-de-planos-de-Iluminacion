@@ -1,0 +1,921 @@
+{
+  "Uuid": "5e0f0000-0000-0000-0000-000000000007",
+  "IsCustomNode": false,
+  "Description": "La TABLA N2 -alturas de montaje de luminaria, una fila por luminaria- en cada lamina de sector.",
+  "Name": "07_Luminarias - tabla de alturas",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [
+    {
+      "Id": "b9010000000000000000000000000001",
+      "Name": "01. Procesar TODOS los sectores",
+      "Type": "boolean",
+      "Type2": "boolean",
+      "Value": "false",
+      "Description": "Enables selection between True and False"
+    },
+    {
+      "Id": "b9020000000000000000000000000001",
+      "Name": "02. Filtro de sectores (si TODOS = False)",
+      "Type": "string",
+      "Type2": "string",
+      "Value": "SECTOR A",
+      "Description": "Creates a string"
+    },
+    {
+      "Id": "b9030000000000000000000000000001",
+      "Name": "03. La familia de la luminaria CONTIENE (vacio = todas)",
+      "Type": "string",
+      "Type2": "string",
+      "Value": "",
+      "Description": "Creates a string"
+    },
+    {
+      "Id": "b9040000000000000000000000000001",
+      "Name": "04. Parametro del codigo Lx (lo escribe 06)",
+      "Type": "string",
+      "Type2": "string",
+      "Value": "LUMINARIAS",
+      "Description": "Creates a string"
+    },
+    {
+      "Id": "b9050000000000000000000000000001",
+      "Name": "05. Parametro numerico de orden (lo escribe 06)",
+      "Type": "string",
+      "Type2": "string",
+      "Value": "ORDEN_LUM",
+      "Description": "Creates a string"
+    },
+    {
+      "Id": "b9060000000000000000000000000001",
+      "Name": "06. Parametro de la altura de montaje (hoy va vacio)",
+      "Type": "string",
+      "Type2": "string",
+      "Value": "ALTURA_TBL",
+      "Description": "Creates a string"
+    },
+    {
+      "Id": "b9070000000000000000000000000001",
+      "Name": "07. Parametro donde se marca el sector",
+      "Type": "string",
+      "Type2": "string",
+      "Value": "En plano",
+      "Description": "Creates a string"
+    },
+    {
+      "Id": "b9080000000000000000000000000001",
+      "Name": "08. Titulo de la tabla",
+      "Type": "string",
+      "Type2": "string",
+      "Value": "TABLA N°2 (NOTA 5)",
+      "Description": "Creates a string"
+    },
+    {
+      "Id": "b9090000000000000000000000000001",
+      "Name": "09. Margen de la lamina (mm) - el mismo que 01 y 02",
+      "Type": "number",
+      "Type2": "number",
+      "Value": "5",
+      "MaximumValue": 60,
+      "MinimumValue": 0,
+      "StepValue": 1,
+      "NumberType": "Integer",
+      "Description": "Produces integer values"
+    },
+    {
+      "Id": "b90a0000000000000000000000000001",
+      "Name": "10. Franja inferior reservada de la vineta (mm)",
+      "Type": "number",
+      "Type2": "number",
+      "Value": "55",
+      "MaximumValue": 200,
+      "MinimumValue": 0,
+      "StepValue": 1,
+      "NumberType": "Integer",
+      "Description": "Produces integer values"
+    },
+    {
+      "Id": "b90b0000000000000000000000000001",
+      "Name": "11. Ancho del cajetin desde el borde derecho (mm)",
+      "Type": "number",
+      "Type2": "number",
+      "Value": "290",
+      "MaximumValue": 600,
+      "MinimumValue": 0,
+      "StepValue": 1,
+      "NumberType": "Integer",
+      "Description": "Produces integer values"
+    },
+    {
+      "Id": "b90c0000000000000000000000000001",
+      "Name": "12. Alto del cajetin (mm)",
+      "Type": "number",
+      "Type2": "number",
+      "Value": "105",
+      "MaximumValue": 400,
+      "MinimumValue": 0,
+      "StepValue": 1,
+      "NumberType": "Integer",
+      "Description": "Produces integer values"
+    },
+    {
+      "Id": "b90d0000000000000000000000000001",
+      "Name": "13. Esquina por la que se busca hueco",
+      "Type": "string",
+      "Type2": "string",
+      "Value": "abajo-izquierda",
+      "Description": "Creates a string"
+    },
+    {
+      "Id": "b90e0000000000000000000000000001",
+      "Name": "14. Rehacer las tablas existentes",
+      "Type": "boolean",
+      "Type2": "boolean",
+      "Value": "false",
+      "Description": "Enables selection between True and False"
+    }
+  ],
+  "Outputs": [
+    {
+      "Id": "c9010000000000000000000000000001",
+      "Name": "Log",
+      "Type": "unknown",
+      "InitialValue": "",
+      "Description": "Visualizes a node's output"
+    }
+  ],
+  "Nodes": [
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "Id": "b9010000000000000000000000000001",
+      "NodeType": "BooleanInputNode",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b9010000000000000000000000000002",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Enables selection between True and False",
+      "InputValue": false
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "SECTOR A",
+      "Id": "b9020000000000000000000000000001",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b9020000000000000000000000000002",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "",
+      "Id": "b9030000000000000000000000000001",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b9030000000000000000000000000002",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "LUMINARIAS",
+      "Id": "b9040000000000000000000000000001",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b9040000000000000000000000000002",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "ORDEN_LUM",
+      "Id": "b9050000000000000000000000000001",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b9050000000000000000000000000002",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "ALTURA_TBL",
+      "Id": "b9060000000000000000000000000001",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b9060000000000000000000000000002",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "En plano",
+      "Id": "b9070000000000000000000000000001",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b9070000000000000000000000000002",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "TABLA N°2 (NOTA 5)",
+      "Id": "b9080000000000000000000000000001",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b9080000000000000000000000000002",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
+      "NumberType": "Integer",
+      "MaximumValue": 60,
+      "MinimumValue": 0,
+      "StepValue": 1,
+      "Id": "b9090000000000000000000000000001",
+      "NodeType": "NumberInputNode",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b9090000000000000000000000000002",
+          "Name": "",
+          "Description": "Int64",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Produces integer values",
+      "InputValue": 5
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
+      "NumberType": "Integer",
+      "MaximumValue": 200,
+      "MinimumValue": 0,
+      "StepValue": 1,
+      "Id": "b90a0000000000000000000000000001",
+      "NodeType": "NumberInputNode",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b90a0000000000000000000000000002",
+          "Name": "",
+          "Description": "Int64",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Produces integer values",
+      "InputValue": 55
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
+      "NumberType": "Integer",
+      "MaximumValue": 600,
+      "MinimumValue": 0,
+      "StepValue": 1,
+      "Id": "b90b0000000000000000000000000001",
+      "NodeType": "NumberInputNode",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b90b0000000000000000000000000002",
+          "Name": "",
+          "Description": "Int64",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Produces integer values",
+      "InputValue": 290
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
+      "NumberType": "Integer",
+      "MaximumValue": 400,
+      "MinimumValue": 0,
+      "StepValue": 1,
+      "Id": "b90c0000000000000000000000000001",
+      "NodeType": "NumberInputNode",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b90c0000000000000000000000000002",
+          "Name": "",
+          "Description": "Int64",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Produces integer values",
+      "InputValue": 105
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "abajo-izquierda",
+      "Id": "b90d0000000000000000000000000001",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b90d0000000000000000000000000002",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "Id": "b90e0000000000000000000000000001",
+      "NodeType": "BooleanInputNode",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b90e0000000000000000000000000002",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Enables selection between True and False",
+      "InputValue": false
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "Engine": "PythonNet3",
+      "VariableInputPorts": true,
+      "Id": "a9010000000000000000000000000001",
+      "NodeType": "PythonScriptNode",
+      "Code": "# 07_Luminarias - tabla de alturas - ILUMINACION\n#\n# Estampa la TABLA N.2 -la de alturas de montaje de luminaria- en las laminas de sector, una\n# por lamina, con una fila por LUMINARIA del sector.\n#\n#   +---------------------------+\n#   |    TABLA N.2 (NOTA 5)     |\n#   +------+--------------------+\n#   |  LX  | ALTURA DE MONTAJE  |\n#   |      |        (mm)        |\n#   +------+--------------------+\n#   |  L3  |                    |\n#   |  L7  |                    |\n#   |  L8  |                    |\n#   +------+--------------------+\n#\n# Revit 2027 / Dynamo 4 / CPython3\n# IN[0]  = procesar todos los sectores (bool)\n# IN[1]  = filtro de sectores si IN[0] es False (parcial, comas)\n# IN[2]  = la familia de la luminaria CONTIENE (string; vacio = todas las Lighting Fixtures)\n# IN[3]  = parametro donde 06 escribio el codigo Lx (string, ej. LUMINARIAS)\n# IN[4]  = parametro numerico donde 06 escribio el orden (string, ej. ORDEN_LUM)\n# IN[5]  = parametro donde vive la altura de montaje (string, ej. ALTURA_TBL); lo crea este\n#          paso si no existe, y HOY NO LO ESCRIBE NADIE -ver mas abajo-\n# IN[6]  = parametro donde se marca en que sector aparece (string, ej. En plano)\n# IN[7]  = titulo de la tabla (string)\n# IN[8]  = margen de la lamina, en mm - el mismo que usan 01 y 02\n# IN[9]  = alto de la franja inferior reservada de la vineta, en mm\n# IN[10] = ancho del cajetin medido desde el borde derecho, en mm\n# IN[11] = alto del cajetin medido desde el borde inferior, en mm\n# IN[12] = esquina por la que se empieza a buscar hueco (abajo-izquierda, abajo-derecha,\n#          arriba-derecha, arriba-izquierda)\n# IN[13] = rehacer: reconfigura las tablas existentes y las vuelve a colocar\n#\n#\n# UNA FILA POR LUMINARIA, NO POR TIPO. ES LO CONTRARIO DE LA TABLA N.1\n#\n# La TABLA N.1 de 04 lista TIPOS de riel: colapsa las filas iguales y una fila representa a\n# los treinta rieles de 400 mm que hay en el sector. Esta lista INDIVIDUOS: L3 es una\n# luminaria y solo una, y su altura de montaje es la de ella.\n#\n# En la mecanica del schedule eso es exactamente \"Itemize every instance\" encendido, que es el\n# opuesto de lo que hace 04. Vale la pena decirlo porque es el unico parametro que separa una\n# tabla de la otra, y confundirlo da una tabla que se ve razonable y esta mal: con itemize\n# apagado, dos luminarias a la misma altura colapsarian en una sola fila y el plano perderia\n# una luminaria sin avisar.\n#\n#\n# LA COLUMNA DE ALTURA VA VACIA A PROPOSITO\n#\n# Este paso CREA el parametro de la altura y le hace la columna, pero no escribe ni un valor.\n# No es un olvido ni una etapa a medio hacer: es que todavia no esta decidido de donde sale el\n# numero, y las opciones dan resultados distintos.\n#\n# Lo que se sabe: las luminarias NO estan asociadas a un nivel -Level vale -1 y \"Elevation\n# from Level\" vale 0 en todas- asi que no hay ningun parametro que ya traiga la altura. Habria\n# que calcularla, y la NOTA 5 dice de donde: \"desde el N.P.T. en plataforma de transito\n# peatonal (GRATING)\". O sea, contra el grating que cada luminaria tenga debajo, no contra una\n# cota fija del proyecto.\n#\n# Medir la Z cruda sobre \"nivel 1 luminarias\" -que esta en cota 0- seria lo comodo y daria\n# valores como 5918 o 7669 mm. La tabla del plano de referencia dice 4900, 4000, 5200: numeros\n# redondos, que no son esas Z ni sus redondeos. La diferencia es precisamente el grating.\n#\n# Escribir un numero calculado con la regla equivocada seria peor que dejar la columna vacia,\n# porque una altura mal puesta se ve igual de bien que una altura correcta hasta que alguien\n# va a instalar. La columna vacia se ve.\n#\n# Cuando se decida la regla, lo unico que hay que agregar es el calculo y un set_string sobre\n# el parametro de IN[5]: la columna, el orden y el filtro ya estan.\n#\n# POR ESO EL PARAMETRO ES DE TEXTO Y NO NUMERICO. Un parametro numerico que nadie escribio\n# puede imprimir un 0, y un 0 en una columna de alturas es un dato falso; uno de texto sin\n# escribir imprime la celda vacia, que es lo que hay que ver. Ademas el valor final es un\n# entero de milimetros sin unidades ni decimales, asi que el texto lo guarda tal cual y no\n# hace falta la maquinaria de FormatOptions que si necesito el LARGO de la TABLA N.1.\n#\n#\n# EL ORDEN DE LAS FILAS NO SALE DE LA COLUMNA QUE SE VE\n#\n# La tabla va ordenada L1, L2, L3... y esa columna es TEXTO, asi que ordenar por ella daria\n# L1, L10, L11, L12, ..., L2, L20. Un schedule no sabe que \"L10\" es un numero.\n#\n# Por eso 06 escribe ademas el orden en un parametro numerico (IN[4]) que este paso agrega\n# como campo OCULTO y usa para ordenar. La alternativa -escribir el codigo con ceros adelante,\n# L01- ordenaria bien y cambiaria lo que se lee en el plano, que es lo unico que no se toca.\n#\n#\n# QUE LAMINAS TOCA Y QUE FILAS LLEVA CADA TABLA\n#\n# Las laminas que tienen vistas del pipeline, reconocidas por el MISMO contrato de nombres que\n# comparten 00, 01, 02, 03, 04 y 06: \"<sector> - PLANTA\" y \"<sector> - ELEV X\".\n#\n# Las filas son las luminarias que se ven en las vistas del SECTOR -la union de sus laminas-,\n# no solo las de la hoja que uno tiene delante. Es el mismo criterio que la TABLA N.1, aunque\n# aca no hay ninguna obligacion tecnica de que lo sea: en 04 la tabla TIENE que ser por sector\n# porque el ITEM es un correlativo que vive en el riel, y aca el codigo Lx es global y una\n# luminaria puede salir en cuantas tablas haga falta sin ambiguedad. Es por consistencia: las\n# dos tablas del plano se leen con la misma regla.\n#\n# Y una consecuencia de que el Lx sea global: una luminaria que se vea en DOS sectores no es\n# un error. Sale en las dos tablas, con el mismo numero en las dos. En 04 el mismo caso es un\n# ERROR en el log, porque ahi el riel necesitaria dos ITEM a la vez.\n#\n#\n# COMO SABE EL SCHEDULE QUE LUMINARIAS SON DE SU SECTOR\n#\n# Igual que 04 y por el mismo motivo -un schedule no puede filtrar por \"esta dibujado en tal\n# lamina\"-: este paso escribe el sector en el parametro de IN[6], por defecto \"En plano\", con\n# punto y coma alrededor (\";SECTOR A;\"), y el schedule filtra por \"contiene ;SECTOR A;\". Sin\n# los delimitadores, SECTOR A se llevaria tambien las de SECTOR A2.\n#\n# El campo del filtro se agrega OCULTO: hace falta que este entre los campos para poder\n# filtrar por el, pero no tiene que salir impreso.\n#\n#\n# DONDE SE PARA, Y POR QUE ESTE PASO SI MIRA LAS OTRAS TABLAS\n#\n# Mismo barrido en grilla que 04: la primera posicion libre mas cercana a la esquina pedida,\n# midiendo la tabla despues de colocarla en vez de estimarla.\n#\n# Con una diferencia que hubo que agregar: lo ocupado incluye LAS OTRAS TABLAS DE LA LAMINA.\n# 04 no las miraba -no le hacia falta, era la unica tabla del plano- y en cuanto aparecio una\n# segunda las dos se disputaban el mismo hueco y quedaban encimadas. Se excluye la propia,\n# porque se coloca antes de medirla y si no se excluyera se bloquearia a si misma.\n#\n# La esquina por defecto es abajo-IZQUIERDA, la contraria a la de 04, para que en el caso\n# normal ni siquiera tengan que negociar.\n\nimport clr\nimport math\nimport os\nimport hashlib\nimport tempfile\nclr.AddReference('RevitAPI')\nclr.AddReference('RevitServices')\nfrom Autodesk.Revit.DB import (FilteredElementCollector, ViewSheet, ViewSchedule,\n                               ScheduleSheetInstance, ScheduleFilter, ScheduleFilterType,\n                               ScheduleSortGroupField, Viewport, XYZ, Element,\n                               ElementId, BuiltInCategory, StorageType,\n                               FamilyInstance, SectionType,\n                               CategorySet, GroupTypeId, SpecTypeId,\n                               ExternalDefinitionCreationOptions)\nfrom RevitServices.Persistence import DocumentManager\nfrom RevitServices.Transactions import TransactionManager\nfrom System import Guid\n\ndoc = DocumentManager.Instance.CurrentDBDocument\napp = doc.Application\n\nprocess_all = bool(IN[0])\nfilter_text = (IN[1] or '').strip()\nfam_contiene = (IN[2] or '').strip()\nparam_codigo = (IN[3] or 'LUMINARIAS').strip()\nparam_orden = (IN[4] or 'ORDEN_LUM').strip()\nparam_altura = (IN[5] or 'ALTURA_TBL').strip()\nparam_lamina = (IN[6] or 'En plano').strip()\ntitulo_tabla = (IN[7] or 'TABLA N2').strip()\nmargen = float(IN[8]) / 304.8\nfranja_inferior = float(IN[9]) / 304.8\ncajetin_ancho = float(IN[10]) / 304.8\ncajetin_alto = float(IN[11]) / 304.8\nesquina = (IN[12] or 'abajo-izquierda').strip().lower()\nrehacer = bool(IN[13])\n\nlog = []\n\n# --- contrato de nombres con 00_Vistas de sector ---\nSUF_PLANTA = ' - PLANTA'\nSUF_ELEV = ' - ELEV '\n\nPREFIJO_SCHEDULE = 'TBL_LUM_'\n\nH_CODIGO = 'LX'\nH_ALTURA = 'ALTURA DE MONTAJE (mm)'\n\n# Paso de la grilla con que se barre la lamina buscando hueco, en mm de papel. El mismo que\n# 04: mas fino que cualquier ajuste que alguien haga despues a mano.\nPASO_BUSQUEDA = 5.0 / 304.8\n\n\ndef elem_name(e):\n    try:\n        return Element.Name.GetValue(e)\n    except Exception:\n        try:\n            return e.Name\n        except Exception:\n            return ''\n\n\ndef coincide(nombre, texto):\n    if not texto:\n        return True\n    alto = (nombre or '').upper()\n    for t in texto.split(','):\n        t = t.strip().upper()\n        if t and t in alto:\n            return True\n    return False\n\n\ndef fam_name(el):\n    try:\n        return el.Symbol.Family.Name or ''\n    except Exception:\n        return ''\n\n\ndef es_luminaria(el):\n    if not fam_contiene:\n        return True\n    return fam_contiene.upper() in fam_name(el).upper()\n\n\ndef luminarias_del_modelo():\n    return [el for el in FilteredElementCollector(doc)\n            .OfCategory(BuiltInCategory.OST_LightingFixtures)\n            .WhereElementIsNotElementType()\n            if isinstance(el, FamilyInstance) and es_luminaria(el)]\n\n\ndef sector_de_vista(v):\n    n = elem_name(v)\n    if n.endswith(SUF_PLANTA):\n        return n[:-len(SUF_PLANTA)]\n    i = n.find(SUF_ELEV)\n    if i > 0:\n        return n[:i]\n    return None\n\n\ndef laminas_de_sector():\n    # Lamina -> (sector, [vistas]). Una lamina es del pipeline si tiene alguna vista que\n    # cumple el contrato de nombres; por la regla de aislamiento de 01, todas sus vistas de\n    # sector son del mismo sector.\n    res = []\n    for sh in FilteredElementCollector(doc).OfClass(ViewSheet):\n        if sh.IsTemplate:\n            continue\n        vistas = []\n        sectores = set()\n        for vp in FilteredElementCollector(doc, sh.Id).OfClass(Viewport):\n            v = doc.GetElement(vp.ViewId)\n            if v is None:\n                continue\n            s = sector_de_vista(v)\n            if s is None:\n                continue\n            vistas.append(v)\n            sectores.add(s)\n        if not vistas:\n            continue\n        sector = sorted(sectores)[0]\n        if len(sectores) > 1:\n            log.append('AVISO: la lamina {} tiene vistas de mas de un sector ({}). La tabla '\n                       'igual lista lo que se ve en la lamina, pero eso rompe la regla de '\n                       'aislamiento que fija 01.'.format(sh.SheetNumber,\n                                                         ', '.join(sorted(sectores))))\n        if not process_all and not coincide(sector, filter_text):\n            continue\n        res.append((sh, sector, vistas))\n    res.sort(key=lambda t: t[0].SheetNumber)\n    return res\n\n\ndef luminarias_de_lamina(vistas):\n    # Union de las luminarias visibles en cada viewport de la lamina. Se recolecta CONTRA LA\n    # VISTA, asi que el crop, el view range y lo oculto ya deciden que se ve y que no.\n    vistos = {}\n    for v in vistas:\n        for el in (FilteredElementCollector(doc, v.Id)\n                   .OfCategory(BuiltInCategory.OST_LightingFixtures)\n                   .WhereElementIsNotElementType()):\n            if isinstance(el, FamilyInstance) and es_luminaria(el):\n                vistos[el.Id.Value] = el\n    return list(vistos.values())\n\n\n# ---------------------------- LOS PARAMETROS ----------------------------\n\ndef guid_para(nombre):\n    h = hashlib.md5(('ELE01_TBL::' + nombre.upper()).encode('utf-8')).hexdigest()\n    return Guid(h)\n\n\ndef existe_como_campo(nombre):\n    try:\n        probe = ViewSchedule.CreateSchedule(doc, ElementId(BuiltInCategory.OST_LightingFixtures))\n    except Exception:\n        return False\n    try:\n        for f in probe.Definition.GetSchedulableFields():\n            try:\n                if f.GetName(doc) == nombre:\n                    return True\n            except Exception:\n                continue\n        return False\n    finally:\n        try:\n            doc.Delete(probe.Id)\n        except Exception:\n            pass\n\n\ndef existe_en_luminarias(nombre):\n    # Las dos pruebas hacen falta: que el schedule lo ofrezca como campo Y que las luminarias\n    # de verdad lo tengan. Ver la nota de 04 sobre ITEM_TBL, que aparecia como campo sin que\n    # ningun elemento lo tuviera y por eso no se creaba nunca.\n    for el in luminarias_del_modelo():\n        try:\n            return el.LookupParameter(nombre) is not None\n        except Exception:\n            return False\n    return False\n\n\ndef asegurar_param(nombre, spec, etiqueta):\n    # Identica a la de 06 salvo el mensaje: crea el parametro como compartido, con GUID\n    # derivado del nombre, y lo vincula como parametro de instancia de Lighting Fixtures.\n    if existe_como_campo(nombre) and existe_en_luminarias(nombre):\n        return True\n    log.append('El parametro \"{}\" falta o esta a medias; se (re)crea y se vincula a '\n               'Lighting Fixtures.'.format(nombre))\n    ruta = os.path.join(tempfile.gettempdir(), 'ELE01_params_tabla.txt')\n    if not os.path.exists(ruta):\n        tab = '\\t'\n        cab = ['# This is a Revit shared parameter file.',\n               '*META' + tab + 'VERSION' + tab + 'MINVERSION',\n               'META' + tab + '2' + tab + '1',\n               '*GROUP' + tab + 'ID' + tab + 'NAME',\n               '*PARAM' + tab + tab.join(['GUID', 'NAME', 'DATATYPE', 'DATACATEGORY',\n                                          'GROUP', 'VISIBLE', 'DESCRIPTION',\n                                          'USERMODIFIABLE', 'HIDEWHENNOVALUE'])]\n        with open(ruta, 'w') as f:\n            f.write('\\n'.join(cab) + '\\n')\n    anterior = None\n    try:\n        anterior = app.SharedParametersFilename\n    except Exception:\n        pass\n    try:\n        app.SharedParametersFilename = ruta\n        df = app.OpenSharedParameterFile()\n        if df is None:\n            log.append('ERROR: no se pudo abrir el archivo temporal de parametros compartidos.')\n            return False\n        grupo = None\n        for g in df.Groups:\n            if g.Name == 'TABLA_ILUMINACION':\n                grupo = g\n                break\n        if grupo is None:\n            grupo = df.Groups.Create('TABLA_ILUMINACION')\n        defn = None\n        for d in grupo.Definitions:\n            if d.Name == nombre:\n                defn = d\n                break\n        if defn is None:\n            opts = ExternalDefinitionCreationOptions(nombre, spec)\n            opts.GUID = guid_para(nombre)\n            opts.Visible = True\n            defn = grupo.Definitions.Create(opts)\n        cats = CategorySet()\n        cats.Insert(doc.Settings.Categories.get_Item(BuiltInCategory.OST_LightingFixtures))\n        binding = app.Create.NewInstanceBinding(cats)\n        ok = False\n        try:\n            ok = doc.ParameterBindings.Insert(defn, binding, GroupTypeId.Data)\n        except Exception:\n            try:\n                ok = doc.ParameterBindings.Insert(defn, binding)\n            except Exception:\n                ok = False\n        if not ok:\n            try:\n                ok = doc.ParameterBindings.ReInsert(defn, binding)\n            except Exception:\n                ok = False\n        if ok:\n            log.append('Se creo el parametro de proyecto \"{}\" (instancia, Lighting Fixtures) '\n                       'para la columna {}.'.format(nombre, etiqueta))\n        else:\n            log.append('ERROR: no se pudo crear ni vincular el parametro \"{}\"; la tabla se va '\n                       'a quedar sin la columna {}.'.format(nombre, etiqueta))\n        return ok\n    except Exception as e:\n        log.append('ERROR creando el parametro \"{}\": {}'.format(nombre, e))\n        return False\n    finally:\n        try:\n            if anterior is not None:\n                app.SharedParametersFilename = anterior\n        except Exception:\n            pass\n\n\ndef set_string(el, nombre, valor):\n    if not nombre:\n        return None\n    try:\n        p = el.LookupParameter(nombre)\n    except Exception:\n        return None\n    if p is None or p.IsReadOnly or p.StorageType != StorageType.String:\n        return False\n    try:\n        if (p.AsString() or '') != valor:\n            p.Set(valor)\n        return True\n    except Exception:\n        return False\n\n\ndef get_string(el, nombre):\n    try:\n        p = el.LookupParameter(nombre)\n    except Exception:\n        return ''\n    if p is None or p.StorageType != StorageType.String:\n        return ''\n    try:\n        return p.AsString() or ''\n    except Exception:\n        return ''\n\n\ndef marcar_luminarias(laminas):\n    # Escribe en cada luminaria el sector donde aparece. Se escribe sobre TODAS las del modelo\n    # y no solo sobre las de los sectores procesados: la que ya no aparece en ninguno tiene que\n    # quedar con la marca VACIA, o su tabla vieja la seguiria contando.\n    donde = {}\n    for sh, sector, vistas in laminas:\n        for el in luminarias_de_lamina(vistas):\n            donde.setdefault(el.Id.Value, set()).add(sector)\n\n    escritas = 0\n    sin_codigo = []\n    sin_param = set()\n    for el in luminarias_del_modelo():\n        sectores = sorted(donde.get(el.Id.Value, []))\n        marca = ';{};'.format(';'.join(sectores)) if sectores else ''\n        if set_string(el, param_lamina, marca) is False:\n            sin_param.add(param_lamina)\n        if sectores and not get_string(el, param_codigo):\n            sin_codigo.append(el.Id.Value)\n        escritas += 1\n    log.append('Marcadas {} luminaria(s) del modelo: sector en \"{}\".'.format(\n        escritas, param_lamina))\n    for nombre in sorted(sin_param):\n        log.append('AVISO: el parametro \"{}\" no existe en las luminarias, o es de solo '\n                   'lectura. El filtro de la tabla no va a funcionar.'.format(nombre))\n    if sin_codigo:\n        # Este es EL aviso que importa en el primer run: sin el codigo, la fila sale con la\n        # celda LX vacia y la tabla no sirve para nada. Casi siempre significa que no se corrio\n        # 06, o que se corrio con otro nombre de parametro.\n        log.append('ERROR: {} luminaria(s) de los sectores procesados no tienen \"{}\" escrito, '\n                   'asi que su fila va a salir sin codigo. Corre 06 antes que este paso. Ids: '\n                   '{}.'.format(len(sin_codigo), param_codigo,\n                                ', '.join(str(i) for i in sin_codigo[:10])))\n    return donde\n\n\n# ---------------------------- EL SCHEDULE ----------------------------\n\ndef campo_por_nombre(schedulable, nombre):\n    for f in schedulable:\n        try:\n            if f.GetName(doc) == nombre:\n                return f\n        except Exception:\n            continue\n    return None\n\n\ndef limpiar_definicion(definition):\n    # Deja la definicion en blanco para reconfigurarla desde cero, sin importar como haya\n    # quedado en una corrida anterior.\n    while definition.GetSortGroupFieldCount() > 0:\n        definition.RemoveSortGroupField(0)\n    while definition.GetFilterCount() > 0:\n        definition.RemoveFilter(0)\n    for i in range(definition.GetFieldCount() - 1, -1, -1):\n        definition.RemoveField(definition.GetField(i).FieldId)\n\n\ndef poner_titulo(sched, titulo):\n    # El titulo que se ve sobre la tabla es el nombre del schedule, y el nombre tiene que ser\n    # unico en el documento -uno por lamina-. Asi que el nombre queda \"TBL_LUM_A1\" para el\n    # navegador y la celda de encabezado se sobreescribe con el titulo del plano tipo.\n    try:\n        sd = sched.GetTableData().GetSectionData(SectionType.Header)\n        if sd is None or sd.NumberOfRows < 1:\n            return False\n        sd.SetCellText(0, 0, titulo)\n        return True\n    except Exception:\n        return False\n\n\ndef configurar_schedule(sched, sector, numero_lamina):\n    definition = sched.Definition\n    limpiar_definicion(definition)\n    # UNA FILA POR LUMINARIA. Es el unico parametro que separa esta tabla de la N.1 de 04, que\n    # lo tiene apagado para colapsar los rieles del mismo largo en una fila.\n    definition.IsItemized = True\n\n    schedulable = definition.GetSchedulableFields()\n    faltan = []\n\n    campo_cod = campo_por_nombre(schedulable, param_codigo)\n    if campo_cod is None:\n        faltan.append(param_codigo)\n    campo_alt = campo_por_nombre(schedulable, param_altura)\n    if campo_alt is None:\n        faltan.append(param_altura)\n    campo_lam = campo_por_nombre(schedulable, param_lamina)\n    if campo_lam is None:\n        faltan.append(param_lamina)\n    campo_ord = campo_por_nombre(schedulable, param_orden) if param_orden else None\n    if param_orden and campo_ord is None:\n        faltan.append(param_orden)\n    if faltan:\n        return False, faltan\n\n    # LX y ALTURA son las dos columnas que se ven; el orden y el filtro van al final, ocultos\n    f_cod = definition.AddField(campo_cod)\n    f_cod.ColumnHeading = H_CODIGO\n    f_alt = definition.AddField(campo_alt)\n    f_alt.ColumnHeading = H_ALTURA\n\n    f_ord = None\n    if campo_ord is not None:\n        f_ord = definition.AddField(campo_ord)\n        try:\n            f_ord.IsHidden = True\n        except Exception:\n            log.append('AVISO {}: no se pudo ocultar la columna \"{}\"; va a salir impresa en '\n                       'la tabla.'.format(numero_lamina, param_orden))\n\n    f_lam = definition.AddField(campo_lam)\n    try:\n        f_lam.IsHidden = True\n    except Exception:\n        log.append('AVISO {}: no se pudo ocultar la columna \"{}\"; va a salir impresa en la '\n                   'tabla.'.format(numero_lamina, param_lamina))\n\n    definition.AddFilter(ScheduleFilter(f_lam.FieldId, ScheduleFilterType.Contains,\n                                        ';{};'.format(sector)))\n    # se ordena por el campo numerico oculto, no por la columna LX que es texto: ver el\n    # encabezado\n    if f_ord is not None:\n        try:\n            definition.AddSortGroupField(ScheduleSortGroupField(f_ord.FieldId))\n        except Exception:\n            log.append('AVISO {}: no se pudo ordenar la tabla por \"{}\"; las filas salen en el '\n                       'orden que quiera Revit.'.format(numero_lamina, param_orden))\n    return True, []\n\n\ndef filas_del_cuerpo(sched):\n    try:\n        sd = sched.GetTableData().GetSectionData(SectionType.Body)\n        return sd.NumberOfRows if sd is not None else -1\n    except Exception:\n        return -1\n\n\n# ---------------------------- DONDE SE PARA ----------------------------\n\ndef rect_util(sheet):\n    # area util = bbox de la vineta menos margenes. Identica a la de 02 y 04.\n    col = FilteredElementCollector(doc, sheet.Id).OfCategory(BuiltInCategory.OST_TitleBlocks)\n    tb = col.FirstElement()\n    if tb is not None:\n        bb = tb.get_BoundingBox(sheet)\n        if bb is not None:\n            return (bb.Min.X + margen, bb.Min.Y + margen,\n                    bb.Max.X - margen, bb.Max.Y - margen)\n    o = sheet.Outline\n    return (o.Min.U + margen, o.Min.V + margen, o.Max.U - margen, o.Max.V - margen)\n\n\ndef ocupado_en(sheet, excluir_id):\n    # Rectangulos que la tabla no puede pisar: cada viewport con su titulo, las notas de texto,\n    # LAS OTRAS TABLAS YA COLOCADAS, la franja inferior de la vineta y el cajetin.\n    #\n    # Las otras tablas son la diferencia con 04, que no las miraba porque era la unica tabla\n    # del plano. Se excluye la propia -excluir_id- porque este paso la coloca primero para\n    # poder medirla y recien despues la manda al hueco: sin la exclusion se bloquearia a si\n    # misma y siempre terminaria en la esquina de ultimo recurso.\n    rects = []\n    for n in (FilteredElementCollector(doc, sheet.Id)\n              .OfCategory(BuiltInCategory.OST_TextNotes)\n              .WhereElementIsNotElementType()):\n        try:\n            bb = n.get_BoundingBox(sheet)\n        except Exception:\n            continue\n        if bb is not None:\n            rects.append((bb.Min.X, bb.Min.Y, bb.Max.X, bb.Max.Y))\n    for vp in FilteredElementCollector(doc, sheet.Id).OfClass(Viewport):\n        for getter in ('GetBoxOutline', 'GetLabelOutline'):\n            try:\n                o = getattr(vp, getter)()\n            except Exception:\n                continue\n            if o is not None:\n                rects.append((o.MinimumPoint.X, o.MinimumPoint.Y,\n                              o.MaximumPoint.X, o.MaximumPoint.Y))\n    for ssi in FilteredElementCollector(doc, sheet.Id).OfClass(ScheduleSheetInstance):\n        if excluir_id is not None and ssi.Id.Value == excluir_id.Value:\n            continue\n        try:\n            bb = ssi.get_BoundingBox(sheet)\n        except Exception:\n            continue\n        if bb is not None:\n            rects.append((bb.Min.X, bb.Min.Y, bb.Max.X, bb.Max.Y))\n    x0, y0, x1, y1 = rect_util(sheet)\n    if franja_inferior > 0:\n        rects.append((x0 - margen, y0 - margen, x1 + margen, y0 + franja_inferior))\n    if cajetin_ancho > 0 and cajetin_alto > 0:\n        rects.append((x1 - cajetin_ancho, y0 - margen, x1 + margen, y0 + cajetin_alto))\n    return rects\n\n\ndef se_pisan(a, b, holgura):\n    return not (a[2] + holgura <= b[0] or b[2] + holgura <= a[0] or\n                a[3] + holgura <= b[1] or b[3] + holgura <= a[1])\n\n\ndef buscar_hueco(sheet, ancho, alto, excluir_id):\n    # Barrido en grilla sobre el area util: la primera posicion -de las que no pisan nada- que\n    # quede mas cerca de la esquina pedida. Fuerza bruta a proposito: son unos miles de\n    # posiciones por lamina y evita toda la maquinaria de \"mayor rectangulo vacio\".\n    x0, y0, x1, y1 = rect_util(sheet)\n    if ancho > x1 - x0 or alto > y1 - y0:\n        return None\n    ocupados = ocupado_en(sheet, excluir_id)\n    derecha = 'derecha' in esquina\n    arriba = 'arriba' in esquina\n    ref_x = x1 - ancho if derecha else x0\n    ref_y = y1 - alto if arriba else y0\n\n    mejor = None\n    mejor_d = None\n    n = int((x1 - x0 - ancho) / PASO_BUSQUEDA) + 1\n    m = int((y1 - y0 - alto) / PASO_BUSQUEDA) + 1\n    for i in range(max(n, 1)):\n        for j in range(max(m, 1)):\n            px = x0 + i * PASO_BUSQUEDA\n            py = y0 + j * PASO_BUSQUEDA\n            if px + ancho > x1 or py + alto > y1:\n                continue\n            cand = (px, py, px + ancho, py + alto)\n            choca = False\n            for r in ocupados:\n                if se_pisan(cand, r, margen):\n                    choca = True\n                    break\n            if choca:\n                continue\n            d = math.hypot(px - ref_x, py - ref_y)\n            if mejor_d is None or d < mejor_d:\n                mejor_d = d\n                mejor = cand\n    return mejor\n\n\ndef esquina_de_ultimo_recurso(sheet, ancho, alto):\n    x0, y0, x1, y1 = rect_util(sheet)\n    px = (x1 - ancho) if 'derecha' in esquina else x0\n    py = (y1 - alto) if 'arriba' in esquina else y0\n    return (px, py, px + ancho, py + alto)\n\n\ndef colocar(sheet, sched, numero_lamina):\n    # Se coloca primero -en cualquier lado-, se le mide el bounding box real y recien despues\n    # se la manda al hueco. El alto de un schedule depende del tipo de letra y de cuantas filas\n    # quedaron: estimarlo es adivinar, y errarle por dos milimetros la deja pisando una vista.\n    # Con itemize encendido son tantas filas como luminarias, asi que esta tabla puede ser\n    # bastante mas alta que la de 04.\n    x0, y0, x1, y1 = rect_util(sheet)\n    try:\n        ssi = ScheduleSheetInstance.Create(doc, sheet.Id, sched.Id, XYZ(x0, y1, 0.0))\n    except Exception as e:\n        log.append('ERROR {}: Revit no permitio colocar la tabla ({}).'.format(numero_lamina, e))\n        return None\n    doc.Regenerate()\n    bb = ssi.get_BoundingBox(sheet)\n    if bb is None:\n        log.append('AVISO {}: no se pudo medir la tabla; queda en la esquina superior '\n                   'izquierda.'.format(numero_lamina))\n        return ssi\n    ancho = bb.Max.X - bb.Min.X\n    alto = bb.Max.Y - bb.Min.Y\n\n    destino = buscar_hueco(sheet, ancho, alto, ssi.Id)\n    if destino is None:\n        destino = esquina_de_ultimo_recurso(sheet, ancho, alto)\n        log.append('AVISO {}: no hay hueco libre de {:.0f}x{:.0f} mm en la lamina; la tabla se '\n                   'coloca en la esquina {} y puede quedar montada sobre una vista o sobre la '\n                   'TABLA N.1.'.format(numero_lamina, ancho * 304.8, alto * 304.8, esquina))\n    # el punto de insercion es la esquina SUPERIOR izquierda del schedule\n    delta_x = destino[0] - bb.Min.X\n    delta_y = destino[3] - bb.Max.Y\n    try:\n        ssi.Point = XYZ(ssi.Point.X + delta_x, ssi.Point.Y + delta_y, 0.0)\n    except Exception as e:\n        log.append('AVISO {}: no se pudo mover la tabla al hueco ({}).'.format(numero_lamina, e))\n    return ssi\n\n\n# ---------------------------- EJECUCION ----------------------------\n\nlaminas = laminas_de_sector()\nif not laminas:\n    log.append('No hay laminas con vistas de sector que coincidan con el filtro. Se esperan '\n               'laminas con vistas \"<sector>{}\" o \"<sector>{}X\", creadas por 01 y 02.'.format(\n                   SUF_PLANTA, SUF_ELEV))\nelif not luminarias_del_modelo():\n    log.append('No hay luminarias en el modelo (categoria Lighting Fixtures{}); no hay tabla '\n               'que armar.'.format(\n                   ', familia que contiene \"{}\"'.format(fam_contiene) if fam_contiene else ''))\nelse:\n    TransactionManager.Instance.EnsureInTransaction(doc)\n\n    asegurar_param(param_altura, SpecTypeId.String.Text, H_ALTURA)\n    # Regenerar entre crear el parametro y escribirlo NO es opcional: un parametro de proyecto\n    # recien vinculado no aparece en los elementos hasta que el documento regenera, asi que\n    # LookupParameter devuelve None. El sintoma es que a la SEGUNDA corrida funciona.\n    doc.Regenerate()\n    marcar_luminarias(laminas)\n\n    por_sector = {}\n    for sh, sector, vistas in laminas:\n        acum = por_sector.setdefault(sector, set())\n        for el in luminarias_de_lamina(vistas):\n            acum.add(el.Id.Value)\n\n    schedules = {}\n    for v in FilteredElementCollector(doc).OfClass(ViewSchedule):\n        schedules[elem_name(v)] = v\n    instancias = {}\n    for ssi in FilteredElementCollector(doc).OfClass(ScheduleSheetInstance):\n        instancias.setdefault(ssi.ScheduleId.Value, []).append(ssi)\n\n    puestas = 0\n    for sh, sector, vistas in laminas:\n        numero = sh.SheetNumber\n        nombre_sched = PREFIJO_SCHEDULE + numero\n        cuantas = len(por_sector.get(sector, ()))\n        if not cuantas:\n            log.append('{} ({}): no se ve ninguna luminaria en las vistas del sector; no se '\n                       'pone tabla.'.format(numero, sector))\n            continue\n\n        sched = schedules.get(nombre_sched)\n        if sched is not None and not rehacer:\n            log.append('{} ({}): ya tiene tabla, se salta. Corre con rehacer para '\n                       'reconfigurarla.'.format(numero, sector))\n            continue\n        if sched is None:\n            sched = ViewSchedule.CreateSchedule(\n                doc, ElementId(BuiltInCategory.OST_LightingFixtures))\n            try:\n                sched.Name = nombre_sched\n            except Exception as e:\n                log.append('AVISO {}: no se pudo nombrar la tabla \"{}\" ({}); queda con el '\n                           'nombre que le puso Revit.'.format(numero, nombre_sched, e))\n            schedules[nombre_sched] = sched\n\n        ok, faltan = configurar_schedule(sched, sector, numero)\n        if not ok:\n            log.append('ERROR {}: las luminarias no tienen estos parametros como campo de '\n                       'schedule: {}. Sin ellos la tabla no se puede armar; los crean 06 y '\n                       'este mismo paso, asi que revisa que 06 haya corrido.'.format(\n                           numero, ', '.join(faltan)))\n            continue\n        doc.Regenerate()\n        if not poner_titulo(sched, titulo_tabla):\n            log.append('AVISO {}: no se pudo escribir el titulo \"{}\" en la tabla; queda el '\n                       'nombre del schedule.'.format(numero, titulo_tabla))\n\n        # el cuerpo trae una fila de encabezado de columnas y una en blanco ademas de los\n        # datos, asi que se tolera +2. Aca lo que se comprueba es lo CONTRARIO que en 04: que\n        # NO haya colapsado. Si salen menos filas que luminarias, itemize no quedo encendido y\n        # dos luminarias a la misma altura se estan imprimiendo como una sola.\n        filas = filas_del_cuerpo(sched)\n        if 0 <= filas < cuantas:\n            log.append('AVISO {}: la tabla quedo con {} fila(s) y en el sector hay {} '\n                       'luminaria(s). Si son menos, Revit esta colapsando filas iguales: la '\n                       'tabla tiene que ir con \"Itemize every instance\" ENCENDIDO, al reves '\n                       'que la TABLA N.1.'.format(numero, filas, cuantas))\n\n        for vieja in instancias.get(sched.Id.Value, []):\n            try:\n                doc.Delete(vieja.Id)\n            except Exception:\n                pass\n        if colocar(sh, sched, numero) is not None:\n            puestas += 1\n            log.append('OK {} ({}): tabla con {} luminaria(s).'.format(numero, sector, cuantas))\n\n    log.insert(0, '{} tabla(s) de luminarias en {} lamina(s) de sector.'.format(\n        puestas, len(laminas)))\n    log.append('Recorda que la columna \"{}\" va vacia a proposito: todavia no esta decidido de '\n               'donde sale la altura de montaje. Ver el encabezado del graph.'.format(H_ALTURA))\n\n    TransactionManager.Instance.ForceCloseTransaction()\n\nOUT = log",
+      "Inputs": [
+        {
+          "Id": "a9010000000000000000000000000010",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a9010000000000000000000000000011",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a9010000000000000000000000000012",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a9010000000000000000000000000013",
+          "Name": "IN[3]",
+          "Description": "Input #3",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a9010000000000000000000000000014",
+          "Name": "IN[4]",
+          "Description": "Input #4",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a9010000000000000000000000000015",
+          "Name": "IN[5]",
+          "Description": "Input #5",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a9010000000000000000000000000016",
+          "Name": "IN[6]",
+          "Description": "Input #6",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a9010000000000000000000000000017",
+          "Name": "IN[7]",
+          "Description": "Input #7",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a9010000000000000000000000000018",
+          "Name": "IN[8]",
+          "Description": "Input #8",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a9010000000000000000000000000019",
+          "Name": "IN[9]",
+          "Description": "Input #9",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a901000000000000000000000000001a",
+          "Name": "IN[10]",
+          "Description": "Input #10",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a901000000000000000000000000001b",
+          "Name": "IN[11]",
+          "Description": "Input #11",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a901000000000000000000000000001c",
+          "Name": "IN[12]",
+          "Description": "Input #12",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a901000000000000000000000000001d",
+          "Name": "IN[13]",
+          "Description": "Input #13",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "a9010000000000000000000000000005",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
+      "WatchWidth": 460,
+      "WatchHeight": 320,
+      "Id": "c9010000000000000000000000000001",
+      "NodeType": "ExtensionNode",
+      "Inputs": [
+        {
+          "Id": "c9010000000000000000000000000002",
+          "Name": "",
+          "Description": "Node to evaluate.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "c9010000000000000000000000000003",
+          "Name": "",
+          "Description": "Watch contents.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Visualizes a node's output"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "b9010000000000000000000000000002",
+      "End": "a9010000000000000000000000000010",
+      "Id": "d9010000000000000000000000000010",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "b9020000000000000000000000000002",
+      "End": "a9010000000000000000000000000011",
+      "Id": "d9010000000000000000000000000011",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "b9030000000000000000000000000002",
+      "End": "a9010000000000000000000000000012",
+      "Id": "d9010000000000000000000000000012",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "b9040000000000000000000000000002",
+      "End": "a9010000000000000000000000000013",
+      "Id": "d9010000000000000000000000000013",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "b9050000000000000000000000000002",
+      "End": "a9010000000000000000000000000014",
+      "Id": "d9010000000000000000000000000014",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "b9060000000000000000000000000002",
+      "End": "a9010000000000000000000000000015",
+      "Id": "d9010000000000000000000000000015",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "b9070000000000000000000000000002",
+      "End": "a9010000000000000000000000000016",
+      "Id": "d9010000000000000000000000000016",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "b9080000000000000000000000000002",
+      "End": "a9010000000000000000000000000017",
+      "Id": "d9010000000000000000000000000017",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "b9090000000000000000000000000002",
+      "End": "a9010000000000000000000000000018",
+      "Id": "d9010000000000000000000000000018",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "b90a0000000000000000000000000002",
+      "End": "a9010000000000000000000000000019",
+      "Id": "d9010000000000000000000000000019",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "b90b0000000000000000000000000002",
+      "End": "a901000000000000000000000000001a",
+      "Id": "d901000000000000000000000000001a",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "b90c0000000000000000000000000002",
+      "End": "a901000000000000000000000000001b",
+      "Id": "d901000000000000000000000000001b",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "b90d0000000000000000000000000002",
+      "End": "a901000000000000000000000000001c",
+      "Id": "d901000000000000000000000000001c",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "b90e0000000000000000000000000002",
+      "End": "a901000000000000000000000000001d",
+      "Id": "d901000000000000000000000000001d",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "a9010000000000000000000000000005",
+      "End": "c9010000000000000000000000000002",
+      "Id": "d90100000000000000000000000000f0",
+      "IsHidden": "False"
+    }
+  ],
+  "Dependencies": [],
+  "NodeLibraryDependencies": [],
+  "EnableLegacyPolyCurveBehavior": true,
+  "Thumbnail": "",
+  "GraphDocumentationURL": null,
+  "ExtensionWorkspaceData": [],
+  "Author": "",
+  "Linting": {
+    "activeLinter": "None",
+    "activeLinterId": "7b75fb44-43fd-4631-a878-29f4d5d8399a",
+    "warningCount": 0,
+    "errorCount": 0
+  },
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "4.0.2.3852",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "_Background Preview",
+      "EyeX": -17,
+      "EyeY": 24,
+      "EyeZ": 50,
+      "LookX": 12,
+      "LookY": -13,
+      "LookZ": -58,
+      "UpX": 0,
+      "UpY": 1,
+      "UpZ": 0
+    },
+    "ConnectorPins": [],
+    "NodeViews": [
+      {
+        "Id": "b9010000000000000000000000000001",
+        "Name": "01. Procesar TODOS los sectores",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 0
+      },
+      {
+        "Id": "b9020000000000000000000000000001",
+        "Name": "02. Filtro de sectores (si TODOS = False)",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 130
+      },
+      {
+        "Id": "b9030000000000000000000000000001",
+        "Name": "03. La familia de la luminaria CONTIENE (vacio = todas)",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 260
+      },
+      {
+        "Id": "b9040000000000000000000000000001",
+        "Name": "04. Parametro del codigo Lx (lo escribe 06)",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 390
+      },
+      {
+        "Id": "b9050000000000000000000000000001",
+        "Name": "05. Parametro numerico de orden (lo escribe 06)",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 520
+      },
+      {
+        "Id": "b9060000000000000000000000000001",
+        "Name": "06. Parametro de la altura de montaje (hoy va vacio)",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 650
+      },
+      {
+        "Id": "b9070000000000000000000000000001",
+        "Name": "07. Parametro donde se marca el sector",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 780
+      },
+      {
+        "Id": "b9080000000000000000000000000001",
+        "Name": "08. Titulo de la tabla",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 910
+      },
+      {
+        "Id": "b9090000000000000000000000000001",
+        "Name": "09. Margen de la lamina (mm) - el mismo que 01 y 02",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 1040
+      },
+      {
+        "Id": "b90a0000000000000000000000000001",
+        "Name": "10. Franja inferior reservada de la vineta (mm)",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 1170
+      },
+      {
+        "Id": "b90b0000000000000000000000000001",
+        "Name": "11. Ancho del cajetin desde el borde derecho (mm)",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 1300
+      },
+      {
+        "Id": "b90c0000000000000000000000000001",
+        "Name": "12. Alto del cajetin (mm)",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 1430
+      },
+      {
+        "Id": "b90d0000000000000000000000000001",
+        "Name": "13. Esquina por la que se busca hueco",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 1560
+      },
+      {
+        "Id": "b90e0000000000000000000000000001",
+        "Name": "14. Rehacer las tablas existentes",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 1690
+      },
+      {
+        "Id": "a9010000000000000000000000000001",
+        "Name": "Python Script",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 620,
+        "Y": 0
+      },
+      {
+        "Id": "c9010000000000000000000000000001",
+        "Name": "Log",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": true,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 980,
+        "Y": 0
+      }
+    ],
+    "Annotations": [],
+    "X": 0,
+    "Y": 0,
+    "Zoom": 0.8
+  }
+}

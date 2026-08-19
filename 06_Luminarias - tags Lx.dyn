@@ -1,0 +1,746 @@
+{
+  "Uuid": "5e0f0000-0000-0000-0000-000000000006",
+  "IsCustomNode": false,
+  "Description": "Numera las luminarias L1, L2, L3... barriendo la planta en sentido horario y estampa el codigo en la planta y en las elevaciones de cada sector.",
+  "Name": "06_Luminarias - tags Lx",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [
+    {
+      "Id": "b8010000000000000000000000000001",
+      "Name": "01. Procesar TODOS los sectores",
+      "Type": "boolean",
+      "Type2": "boolean",
+      "Value": "false",
+      "Description": "Enables selection between True and False"
+    },
+    {
+      "Id": "b8020000000000000000000000000001",
+      "Name": "02. Filtro de sectores (si TODOS = False)",
+      "Type": "string",
+      "Type2": "string",
+      "Value": "SECTOR A",
+      "Description": "Creates a string"
+    },
+    {
+      "Id": "b8030000000000000000000000000001",
+      "Name": "03. La familia de la luminaria CONTIENE (vacio = todas)",
+      "Type": "string",
+      "Type2": "string",
+      "Value": "",
+      "Description": "Creates a string"
+    },
+    {
+      "Id": "b8040000000000000000000000000001",
+      "Name": "04. Parametro donde se escribe el codigo Lx",
+      "Type": "string",
+      "Type2": "string",
+      "Value": "LUMINARIAS",
+      "Description": "Creates a string"
+    },
+    {
+      "Id": "b8050000000000000000000000000001",
+      "Name": "05. Parametro numerico de orden (lo lee 07 para ordenar)",
+      "Type": "string",
+      "Type2": "string",
+      "Value": "ORDEN_LUM",
+      "Description": "Creates a string"
+    },
+    {
+      "Id": "b8060000000000000000000000000001",
+      "Name": "06. Prefijo del codigo",
+      "Type": "string",
+      "Type2": "string",
+      "Value": "L",
+      "Description": "Creates a string"
+    },
+    {
+      "Id": "b8070000000000000000000000000001",
+      "Name": "07. Tipo de texto con que se dibuja el tag",
+      "Type": "string",
+      "Type2": "string",
+      "Value": "2mm wf 0.85 RomanD",
+      "Description": "Creates a string"
+    },
+    {
+      "Id": "b8080000000000000000000000000001",
+      "Name": "08. Separacion del tag respecto a la luminaria (mm)",
+      "Type": "number",
+      "Type2": "number",
+      "Value": "4",
+      "MaximumValue": 40,
+      "MinimumValue": 0,
+      "StepValue": 1,
+      "NumberType": "Integer",
+      "Description": "Produces integer values"
+    },
+    {
+      "Id": "b8090000000000000000000000000001",
+      "Name": "09. Separacion minima entre dos tags (mm)",
+      "Type": "number",
+      "Type2": "number",
+      "Value": "6",
+      "MaximumValue": 40,
+      "MinimumValue": 0,
+      "StepValue": 1,
+      "NumberType": "Integer",
+      "Description": "Produces integer values"
+    },
+    {
+      "Id": "b80a0000000000000000000000000001",
+      "Name": "10. Vista de planta que fija la orientacion (vacio = ejes del proyecto)",
+      "Type": "string",
+      "Type2": "string",
+      "Value": "",
+      "Description": "Creates a string"
+    },
+    {
+      "Id": "b80b0000000000000000000000000001",
+      "Name": "11. Rehacer los tags existentes",
+      "Type": "boolean",
+      "Type2": "boolean",
+      "Value": "false",
+      "Description": "Enables selection between True and False"
+    }
+  ],
+  "Outputs": [
+    {
+      "Id": "c8010000000000000000000000000001",
+      "Name": "Log",
+      "Type": "unknown",
+      "InitialValue": "",
+      "Description": "Visualizes a node's output"
+    }
+  ],
+  "Nodes": [
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "Id": "b8010000000000000000000000000001",
+      "NodeType": "BooleanInputNode",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b8010000000000000000000000000002",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Enables selection between True and False",
+      "InputValue": false
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "SECTOR A",
+      "Id": "b8020000000000000000000000000001",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b8020000000000000000000000000002",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "",
+      "Id": "b8030000000000000000000000000001",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b8030000000000000000000000000002",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "LUMINARIAS",
+      "Id": "b8040000000000000000000000000001",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b8040000000000000000000000000002",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "ORDEN_LUM",
+      "Id": "b8050000000000000000000000000001",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b8050000000000000000000000000002",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "L",
+      "Id": "b8060000000000000000000000000001",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b8060000000000000000000000000002",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "2mm wf 0.85 RomanD",
+      "Id": "b8070000000000000000000000000001",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b8070000000000000000000000000002",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
+      "NumberType": "Integer",
+      "MaximumValue": 40,
+      "MinimumValue": 0,
+      "StepValue": 1,
+      "Id": "b8080000000000000000000000000001",
+      "NodeType": "NumberInputNode",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b8080000000000000000000000000002",
+          "Name": "",
+          "Description": "Int64",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Produces integer values",
+      "InputValue": 4
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
+      "NumberType": "Integer",
+      "MaximumValue": 40,
+      "MinimumValue": 0,
+      "StepValue": 1,
+      "Id": "b8090000000000000000000000000001",
+      "NodeType": "NumberInputNode",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b8090000000000000000000000000002",
+          "Name": "",
+          "Description": "Int64",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Produces integer values",
+      "InputValue": 6
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "",
+      "Id": "b80a0000000000000000000000000001",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b80a0000000000000000000000000002",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "Id": "b80b0000000000000000000000000001",
+      "NodeType": "BooleanInputNode",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b80b0000000000000000000000000002",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Enables selection between True and False",
+      "InputValue": false
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "Engine": "PythonNet3",
+      "VariableInputPorts": true,
+      "Id": "a8010000000000000000000000000001",
+      "NodeType": "PythonScriptNode",
+      "Code": "# 06_Luminarias - tags Lx - ILUMINACION\n#\n# El primero de los DOS PASOS DE LA LUMINARIA. Numera todas las luminarias del modelo con un\n# correlativo L1, L2, L3... barriendo la planta en sentido horario, escribe ese codigo en un\n# parametro de la luminaria y lo estampa como texto en la planta Y en las cuatro elevaciones\n# de cada sector.\n#\n# El segundo es 07_Luminarias - tabla de alturas, que imprime la TABLA N.2 en cada lamina.\n#\n# Revit 2027 / Dynamo 4 / CPython3\n# IN[0]  = procesar todos los sectores (bool)\n# IN[1]  = filtro de sectores si IN[0] es False (parcial, comas)\n# IN[2]  = la familia de la luminaria CONTIENE (string; vacio = todas las Lighting Fixtures)\n# IN[3]  = parametro donde se escribe el codigo Lx (string, ej. LUMINARIAS)\n# IN[4]  = parametro numerico donde se escribe el orden, para que 07 pueda ordenar la tabla\n#          (string, ej. ORDEN_LUM); lo crea este paso si no existe\n# IN[5]  = prefijo del codigo (string, ej. L)\n# IN[6]  = tipo de texto con que se dibuja el tag (string)\n# IN[7]  = separacion del tag respecto a la luminaria, en mm de papel\n# IN[8]  = separacion minima entre dos tags, en mm de papel\n# IN[9]  = vista de planta que fija la orientacion del barrido (string; vacio = ejes X/Y del\n#          proyecto)\n# IN[10] = rehacer: borra los tags que ya estan puestos y los vuelve a escribir\n#\n#\n# EL CRITERIO SE DECIDE EN LA PLANTA, LAS ELEVACIONES SOLO LO LEEN\n#\n# El numero de una luminaria no se puede deducir mirandola: sale de DONDE ESTA respecto de\n# las demas. Por eso el barrido se hace una sola vez, sobre la planta, el resultado se guarda\n# en el parametro de IN[3], y todo lo demas -el texto de la planta, el texto de cada\n# elevacion y la fila de la tabla de 07- lee ese parametro.\n#\n# En una elevacion no habria forma de recalcularlo: la elevacion ve una franja del edificio y\n# no sabe que hay detras, asi que un barrido hecho ahi daria otros numeros. Que las cuatro\n# elevaciones y la planta digan lo mismo no es una comprobacion que haya que hacer: es una\n# consecuencia de que el dato exista en un solo lugar.\n#\n#\n# EL BARRIDO HORARIO\n#\n# Se ordenan las luminarias por el ANGULO con que se las ve desde el centro de la planta,\n# arrancando en LA LUMINARIA DE MAS ARRIBA A LA IZQUIERDA y girando en sentido horario hasta\n# volver a ella. Es literalmente una manilla de reloj que arranca a las 10:30 y da una vuelta\n# entera.\n#\n#   L1 -> L2 -> L3 -> L4\n#    ^  +--------------+  |\n#    |  |              |  v\n#   L12 |   (centro)   |  L5      inicio: hacia la esquina superior izquierda\n#    ^  |              |  |       giro:   horario\n#    |  +--------------+  v\n#   L11 <- L10 <- L9 <- L8\n#\n# Es un criterio poco comun -lo natural seria de arriba a abajo y de izquierda a derecha- pero\n# es el que piden los ingenieros y no se discute desde el graph.\n#\n# EL ARRANQUE ES UNA LUMINARIA, NO UN ANGULO, y esto no es un detalle de implementacion: es la\n# correccion de un bug que dio vuelta el resultado. La primera version arrancaba en la\n# direccion fija de 135 grados, dando por sentado que la esquina superior izquierda esta a 135\n# grados del centro. Solo lo esta si la planta es CUADRADA. En SECTOR A la luminaria de la\n# esquina quedaba un pelo pasada de esa raya, el modulo la mandaba al final de la vuelta y se\n# llevaba el ULTIMO numero en vez del primero -justo la que cualquiera mira para comprobar que\n# el barrido esta bien-.\n#\n# Ahora la semilla es la luminaria mas cercana al vertice superior izquierdo del rectangulo\n# envolvente, y la vuelta se corta encima de ella: su giro es (a - a) % 2*pi, cero exacto en\n# cualquier maquina. El error no se atenuo, se quedo sin borde donde ocurrir.\n#\n# EL CENTRO es el centro del RECTANGULO ENVOLVENTE de las luminarias, no el promedio de sus\n# posiciones. Suena parecido y no lo es: el promedio se corre hacia donde haya mas luminarias\n# juntas, asi que un racimo denso en una esquina moveria el centro y con el, el orden de todo\n# el resto. El rectangulo envolvente depende solo de los cuatro extremos, que es lo que\n# cualquiera entiende por \"el centro del plano\".\n#\n# LOS EMPATES -dos luminarias exactamente en la misma direccion desde el centro- se rompen\n# por distancia al centro, de adentro hacia afuera, y a igualdad de todo por id de elemento.\n# Es una regla arbitraria y esta bien que lo sea: lo unico que importa es que sea ESTABLE,\n# porque un plano ya emitido tiene que seguir coincidiendo con el modelo. El log dice cuantos\n# empates hubo, que es la unica forma de enterarse de que la regla estuvo en juego.\n#\n#\n# LA NUMERACION ES GLOBAL DEL MODELO, NO POR SECTOR\n#\n# L1..Ln recorre TODAS las luminarias del modelo de una sola vez. Una luminaria se llama igual\n# en todos los planos donde salga.\n#\n# Es lo contrario de lo que hace el ITEM de la TABLA N.1 de 04, que reinicia en cada sector, y\n# el motivo de la diferencia es para que sirve cada numero: el ITEM del riel es un renglon de\n# cantidades -tiene que ser un correlativo sin huecos dentro de su tabla- mientras que el Lx\n# de la luminaria es un NOMBRE, y un nombre que significa dos cosas distintas segun la hoja no\n# es un nombre.\n#\n# La consecuencia visible: la tabla de un sector no arranca en L1 ni lleva numeros seguidos.\n# Va a decir L3, L7, L8, L15... y eso es correcto.\n#\n# Por eso este paso ESCRIBE EL PARAMETRO EN TODAS LAS LUMINARIAS DEL MODELO aunque se corra\n# filtrando un solo sector: si escribiera solo las del sector procesado, el correlativo\n# dependeria de por cual sector se empezo.\n#\n#\n# ES UN TextNote, NO UN IndependentTag\n#\n# Misma decision que los tags de riel de 03, y por el mismo motivo: el modelo no tiene una\n# familia de etiqueta de luminaria que dibuje el parametro donde vive el codigo, y ninguna API\n# dice que parametro dibuja el label de una anotacion. El plano de referencia tampoco usa un\n# tag.\n#\n# El texto va ABAJO de la luminaria y centrado con ella. La colocacion prueba primero ese\n# lugar y solo se corre si esta tomado, empezando por los que siguen quedando abajo.\n#\n# La diferencia con 03: aca los textos van SIN FLECHA y UNO POR LUMINARIA. Los tags de riel se\n# agrupan -un R-04 con flechas a los seis rieles de 400 que tiene cerca- porque el codigo del\n# riel es un TIPO y repetirlo seis veces no agrega nada. El Lx es una IDENTIDAD: agrupar dos\n# seria borrar justamente el dato que se quiere mostrar.\n#\n# Lo que se pierde es la asociatividad: si alguien mueve una luminaria, el numero miente hasta\n# que se vuelva a correr el paso con rehacer.\n#\n#\n# QUE PASA CON LAS LUMINARIAS DE EMERGENCIA\n#\n# Hoy nada: entran en la misma numeracion que las demas. El modelo tiene el parametro de tipo\n# \"EMERGENCY LIGHT\" y hoy vale 0 en los dos tipos cargados, asi que no hay ninguna. Cuando las\n# haya hay que decidir si comparten esta secuencia o llevan la suya, porque la NOTA 5 las\n# manda a una tabla aparte, la N.3. Ver el README.\n\nimport clr\nimport math\nimport os\nimport re\nimport hashlib\nimport tempfile\nclr.AddReference('RevitAPI')\nclr.AddReference('RevitServices')\nfrom Autodesk.Revit.DB import (FilteredElementCollector, ViewPlan, ViewSection, ViewSchedule,\n                               XYZ, Element, ElementId, BuiltInCategory, StorageType,\n                               FamilyInstance, TextNote, TextNoteType, ElementTypeGroup,\n                               HorizontalTextAlignment, VerticalTextAlignment,\n                               CategorySet, GroupTypeId, SpecTypeId,\n                               ExternalDefinitionCreationOptions)\nfrom RevitServices.Persistence import DocumentManager\nfrom RevitServices.Transactions import TransactionManager\nfrom System import Guid\n\ndoc = DocumentManager.Instance.CurrentDBDocument\napp = doc.Application\n\nprocess_all = bool(IN[0])\nfilter_text = (IN[1] or '').strip()\nfam_contiene = (IN[2] or '').strip()\nparam_codigo = (IN[3] or 'LUMINARIAS').strip()\nparam_orden = (IN[4] or 'ORDEN_LUM').strip()\nprefijo = (IN[5] or 'L').strip() or 'L'\ntipo_texto_nombre = (IN[6] or '').strip()\nsep_tag_mm = float(IN[7]) if IN[7] is not None else 4.0\nsep_min_mm = float(IN[8]) if IN[8] is not None else 6.0\nvista_orientacion = (IN[9] or '').strip()\nrehacer = bool(IN[10])\n\nlog = []\n# se avisa una sola vez aunque fallen los 125 tags: el motivo seria el mismo en todos\naviso_alineacion = False\n\n# --- contrato de nombres con 00_Vistas de sector ---\nSUF_PLANTA = ' - PLANTA'\nSUF_ELEV = ' - ELEV '\n\nRE_CODIGO = re.compile(r'^' + re.escape(prefijo) + r'\\d+$')\n\nDOS_PI = 2.0 * math.pi\n# Angulo por debajo del cual dos luminarias se consideran en la misma direccion desde el\n# centro. Ver empates en barrido_horario.\nTOL_ANG = 1e-9\n\n\ndef elem_name(e):\n    try:\n        return Element.Name.GetValue(e)\n    except Exception:\n        try:\n            return e.Name\n        except Exception:\n            return ''\n\n\ndef coincide(nombre, texto):\n    # filtro parcial separado por comas, insensible a mayusculas. Mismo criterio que usan\n    # 00, 01, 02, 03 y 04 para elegir sectores.\n    if not texto:\n        return True\n    alto = (nombre or '').upper()\n    for t in texto.split(','):\n        t = t.strip().upper()\n        if t and t in alto:\n            return True\n    return False\n\n\ndef fam_name(el):\n    try:\n        return el.Symbol.Family.Name or ''\n    except Exception:\n        return ''\n\n\ndef es_luminaria(el):\n    # La categoria ya hace casi todo el trabajo -Lighting Fixtures no tiene nada mas adentro-\n    # asi que el filtro de familia arranca vacio. Esta por si algun dia conviven la luminaria\n    # de proyecto y una de catalogo que no se documenta.\n    if not fam_contiene:\n        return True\n    return fam_contiene.upper() in fam_name(el).upper()\n\n\ndef luminarias_del_modelo():\n    return [el for el in FilteredElementCollector(doc)\n            .OfCategory(BuiltInCategory.OST_LightingFixtures)\n            .WhereElementIsNotElementType()\n            if isinstance(el, FamilyInstance) and es_luminaria(el)]\n\n\n# ---------------------------- EL BARRIDO ----------------------------\n\ndef ejes_del_barrido():\n    # Los ejes con que se lee \"arriba\" e \"izquierda\". Por defecto los del proyecto, que es lo\n    # que ve alguien mirando la planta. Si el modelo trabaja girado se le puede pasar el\n    # nombre de una vista de planta y se usan los de ella.\n    if vista_orientacion:\n        for v in FilteredElementCollector(doc).OfClass(ViewPlan):\n            if v.IsTemplate:\n                continue\n            if elem_name(v) == vista_orientacion:\n                return v.RightDirection.Normalize(), v.UpDirection.Normalize()\n        log.append('AVISO: no existe la vista de planta \"{}\"; el barrido usa los ejes X/Y '\n                   'del proyecto.'.format(vista_orientacion))\n    return XYZ(1, 0, 0), XYZ(0, 1, 0)\n\n\ndef centro_de(el, ex, ey):\n    bb = el.get_BoundingBox(None)\n    if bb is None:\n        return None\n    c = XYZ((bb.Min.X + bb.Max.X) / 2.0,\n            (bb.Min.Y + bb.Max.Y) / 2.0,\n            (bb.Min.Z + bb.Max.Z) / 2.0)\n    return c.DotProduct(ex), c.DotProduct(ey)\n\n\ndef barrido_horario(luminarias, ex, ey):\n    # Devuelve las luminarias en el orden en que las va tocando la manilla, y de paso cuenta\n    # los empates de angulo, que son el unico caso donde el orden lo decide una regla\n    # arbitraria en vez de la geometria.\n    puntos = []\n    sin_bbox = 0\n    for el in luminarias:\n        c = centro_de(el, ex, ey)\n        if c is None:\n            sin_bbox += 1\n            continue\n        puntos.append((el, c[0], c[1]))\n    if sin_bbox:\n        log.append('AVISO: {} luminaria(s) sin geometria medible; no entran en la '\n                   'numeracion.'.format(sin_bbox))\n    if not puntos:\n        return []\n\n    us = [p[1] for p in puntos]\n    ws = [p[2] for p in puntos]\n    u_min, u_max = min(us), max(us)\n    w_min, w_max = min(ws), max(ws)\n    # el centro del RECTANGULO ENVOLVENTE, no el promedio: ver el encabezado\n    u_c = (u_min + u_max) / 2.0\n    w_c = (w_min + w_max) / 2.0\n\n    # LA MANILLA ARRANCA SOBRE UNA LUMINARIA, NO SOBRE UN ANGULO.\n    #\n    # La semilla es la mas cercana al vertice superior izquierdo del rectangulo envolvente:\n    # exactamente la que alguien senalaria con el dedo diciendo \"esa, la de mas arriba a la\n    # izquierda\". Se le da el 1 y el resto sale girando horario desde ella.\n    #\n    # Antes el arranque era la direccion fija de 135 grados, y estaba mal por una razon que\n    # no se ve leyendo el codigo: la luminaria de la esquina NO esta a 135 grados del centro\n    # salvo que la planta sea cuadrada. Si quedaba un pelo pasada de esa raya, el modulo la\n    # mandaba a giro ~= 2*pi y se llevaba el ULTIMO numero en vez del primero. Paso de verdad\n    # con la primera corrida sobre SECTOR A.\n    #\n    # Anclando en la semilla el problema desaparece de raiz, no se atenua: su propio giro es\n    # (a - a) % 2*pi, que da CERO exacto en cualquier maquina. No hay borde donde caerse\n    # porque el corte de la vuelta esta puesto justo encima de la luminaria que tiene que\n    # abrirla.\n    semilla = min(puntos, key=lambda it: (math.hypot(it[1] - u_min, it[2] - w_max),\n                                          it[0].Id.Value))\n    ang_inicio = math.atan2(semilla[2] - w_c, semilla[1] - u_c)\n\n    claves = []\n    for el, u, w in puntos:\n        du, dw = u - u_c, w - w_c\n        ang = math.atan2(dw, du)\n        # cuanto giro horario hace falta desde la semilla para llegar hasta aca. Horario es\n        # angulo DECRECIENTE, de ahi la resta.\n        giro = (ang_inicio - ang) % DOS_PI\n        # Una que este en la MISMA direccion que la semilla puede caer del lado de arriba del\n        # modulo -giro ~= 2*pi- por el signo del error de punto flotante. Es el unico resto\n        # del problema anterior, y aca se cierra: se la trae al arranque y el desempate por\n        # distancia decide cual va primero.\n        if giro > DOS_PI - TOL_ANG:\n            giro = 0.0\n        claves.append((giro, math.hypot(du, dw), el.Id.Value, el))\n\n    claves.sort(key=lambda k: (k[0], k[1], k[2]))\n\n    empates = 0\n    for i in range(1, len(claves)):\n        if abs(claves[i][0] - claves[i - 1][0]) < TOL_ANG:\n            empates += 1\n    if empates:\n        log.append('AVISO: {} par(es) de luminarias caen en la misma direccion exacta desde '\n                   'el centro. Entre ellas el orden lo decide la distancia al centro, de '\n                   'adentro hacia afuera.'.format(empates))\n\n    # Se dice cual abrio la vuelta: es lo primero que hay que mirar en el plano para saber si\n    # el barrido arranco donde se esperaba, y no hay otra forma de verlo sin contar tags.\n    log.append('El barrido arranca en la luminaria id {} -la mas cercana al vertice superior '\n               'izquierdo- y gira horario desde ahi.'.format(semilla[0].Id.Value))\n\n    return [k[3] for k in claves]\n\n\n# ---------------------------- LOS PARAMETROS ----------------------------\n\ndef guid_para(nombre):\n    # GUID derivado del nombre, igual que en 04: el parametro creado es el MISMO en todos los\n    # modelos de la oficina sin depender de un archivo de parametros compartidos versionado.\n    h = hashlib.md5(('ELE01_TBL::' + nombre.upper()).encode('utf-8')).hexdigest()\n    return Guid(h)\n\n\ndef existe_como_campo(nombre):\n    # Que Revit lo ofrezca como CAMPO DE SCHEDULE. Hace falta porque 07 lo va a usar como\n    # columna, y un parametro de familia existe en el elemento pero no se puede poner en una\n    # tabla.\n    try:\n        probe = ViewSchedule.CreateSchedule(doc, ElementId(BuiltInCategory.OST_LightingFixtures))\n    except Exception:\n        return False\n    try:\n        for f in probe.Definition.GetSchedulableFields():\n            try:\n                if f.GetName(doc) == nombre:\n                    return True\n            except Exception:\n                continue\n        return False\n    finally:\n        try:\n            doc.Delete(probe.Id)\n        except Exception:\n            pass\n\n\ndef existe_en_luminarias(nombre):\n    # La prueba que importa para ESCRIBIR. No alcanza con que el schedule lo ofrezca: el\n    # 2026-08-19, en el paso 04, \"ITEM_TBL\" aparecia entre los campos schedulables y ningun\n    # elemento del modelo lo tenia, asi que el guard daba por hecho que existia, no lo creaba\n    # nunca y la columna salia vacia corrida tras corrida.\n    #\n    # Se mira una sola luminaria porque el parametro se vincula por CATEGORIA: o lo tienen\n    # todas o no lo tiene ninguna.\n    for el in luminarias_del_modelo():\n        try:\n            return el.LookupParameter(nombre) is not None\n        except Exception:\n            return False\n    return False\n\n\ndef asegurar_param(nombre, spec, etiqueta):\n    # Crea el parametro como COMPARTIDO y lo vincula como parametro de proyecto de instancia\n    # de Lighting Fixtures. Misma maquinaria que 04.\n    #\n    # Ojo: si el parametro YA EXISTE en el modelo -como \"LUMINARIAS\", que viene con la familia\n    # y tiene su propio GUID- esta funcion sale por la primera linea y no lo toca. Recrearlo\n    # con el GUID derivado del nombre seria fabricar un segundo parametro homonimo.\n    if existe_como_campo(nombre) and existe_en_luminarias(nombre):\n        return True\n    log.append('El parametro \"{}\" falta o esta a medias; se (re)crea y se vincula a '\n               'Lighting Fixtures.'.format(nombre))\n    ruta = os.path.join(tempfile.gettempdir(), 'ELE01_params_tabla.txt')\n    if not os.path.exists(ruta):\n        # el archivo de parametros compartidos es un TSV con esta cabecera exacta; Revit no\n        # lo crea solo y sin el OpenSharedParameterFile devuelve None\n        tab = '\\t'\n        cab = ['# This is a Revit shared parameter file.',\n               '*META' + tab + 'VERSION' + tab + 'MINVERSION',\n               'META' + tab + '2' + tab + '1',\n               '*GROUP' + tab + 'ID' + tab + 'NAME',\n               '*PARAM' + tab + tab.join(['GUID', 'NAME', 'DATATYPE', 'DATACATEGORY',\n                                          'GROUP', 'VISIBLE', 'DESCRIPTION',\n                                          'USERMODIFIABLE', 'HIDEWHENNOVALUE'])]\n        with open(ruta, 'w') as f:\n            f.write('\\n'.join(cab) + '\\n')\n    anterior = None\n    try:\n        anterior = app.SharedParametersFilename\n    except Exception:\n        pass\n    try:\n        app.SharedParametersFilename = ruta\n        df = app.OpenSharedParameterFile()\n        if df is None:\n            log.append('ERROR: no se pudo abrir el archivo temporal de parametros compartidos.')\n            return False\n        grupo = None\n        for g in df.Groups:\n            if g.Name == 'TABLA_ILUMINACION':\n                grupo = g\n                break\n        if grupo is None:\n            grupo = df.Groups.Create('TABLA_ILUMINACION')\n        defn = None\n        for d in grupo.Definitions:\n            if d.Name == nombre:\n                defn = d\n                break\n        if defn is None:\n            opts = ExternalDefinitionCreationOptions(nombre, spec)\n            opts.GUID = guid_para(nombre)\n            opts.Visible = True\n            defn = grupo.Definitions.Create(opts)\n        cats = CategorySet()\n        cats.Insert(doc.Settings.Categories.get_Item(BuiltInCategory.OST_LightingFixtures))\n        binding = app.Create.NewInstanceBinding(cats)\n        ok = False\n        try:\n            ok = doc.ParameterBindings.Insert(defn, binding, GroupTypeId.Data)\n        except Exception:\n            try:\n                ok = doc.ParameterBindings.Insert(defn, binding)\n            except Exception:\n                ok = False\n        if not ok:\n            try:\n                ok = doc.ParameterBindings.ReInsert(defn, binding)\n            except Exception:\n                ok = False\n        if ok:\n            log.append('Se creo el parametro de proyecto \"{}\" (instancia, Lighting Fixtures) '\n                       'para {}.'.format(nombre, etiqueta))\n        else:\n            log.append('ERROR: no se pudo crear ni vincular el parametro \"{}\"; sin el, {} no '\n                       'va a funcionar.'.format(nombre, etiqueta))\n        return ok\n    except Exception as e:\n        log.append('ERROR creando el parametro \"{}\": {}'.format(nombre, e))\n        return False\n    finally:\n        try:\n            if anterior is not None:\n                app.SharedParametersFilename = anterior\n        except Exception:\n            pass\n\n\ndef set_string(el, nombre, valor):\n    if not nombre:\n        return None\n    try:\n        p = el.LookupParameter(nombre)\n    except Exception:\n        return None\n    if p is None or p.IsReadOnly or p.StorageType != StorageType.String:\n        return False\n    try:\n        if (p.AsString() or '') != valor:\n            p.Set(valor)\n        return True\n    except Exception:\n        return False\n\n\ndef set_double(el, nombre, valor):\n    if not nombre:\n        return None\n    try:\n        p = el.LookupParameter(nombre)\n    except Exception:\n        return None\n    if p is None or p.IsReadOnly or p.StorageType != StorageType.Double:\n        return False\n    try:\n        if abs((p.AsDouble() or 0.0) - valor) > 1e-9:\n            p.Set(valor)\n        return True\n    except Exception:\n        return False\n\n\ndef numerar(ordenadas):\n    # Escribe el codigo y el orden en TODAS las luminarias del modelo. Ver el encabezado: el\n    # correlativo es global, asi que no puede depender de que sectores se hayan pedido.\n    #\n    # El orden va aparte del codigo, en un parametro numerico, porque la tabla de 07 tiene que\n    # ordenarse por el y un schedule ordena los textos alfabeticamente: por \"LUMINARIAS\" la\n    # tabla saldria L1, L10, L11, L2. Zero-padear el codigo -L01- lo arreglaria y cambiaria lo\n    # que se lee en el plano, que no es negociable.\n    codigos = {}\n    sin_param = set()\n    for i, el in enumerate(ordenadas):\n        codigo = '{}{}'.format(prefijo, i + 1)\n        codigos[el.Id.Value] = codigo\n        if set_string(el, param_codigo, codigo) is False:\n            sin_param.add(param_codigo)\n        if set_double(el, param_orden, float(i + 1)) is False:\n            sin_param.add(param_orden)\n    for nombre in sorted(sin_param):\n        log.append('AVISO: el parametro \"{}\" no existe en las luminarias, o es de solo '\n                   'lectura. Lo que dependa de el va a salir vacio.'.format(nombre))\n    log.append('Numeradas {} luminaria(s) del modelo, de {}1 a {}{}, en \"{}\".'.format(\n        len(ordenadas), prefijo, prefijo, len(ordenadas), param_codigo))\n    return codigos\n\n\n# ---------------------------- LOS TEXTOS ----------------------------\n\ndef tipo_de_texto(nombre):\n    objetivo = (nombre or '').strip().upper()\n    for tt in FilteredElementCollector(doc).OfClass(TextNoteType):\n        if objetivo and elem_name(tt).upper() == objetivo:\n            return tt.Id\n    if objetivo:\n        log.append('AVISO: no existe el tipo de texto \"{}\"; los tags salen con el tipo por '\n                   'defecto del proyecto.'.format(nombre))\n    return doc.GetDefaultElementTypeId(ElementTypeGroup.TextNoteType)\n\n\ndef vistas_de_sector():\n    # Planta Y elevaciones: las luminarias se etiquetan en las cinco vistas del sector. Es la\n    # diferencia con 03, que solo toca las plantas -una cota entre rieles no significa nada en\n    # una elevacion, pero el numero de una luminaria si-.\n    res = []\n    for cls in (ViewPlan, ViewSection):\n        for v in FilteredElementCollector(doc).OfClass(cls):\n            if v.IsTemplate:\n                continue\n            n = elem_name(v)\n            sector = None\n            if n.endswith(SUF_PLANTA):\n                sector = n[:-len(SUF_PLANTA)]\n            else:\n                i = n.find(SUF_ELEV)\n                if i > 0:\n                    sector = n[:i]\n            if sector is None:\n                continue\n            if not process_all and not coincide(sector, filter_text):\n                continue\n            res.append((v, sector, n))\n    res.sort(key=lambda t: t[2])\n    return res\n\n\ndef proyectar(p, v):\n    # El punto tiene que caer en el plano de la vista. En una planta esto es exactamente\n    # \"bajar la Z a la del plano\"; en una elevacion es apoyar el punto contra el plano de\n    # corte. Escrito una sola vez sirve para las dos, que es justamente lo que permite que la\n    # planta y las elevaciones compartan todo el resto del codigo.\n    n = v.ViewDirection.Normalize()\n    d = p.Subtract(v.Origin).DotProduct(n)\n    return p.Subtract(n.Multiply(d))\n\n\ndef extremos_en_vista(el, v, ex, ey):\n    bb = el.get_BoundingBox(v) or el.get_BoundingBox(None)\n    if bb is None:\n        return None\n    us, ws = [], []\n    for x in (bb.Min.X, bb.Max.X):\n        for y in (bb.Min.Y, bb.Max.Y):\n            for z in (bb.Min.Z, bb.Max.Z):\n                p = XYZ(x, y, z)\n                us.append(p.DotProduct(ex))\n                ws.append(p.DotProduct(ey))\n    return min(us), max(us), min(ws), max(ws)\n\n\ndef candidatos(u0, u1, w0, w1, sep):\n    # ABAJO Y CENTRADO primero, que es donde va la etiqueta en este plano. Si ese hueco esta\n    # tomado se prueba abajo pero corrido a un costado -asi la etiqueta se sigue leyendo como\n    # \"la de abajo\", que es lo que importa-, despues a los lados, y arriba al final. El primero\n    # que no pise a otro tag gana.\n    uc, wc = (u0 + u1) / 2.0, (w0 + w1) / 2.0\n    res = []\n    for k in (1.0, 2.0, 3.0):\n        d = sep * k\n        res.extend([(uc, w0 - d),\n                    (u1 + d, w0 - d), (u0 - d, w0 - d),\n                    (u1 + d, wc), (u0 - d, wc),\n                    (uc, w1 + d),\n                    (u1 + d, w1 + d), (u0 - d, w1 + d)])\n    return res\n\n\ndef alinear_centrado(tn):\n    # El punto que se le pasa a TextNote.Create es un ANCLA, no el centro del texto, y por\n    # defecto el ancla es el borde IZQUIERDO. Con la etiqueta al costado eso no se notaba -el\n    # texto crecia hacia afuera, que era justo lo que se queria- pero abajo de la luminaria\n    # deja el \"L7\" corrido a la derecha, y con dos digitos se corre mas que con uno: las\n    # etiquetas de una misma corrida no quedarian ni alineadas entre si.\n    #\n    # Centrar el ancla en horizontal y anclarla por arriba en vertical resuelve las dos cosas\n    # de una: el texto queda simetrico bajo la luminaria y cuelga hacia abajo, asi que la\n    # separacion que se pide en el input es la que se ve en el papel.\n    #\n    # Va por INSTANCIA y no tocando el tipo de texto: el tipo lo comparten las notas generales\n    # de 05 y los tags de riel de 03, y centrarlo ahi les cambiaria la alineacion a todos.\n    global aviso_alineacion\n    try:\n        tn.HorizontalAlignment = HorizontalTextAlignment.Center\n        tn.VerticalAlignment = VerticalTextAlignment.Top\n    except Exception as e:\n        if not aviso_alineacion:\n            aviso_alineacion = True\n            log.append('AVISO: no se pudo centrar el texto de los tags ({}); van a salir '\n                       'abajo de la luminaria pero corridos hacia la derecha.'.format(e))\n\n\ndef taggear_vista(v, codigos, orden_de, tt_id):\n    escala = v.Scale or 1\n    papel = lambda mm: float(mm) / 304.8 * escala\n    sep = papel(sep_tag_mm)\n    sep_min = papel(sep_min_mm)\n\n    # Los tags que ya estan en la vista. Si hay alguno y no se pidio rehacer, la vista NO se\n    # toca: volver a dibujarlos encima dejaria dos textos identicos superpuestos, que en el\n    # plano se ven como uno solo y solo aparecen cuando alguien mueve el de arriba.\n    existentes = [tn.Id for tn in FilteredElementCollector(doc, v.Id).OfClass(TextNote)\n                  if RE_CODIGO.match((tn.Text or '').strip())]\n    if existentes and not rehacer:\n        return 0, 0, True\n    for tid in existentes:\n        # Con rehacer se lleva por delante un texto puesto a mano que diga \"L7\". Es el mismo\n        # trato que dan las cotas de 03 y las notas de 05, por el mismo motivo: estas vistas\n        # las mantiene el pipeline y rehacer es explicito.\n        try:\n            doc.Delete(tid)\n        except Exception:\n            pass\n\n    lums = [el for el in FilteredElementCollector(doc, v.Id)\n            .OfCategory(BuiltInCategory.OST_LightingFixtures)\n            .WhereElementIsNotElementType()\n            if isinstance(el, FamilyInstance) and es_luminaria(el)]\n    if not lums:\n        return 0, 0, False\n\n    ex = v.RightDirection.Normalize()\n    ey = v.UpDirection.Normalize()\n\n    # se recorren en el orden del barrido para que, cuando dos tags se peleen el mismo hueco,\n    # gane el de numero mas bajo y el desempate no dependa del orden en que Revit devolvio los\n    # elementos: si dependiera de eso, dos corridas seguidas podrian dar planos distintos\n    lums.sort(key=lambda e: orden_de.get(e.Id.Value, 10 ** 9))\n\n    puestos = 0\n    encimados = 0\n    colocados = []\n\n    for el in lums:\n        codigo = codigos.get(el.Id.Value)\n        if not codigo:\n            continue\n        ext = extremos_en_vista(el, v, ex, ey)\n        if ext is None:\n            continue\n        u0, u1, w0, w1 = ext\n\n        elegido = None\n        for u, w in candidatos(u0, u1, w0, w1, sep):\n            p = proyectar(ex.Multiply(u).Add(ey.Multiply(w)), v)\n            libre = True\n            for q in colocados:\n                if p.DistanceTo(q) < sep_min:\n                    libre = False\n                    break\n            if libre:\n                elegido = p\n                break\n        if elegido is None:\n            elegido = proyectar(ex.Multiply((u0 + u1) / 2.0).Add(ey.Multiply(w0 - sep)), v)\n            encimados += 1\n\n        try:\n            tn = TextNote.Create(doc, v.Id, elegido, codigo, tt_id)\n            alinear_centrado(tn)\n            colocados.append(elegido)\n            puestos += 1\n        except Exception:\n            pass\n\n    return puestos, encimados, False\n\n\n# ---------------------------- EJECUCION ----------------------------\n\nluminarias = luminarias_del_modelo()\nif not luminarias:\n    log.append('No hay luminarias en el modelo (categoria Lighting Fixtures{}). No hay nada '\n               'que numerar.'.format(\n                   ', familia que contiene \"{}\"'.format(fam_contiene) if fam_contiene else ''))\nelse:\n    vistas = vistas_de_sector()\n\n    TransactionManager.Instance.EnsureInTransaction(doc)\n\n    asegurar_param(param_codigo, SpecTypeId.String.Text, 'el codigo Lx')\n    asegurar_param(param_orden, SpecTypeId.Number, 'que 07 pueda ordenar la tabla')\n    # Regenerar entre crear los parametros y escribirlos NO es opcional: un parametro de\n    # proyecto recien vinculado no aparece en los elementos hasta que el documento regenera,\n    # asi que LookupParameter devuelve None y no se escribe nada. El sintoma es que a la\n    # SEGUNDA corrida funciona -porque ahi el parametro ya existia-.\n    doc.Regenerate()\n\n    ex, ey = ejes_del_barrido()\n    ordenadas = barrido_horario(luminarias, ex, ey)\n    codigos = numerar(ordenadas)\n    orden_de = dict((el.Id.Value, i) for i, el in enumerate(ordenadas))\n\n    if not vistas:\n        log.append('AVISO: no hay vistas de sector que coincidan con el filtro, asi que no se '\n                   'dibujo ningun tag. Los parametros SI quedaron escritos: la numeracion es '\n                   'global y no depende de que sectores se procesen.')\n    else:\n        tt_id = tipo_de_texto(tipo_texto_nombre)\n        total, total_enc, saltadas = 0, 0, 0\n        for v, sector, nombre in vistas:\n            puestos, encimados, saltada = taggear_vista(v, codigos, orden_de, tt_id)\n            if saltada:\n                saltadas += 1\n                log.append('  {}: ya tiene tags, se salta. Corre con rehacer para volver a '\n                           'dibujarlos.'.format(nombre))\n                continue\n            total += puestos\n            total_enc += encimados\n            log.append('  {}: {} tag(s).'.format(nombre, puestos))\n        log.insert(0, '{} tag(s) de luminaria en {} vista(s) de sector{}.'.format(\n            total, len(vistas) - saltadas,\n            ' ({} saltada(s))'.format(saltadas) if saltadas else ''))\n        if total_enc:\n            log.append('AVISO: {} tag(s) no encontraron hueco libre y quedaron abajo de su '\n                       'luminaria, posiblemente encimados con otro. Se ven y se corren a '\n                       'mano; subir la separacion minima los separa mas, pero aleja el texto '\n                       'de la luminaria que nombra.'.format(total_enc))\n\n    TransactionManager.Instance.ForceCloseTransaction()\n\nOUT = log",
+      "Inputs": [
+        {
+          "Id": "a8010000000000000000000000000010",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a8010000000000000000000000000011",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a8010000000000000000000000000012",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a8010000000000000000000000000013",
+          "Name": "IN[3]",
+          "Description": "Input #3",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a8010000000000000000000000000014",
+          "Name": "IN[4]",
+          "Description": "Input #4",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a8010000000000000000000000000015",
+          "Name": "IN[5]",
+          "Description": "Input #5",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a8010000000000000000000000000016",
+          "Name": "IN[6]",
+          "Description": "Input #6",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a8010000000000000000000000000017",
+          "Name": "IN[7]",
+          "Description": "Input #7",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a8010000000000000000000000000018",
+          "Name": "IN[8]",
+          "Description": "Input #8",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a8010000000000000000000000000019",
+          "Name": "IN[9]",
+          "Description": "Input #9",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a801000000000000000000000000001a",
+          "Name": "IN[10]",
+          "Description": "Input #10",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "a8010000000000000000000000000005",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
+      "WatchWidth": 460,
+      "WatchHeight": 320,
+      "Id": "c8010000000000000000000000000001",
+      "NodeType": "ExtensionNode",
+      "Inputs": [
+        {
+          "Id": "c8010000000000000000000000000002",
+          "Name": "",
+          "Description": "Node to evaluate.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "c8010000000000000000000000000003",
+          "Name": "",
+          "Description": "Watch contents.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Visualizes a node's output"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "b8010000000000000000000000000002",
+      "End": "a8010000000000000000000000000010",
+      "Id": "d8010000000000000000000000000010",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "b8020000000000000000000000000002",
+      "End": "a8010000000000000000000000000011",
+      "Id": "d8010000000000000000000000000011",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "b8030000000000000000000000000002",
+      "End": "a8010000000000000000000000000012",
+      "Id": "d8010000000000000000000000000012",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "b8040000000000000000000000000002",
+      "End": "a8010000000000000000000000000013",
+      "Id": "d8010000000000000000000000000013",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "b8050000000000000000000000000002",
+      "End": "a8010000000000000000000000000014",
+      "Id": "d8010000000000000000000000000014",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "b8060000000000000000000000000002",
+      "End": "a8010000000000000000000000000015",
+      "Id": "d8010000000000000000000000000015",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "b8070000000000000000000000000002",
+      "End": "a8010000000000000000000000000016",
+      "Id": "d8010000000000000000000000000016",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "b8080000000000000000000000000002",
+      "End": "a8010000000000000000000000000017",
+      "Id": "d8010000000000000000000000000017",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "b8090000000000000000000000000002",
+      "End": "a8010000000000000000000000000018",
+      "Id": "d8010000000000000000000000000018",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "b80a0000000000000000000000000002",
+      "End": "a8010000000000000000000000000019",
+      "Id": "d8010000000000000000000000000019",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "b80b0000000000000000000000000002",
+      "End": "a801000000000000000000000000001a",
+      "Id": "d801000000000000000000000000001a",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "a8010000000000000000000000000005",
+      "End": "c8010000000000000000000000000002",
+      "Id": "d80100000000000000000000000000f0",
+      "IsHidden": "False"
+    }
+  ],
+  "Dependencies": [],
+  "NodeLibraryDependencies": [],
+  "EnableLegacyPolyCurveBehavior": true,
+  "Thumbnail": "",
+  "GraphDocumentationURL": null,
+  "ExtensionWorkspaceData": [],
+  "Author": "",
+  "Linting": {
+    "activeLinter": "None",
+    "activeLinterId": "7b75fb44-43fd-4631-a878-29f4d5d8399a",
+    "warningCount": 0,
+    "errorCount": 0
+  },
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "4.0.2.3852",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "_Background Preview",
+      "EyeX": -17,
+      "EyeY": 24,
+      "EyeZ": 50,
+      "LookX": 12,
+      "LookY": -13,
+      "LookZ": -58,
+      "UpX": 0,
+      "UpY": 1,
+      "UpZ": 0
+    },
+    "ConnectorPins": [],
+    "NodeViews": [
+      {
+        "Id": "b8010000000000000000000000000001",
+        "Name": "01. Procesar TODOS los sectores",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 0
+      },
+      {
+        "Id": "b8020000000000000000000000000001",
+        "Name": "02. Filtro de sectores (si TODOS = False)",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 130
+      },
+      {
+        "Id": "b8030000000000000000000000000001",
+        "Name": "03. La familia de la luminaria CONTIENE (vacio = todas)",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 260
+      },
+      {
+        "Id": "b8040000000000000000000000000001",
+        "Name": "04. Parametro donde se escribe el codigo Lx",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 390
+      },
+      {
+        "Id": "b8050000000000000000000000000001",
+        "Name": "05. Parametro numerico de orden (lo lee 07 para ordenar)",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 520
+      },
+      {
+        "Id": "b8060000000000000000000000000001",
+        "Name": "06. Prefijo del codigo",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 650
+      },
+      {
+        "Id": "b8070000000000000000000000000001",
+        "Name": "07. Tipo de texto con que se dibuja el tag",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 780
+      },
+      {
+        "Id": "b8080000000000000000000000000001",
+        "Name": "08. Separacion del tag respecto a la luminaria (mm)",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 910
+      },
+      {
+        "Id": "b8090000000000000000000000000001",
+        "Name": "09. Separacion minima entre dos tags (mm)",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 1040
+      },
+      {
+        "Id": "b80a0000000000000000000000000001",
+        "Name": "10. Vista de planta que fija la orientacion (vacio = ejes del proyecto)",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 1170
+      },
+      {
+        "Id": "b80b0000000000000000000000000001",
+        "Name": "11. Rehacer los tags existentes",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 0,
+        "Y": 1300
+      },
+      {
+        "Id": "a8010000000000000000000000000001",
+        "Name": "Python Script",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 620,
+        "Y": 0
+      },
+      {
+        "Id": "c8010000000000000000000000000001",
+        "Name": "Log",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": true,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 980,
+        "Y": 0
+      }
+    ],
+    "Annotations": [],
+    "X": 0,
+    "Y": 0,
+    "Zoom": 0.8
+  }
+}

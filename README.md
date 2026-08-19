@@ -43,6 +43,9 @@ Modelo de referencia: `1820-400-E-MOD-001_detached`, escala de trabajo **1:75**.
 | Luminarias en el modelo | **25**, todas de la familia `VAPORLITE III-LED` (tipos `50 W` y `70 W`) |
 | Numeración de luminaria | `L1`…`L25`, correlativo **global**, barrido horario desde la esquina superior izquierda |
 | Luminarias de emergencia | **ninguna** — `EMERGENCY LIGHT` vale 0 en los dos tipos cargados |
+| Conduits en el modelo | **301** (`PVC Sch.80`) + 166 fittings, que quedan fuera; **202** se ven en SECTOR A |
+| `NUM_CIRCUITO` en conduits | cargado **solo en algunos** (15 con `"3"`); los que no lo tienen salen marcados con `X` |
+| Qué dibuja `Tag de Cto Tuberia` | **`TAG CIRCUITO`**, no `NUM_CIRCUITO` — comprobado filtrando el modelo |
 | Sectores documentados | SECTOR A (láminas A1 y A2) |
 
 ## Orden de ejecución
@@ -57,9 +60,12 @@ Modelo de referencia: `1820-400-E-MOD-001_detached`, escala de trabajo **1:75**.
 | 5 | `05_Leyendas y notas.dyn` | ✅ | Las leyendas de la hoja pegadas a la esquina y el bloque de notas generales |
 | 6 | `06_Luminarias - tags Lx.dyn` | ✅ | Numera las luminarias `L1, L2, L3…` con un barrido horario y estampa el texto en la planta y en las cuatro elevaciones |
 | 7 | `07_Luminarias - tabla de alturas.dyn` | ⚠️ | La TABLA N°2 de alturas de montaje, una fila por luminaria. **La columna de altura va vacía** (ver abajo) |
+| 8 | `08_Conduits - tags de circuito.dyn` | ✅ | Etiqueta cada conduit con su `NUM_CIRCUITO` y **apila en grilla** los tags de los que se superponen en planta |
 
-**Flujo**: 00 → 01 → 02 → 03 → **06 → 05 → 04 → 07**. Del 00 al 03 el orden es obligatorio, y
-06 tiene que ir antes que 07 —07 solo lee el código que escribe 06—. El resto es cuestión de
+**Flujo**: 00 → 01 → 02 → 03 → **06 → 08 → 05 → 04 → 07**. Del 00 al 03 el orden es
+obligatorio, y 06 tiene que ir antes que 07 —07 solo lee el código que escribe 06—. 08 es
+independiente de todo lo demás: no lee nada que escriba otro paso ni escribe nada que otro
+lea. El resto es cuestión de
 dibujo, y la regla es una sola: **lo que va a lugar fijo, primero; lo que busca hueco,
 después**. Las leyendas y las notas de 05 no negocian; las tablas de 04 y 07 sí, y cuentan
 como ocupado todo lo que ya esté en la lámina. Si se corre al revés sobre una lámina nueva,
@@ -77,6 +83,7 @@ Los pasos vienen **de a pares, uno por elemento documentado**:
 |---|---|---|---|
 | Riel RUC | 03 + 04 | el parámetro `Longitud` de un riel | no harían nada |
 | Luminaria | 06 + 07 | la **posición** de la luminaria en la planta | no harían nada |
+| Conduit | 08 + *(09)* | el parámetro `NUM_CIRCUITO` de un conduit | no harían nada |
 | La hoja | 05 | nada del modelo: son constantes del graph | estaría igual |
 
 En los dos pares el primer paso dibuja sobre las vistas y el segundo imprime la tabla que le
@@ -774,8 +781,193 @@ bastante más alta que la de 04. En SECTOR A son 25 filas.
 
 ---
 
+## 08 — Conduits: tags de circuito
+
+Etiqueta cada conduit de las plantas de sector con el número de circuito al que pertenece, y
+cuando varios se superponen en planta **apila sus tags en una grilla** para que se lean todos.
+
+```
+       |                    |                     |
+       O  <- la flecha      O                     O
+
+     (3)                  (3)                 (3) (5)
+                          (4)                 (4) (6)
+
+     1 conduit          2 conduits            4 conduits
+```
+
+### Qué es "superpuesto", y por qué el umbral va en milímetros de papel
+
+Los conduits **no están encimados en el modelo**: corren paralelos y separados. Los tres
+primeros van a **100 mm** uno de otro, que a 1:75 son **1,3 mm en la hoja**. O sea que el
+problema no es geométrico sino de **escala**: dos conduits se superponen cuando el plotter ya
+no puede separarlos, y eso depende de a cuánto se imprime la vista.
+
+Por eso el umbral es en mm de **papel** y se convierte con la escala de cada vista, igual que
+todas las distancias de 03, 05 y 06. Un umbral en milímetros de modelo daría grupos distintos
+según la escala sin que nadie toque el modelo.
+
+Dos conduits van al mismo grupo si además de estar cerca son **paralelos** y **se solapan a lo
+largo**. Las tres condiciones hacen falta:
+
+| Condición | Qué pasa si falta |
+|---|---|
+| Paralelos | dos conduits que apenas se cruzan —uno al norte, otro al este— caerían en el mismo grupo |
+| Cerca, medido **perpendicular al eje** | midiendo entre puntos medios, un tramo corto y uno largo de la misma corrida darían "lejos" estando encimados |
+| Se solapan a lo largo | dos tramos de la misma línea en puntas opuestas de la planta dirían que ahí corren juntos |
+
+### Un círculo por circuito distinto, movido a su casilla
+
+La anotación apilada **no es un tag con varios valores**: son N `IndependentTag` corridos a las
+posiciones de la grilla. Solo el primero conserva la flecha.
+
+**N no es la cantidad de conduits del grupo, sino la de circuitos distintos que pasan por ahí.**
+Una corrida que va junta lleva muchas veces el mismo circuito repetido —tres tramos del 3 y uno
+del 4— y dibujarlos todos daba pilas de cinco círculos que decían `3 3 4 3 3`. El apilado existe
+para mostrar **qué circuitos pasan por ese lugar**, y para eso el 3 hace falta una vez:
+repetirlo no agrega información, agrega tinta y esconde el 4.
+
+```
+   antes                  ahora
+
+   (3)(3)(4)              (3)(4)
+   (3)(3)
+```
+
+Se colapsa **solo dentro del grupo**. Que el circuito 3 tenga su propio círculo en otra parte de
+la planta es correcto, y es justamente lo que el plano tiene que decir: por ahí también pasa.
+
+> **Lo que no se colapsa es la copia** al parámetro que dibuja el tag: ésa se escribe en
+> **todos** los conduits del grupo, tengan círculo o no. Es un dato del modelo —el circuito de
+> ese tramo— y no tiene por qué depender de a quién le tocó representarlo en el dibujo. El log
+> dice cuántos tags se ahorraron por colapso.
+
+Se eligió así para que cada círculo siga siendo un tag **de verdad, asociativo a su conduit**:
+si alguien cambia el circuito de uno, ese círculo se actualiza solo y los otros no se enteran.
+Un único tag multi-referencia habría dejado el apilado en manos de Revit, que no da la grilla
+de dos columnas que pide el plano.
+
+> **El precio**: la grilla la sostiene el graph, no Revit. Si alguien mueve un círculo a mano,
+> el apilado se desalinea y no hay nada que lo vuelva a acomodar salvo correr con *rehacer*.
+
+La grilla se llena **hacia abajo** hasta el tope del input `09.` y después abre columna a la
+derecha — con cuatro circuitos, el 3 y el 5 arriba y el 4 y el 6 abajo.
+
+**El paso de la grilla se mide, no se estima.** El tamaño del círculo depende de la familia y
+de la escala, así que se coloca el primer tag, se le mide el bounding box en la vista y ése es
+el paso. Es el mismo criterio con que 04 y 07 miden la tabla antes de moverla. Se mide **una
+sola vez por corrida** —todos los tags son de la misma familia y escala— porque medir cada uno
+costaría un `Regenerate` por tag. El input `10.` existe como válvula de escape si Revit no
+devuelve el bounding box, y el log lo avisa.
+
+### ⚠️ La trampa del parámetro que dibuja el tag
+
+Un `IndependentTag` dibuja **lo que dice su familia**, no lo que le pase el graph. Y ninguna
+API dice qué parámetro dibuja el label de una anotación.
+
+Esto ya costó caro en 03: se probó etiquetar los rieles con un tag de categoría y los **195
+tags salieron vacíos**, porque la familia dibujaba un parámetro distinto del que el graph
+escribía. No hubo ningún error, solo 195 hexágonos en blanco.
+
+En este modelo el conduit tiene varios candidatos —`NUM_CIRCUITO`, `TAG CIRCUITO`,
+`TEXTO CIRCUITO 1/2/3`— y no se puede saber desde afuera cuál usa `Tag de Cto Tuberia`. Por eso
+hay **dos** inputs:
+
+| Input | Qué es |
+|---|---|
+| `03.` | de dónde se **lee** el número — el dato de verdad, `NUM_CIRCUITO` |
+| `04.` | qué parámetro **dibuja** el tag — vacío si es el mismo; si no, el graph copia |
+
+Es la misma maquinaria que usa 04 para el largo del riel, y por el mismo motivo: el dato vive
+donde tiene que vivir y además se copia donde el dibujo lo necesita.
+
+> **Qué mirar en el primer run**: que los círculos salgan **con número**. Si salen todos
+> vacíos, la familia no dibuja el parámetro del input `04.` y hay que cambiarlo. El graph no
+> puede detectarlo solo, y lo dice en el log.
+
+**En este modelo ya se comprobó, y la trampa era real**: `Tag de Cto Tuberia` dibuja
+**`TAG CIRCUITO`**, no `NUM_CIRCUITO`. Se resolvió filtrando el modelo, no leyendo la familia:
+
+| Consulta | Resultado |
+|---|---|
+| conduits con `TAG CIRCUITO = "23"` | **2** |
+| conduits con `NUM_CIRCUITO = "23"` | **0** |
+| círculos con `23` en la planta | **2** |
+
+Por eso el input `04.` viene con `TAG CIRCUITO` cargado por defecto.
+
+> ⚠️ **La primera corrida fue con el input `04.` vacío y salió lo peor de los dos mundos**: los
+> círculos salieron en blanco —el tag miraba `TAG CIRCUITO`, que estaba a medias— y además la
+> marca `X` se escribió sobre `NUM_CIRCUITO` en **116 conduits**. No pisó ningún dato real
+> (solo escribía donde estaba vacío, y los 15 conduits con `"3"` quedaron intactos), pero
+> dejó 116 valores falsos en el parámetro bueno. Para eso está el input `12.`.
+
+### El input `12.`: limpiar una marca del parámetro de lectura
+
+Herramienta de **una sola vez**, como el diagnóstico de notas de 05: se le pasa un valor y lo
+borra de todos los conduits del modelo que lo tengan en el parámetro del input `03.`. Poniendo
+`X` y corriendo una vez, `NUM_CIRCUITO` queda limpio; después se vacía el input y no vuelve a
+correr.
+
+Va sobre **todo el modelo** y no sobre los sectores filtrados, a propósito: el destrozo no sabe
+de sectores y limpiarlo a medias sería peor que no limpiarlo.
+
+### Las bajadas y la anticolisión
+
+**Los conduits verticales se etiquetan** (input `13.`). En planta un conduit vertical es un
+punto: no tiene dirección, así que no puede agruparse con nadie y termina siendo un grupo de
+uno. Las primeras corridas los descartaban y se perdían **67 de 202** conduits sin que nada lo
+dijera salvo una línea del log — y una bajada es justamente donde interesa saber el circuito.
+
+**Las pilas no se pisan entre sí.** Se prueba colgando del ancla y, si algún círculo pisaría
+uno ya puesto, se baja la pila entera de a un círculo y después se prueba a los costados. Se
+mueve la pila **completa** y no cada círculo, porque una pila desarmada ya no dice que esos
+circuitos van juntos.
+
+> Sin esto, dos corridas paralelas cercanas dejaban sus pilas montadas y en el plano se leían
+> como **una sola columna larga** — que es exactamente perder la convención de dos por columna
+> que la grilla existe para respetar.
+
+### La `X` de los que no tienen circuito
+
+Hoy `NUM_CIRCUITO` está cargado **solo en algunos** conduits. Los que no lo tienen se etiquetan
+igual, con la marca del input `05.` —una `X`— para que el hueco **se vea** en el plano en vez
+de pasar desapercibido. Misma idea que la columna vacía de 07.
+
+> ⚠️ **Ojo con dónde cae esa X.** Como el tag dibuja un parámetro del conduit, la X hay que
+> **escribirla en el modelo**. Si el input `04.` apunta a un parámetro de dibujo aparte, la X
+> vive ahí y `NUM_CIRCUITO` no se toca, que es lo correcto. Pero si el tag dibuja
+> `NUM_CIRCUITO` directo, **la X termina en el dato de verdad** y después no se distingue de un
+> valor cargado a mano. El graph lo avisa en el log cuando pasa; para desactivarlo se vacía el
+> input `05.` y esos conduits no se etiquetan.
+
+### Qué se etiqueta y qué no
+
+Solo las **plantas** de sector, y solo la categoría *Conduits*. Las elevaciones no se tocan: el
+apilado resuelve un problema de la planta —conduits paralelos que a escala se juntan— y en una
+elevación el mismo grupo se ve de canto.
+
+Los **Conduit Fittings** quedan fuera: son codos y uniones, no llevan circuito propio y
+etiquetarlos duplicaría el número del tramo que unen.
+
+Los **79 tags de esta familia que ya hay en el modelo** están en otras vistas —el plano de
+referencia `DISPOSICION GENERAL ALUMBRADO`— y no se tocan, porque los tags se recolectan contra
+la vista que se está procesando.
+
+---
+
 ## Deudas conocidas
 
+- **El paso 09 no existe todavía.** Es el compañero de 08 —la tabla o listado de circuitos— y
+  queda para cuando 08 esté probado. En el modelo hay una leyenda `ILU-LISTADO DE CTOS DE
+  ALUMBRADO` dibujada a mano, que es la referencia.
+- **`NUM_CIRCUITO` está cargado solo en algunos conduits.** No es un problema del pipeline sino
+  del modelo, pero define lo que se ve: cada conduit sin cargar imprime una `X`. A medida que
+  se completen, basta volver a correr 08 con *rehacer*.
+- **El conduit tiene dos `DESCRIPCION CTO` con GUID distinto** (`3141e317…` y `c709245c…`). Son
+  dos parámetros compartidos homónimos, y eso es una bomba de tiempo: cualquier cosa que los
+  busque por nombre agarra uno de los dos según el orden en que Revit los devuelva. Ninguno de
+  los pasos actuales lo usa, así que hoy no molesta.
 - **La altura de montaje de la TABLA N°2 no está resuelta** — es la deuda grande, y está
   abierta a propósito. La nota 5 la mide desde el grating que cada luminaria tiene debajo, no
   desde una cota fija, así que hay que tirar un rayo hacia abajo desde cada luminaria y medir

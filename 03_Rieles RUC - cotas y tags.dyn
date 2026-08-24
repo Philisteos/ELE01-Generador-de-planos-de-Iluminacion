@@ -1,1009 +1,1057 @@
 {
-  "Uuid": "8f4c1a2e-0a11-4b6e-9c01-aa0000000007",
-  "IsCustomNode": false,
-  "Description": "Anota las plantas de sector: cadenas de cotas exteriores entre los rieles RUC de suelo, y un texto con el TIPO (R-01, R-02...) con una flecha a cada riel RUC de la planta, de suelo y de muro.",
-  "Name": "03_Rieles RUC - cotas y tags",
-  "ElementResolver": {
-    "ResolutionMap": {}
-  },
-  "Inputs": [
-    {
-      "Id": "b6010000000000000000000000000001",
-      "Name": "01. Procesar TODOS los sectores",
-      "Type": "boolean",
-      "Type2": "boolean",
-      "Value": "false",
-      "Description": "Enables selection between True and False"
-    },
-    {
-      "Id": "b6020000000000000000000000000001",
-      "Name": "02. Filtro de sectores (si TODOS = False)",
-      "Type": "string",
-      "Type2": "string",
-      "Value": "SECTOR A",
-      "Description": "Creates a string."
-    },
-    {
-      "Id": "b6030000000000000000000000000001",
-      "Name": "03. La familia del riel EMPIEZA con",
-      "Type": "string",
-      "Type2": "string",
-      "Value": "RIEL RUC",
-      "Description": "Creates a string."
-    },
-    {
-      "Id": "b6040000000000000000000000000001",
-      "Name": "04. ...y ademas CONTIENE (solo para las cotas; vacio = no filtra mas)",
-      "Type": "string",
-      "Type2": "string",
-      "Value": "SUELO",
-      "Description": "Creates a string."
-    },
-    {
-      "Id": "b6050000000000000000000000000001",
-      "Name": "05. Separacion de la cadena al borde del marco (mm de papel)",
-      "Type": "number",
-      "Type2": "number",
-      "Value": "9",
-      "MaximumValue": 60.0,
-      "MinimumValue": 0.0,
-      "StepValue": 1.0,
-      "NumberType": "Integer",
-      "Description": "Produces integer values"
-    },
-    {
-      "Id": "b6060000000000000000000000000001",
-      "Name": "06. Separacion minima entre dos cotas de la cadena (mm de papel)",
-      "Type": "number",
-      "Type2": "number",
-      "Value": "1",
-      "MaximumValue": 20.0,
-      "MinimumValue": 0.0,
-      "StepValue": 1.0,
-      "NumberType": "Integer",
-      "Description": "Produces integer values"
-    },
-    {
-      "Id": "b6070000000000000000000000000001",
-      "Name": "07. Tipo de cota (vacio = el por defecto)",
-      "Type": "string",
-      "Type2": "string",
-      "Value": "",
-      "Description": "Creates a string."
-    },
-    {
-      "Id": "b6080000000000000000000000000001",
-      "Name": "08. Rehacer las cotas y los tags de riel existentes",
-      "Type": "boolean",
-      "Type2": "boolean",
-      "Value": "true",
-      "Description": "Enables selection between True and False"
-    },
-    {
-      "Id": "b6090000000000000000000000000001",
-      "Name": "09. Margen extra del annotation crop (mm de papel)",
-      "Type": "number",
-      "Type2": "number",
-      "Value": "10",
-      "MaximumValue": 60.0,
-      "MinimumValue": 0.0,
-      "StepValue": 1.0,
-      "NumberType": "Integer",
-      "Description": "Produces integer values"
-    },
-    {
-      "Id": "b6100000000000000000000000000001",
-      "Name": "10. Parametro con el largo del riel",
-      "Type": "string",
-      "Type2": "string",
-      "Value": "Longitud",
-      "Description": "Creates a string."
-    },
-    {
-      "Id": "b6110000000000000000000000000001",
-      "Name": "11. Parametro donde se escribe el codigo de tipo",
-      "Type": "string",
-      "Type2": "string",
-      "Value": "TEXTO PARA TAG",
-      "Description": "Creates a string."
-    },
-    {
-      "Id": "b6120000000000000000000000000001",
-      "Name": "12. Tipo de texto del tag (vacio = el por defecto)",
-      "Type": "string",
-      "Type2": "string",
-      "Value": "2mm wf 0.85 RomanD",
-      "Description": "Creates a string."
-    },
-    {
-      "Id": "b6130000000000000000000000000001",
-      "Name": "13. Radio para agrupar rieles bajo un mismo texto (mm de papel)",
-      "Type": "number",
-      "Type2": "number",
-      "Value": "30",
-      "MaximumValue": 200.0,
-      "MinimumValue": 0.0,
-      "StepValue": 1.0,
-      "NumberType": "Integer",
-      "Description": "Produces integer values"
-    },
-    {
-      "Id": "b6140000000000000000000000000001",
-      "Name": "14. Separacion del texto al grupo (mm de papel)",
-      "Type": "number",
-      "Type2": "number",
-      "Value": "4",
-      "MaximumValue": 60.0,
-      "MinimumValue": 0.0,
-      "StepValue": 1.0,
-      "NumberType": "Integer",
-      "Description": "Produces integer values"
-    },
-    {
-      "Id": "b6150000000000000000000000000001",
-      "Name": "15. Maximo de rieles por texto (0 = sin tope)",
-      "Type": "number",
-      "Type2": "number",
-      "Value": "4",
-      "MaximumValue": 20.0,
-      "MinimumValue": 0.0,
-      "StepValue": 1.0,
-      "NumberType": "Integer",
-      "Description": "Produces integer values"
-    }
-  ],
-  "Outputs": [],
-  "Nodes": [
-    {
-      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
-      "Id": "b6010000000000000000000000000001",
-      "NodeType": "BooleanInputNode",
-      "Inputs": [],
-      "Outputs": [
-        {
-          "Id": "b6010000000000000000000000000002",
-          "Name": "",
-          "Description": "Boolean",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Disabled",
-      "Description": "Enables selection between True and False",
-      "InputValue": false
-    },
-    {
-      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
-      "SerializedWidth": 0.0,
-      "SerializedHeight": 0.0,
-      "Id": "b6020000000000000000000000000001",
-      "NodeType": "StringInputNode",
-      "Inputs": [],
-      "Outputs": [
-        {
-          "Id": "b6020000000000000000000000000002",
-          "Name": "",
-          "Description": "String",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Disabled",
-      "Description": "Creates a string.",
-      "InputValue": "SECTOR A"
-    },
-    {
-      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
-      "SerializedWidth": 0.0,
-      "SerializedHeight": 0.0,
-      "Id": "b6030000000000000000000000000001",
-      "NodeType": "StringInputNode",
-      "Inputs": [],
-      "Outputs": [
-        {
-          "Id": "b6030000000000000000000000000002",
-          "Name": "",
-          "Description": "String",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Disabled",
-      "Description": "Creates a string.",
-      "InputValue": "RIEL RUC"
-    },
-    {
-      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
-      "SerializedWidth": 0.0,
-      "SerializedHeight": 0.0,
-      "Id": "b6040000000000000000000000000001",
-      "NodeType": "StringInputNode",
-      "Inputs": [],
-      "Outputs": [
-        {
-          "Id": "b6040000000000000000000000000002",
-          "Name": "",
-          "Description": "String",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Disabled",
-      "Description": "Creates a string.",
-      "InputValue": "SUELO"
-    },
-    {
-      "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
-      "NumberType": "Integer",
-      "MaximumValue": 60,
-      "MinimumValue": 0,
-      "StepValue": 1,
-      "Id": "b6050000000000000000000000000001",
-      "NodeType": "NumberInputNode",
-      "Inputs": [],
-      "Outputs": [
-        {
-          "Id": "b6050000000000000000000000000002",
-          "Name": "",
-          "Description": "Int64",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Disabled",
-      "Description": "Produces integer values",
-      "InputValue": 9
-    },
-    {
-      "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
-      "NumberType": "Integer",
-      "MaximumValue": 20,
-      "MinimumValue": 0,
-      "StepValue": 1,
-      "Id": "b6060000000000000000000000000001",
-      "NodeType": "NumberInputNode",
-      "Inputs": [],
-      "Outputs": [
-        {
-          "Id": "b6060000000000000000000000000002",
-          "Name": "",
-          "Description": "Int64",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Disabled",
-      "Description": "Produces integer values",
-      "InputValue": 1
-    },
-    {
-      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
-      "SerializedWidth": 0.0,
-      "SerializedHeight": 0.0,
-      "Id": "b6070000000000000000000000000001",
-      "NodeType": "StringInputNode",
-      "Inputs": [],
-      "Outputs": [
-        {
-          "Id": "b6070000000000000000000000000002",
-          "Name": "",
-          "Description": "String",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Disabled",
-      "Description": "Creates a string.",
-      "InputValue": ""
-    },
-    {
-      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
-      "Id": "b6080000000000000000000000000001",
-      "NodeType": "BooleanInputNode",
-      "Inputs": [],
-      "Outputs": [
-        {
-          "Id": "b6080000000000000000000000000002",
-          "Name": "",
-          "Description": "Boolean",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Disabled",
-      "Description": "Enables selection between True and False",
-      "InputValue": true
-    },
-    {
-      "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
-      "NumberType": "Integer",
-      "MaximumValue": 60,
-      "MinimumValue": 0,
-      "StepValue": 1,
-      "Id": "b6090000000000000000000000000001",
-      "NodeType": "NumberInputNode",
-      "Inputs": [],
-      "Outputs": [
-        {
-          "Id": "b6090000000000000000000000000002",
-          "Name": "",
-          "Description": "Int64",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Disabled",
-      "Description": "Produces integer values",
-      "InputValue": 10
-    },
-    {
-      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
-      "Code": "# 03_Rieles RUC - cotas y tags - ILUMINACION\n#\n# El primero de los DOS PASOS DEL RIEL RUC. Dibuja sobre las plantas de sector las cadenas\n# de cotas entre rieles de suelo y los textos R-xx con multiflecha sobre todos los rieles.\n# El segundo es 04_Rieles RUC - tabla de tipos, que imprime la TABLA N.1 en cada lamina.\n#\n# Todo lo que hace este paso sale del parametro Longitud de un riel: en una lamina sin\n# rieles no haria nada. Lo que es de la HOJA y no del riel -la simbologia, la nomenclatura,\n# el bloque de notas generales- vive en 05_Leyendas y notas.\n#\n# (AGRUPACION CONTINUA + MULTIFLECHAS + ANTICOLISION)\n\nimport clr\nimport math\nimport re\nclr.AddReference('RevitAPI')\nclr.AddReference('RevitServices')\nfrom Autodesk.Revit.DB import (FilteredElementCollector, ViewPlan, XYZ, Line,\n                               ReferenceArray, Dimension, DimensionType, Element,\n                               BuiltInCategory, BuiltInParameter, StorageType, ElementId,\n                               FamilyInstance, FamilyInstanceReferenceType, Category,\n                               TextNote, TextNoteType, TextNoteLeaderTypes,\n                               ElementTypeGroup)\nfrom RevitServices.Persistence import DocumentManager\nfrom RevitServices.Transactions import TransactionManager\n\ndoc = DocumentManager.Instance.CurrentDBDocument\n\nprocess_all = bool(IN[0])\nfilter_text = (IN[1] or '').strip()\nfam_prefijo = (IN[2] or '').strip()\nfam_contiene = (IN[3] or '').strip()\noff_mm = float(IN[4]) if IN[4] is not None else 25.0\nsep_min_mm = float(IN[5]) if IN[5] is not None else 500.0\ndim_type_name = (IN[6] or '').strip()\nrehacer = bool(IN[7])\nannot_extra_mm = float(IN[8]) if IN[8] is not None else 15.0\nparam_largo = (IN[9] or 'Longitud').strip()\nparam_codigo = (IN[10] or 'TEXTO PARA TAG').strip()\ntipo_texto_nombre = (IN[11] or '').strip()\nradio_tag_mm = float(IN[12]) if IN[12] is not None else 30.0\nsep_tag_mm = float(IN[13]) if IN[13] is not None else 4.0\nmax_por_texto_in = int(IN[14]) if IN[14] is not None else 0\n\nlog = []\nSUF_PLANTA = ' - PLANTA'\nTOL_PARALELO = 1e-6\nTOL_NORMAL = 1e-3\nLADOS = ('arriba', 'abajo', 'izquierda', 'derecha')\nPREFIJO_TIPO = 'R-'\nRE_CODIGO = re.compile(r'^' + re.escape(PREFIJO_TIPO) + r'\\d+$')\n\n\ndef elem_name(e):\n    try:\n        return Element.Name.GetValue(e)\n    except Exception:\n        try:\n            return e.Name\n        except Exception:\n            return ''\n\n\ndef coincide(nombre, texto):\n    if not texto:\n        return True\n    alto = (nombre or '').upper()\n    for t in texto.split(','):\n        t = t.strip().upper()\n        if t and t in alto:\n            return True\n    return False\n\n\ndef fam_name(el):\n    try:\n        return el.Symbol.Family.Name or ''\n    except Exception:\n        return ''\n\n\ndef es_riel(el):\n    f = fam_name(el).upper()\n    if not f:\n        return False\n    return not fam_prefijo or f.startswith(fam_prefijo.upper())\n\n\ndef es_riel_de_cota(el):\n    if not es_riel(el):\n        return False\n    f = fam_name(el).upper()\n    return not fam_contiene or fam_contiene.upper() in f\n\n\ndef plantas_de_sector():\n    res = []\n    for v in FilteredElementCollector(doc).OfClass(ViewPlan):\n        if v.IsTemplate:\n            continue\n        n = elem_name(v)\n        if not n.endswith(SUF_PLANTA):\n            continue\n        sector = n[:-len(SUF_PLANTA)]\n        if not process_all and not coincide(sector, filter_text):\n            continue\n        res.append((v, sector))\n    res.sort(key=lambda p: p[1])\n    return res\n\n\ndef extremos_en_ejes(el, ex, ey):\n    bb = el.get_BoundingBox(None)\n    if bb is None:\n        return None\n    us, ws = [], []\n    for x in (bb.Min.X, bb.Max.X):\n        for y in (bb.Min.Y, bb.Max.Y):\n            for z in (bb.Min.Z, bb.Max.Z):\n                p = XYZ(x, y, z)\n                us.append(p.DotProduct(ex))\n                ws.append(p.DotProduct(ey))\n    return min(us), max(us), min(ws), max(ws)\n\n\ndef envolvente_de_elementos(elementos, ex, ey):\n    us, ws = [], []\n    for el in elementos:\n        ext = extremos_en_ejes(el, ex, ey)\n        if ext:\n            us.extend([ext[0], ext[1]])\n            ws.extend([ext[2], ext[3]])\n    if not us:\n        return 0, 0, 0, 0\n    return min(us), max(us), min(ws), max(ws)\n\n\ndef referencia_de_eje(inst, eje_medida):\n    try:\n        tr = inst.GetTransform()\n    except Exception:\n        return None, None\n    candidatos = ((FamilyInstanceReferenceType.CenterLeftRight, tr.BasisX),\n                  (FamilyInstanceReferenceType.CenterFrontBack, tr.BasisY))\n    for tipo, normal in candidatos:\n        try:\n            n = normal.Normalize()\n        except Exception:\n            continue\n        if abs(abs(n.DotProduct(eje_medida)) - 1.0) > TOL_NORMAL:\n            continue\n        try:\n            refs = list(inst.GetReferences(tipo))\n        except Exception:\n            refs = []\n        if refs:\n            return refs[0], n\n    return None, None\n\n\ndef canonica(n):\n    if n.X > 1e-12:\n        return n\n    if n.X < -1e-12:\n        return n.Negate()\n    return n if n.Y >= 0 else n.Negate()\n\n\ndef alinear(items):\n    if not items:\n        return [], 0, 0.0\n    cubetas = {}\n    for it in items:\n        d = canonica(it[3])\n        k = int(round(math.atan2(d.Y, d.X) / TOL_PARALELO))\n        acc = cubetas.get(k)\n        if acc is None:\n            cubetas[k] = [1, d]\n        else:\n            acc[0] += 1\n    dom = max(cubetas.values(), key=lambda a: a[0])[1]\n    ok = []\n    fuera = 0\n    peor = 0.0\n    for it in items:\n        s = abs(it[3].X * dom.Y - it[3].Y * dom.X)\n        if s <= TOL_PARALELO / 2.0:\n            ok.append(it)\n        else:\n            fuera += 1\n            if s > peor:\n                peor = s\n    return ok, fuera, peor\n\n\ndef tipo_de_cota(nombre):\n    if not nombre:\n        return None\n    for dt in FilteredElementCollector(doc).OfClass(DimensionType):\n        if elem_name(dt) == nombre:\n            return dt\n    return None\n\n\ndef cadenas_de_riel_existentes(v):\n    res = []\n    for dim in FilteredElementCollector(doc, v.Id).OfClass(Dimension):\n        try:\n            for ref in dim.References:\n                el = doc.GetElement(ref.ElementId)\n                if el is not None and isinstance(el, FamilyInstance) and es_riel(el):\n                    res.append(dim.Id)\n                    break\n        except Exception:\n            pass\n    return res\n\n\ndef dibujar_cadena(v, items, eje_medida, eje_perp, valor_perp, sep_min, z_plano, dim_type):\n    if len(items) < 2:\n        return 0\n    items, _, _ = alinear(items)\n    if len(items) < 2:\n        return 0\n    items.sort(key=lambda it: it[0])\n    filtrados = []\n    ultimo = None\n    for it in items:\n        if ultimo is None or it[0] - ultimo > sep_min:\n            filtrados.append(it)\n            ultimo = it[0]\n    if len(filtrados) < 2:\n        return 0\n    ra = ReferenceArray()\n    for it in filtrados:\n        ra.Append(it[1])\n\n    p1 = eje_medida.Multiply(filtrados[0][0]).Add(eje_perp.Multiply(valor_perp))\n    p2 = eje_medida.Multiply(filtrados[-1][0]).Add(eje_perp.Multiply(valor_perp))\n    p1 = XYZ(p1.X, p1.Y, z_plano)\n    p2 = XYZ(p2.X, p2.Y, z_plano)\n\n    if p1.DistanceTo(p2) < 1e-6:\n        return 0\n    try:\n        if dim_type is not None:\n            doc.Create.NewDimension(v, Line.CreateBound(p1, p2), ra, dim_type)\n        else:\n            doc.Create.NewDimension(v, Line.CreateBound(p1, p2), ra)\n        return 1\n    except Exception:\n        return 0\n\n\ndef anotar_planta(v, sector, dim_type):\n    escala = v.Scale or 1\n    papel = lambda mm: float(mm) / 304.8 * escala\n\n    off = papel(off_mm)\n    sep_min = papel(sep_min_mm)\n\n    if rehacer:\n        for did in cadenas_de_riel_existentes(v):\n            try:\n                doc.Delete(did)\n            except Exception:\n                pass\n\n    rieles = [el for el in FilteredElementCollector(doc, v.Id)\n              .OfCategory(BuiltInCategory.OST_ElectricalFixtures)\n              .WhereElementIsNotElementType()\n              if isinstance(el, FamilyInstance) and es_riel_de_cota(el)]\n    if not rieles:\n        return 0\n\n    ex = v.RightDirection.Normalize()\n    ey = v.UpDirection.Normalize()\n    z_plano = v.Origin.Z\n\n    u0_r, u1_r, w0_r, w1_r = envolvente_de_elementos(rieles, ex, ey)\n    u_mid = (u0_r + u1_r) / 2.0\n    w_mid = (w0_r + w1_r) / 2.0\n\n    grupos = dict((lado, []) for lado in LADOS)\n    for el in rieles:\n        ext = extremos_en_ejes(el, ex, ey)\n        if ext is None:\n            continue\n        au0, au1, aw0, aw1 = ext\n        span_u, span_w = au1 - au0, aw1 - aw0\n        uc, wc = (au0 + au1) / 2.0, (aw0 + aw1) / 2.0\n\n        if max(span_u, span_w) < 1.2 * min(span_u, span_w):\n            continue\n        if span_u > span_w:\n            lado = 'izquierda' if uc < u_mid else 'derecha'\n            eje_medida, pos = ey, wc\n        else:\n            lado = 'abajo' if wc < w_mid else 'arriba'\n            eje_medida, pos = ex, uc\n\n        ref, normal = referencia_de_eje(el, eje_medida)\n        if ref:\n            grupos[lado].append((pos, ref, elem_name(el), normal))\n\n    n = 0\n    n += dibujar_cadena(v, grupos['arriba'], ex, ey, w1_r + off, sep_min, z_plano, dim_type)\n    n += dibujar_cadena(v, grupos['abajo'], ex, ey, w0_r - off, sep_min, z_plano, dim_type)\n    n += dibujar_cadena(v, grupos['izquierda'], ey, ex, u0_r - off, sep_min, z_plano, dim_type)\n    n += dibujar_cadena(v, grupos['derecha'], ey, ex, u1_r + off, sep_min, z_plano, dim_type)\n    return n\n\n\n# ----------------------------- TAGS CON AGRUPACIÓN REAL Y ANTICOLISIÓN -----------------------------\n\ndef largo_mm(el):\n    # IDENTICA a la de 04. Antes 03 no exigia ni que el parametro fuera Double ni que el\n    # largo fuera positivo, asi que un riel con Longitud en 0 entraba aca como un largo mas y\n    # no en 04. Con la regla vieja eso corria TODOS los codigos en uno entre el plano y la\n    # tabla, en silencio.\n    try:\n        p = el.LookupParameter(param_largo)\n    except Exception:\n        return None\n    if p is None or not p.HasValue or p.StorageType != StorageType.Double:\n        return None\n    mm = int(round(p.AsDouble() * 304.8))\n    return mm if mm > 0 else None\n\n\ndef rieles_del_modelo():\n    return [el for el in FilteredElementCollector(doc)\n            .OfCategory(BuiltInCategory.OST_ElectricalFixtures)\n            .WhereElementIsNotElementType()\n            if isinstance(el, FamilyInstance) and es_riel(el)]\n\n\ndef numero_de_largo(mm):\n    # EL NUMERO ES EL LARGO, NO UNA POSICION. El largo en mm con los ceros sobrantes sacados,\n    # sin bajar de los cientos: 100 -> 1, 200 -> 2, 250 -> 25, 240 -> 24, 241 -> 241,\n    # 1000 -> 10. Se saca hasta los cientos y no mas, porque sacar todos los ceros haria que\n    # 1000 y 100 dieran los dos el 1.\n    #\n    # IDENTICA a la de 04_TABLAS y Listados: el texto que se dibuja en la planta y la fila que\n    # imprime la tabla son el mismo dato. Pero ahora, ademas, el codigo de un riel depende\n    # SOLO DE ESE RIEL -antes salia de su posicion en la lista de todos los largos del\n    # modelo-, asi que aunque las dos implementaciones se separaran no podrian dar codigos\n    # distintos para el mismo largo.\n    #\n    # De paso, un riel mal modelado se delata: el 100 mm que en realidad medía 108,05 salia\n    # R-02, indistinguible de un tipo legitimo. Con esta regla sale R-108.\n    if mm % 100 == 0:\n        return mm // 100\n    if mm % 10 == 0:\n        return mm // 10\n    return mm\n\n\ndef tabla_de_tipos(rieles):\n    # Traduce cada largo por separado. No numera: no hay lista, no hay orden, no hay nada que\n    # se corra cuando un largo aparece o desaparece.\n    largos = sorted(set(l for l in (largo_mm(e) for e in rieles) if l is not None))\n    mapa = {}\n    visto = {}\n    for l in largos:\n        n = numero_de_largo(l)\n        codigo = '{}{:02d}'.format(PREFIJO_TIPO, n)\n        if n in visto:\n            # 250 y 2500 dan los dos 25. Hoy no pasa -el riel mas largo mide 1000- pero si\n            # pasara, dos tipos distintos compartirian codigo sin que nada fallara.\n            log.append('ERROR: los largos {} mm y {} mm dan los dos el codigo {}. La regla '\n                       'del codigo no los distingue: o uno esta mal medido, o hay que cambiar '\n                       'la regla.'.format(visto[n], l, codigo))\n        visto[n] = l\n        mapa[l] = codigo\n    return mapa\n\n\ndef tipo_de_texto(nombre):\n    objetivo = (nombre or '').strip().upper()\n    for tt in FilteredElementCollector(doc).OfClass(TextNoteType):\n        if objetivo and elem_name(tt).upper() == objetivo:\n            return tt.Id\n    return doc.GetDefaultElementTypeId(ElementTypeGroup.TextNoteType)\n\n\ndef agrupar_rieles_contiguos(rieles_info, radio_gap_ft, max_tope, ex, ey):\n    \"\"\"\n    Agrupa rieles por LÍNEA FÍSICA y por CÓDIGO de forma continua, generando 1 solo grupo por código por tramo.\n    \"\"\"\n    if not rieles_info:\n        return []\n\n    TOL_EJE = 0.8  # Tolerancia alineación en pies (~25 cm)\n    lineas_fisicas = []\n    usados = set()\n    n = len(rieles_info)\n\n    # 1. Identificar tramos lineales\n    for i in range(n):\n        if i in usados:\n            continue\n        item_i = rieles_info[i]\n        linea_actual = [item_i]\n        usados.add(i)\n\n        for j in range(i + 1, n):\n            if j in usados:\n                continue\n            item_j = rieles_info[j]\n\n            dx = abs(item_i[1].X - item_j[1].X)\n            dy = abs(item_i[1].Y - item_j[1].Y)\n\n            if dy < TOL_EJE or dx < TOL_EJE:\n                linea_actual.append(item_j)\n                usados.add(j)\n\n        lineas_fisicas.append(linea_actual)\n\n    # 2. Agrupar por CODIGO dentro de cada tramo\n    grupos_finales = []\n    for linea in lineas_fisicas:\n        por_codigo = {}\n        for item in linea:\n            cod = item[3]\n            if cod not in por_codigo:\n                por_codigo[cod] = []\n            por_codigo[cod].append(item)\n\n        for cod, items_cod in por_codigo.items():\n            us = [it[1].DotProduct(ex) for it in items_cod]\n            ws = [it[1].DotProduct(ey) for it in items_cod]\n            es_horiz = (max(us) - min(us)) >= (max(ws) - min(ws))\n\n            if es_horiz:\n                items_cod.sort(key=lambda it: it[1].DotProduct(ex))\n            else:\n                items_cod.sort(key=lambda it: it[1].DotProduct(ey))\n\n            sub_grupo = [items_cod[0]]\n            for it in items_cod[1:]:\n                prev = sub_grupo[-1]\n                dist = it[1].DistanceTo(prev[1])\n                if dist <= radio_gap_ft:\n                    sub_grupo.append(it)\n                else:\n                    grupos_finales.append(sub_grupo)\n                    sub_grupo = [it]\n            if sub_grupo:\n                grupos_finales.append(sub_grupo)\n\n    # 3. Aplicar tope máximo si está configurado (> 0)\n    grupos_con_tope = []\n    for g in grupos_finales:\n        if max_tope > 0 and len(g) > max_tope:\n            for sub_i in range(0, len(g), max_tope):\n                grupos_con_tope.append(g[sub_i:sub_i + max_tope])\n        else:\n            grupos_con_tope.append(g)\n\n    return grupos_con_tope\n\n\ndef resolver_posicion_tag(pt_base, ex, ey, dist_pegado, es_horiz, colocados, escala):\n    \"\"\"\n    Desplaza la nota de texto si detecta un texto ya colocado en la misma coordenada.\n    \"\"\"\n    if not colocados:\n        return pt_base\n\n    ft_a_mm_papel = lambda ft: (ft * 304.8) / escala\n    u_b = pt_base.DotProduct(ex)\n    w_b = pt_base.DotProduct(ey)\n    z = pt_base.Z\n\n    candidatos = [pt_base]\n\n    if es_horiz:\n        # Alternar lado (+dist / -dist)\n        candidatos.append(XYZ(ex.Multiply(u_b).Add(ey.Multiply(w_b - 2.0 * dist_pegado)).X,\n                              ex.Multiply(u_b).Add(ey.Multiply(w_b - 2.0 * dist_pegado)).Y, z))\n        # Desplazamientos a lo largo del eje\n        for shift_mm in [12.0, -12.0, 24.0, -24.0]:\n            sh_ft = (shift_mm / 304.8) * escala\n            candidatos.append(XYZ(ex.Multiply(u_b + sh_ft).Add(ey.Multiply(w_b)).X,\n                                  ex.Multiply(u_b + sh_ft).Add(ey.Multiply(w_b)).Y, z))\n    else:\n        candidatos.append(XYZ(ex.Multiply(u_b - 2.0 * dist_pegado).Add(ey.Multiply(w_b)).X,\n                              ex.Multiply(u_b - 2.0 * dist_pegado).Add(ey.Multiply(w_b)).Y, z))\n        for shift_mm in [12.0, -12.0, 24.0, -24.0]:\n            sh_ft = (shift_mm / 304.8) * escala\n            candidatos.append(XYZ(ex.Multiply(u_b).Add(ey.Multiply(w_b + sh_ft)).X,\n                                  ex.Multiply(u_b).Add(ey.Multiply(w_b + sh_ft)).Y, z))\n\n    min_gap_mm = 10.0  # Distancia mínima entre etiquetas en espacio de papel\n\n    for cand in candidatos:\n        conflict = False\n        for exist in colocados:\n            if ft_a_mm_papel(cand.DistanceTo(exist)) < min_gap_mm:\n                conflict = True\n                break\n        if not conflict:\n            return cand\n\n    return candidatos[0]\n\n\ndef crear_texto_etiqueta_multiflecha(v, texto, pt_texto, pts_destino, tt_id, ex):\n    tn = TextNote.Create(doc, v.Id, pt_texto, texto, tt_id)\n    u_texto = pt_texto.DotProduct(ex)\n\n    for pt_dest in pts_destino:\n        u_dest = pt_dest.DotProduct(ex)\n        tipo = TextNoteLeaderTypes.TNLT_STRAIGHT_R if u_dest >= u_texto else TextNoteLeaderTypes.TNLT_STRAIGHT_L\n        try:\n            ld = tn.AddLeader(tipo)\n            ld.End = pt_dest\n        except Exception:\n            pass\n    return tn\n\n\ndef taggear_planta(v, sector, tt_id, mapa):\n    escala = v.Scale or 1\n    papel = lambda mm: float(mm) / 304.8 * escala\n\n    rad_mm = radio_tag_mm if radio_tag_mm > 0 else 50.0\n    radio_gap_ft = papel(rad_mm)\n    dist_pegado = max(papel(sep_tag_mm), papel(5.0))\n\n    if rehacer:\n        for tn in FilteredElementCollector(doc, v.Id).OfClass(TextNote):\n            if RE_CODIGO.match((tn.Text or '').strip()):\n                try:\n                    doc.Delete(tn.Id)\n                except Exception:\n                    pass\n\n    rieles = [el for el in FilteredElementCollector(doc, v.Id)\n              .OfCategory(BuiltInCategory.OST_ElectricalFixtures)\n              .WhereElementIsNotElementType()\n              if isinstance(el, FamilyInstance) and es_riel(el)]\n    if not rieles:\n        return 0\n\n    ex = v.RightDirection.Normalize()\n    ey = v.UpDirection.Normalize()\n    z_plano = v.Origin.Z\n\n    u0_r, u1_r, w0_r, w1_r = envolvente_de_elementos(rieles, ex, ey)\n    u_mid = (u0_r + u1_r) / 2.0\n    w_mid = (w0_r + w1_r) / 2.0\n\n    rieles_info = []\n    for el in rieles:\n        l = largo_mm(el)\n        if l and l in mapa:\n            bb = el.get_BoundingBox(v) or el.get_BoundingBox(None)\n            if bb:\n                centro = XYZ((bb.Min.X + bb.Max.X) / 2.0, (bb.Min.Y + bb.Max.Y) / 2.0, z_plano)\n                rieles_info.append((el, centro, bb, mapa[l]))\n\n    grupos = agrupar_rieles_contiguos(rieles_info, radio_gap_ft, max_por_texto_in, ex, ey)\n    puestos = 0\n    textos_colocados = []\n\n    for grupo in grupos:\n        codigo = grupo[0][3]\n        pts_destino = [m[1] for m in grupo]\n        us = [p.DotProduct(ex) for p in pts_destino]\n        ws = [p.DotProduct(ey) for p in pts_destino]\n\n        span_u = max(us) - min(us)\n        span_w = max(ws) - min(ws)\n        es_horiz = span_u >= span_w\n\n        u_centro = (min(us) + max(us)) / 2.0\n        w_centro = (min(ws) + max(ws)) / 2.0\n\n        if es_horiz:\n            u_texto = u_centro\n            w_texto = min(ws) - dist_pegado if w_centro > w_mid else max(ws) + dist_pegado\n        else:\n            w_texto = w_centro\n            u_texto = min(us) - dist_pegado if u_centro > u_mid else max(us) + dist_pegado\n\n        pt_base = ex.Multiply(u_texto).Add(ey.Multiply(w_texto))\n        pt_base = XYZ(pt_base.X, pt_base.Y, z_plano)\n\n        pt_texto = resolver_posicion_tag(pt_base, ex, ey, dist_pegado, es_horiz, textos_colocados, escala)\n        textos_colocados.append(pt_texto)\n\n        try:\n            crear_texto_etiqueta_multiflecha(v, codigo, pt_texto, pts_destino, tt_id, ex)\n            puestos += 1\n        except Exception:\n            pass\n\n    return puestos\n\n\n# --- EJECUCIÓN PRINCIPAL ---\nplantas = plantas_de_sector()\nif plantas:\n    dim_type = tipo_de_cota(dim_type_name)\n    tt_id = tipo_de_texto(tipo_texto_nombre)\n\n    TransactionManager.Instance.EnsureInTransaction(doc)\n    rieles_modelo = rieles_del_modelo()\n    mapa = tabla_de_tipos(rieles_modelo)\n\n    cotas, tags = 0, 0\n    for v, sector in plantas:\n        cotas += anotar_planta(v, sector, dim_type)\n        if mapa:\n            tags += taggear_planta(v, sector, tt_id, mapa)\n\n    TransactionManager.Instance.ForceCloseTransaction()\n    log.append('Proceso completado: Etiquetas unificadas por tramo con multiflecha limpias.')\n\nOUT = log",
-      "Engine": "PythonNet3",
-      "VariableInputPorts": true,
-      "Id": "a6010000000000000000000000000001",
-      "NodeType": "PythonScriptNode",
-      "Inputs": [
-        {
-          "Id": "a6010000000000000000000000000010",
-          "Name": "IN[0]",
-          "Description": "Input #0",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        },
-        {
-          "Id": "a6010000000000000000000000000011",
-          "Name": "IN[1]",
-          "Description": "Input #1",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        },
-        {
-          "Id": "a6010000000000000000000000000012",
-          "Name": "IN[2]",
-          "Description": "Input #2",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        },
-        {
-          "Id": "a6010000000000000000000000000013",
-          "Name": "IN[3]",
-          "Description": "Input #3",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        },
-        {
-          "Id": "a6010000000000000000000000000014",
-          "Name": "IN[4]",
-          "Description": "Input #4",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        },
-        {
-          "Id": "a6010000000000000000000000000015",
-          "Name": "IN[5]",
-          "Description": "Input #5",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        },
-        {
-          "Id": "a6010000000000000000000000000016",
-          "Name": "IN[6]",
-          "Description": "Input #6",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        },
-        {
-          "Id": "a6010000000000000000000000000017",
-          "Name": "IN[7]",
-          "Description": "Input #7",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        },
-        {
-          "Id": "a6010000000000000000000000000018",
-          "Name": "IN[8]",
-          "Description": "Input #8",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        },
-        {
-          "Id": "a6010000000000000000000000000019",
-          "Name": "IN[9]",
-          "Description": "Input #9",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        },
-        {
-          "Id": "a601000000000000000000000000001a",
-          "Name": "IN[10]",
-          "Description": "Input #10",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        },
-        {
-          "Id": "a601000000000000000000000000001b",
-          "Name": "IN[11]",
-          "Description": "Input #11",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        },
-        {
-          "Id": "a601000000000000000000000000001c",
-          "Name": "IN[12]",
-          "Description": "Input #12",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        },
-        {
-          "Id": "a601000000000000000000000000001d",
-          "Name": "IN[13]",
-          "Description": "Input #13",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        },
-        {
-          "Id": "a601000000000000000000000000001e",
-          "Name": "IN[14]",
-          "Description": "Input #14",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Outputs": [
-        {
-          "Id": "a6010000000000000000000000000005",
-          "Name": "OUT",
-          "Description": "Result of the python script",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Disabled",
-      "Description": "Runs an embedded Python script."
-    },
-    {
-      "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
-      "WatchWidth": 620.0,
-      "WatchHeight": 400.0,
-      "Id": "c6010000000000000000000000000001",
-      "NodeType": "ExtensionNode",
-      "Inputs": [
-        {
-          "Id": "c6010000000000000000000000000002",
-          "Name": "",
-          "Description": "Node to show output from",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Outputs": [
-        {
-          "Id": "c6010000000000000000000000000003",
-          "Name": "",
-          "Description": "Node output",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Disabled",
-      "Description": "Visualizes a node's output"
-    },
-    {
-      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
-      "SerializedWidth": 0.0,
-      "SerializedHeight": 0.0,
-      "Id": "b6100000000000000000000000000001",
-      "NodeType": "StringInputNode",
-      "Inputs": [],
-      "Outputs": [
-        {
-          "Id": "b6100000000000000000000000000002",
-          "Name": "",
-          "Description": "String",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Disabled",
-      "Description": "Creates a string.",
-      "InputValue": "Longitud"
-    },
-    {
-      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
-      "SerializedWidth": 0.0,
-      "SerializedHeight": 0.0,
-      "Id": "b6110000000000000000000000000001",
-      "NodeType": "StringInputNode",
-      "Inputs": [],
-      "Outputs": [
-        {
-          "Id": "b6110000000000000000000000000002",
-          "Name": "",
-          "Description": "String",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Disabled",
-      "Description": "Creates a string.",
-      "InputValue": "TEXTO PARA TAG"
-    },
-    {
-      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
-      "SerializedWidth": 0.0,
-      "SerializedHeight": 0.0,
-      "Id": "b6120000000000000000000000000001",
-      "NodeType": "StringInputNode",
-      "Inputs": [],
-      "Outputs": [
-        {
-          "Id": "b6120000000000000000000000000002",
-          "Name": "",
-          "Description": "String",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Disabled",
-      "Description": "Creates a string.",
-      "InputValue": "2mm wf 0.85 RomanD"
-    },
-    {
-      "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
-      "NumberType": "Integer",
-      "MaximumValue": 200,
-      "MinimumValue": 0,
-      "StepValue": 1,
-      "Id": "b6130000000000000000000000000001",
-      "NodeType": "NumberInputNode",
-      "Inputs": [],
-      "Outputs": [
-        {
-          "Id": "b6130000000000000000000000000002",
-          "Name": "",
-          "Description": "Int64",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Disabled",
-      "Description": "Produces integer values",
-      "InputValue": 30
-    },
-    {
-      "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
-      "NumberType": "Integer",
-      "MaximumValue": 60,
-      "MinimumValue": 0,
-      "StepValue": 1,
-      "Id": "b6140000000000000000000000000001",
-      "NodeType": "NumberInputNode",
-      "Inputs": [],
-      "Outputs": [
-        {
-          "Id": "b6140000000000000000000000000002",
-          "Name": "",
-          "Description": "Int64",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Disabled",
-      "Description": "Produces integer values",
-      "InputValue": 4
-    },
-    {
-      "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
-      "NumberType": "Integer",
-      "MaximumValue": 20,
-      "MinimumValue": 0,
-      "StepValue": 1,
-      "Id": "b6150000000000000000000000000001",
-      "NodeType": "NumberInputNode",
-      "Inputs": [],
-      "Outputs": [
-        {
-          "Id": "b6150000000000000000000000000002",
-          "Name": "",
-          "Description": "Int64",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Disabled",
-      "Description": "Produces integer values",
-      "InputValue": 4
-    }
-  ],
-  "Connectors": [
-    {
-      "Start": "b6010000000000000000000000000002",
-      "End": "a6010000000000000000000000000010",
-      "Id": "d6010000000000000000000000000010",
-      "IsHidden": "False"
-    },
-    {
-      "Start": "b6020000000000000000000000000002",
-      "End": "a6010000000000000000000000000011",
-      "Id": "d6010000000000000000000000000011",
-      "IsHidden": "False"
-    },
-    {
-      "Start": "b6030000000000000000000000000002",
-      "End": "a6010000000000000000000000000012",
-      "Id": "d6010000000000000000000000000012",
-      "IsHidden": "False"
-    },
-    {
-      "Start": "b6040000000000000000000000000002",
-      "End": "a6010000000000000000000000000013",
-      "Id": "d6010000000000000000000000000013",
-      "IsHidden": "False"
-    },
-    {
-      "Start": "b6050000000000000000000000000002",
-      "End": "a6010000000000000000000000000014",
-      "Id": "d6010000000000000000000000000014",
-      "IsHidden": "False"
-    },
-    {
-      "Start": "b6060000000000000000000000000002",
-      "End": "a6010000000000000000000000000015",
-      "Id": "d6010000000000000000000000000015",
-      "IsHidden": "False"
-    },
-    {
-      "Start": "b6070000000000000000000000000002",
-      "End": "a6010000000000000000000000000016",
-      "Id": "d6010000000000000000000000000016",
-      "IsHidden": "False"
-    },
-    {
-      "Start": "b6080000000000000000000000000002",
-      "End": "a6010000000000000000000000000017",
-      "Id": "d6010000000000000000000000000017",
-      "IsHidden": "False"
-    },
-    {
-      "Start": "b6090000000000000000000000000002",
-      "End": "a6010000000000000000000000000018",
-      "Id": "d6010000000000000000000000000018",
-      "IsHidden": "False"
-    },
-    {
-      "Start": "a6010000000000000000000000000005",
-      "End": "c6010000000000000000000000000002",
-      "Id": "d6010000000000000000000000000005",
-      "IsHidden": "False"
-    },
-    {
-      "Start": "b6100000000000000000000000000002",
-      "End": "a6010000000000000000000000000019",
-      "Id": "d6010000000000000000000000000019",
-      "IsHidden": "False"
-    },
-    {
-      "Start": "b6110000000000000000000000000002",
-      "End": "a601000000000000000000000000001a",
-      "Id": "d601000000000000000000000000001a",
-      "IsHidden": "False"
-    },
-    {
-      "Start": "b6120000000000000000000000000002",
-      "End": "a601000000000000000000000000001b",
-      "Id": "d601000000000000000000000000001b",
-      "IsHidden": "False"
-    },
-    {
-      "Start": "b6130000000000000000000000000002",
-      "End": "a601000000000000000000000000001c",
-      "Id": "d601000000000000000000000000001c",
-      "IsHidden": "False"
-    },
-    {
-      "Start": "b6140000000000000000000000000002",
-      "End": "a601000000000000000000000000001d",
-      "Id": "d601000000000000000000000000001d",
-      "IsHidden": "False"
-    },
-    {
-      "Start": "b6150000000000000000000000000002",
-      "End": "a601000000000000000000000000001e",
-      "Id": "d601000000000000000000000000001e",
-      "IsHidden": "False"
-    }
-  ],
-  "Dependencies": [],
-  "NodeLibraryDependencies": [],
-  "EnableLegacyPolyCurveBehavior": false,
-  "Thumbnail": "",
-  "GraphDocumentationURL": null,
-  "ExtensionWorkspaceData": [
-    {
-      "ExtensionGuid": "28992e1d-abb9-417f-8b1b-05e053bee670",
-      "Name": "Properties",
-      "Version": "4.0",
-      "Data": {}
-    },
-    {
-      "ExtensionGuid": "DFBD9CC0-DB40-457A-939E-8C8555555A9D",
-      "Name": "Generative Design",
-      "Version": "10.3",
-      "Data": {}
-    }
-  ],
-  "Author": "",
-  "Linting": {
-    "activeLinter": "None",
-    "activeLinterId": "7b75fb44-43fd-4631-a878-29f4d5d8399a",
-    "warningCount": 0,
-    "errorCount": 0
-  },
-  "Bindings": [],
-  "View": {
-    "Dynamo": {
-      "ScaleFactor": 1.0,
-      "HasRunWithoutCrash": true,
-      "IsVisibleInDynamoLibrary": true,
-      "Version": "4.0.2.3852",
-      "RunType": "Manual",
-      "RunPeriod": "1000"
-    },
-    "Camera": {
-      "Name": "_Background Preview",
-      "EyeX": -17.0,
-      "EyeY": 24.0,
-      "EyeZ": 50.0,
-      "LookX": 12.0,
-      "LookY": -13.0,
-      "LookZ": -58.0,
-      "UpX": 0.0,
-      "UpY": 1.0,
-      "UpZ": 0.0
-    },
-    "ConnectorPins": [],
-    "NodeViews": [
-      {
-        "Id": "b6010000000000000000000000000001",
-        "Name": "01. Procesar TODOS los sectores",
-        "IsSetAsInput": true,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "ShowGeometry": true,
-        "X": -1766.4466631341916,
-        "Y": 39.863394372562766
-      },
-      {
-        "Id": "b6020000000000000000000000000001",
-        "Name": "02. Filtro de sectores (si TODOS = False)",
-        "IsSetAsInput": true,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "ShowGeometry": true,
-        "X": -1402.693189484555,
-        "Y": 30.341514068592915
-      },
-      {
-        "Id": "b6030000000000000000000000000001",
-        "Name": "03. La familia del riel EMPIEZA con",
-        "IsSetAsInput": true,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "ShowGeometry": true,
-        "X": -1572.1126155679476,
-        "Y": 200.2049084411558
-      },
-      {
-        "Id": "b6040000000000000000000000000001",
-        "Name": "04. ...y ademas CONTIENE (solo para las cotas; vacio = no filtra mas)",
-        "IsSetAsInput": true,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "ShowGeometry": true,
-        "X": -891.9434490860936,
-        "Y": 51.16114783321564
-      },
-      {
-        "Id": "b6050000000000000000000000000001",
-        "Name": "05. Separacion de la cadena al borde del marco (mm de papel)",
-        "IsSetAsInput": true,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "ShowGeometry": true,
-        "X": -1053.8884887246304,
-        "Y": 226.00746650234896
-      },
-      {
-        "Id": "b6060000000000000000000000000001",
-        "Name": "06. Separacion minima entre dos cotas de la cadena (mm de papel)",
-        "IsSetAsInput": true,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "ShowGeometry": true,
-        "X": -313.92423068393236,
-        "Y": 251.36605627437143
-      },
-      {
-        "Id": "b6070000000000000000000000000001",
-        "Name": "07. Tipo de cota (vacio = el por defecto)",
-        "IsSetAsInput": true,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "ShowGeometry": true,
-        "X": -316.41569283221816,
-        "Y": 416.24652635036387
-      },
-      {
-        "Id": "b6080000000000000000000000000001",
-        "Name": "08. Rehacer las cotas y los tags de riel existentes",
-        "IsSetAsInput": true,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "ShowGeometry": true,
-        "X": -341.3303143150697,
-        "Y": 598.5672314643527
-      },
-      {
-        "Id": "b6090000000000000000000000000001",
-        "Name": "09. Margen extra del annotation crop (mm de papel)",
-        "IsSetAsInput": true,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "ShowGeometry": true,
-        "X": -894.4349112343791,
-        "Y": 601.5026619018086
-      },
-      {
-        "Id": "a6010000000000000000000000000001",
-        "Name": "PY | Cotas entre rieles de suelo + tags de tipo de riel",
-        "IsSetAsInput": false,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "ShowGeometry": true,
-        "X": 2339.278282028949,
-        "Y": 118.37164490669431
-      },
-      {
-        "Id": "c6010000000000000000000000000001",
-        "Name": "Log",
-        "IsSetAsInput": false,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "ShowGeometry": true,
-        "X": 3235.030383514448,
-        "Y": 240.72895939140176
-      },
-      {
-        "Id": "b6100000000000000000000000000001",
-        "Name": "10. Parametro con el largo del riel",
-        "IsSetAsInput": true,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "ShowGeometry": true,
-        "X": -331.1878937873803,
-        "Y": 786.2425992622417
-      },
-      {
-        "Id": "b6110000000000000000000000000001",
-        "Name": "11. Parametro donde se escribe el codigo de tipo",
-        "IsSetAsInput": true,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "ShowGeometry": true,
-        "X": 325.93094309234266,
-        "Y": 458.887888793954
-      },
-      {
-        "Id": "b6120000000000000000000000000001",
-        "Name": "12. Tipo de texto del tag (vacio = el por defecto)",
-        "IsSetAsInput": true,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "ShowGeometry": true,
-        "X": 712.3168191776201,
-        "Y": 746.5964096450878
-      },
-      {
-        "Id": "b6130000000000000000000000000001",
-        "Name": "13. Radio para agrupar rieles bajo un mismo texto (mm de papel)",
-        "IsSetAsInput": true,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "ShowGeometry": true,
-        "X": 1542.9453771632145,
-        "Y": 834.6650577111243
-      },
-      {
-        "Id": "b6140000000000000000000000000001",
-        "Name": "14. Separacion del texto al grupo (mm de papel)",
-        "IsSetAsInput": true,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "ShowGeometry": true,
-        "X": 1565.9572175969106,
-        "Y": 1000.3530919184285
-      },
-      {
-        "Id": "b6150000000000000000000000000001",
-        "Name": "15. Maximo de rieles por texto (0 = sin tope)",
-        "IsSetAsInput": true,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "ShowGeometry": true,
-        "X": 1566.6371506412338,
-        "Y": 1145.980343444497
-      }
-    ],
-    "Annotations": [],
-    "X": -564.8122934895599,
-    "Y": 50.913363298976776,
-    "Zoom": 0.436610821213238
-  }
+    "Uuid":  "8f4c1a2e-0a11-4b6e-9c01-aa0000000007",
+    "IsCustomNode":  false,
+    "Description":  "Anota las plantas de sector: cadenas de cotas exteriores entre los rieles RUC de suelo, y un texto con el TIPO (R-01, R-02...) con una flecha a cada riel RUC de la planta, de suelo y de muro.",
+    "Name":  "03_Rieles RUC - cotas y tags",
+    "ElementResolver":  {
+                            "ResolutionMap":  {
+
+                                              }
+                        },
+    "Inputs":  [
+                   {
+                       "Id":  "b6010000000000000000000000000001",
+                       "Name":  "01. Procesar TODOS los sectores",
+                       "Type":  "boolean",
+                       "Type2":  "boolean",
+                       "Value":  "false",
+                       "Description":  "Enables selection between True and False"
+                   },
+                   {
+                       "Id":  "b6020000000000000000000000000001",
+                       "Name":  "02. Filtro de sectores (si TODOS = False)",
+                       "Type":  "string",
+                       "Type2":  "string",
+                       "Value":  "SECTOR A",
+                       "Description":  "Creates a string."
+                   },
+                   {
+                       "Id":  "b6030000000000000000000000000001",
+                       "Name":  "03. La familia del riel EMPIEZA con",
+                       "Type":  "string",
+                       "Type2":  "string",
+                       "Value":  "RIEL RUC",
+                       "Description":  "Creates a string."
+                   },
+                   {
+                       "Id":  "b6040000000000000000000000000001",
+                       "Name":  "04. ...y ademas CONTIENE (solo para las cotas; vacio = no filtra mas)",
+                       "Type":  "string",
+                       "Type2":  "string",
+                       "Value":  "SUELO",
+                       "Description":  "Creates a string."
+                   },
+                   {
+                       "Id":  "b6050000000000000000000000000001",
+                       "Name":  "05. Separacion de la cadena al borde del marco (mm de papel)",
+                       "Type":  "number",
+                       "Type2":  "number",
+                       "Value":  "9",
+                       "MaximumValue":  60.0,
+                       "MinimumValue":  0.0,
+                       "StepValue":  1.0,
+                       "NumberType":  "Integer",
+                       "Description":  "Produces integer values"
+                   },
+                   {
+                       "Id":  "b6060000000000000000000000000001",
+                       "Name":  "06. Separacion minima entre dos cotas de la cadena (mm de papel)",
+                       "Type":  "number",
+                       "Type2":  "number",
+                       "Value":  "1",
+                       "MaximumValue":  20.0,
+                       "MinimumValue":  0.0,
+                       "StepValue":  1.0,
+                       "NumberType":  "Integer",
+                       "Description":  "Produces integer values"
+                   },
+                   {
+                       "Id":  "b6070000000000000000000000000001",
+                       "Name":  "07. Tipo de cota (vacio = el por defecto)",
+                       "Type":  "string",
+                       "Type2":  "string",
+                       "Value":  "",
+                       "Description":  "Creates a string."
+                   },
+                   {
+                       "Id":  "b6080000000000000000000000000001",
+                       "Name":  "08. Rehacer las cotas y los tags de riel existentes",
+                       "Type":  "boolean",
+                       "Type2":  "boolean",
+                       "Value":  "true",
+                       "Description":  "Enables selection between True and False"
+                   },
+                   {
+                       "Id":  "b6090000000000000000000000000001",
+                       "Name":  "09. Margen extra del annotation crop (mm de papel)",
+                       "Type":  "number",
+                       "Type2":  "number",
+                       "Value":  "10",
+                       "MaximumValue":  60.0,
+                       "MinimumValue":  0.0,
+                       "StepValue":  1.0,
+                       "NumberType":  "Integer",
+                       "Description":  "Produces integer values"
+                   },
+                   {
+                       "Id":  "b6100000000000000000000000000001",
+                       "Name":  "10. Parametro con el largo del riel",
+                       "Type":  "string",
+                       "Type2":  "string",
+                       "Value":  "Longitud",
+                       "Description":  "Creates a string."
+                   },
+                   {
+                       "Id":  "b6110000000000000000000000000001",
+                       "Name":  "11. Parametro donde se escribe el codigo de tipo",
+                       "Type":  "string",
+                       "Type2":  "string",
+                       "Value":  "TEXTO PARA TAG",
+                       "Description":  "Creates a string."
+                   },
+                   {
+                       "Id":  "b6120000000000000000000000000001",
+                       "Name":  "12. Tipo de texto del tag (vacio = el por defecto)",
+                       "Type":  "string",
+                       "Type2":  "string",
+                       "Value":  "2mm wf 0.85 RomanD",
+                       "Description":  "Creates a string."
+                   },
+                   {
+                       "Id":  "b6130000000000000000000000000001",
+                       "Name":  "13. Radio para agrupar rieles bajo un mismo texto (mm de papel)",
+                       "Type":  "number",
+                       "Type2":  "number",
+                       "Value":  "30",
+                       "MaximumValue":  200.0,
+                       "MinimumValue":  0.0,
+                       "StepValue":  1.0,
+                       "NumberType":  "Integer",
+                       "Description":  "Produces integer values"
+                   },
+                   {
+                       "Id":  "b6140000000000000000000000000001",
+                       "Name":  "14. Separacion del texto al grupo (mm de papel)",
+                       "Type":  "number",
+                       "Type2":  "number",
+                       "Value":  "4",
+                       "MaximumValue":  60.0,
+                       "MinimumValue":  0.0,
+                       "StepValue":  1.0,
+                       "NumberType":  "Integer",
+                       "Description":  "Produces integer values"
+                   },
+                   {
+                       "Id":  "b6150000000000000000000000000001",
+                       "Name":  "15. Maximo de rieles por texto (0 = sin tope)",
+                       "Type":  "number",
+                       "Type2":  "number",
+                       "Value":  "4",
+                       "MaximumValue":  20.0,
+                       "MinimumValue":  0.0,
+                       "StepValue":  1.0,
+                       "NumberType":  "Integer",
+                       "Description":  "Produces integer values"
+                   }
+               ],
+    "Outputs":  [
+
+                ],
+    "Nodes":  [
+                  {
+                      "ConcreteType":  "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+                      "Id":  "b6010000000000000000000000000001",
+                      "NodeType":  "BooleanInputNode",
+                      "Inputs":  [
+
+                                 ],
+                      "Outputs":  [
+                                      {
+                                          "Id":  "b6010000000000000000000000000002",
+                                          "Name":  "",
+                                          "Description":  "Boolean",
+                                          "UsingDefaultValue":  false,
+                                          "Level":  2,
+                                          "UseLevels":  false,
+                                          "KeepListStructure":  false
+                                      }
+                                  ],
+                      "Replication":  "Disabled",
+                      "Description":  "Enables selection between True and False",
+                      "InputValue":  false
+                  },
+                  {
+                      "ConcreteType":  "CoreNodeModels.Input.StringInput, CoreNodeModels",
+                      "SerializedWidth":  0.0,
+                      "SerializedHeight":  0.0,
+                      "Id":  "b6020000000000000000000000000001",
+                      "NodeType":  "StringInputNode",
+                      "Inputs":  [
+
+                                 ],
+                      "Outputs":  [
+                                      {
+                                          "Id":  "b6020000000000000000000000000002",
+                                          "Name":  "",
+                                          "Description":  "String",
+                                          "UsingDefaultValue":  false,
+                                          "Level":  2,
+                                          "UseLevels":  false,
+                                          "KeepListStructure":  false
+                                      }
+                                  ],
+                      "Replication":  "Disabled",
+                      "Description":  "Creates a string.",
+                      "InputValue":  "SECTOR A"
+                  },
+                  {
+                      "ConcreteType":  "CoreNodeModels.Input.StringInput, CoreNodeModels",
+                      "SerializedWidth":  0.0,
+                      "SerializedHeight":  0.0,
+                      "Id":  "b6030000000000000000000000000001",
+                      "NodeType":  "StringInputNode",
+                      "Inputs":  [
+
+                                 ],
+                      "Outputs":  [
+                                      {
+                                          "Id":  "b6030000000000000000000000000002",
+                                          "Name":  "",
+                                          "Description":  "String",
+                                          "UsingDefaultValue":  false,
+                                          "Level":  2,
+                                          "UseLevels":  false,
+                                          "KeepListStructure":  false
+                                      }
+                                  ],
+                      "Replication":  "Disabled",
+                      "Description":  "Creates a string.",
+                      "InputValue":  "RIEL RUC"
+                  },
+                  {
+                      "ConcreteType":  "CoreNodeModels.Input.StringInput, CoreNodeModels",
+                      "SerializedWidth":  0.0,
+                      "SerializedHeight":  0.0,
+                      "Id":  "b6040000000000000000000000000001",
+                      "NodeType":  "StringInputNode",
+                      "Inputs":  [
+
+                                 ],
+                      "Outputs":  [
+                                      {
+                                          "Id":  "b6040000000000000000000000000002",
+                                          "Name":  "",
+                                          "Description":  "String",
+                                          "UsingDefaultValue":  false,
+                                          "Level":  2,
+                                          "UseLevels":  false,
+                                          "KeepListStructure":  false
+                                      }
+                                  ],
+                      "Replication":  "Disabled",
+                      "Description":  "Creates a string.",
+                      "InputValue":  "SUELO"
+                  },
+                  {
+                      "ConcreteType":  "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
+                      "NumberType":  "Integer",
+                      "MaximumValue":  60,
+                      "MinimumValue":  0,
+                      "StepValue":  1,
+                      "Id":  "b6050000000000000000000000000001",
+                      "NodeType":  "NumberInputNode",
+                      "Inputs":  [
+
+                                 ],
+                      "Outputs":  [
+                                      {
+                                          "Id":  "b6050000000000000000000000000002",
+                                          "Name":  "",
+                                          "Description":  "Int64",
+                                          "UsingDefaultValue":  false,
+                                          "Level":  2,
+                                          "UseLevels":  false,
+                                          "KeepListStructure":  false
+                                      }
+                                  ],
+                      "Replication":  "Disabled",
+                      "Description":  "Produces integer values",
+                      "InputValue":  9
+                  },
+                  {
+                      "ConcreteType":  "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
+                      "NumberType":  "Integer",
+                      "MaximumValue":  20,
+                      "MinimumValue":  0,
+                      "StepValue":  1,
+                      "Id":  "b6060000000000000000000000000001",
+                      "NodeType":  "NumberInputNode",
+                      "Inputs":  [
+
+                                 ],
+                      "Outputs":  [
+                                      {
+                                          "Id":  "b6060000000000000000000000000002",
+                                          "Name":  "",
+                                          "Description":  "Int64",
+                                          "UsingDefaultValue":  false,
+                                          "Level":  2,
+                                          "UseLevels":  false,
+                                          "KeepListStructure":  false
+                                      }
+                                  ],
+                      "Replication":  "Disabled",
+                      "Description":  "Produces integer values",
+                      "InputValue":  1
+                  },
+                  {
+                      "ConcreteType":  "CoreNodeModels.Input.StringInput, CoreNodeModels",
+                      "SerializedWidth":  0.0,
+                      "SerializedHeight":  0.0,
+                      "Id":  "b6070000000000000000000000000001",
+                      "NodeType":  "StringInputNode",
+                      "Inputs":  [
+
+                                 ],
+                      "Outputs":  [
+                                      {
+                                          "Id":  "b6070000000000000000000000000002",
+                                          "Name":  "",
+                                          "Description":  "String",
+                                          "UsingDefaultValue":  false,
+                                          "Level":  2,
+                                          "UseLevels":  false,
+                                          "KeepListStructure":  false
+                                      }
+                                  ],
+                      "Replication":  "Disabled",
+                      "Description":  "Creates a string.",
+                      "InputValue":  ""
+                  },
+                  {
+                      "ConcreteType":  "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+                      "Id":  "b6080000000000000000000000000001",
+                      "NodeType":  "BooleanInputNode",
+                      "Inputs":  [
+
+                                 ],
+                      "Outputs":  [
+                                      {
+                                          "Id":  "b6080000000000000000000000000002",
+                                          "Name":  "",
+                                          "Description":  "Boolean",
+                                          "UsingDefaultValue":  false,
+                                          "Level":  2,
+                                          "UseLevels":  false,
+                                          "KeepListStructure":  false
+                                      }
+                                  ],
+                      "Replication":  "Disabled",
+                      "Description":  "Enables selection between True and False",
+                      "InputValue":  true
+                  },
+                  {
+                      "ConcreteType":  "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
+                      "NumberType":  "Integer",
+                      "MaximumValue":  60,
+                      "MinimumValue":  0,
+                      "StepValue":  1,
+                      "Id":  "b6090000000000000000000000000001",
+                      "NodeType":  "NumberInputNode",
+                      "Inputs":  [
+
+                                 ],
+                      "Outputs":  [
+                                      {
+                                          "Id":  "b6090000000000000000000000000002",
+                                          "Name":  "",
+                                          "Description":  "Int64",
+                                          "UsingDefaultValue":  false,
+                                          "Level":  2,
+                                          "UseLevels":  false,
+                                          "KeepListStructure":  false
+                                      }
+                                  ],
+                      "Replication":  "Disabled",
+                      "Description":  "Produces integer values",
+                      "InputValue":  10
+                  },
+                  {
+                      "ConcreteType":  "PythonNodeModels.PythonNode, PythonNodeModels",
+                      "Code":  "# 03_Rieles RUC - cotas y tags - ILUMINACION\n#\n# El primero de los DOS PASOS DEL RIEL RUC. Dibuja sobre las plantas de sector las cadenas\n# de cotas entre rieles de suelo y los textos R-xx con multiflecha sobre todos los rieles.\n# El segundo es 04_Rieles RUC - tabla de tipos, que imprime la TABLA N.1 en cada lamina.\n#\n# Todo lo que hace este paso sale del parametro Longitud de un riel: en una lamina sin\n# rieles no haria nada. Lo que es de la HOJA y no del riel -la simbologia, la nomenclatura,\n# el bloque de notas generales- vive en 05_Leyendas y notas.\n#\n# (AGRUPACION CONTINUA + MULTIFLECHAS + ANTICOLISION)\n#\n# Desde el 2026-08-20 este paso hace TRES cosas, no dos: ademas de las cadenas de cotas\n# entre rieles y los tags R-xx, pone UNA COTA POR CONDUIT con su largo, usando el mismo\n# tipo de cota que las cadenas de riel. Vive aca y no en un paso aparte porque es la misma\n# operacion sobre la misma vista: acotar lo que hay en la planta de sector.\n\nimport clr\nimport math\nimport re\nclr.AddReference(\u0027RevitAPI\u0027)\nclr.AddReference(\u0027RevitServices\u0027)\nfrom Autodesk.Revit.DB import (FilteredElementCollector, ViewPlan, XYZ, Line,\n                               ReferenceArray, Dimension, DimensionType, Element,\n                               BuiltInCategory, BuiltInParameter, StorageType, ElementId,\n                               FamilyInstance, FamilyInstanceReferenceType, Category,\n                               TextNote, TextNoteType, TextNoteLeaderTypes,\n                               ElementTypeGroup)\nfrom RevitServices.Persistence import DocumentManager\nfrom RevitServices.Transactions import TransactionManager\n\ndoc = DocumentManager.Instance.CurrentDBDocument\n\nprocess_all = bool(IN[0])\nfilter_text = (IN[1] or \u0027\u0027).strip()\nfam_prefijo = (IN[2] or \u0027\u0027).strip()\nfam_contiene = (IN[3] or \u0027\u0027).strip()\noff_mm = float(IN[4]) if IN[4] is not None else 25.0\nsep_min_mm = float(IN[5]) if IN[5] is not None else 500.0\ndim_type_name = (IN[6] or \u0027\u0027).strip()\nrehacer = bool(IN[7])\nannot_extra_mm = float(IN[8]) if IN[8] is not None else 15.0\nparam_largo = (IN[9] or \u0027Longitud\u0027).strip()\nparam_codigo = (IN[10] or \u0027TEXTO PARA TAG\u0027).strip()\ntipo_texto_nombre = (IN[11] or \u0027\u0027).strip()\nradio_tag_mm = float(IN[12]) if IN[12] is not None else 30.0\nsep_tag_mm = float(IN[13]) if IN[13] is not None else 4.0\nmax_por_texto_in = int(IN[14]) if IN[14] is not None else 0\n\n# Cotas de largo de conduit. Van como constantes y NO como inputs nuevos: los 15 puertos del\n# nodo ya estan todos ocupados por la cadena de rieles y los tags, y agregar puertos a un\n# paso que funciona es arriesgar lo que ya anda por dos numeros que casi nunca se tocan.\nOFF_CONDUIT_MM = 6.0      # separacion de la cota al conduit, en mm de papel\nUMBRAL_VERT_MM = 30.0     # si en planta proyecta menos que esto, es una BAJADA y no se acota\n\nlog = []\nSUF_PLANTA = \u0027 - PLANTA\u0027\nTOL_PARALELO = 1e-6\nTOL_NORMAL = 1e-3\nLADOS = (\u0027arriba\u0027, \u0027abajo\u0027, \u0027izquierda\u0027, \u0027derecha\u0027)\nPREFIJO_TIPO = \u0027R-\u0027\nRE_CODIGO = re.compile(r\u0027^\u0027 + re.escape(PREFIJO_TIPO) + r\u0027\\d+$\u0027)\n\n\ndef elem_name(e):\n    try:\n        return Element.Name.GetValue(e)\n    except Exception:\n        try:\n            return e.Name\n        except Exception:\n            return \u0027\u0027\n\n\ndef coincide(nombre, texto):\n    if not texto:\n        return True\n    alto = (nombre or \u0027\u0027).upper()\n    for t in texto.split(\u0027,\u0027):\n        t = t.strip().upper()\n        if t and t in alto:\n            return True\n    return False\n\n\ndef fam_name(el):\n    try:\n        return el.Symbol.Family.Name or \u0027\u0027\n    except Exception:\n        return \u0027\u0027\n\n\ndef es_riel(el):\n    f = fam_name(el).upper()\n    if not f:\n        return False\n    return not fam_prefijo or f.startswith(fam_prefijo.upper())\n\n\ndef es_riel_de_cota(el):\n    if not es_riel(el):\n        return False\n    f = fam_name(el).upper()\n    return not fam_contiene or fam_contiene.upper() in f\n\n\ndef plantas_de_sector():\n    res = []\n    for v in FilteredElementCollector(doc).OfClass(ViewPlan):\n        if v.IsTemplate:\n            continue\n        n = elem_name(v)\n        if not n.endswith(SUF_PLANTA):\n            continue\n        sector = n[:-len(SUF_PLANTA)]\n        if not process_all and not coincide(sector, filter_text):\n            continue\n        res.append((v, sector))\n    res.sort(key=lambda p: p[1])\n    return res\n\n\ndef extremos_en_ejes(el, ex, ey):\n    bb = el.get_BoundingBox(None)\n    if bb is None:\n        return None\n    us, ws = [], []\n    for x in (bb.Min.X, bb.Max.X):\n        for y in (bb.Min.Y, bb.Max.Y):\n            for z in (bb.Min.Z, bb.Max.Z):\n                p = XYZ(x, y, z)\n                us.append(p.DotProduct(ex))\n                ws.append(p.DotProduct(ey))\n    return min(us), max(us), min(ws), max(ws)\n\n\ndef envolvente_de_elementos(elementos, ex, ey):\n    us, ws = [], []\n    for el in elementos:\n        ext = extremos_en_ejes(el, ex, ey)\n        if ext:\n            us.extend([ext[0], ext[1]])\n            ws.extend([ext[2], ext[3]])\n    if not us:\n        return 0, 0, 0, 0\n    return min(us), max(us), min(ws), max(ws)\n\n\ndef referencia_de_eje(inst, eje_medida):\n    try:\n        tr = inst.GetTransform()\n    except Exception:\n        return None, None\n    candidatos = ((FamilyInstanceReferenceType.CenterLeftRight, tr.BasisX),\n                  (FamilyInstanceReferenceType.CenterFrontBack, tr.BasisY))\n    for tipo, normal in candidatos:\n        try:\n            n = normal.Normalize()\n        except Exception:\n            continue\n        if abs(abs(n.DotProduct(eje_medida)) - 1.0) \u003e TOL_NORMAL:\n            continue\n        try:\n            refs = list(inst.GetReferences(tipo))\n        except Exception:\n            refs = []\n        if refs:\n            return refs[0], n\n    return None, None\n\n\ndef canonica(n):\n    if n.X \u003e 1e-12:\n        return n\n    if n.X \u003c -1e-12:\n        return n.Negate()\n    return n if n.Y \u003e= 0 else n.Negate()\n\n\ndef alinear(items):\n    if not items:\n        return [], 0, 0.0\n    cubetas = {}\n    for it in items:\n        d = canonica(it[3])\n        k = int(round(math.atan2(d.Y, d.X) / TOL_PARALELO))\n        acc = cubetas.get(k)\n        if acc is None:\n            cubetas[k] = [1, d]\n        else:\n            acc[0] += 1\n    dom = max(cubetas.values(), key=lambda a: a[0])[1]\n    ok = []\n    fuera = 0\n    peor = 0.0\n    for it in items:\n        s = abs(it[3].X * dom.Y - it[3].Y * dom.X)\n        if s \u003c= TOL_PARALELO / 2.0:\n            ok.append(it)\n        else:\n            fuera += 1\n            if s \u003e peor:\n                peor = s\n    return ok, fuera, peor\n\n\ndef tipo_de_cota(nombre):\n    if not nombre:\n        return None\n    for dt in FilteredElementCollector(doc).OfClass(DimensionType):\n        if elem_name(dt) == nombre:\n            return dt\n    return None\n\n\ndef cadenas_de_riel_existentes(v):\n    res = []\n    for dim in FilteredElementCollector(doc, v.Id).OfClass(Dimension):\n        try:\n            for ref in dim.References:\n                el = doc.GetElement(ref.ElementId)\n                if el is not None and isinstance(el, FamilyInstance) and es_riel(el):\n                    res.append(dim.Id)\n                    break\n        except Exception:\n            pass\n    return res\n\n\ndef dibujar_cadena(v, items, eje_medida, eje_perp, valor_perp, sep_min, z_plano, dim_type):\n    if len(items) \u003c 2:\n        return 0\n    items, _, _ = alinear(items)\n    if len(items) \u003c 2:\n        return 0\n    items.sort(key=lambda it: it[0])\n    filtrados = []\n    ultimo = None\n    for it in items:\n        if ultimo is None or it[0] - ultimo \u003e sep_min:\n            filtrados.append(it)\n            ultimo = it[0]\n    if len(filtrados) \u003c 2:\n        return 0\n    ra = ReferenceArray()\n    for it in filtrados:\n        ra.Append(it[1])\n\n    p1 = eje_medida.Multiply(filtrados[0][0]).Add(eje_perp.Multiply(valor_perp))\n    p2 = eje_medida.Multiply(filtrados[-1][0]).Add(eje_perp.Multiply(valor_perp))\n    p1 = XYZ(p1.X, p1.Y, z_plano)\n    p2 = XYZ(p2.X, p2.Y, z_plano)\n\n    if p1.DistanceTo(p2) \u003c 1e-6:\n        return 0\n    try:\n        if dim_type is not None:\n            doc.Create.NewDimension(v, Line.CreateBound(p1, p2), ra, dim_type)\n        else:\n            doc.Create.NewDimension(v, Line.CreateBound(p1, p2), ra)\n        return 1\n    except Exception:\n        return 0\n\n\ndef anotar_planta(v, sector, dim_type):\n    escala = v.Scale or 1\n    papel = lambda mm: float(mm) / 304.8 * escala\n\n    off = papel(off_mm)\n    sep_min = papel(sep_min_mm)\n\n    if rehacer:\n        for did in cadenas_de_riel_existentes(v):\n            try:\n                doc.Delete(did)\n            except Exception:\n                pass\n\n    rieles = [el for el in FilteredElementCollector(doc, v.Id)\n              .OfCategory(BuiltInCategory.OST_ElectricalFixtures)\n              .WhereElementIsNotElementType()\n              if isinstance(el, FamilyInstance) and es_riel_de_cota(el)]\n    if not rieles:\n        return 0\n\n    ex = v.RightDirection.Normalize()\n    ey = v.UpDirection.Normalize()\n    z_plano = v.Origin.Z\n\n    u0_r, u1_r, w0_r, w1_r = envolvente_de_elementos(rieles, ex, ey)\n    u_mid = (u0_r + u1_r) / 2.0\n    w_mid = (w0_r + w1_r) / 2.0\n\n    grupos = dict((lado, []) for lado in LADOS)\n    for el in rieles:\n        ext = extremos_en_ejes(el, ex, ey)\n        if ext is None:\n            continue\n        au0, au1, aw0, aw1 = ext\n        span_u, span_w = au1 - au0, aw1 - aw0\n        uc, wc = (au0 + au1) / 2.0, (aw0 + aw1) / 2.0\n\n        if max(span_u, span_w) \u003c 1.2 * min(span_u, span_w):\n            continue\n        if span_u \u003e span_w:\n            lado = \u0027izquierda\u0027 if uc \u003c u_mid else \u0027derecha\u0027\n            eje_medida, pos = ey, wc\n        else:\n            lado = \u0027abajo\u0027 if wc \u003c w_mid else \u0027arriba\u0027\n            eje_medida, pos = ex, uc\n\n        ref, normal = referencia_de_eje(el, eje_medida)\n        if ref:\n            grupos[lado].append((pos, ref, elem_name(el), normal))\n\n    n = 0\n    n += dibujar_cadena(v, grupos[\u0027arriba\u0027], ex, ey, w1_r + off, sep_min, z_plano, dim_type)\n    n += dibujar_cadena(v, grupos[\u0027abajo\u0027], ex, ey, w0_r - off, sep_min, z_plano, dim_type)\n    n += dibujar_cadena(v, grupos[\u0027izquierda\u0027], ey, ex, u0_r - off, sep_min, z_plano, dim_type)\n    n += dibujar_cadena(v, grupos[\u0027derecha\u0027], ey, ex, u1_r + off, sep_min, z_plano, dim_type)\n    return n\n\n\n# ----------------------------- COTAS DE LARGO DE CONDUIT -----------------------------\n#\n# Una cota por conduit, con el MISMO tipo de cota que las cadenas de riel, tomada contra los\n# FITTINGS de sus dos puntas.\n#\n# POR QUE CONTRA LOS FITTINGS Y NO CONTRA EL CONDUIT\n# --------------------------------------------------\n# Una cota mide entre referencias paralelas entre si y perpendiculares a la linea de cota.\n# El conduit no ofrece ninguna que sirva para su propio largo, y se probaron las dos que\n# parecian:\n#   - Las CARAS DE EXTREMO de su solido: Revit las descarta al comitear, exactamente igual\n#     que con los rieles.\n#   - Las PUNTAS DEL EJE via Curve.GetEndPointReference: devuelve nulo para conduits. Se\n#     midio sobre los 149 de SECTOR A y no salio ni una sola cota.\n# Lo unico que el conduit expone es su EJE, y un eje es una linea A LO LARGO del recorrido:\n# sirve para acotar la separacion ENTRE conduits paralelos, nunca el largo de uno.\n#\n# Los FITTINGS si sirven, y por el mismo motivo que los rieles: son FamilyInstance, asi que\n# exponen los planos `Center (Left/Right)` y `Center (Front/Back)` de su familia. Son las\n# mismas referencias que usa la cadena de rieles, probadas en este modelo. La cota entre los\n# fittings de las dos puntas mide el tramo de eje a eje.\n#\n# Se reutiliza referencia_de_eje() sin tocarla: es la funcion que ya elige, de los dos\n# planos Center de una familia, el que es perpendicular al eje de medida.\n\ndef id_entero(eid):\n    # El numero pelado de un ElementId. NUNCA se comparan ElementId como objetos: bajo\n    # PythonNet la igualdad depende de que se mapee Equals/GetHashCode, y cuando no se mapea\n    # falla EN SILENCIO. Revit 2024 ademas cambio IntegerValue por Value.\n    for attr in (\u0027Value\u0027, \u0027IntegerValue\u0027):\n        try:\n            n = getattr(eid, attr)\n            if n is not None:\n                return int(n)\n        except Exception:\n            pass\n    return None\n\n\ndef largo_conduit_mm(el):\n    p = el.get_Parameter(BuiltInParameter.CURVE_ELEM_LENGTH)\n    if p is None:\n        return None\n    L = p.AsDouble()\n    return L * 304.8 if L and L \u003e 0 else None\n\n\ndef refs_en_las_puntas(conduit, direccion):\n    # Para cada punta, la referencia perpendicular del fitting conectado ahi.\n    # Devuelve [(posicion_sobre_direccion, ref), ...] con las dos puntas, o None.\n    mi_id = id_entero(conduit.Id)\n    try:\n        conectores = list(conduit.ConnectorManager.Connectors)\n    except Exception:\n        return None\n    encontrados = []\n    for con in conectores:\n        try:\n            pos = con.Origin.DotProduct(direccion)\n        except Exception:\n            continue\n        elegida = None\n        try:\n            vecinos = list(con.AllRefs)\n        except Exception:\n            vecinos = []\n        for otro in vecinos:\n            try:\n                el = otro.Owner\n            except Exception:\n                continue\n            if el is None or id_entero(el.Id) == mi_id:\n                continue\n            if not isinstance(el, FamilyInstance):\n                continue\n            r, _ = referencia_de_eje(el, direccion)\n            if r:\n                elegida = r\n                break\n        if elegida is not None:\n            encontrados.append((pos, elegida))\n    if len(encontrados) \u003c 2:\n        return None\n    encontrados.sort(key=lambda t: t[0])\n    return [encontrados[0], encontrados[-1]]\n\n\ndef cotas_de_conduit_existentes(v):\n    # Una cota es de este bloque si sus DOS referencias apuntan a CONDUIT FITTINGS. Las\n    # cadenas de riel apuntan a rieles, no cumplen, y rehacer no se las lleva.\n    ids_fitting = set()\n    for f in (FilteredElementCollector(doc, v.Id)\n              .OfCategory(BuiltInCategory.OST_ConduitFitting)\n              .WhereElementIsNotElementType()):\n        ids_fitting.add(id_entero(f.Id))\n    res = []\n    for dim in FilteredElementCollector(doc, v.Id).OfClass(Dimension):\n        try:\n            refs = list(dim.References)\n        except Exception:\n            continue\n        if len(refs) != 2:\n            continue\n        a = id_entero(refs[0].ElementId)\n        b = id_entero(refs[1].ElementId)\n        if a is not None and a in ids_fitting and b in ids_fitting:\n            res.append(dim.Id)\n    return res\n\n\ndef acotar_conduits(v, dim_type):\n    escala = v.Scale or 1\n    papel = lambda x: float(x) / 304.8 * escala\n    off = papel(OFF_CONDUIT_MM)\n    umbral = UMBRAL_VERT_MM / 304.8\n    z_plano = v.Origin.Z\n\n    if rehacer:\n        for did in cotas_de_conduit_existentes(v):\n            try:\n                doc.Delete(did)\n            except Exception:\n                pass\n\n    puestas = verticales = sin_fitting = sin_largo = 0\n    for el in (FilteredElementCollector(doc, v.Id)\n               .OfCategory(BuiltInCategory.OST_Conduit)\n               .WhereElementIsNotElementType()):\n        try:\n            loc = el.Location\n        except Exception:\n            continue\n        if loc is None or getattr(loc, \u0027Curve\u0027, None) is None:\n            continue\n        p0 = loc.Curve.GetEndPoint(0)\n        p1 = loc.Curve.GetEndPoint(1)\n        dp = XYZ(p1.X - p0.X, p1.Y - p0.Y, 0.0)\n        # Solo se excluye lo que en planta es un PUNTO: las bajadas. Un conduit inclinado\n        # -una rampa- si es un segmento en planta y se acota.\n        if dp.GetLength() \u003c umbral:\n            verticales += 1\n            continue\n        if not largo_conduit_mm(el):\n            sin_largo += 1\n            continue\n\n        dpn = dp.Normalize()\n        puntas = refs_en_las_puntas(el, dpn)\n        if puntas is None:\n            sin_fitting += 1\n            continue\n\n        ra = ReferenceArray()\n        for _, r in puntas:\n            ra.Append(r)\n        perp = XYZ(-dpn.Y, dpn.X, 0.0)\n        base = XYZ((p0.X + p1.X) / 2.0, (p0.Y + p1.Y) / 2.0, z_plano).Add(perp.Multiply(off))\n        a = base.Add(dpn.Multiply(puntas[0][0] - base.DotProduct(dpn)))\n        b = base.Add(dpn.Multiply(puntas[1][0] - base.DotProduct(dpn)))\n        if a.DistanceTo(b) \u003c 1e-6:\n            continue\n        try:\n            linea = Line.CreateBound(a, b)\n            if dim_type is not None:\n                doc.Create.NewDimension(v, linea, ra, dim_type)\n            else:\n                doc.Create.NewDimension(v, linea, ra)\n            puestas += 1\n        except Exception:\n            pass\n\n    if verticales or sin_fitting or sin_largo:\n        log.append(\u0027  {}: sin cota -\u003e {} bajadas verticales, {} sin fitting en alguna\u0027\n                   \u0027 punta, {} sin Length.\u0027.format(\n                       elem_name(v), verticales, sin_fitting, sin_largo))\n    return puestas\n\n\n# ----------------------------- TAGS CON AGRUPACIÓN REAL Y ANTICOLISIÓN -----------------------------\n\ndef largo_mm(el):\n    # IDENTICA a la de 04. Antes 03 no exigia ni que el parametro fuera Double ni que el\n    # largo fuera positivo, asi que un riel con Longitud en 0 entraba aca como un largo mas y\n    # no en 04. Con la regla vieja eso corria TODOS los codigos en uno entre el plano y la\n    # tabla, en silencio.\n    try:\n        p = el.LookupParameter(param_largo)\n    except Exception:\n        return None\n    if p is None or not p.HasValue or p.StorageType != StorageType.Double:\n        return None\n    mm = int(round(p.AsDouble() * 304.8))\n    return mm if mm \u003e 0 else None\n\n\ndef rieles_del_modelo():\n    return [el for el in FilteredElementCollector(doc)\n            .OfCategory(BuiltInCategory.OST_ElectricalFixtures)\n            .WhereElementIsNotElementType()\n            if isinstance(el, FamilyInstance) and es_riel(el)]\n\n\ndef numero_de_largo(mm):\n    # EL NUMERO ES EL LARGO, NO UNA POSICION. El largo en mm con los ceros sobrantes sacados,\n    # sin bajar de los cientos: 100 -\u003e 1, 200 -\u003e 2, 250 -\u003e 25, 240 -\u003e 24, 241 -\u003e 241,\n    # 1000 -\u003e 10. Se saca hasta los cientos y no mas, porque sacar todos los ceros haria que\n    # 1000 y 100 dieran los dos el 1.\n    #\n    # IDENTICA a la de 04_TABLAS y Listados: el texto que se dibuja en la planta y la fila que\n    # imprime la tabla son el mismo dato. Pero ahora, ademas, el codigo de un riel depende\n    # SOLO DE ESE RIEL -antes salia de su posicion en la lista de todos los largos del\n    # modelo-, asi que aunque las dos implementaciones se separaran no podrian dar codigos\n    # distintos para el mismo largo.\n    #\n    # De paso, un riel mal modelado se delata: el 100 mm que en realidad medía 108,05 salia\n    # R-02, indistinguible de un tipo legitimo. Con esta regla sale R-108.\n    if mm % 100 == 0:\n        return mm // 100\n    if mm % 10 == 0:\n        return mm // 10\n    return mm\n\n\ndef tabla_de_tipos(rieles):\n    # Traduce cada largo por separado. No numera: no hay lista, no hay orden, no hay nada que\n    # se corra cuando un largo aparece o desaparece.\n    largos = sorted(set(l for l in (largo_mm(e) for e in rieles) if l is not None))\n    mapa = {}\n    visto = {}\n    for l in largos:\n        n = numero_de_largo(l)\n        codigo = \u0027{}{:02d}\u0027.format(PREFIJO_TIPO, n)\n        if n in visto:\n            # 250 y 2500 dan los dos 25. Hoy no pasa -el riel mas largo mide 1000- pero si\n            # pasara, dos tipos distintos compartirian codigo sin que nada fallara.\n            log.append(\u0027ERROR: los largos {} mm y {} mm dan los dos el codigo {}. La regla \u0027\n                       \u0027del codigo no los distingue: o uno esta mal medido, o hay que cambiar \u0027\n                       \u0027la regla.\u0027.format(visto[n], l, codigo))\n        visto[n] = l\n        mapa[l] = codigo\n    return mapa\n\n\ndef tipo_de_texto(nombre):\n    objetivo = (nombre or \u0027\u0027).strip().upper()\n    for tt in FilteredElementCollector(doc).OfClass(TextNoteType):\n        if objetivo and elem_name(tt).upper() == objetivo:\n            return tt.Id\n    return doc.GetDefaultElementTypeId(ElementTypeGroup.TextNoteType)\n\n\ndef agrupar_rieles_contiguos(rieles_info, radio_gap_ft, max_tope, ex, ey):\n    \"\"\"\n    Agrupa rieles por LÍNEA FÍSICA y por CÓDIGO de forma continua, generando 1 solo grupo por código por tramo.\n    \"\"\"\n    if not rieles_info:\n        return []\n\n    TOL_EJE = 0.8  # Tolerancia alineación en pies (~25 cm)\n    lineas_fisicas = []\n    usados = set()\n    n = len(rieles_info)\n\n    # 1. Identificar tramos lineales\n    for i in range(n):\n        if i in usados:\n            continue\n        item_i = rieles_info[i]\n        linea_actual = [item_i]\n        usados.add(i)\n\n        for j in range(i + 1, n):\n            if j in usados:\n                continue\n            item_j = rieles_info[j]\n\n            dx = abs(item_i[1].X - item_j[1].X)\n            dy = abs(item_i[1].Y - item_j[1].Y)\n\n            if dy \u003c TOL_EJE or dx \u003c TOL_EJE:\n                linea_actual.append(item_j)\n                usados.add(j)\n\n        lineas_fisicas.append(linea_actual)\n\n    # 2. Agrupar por CODIGO dentro de cada tramo\n    grupos_finales = []\n    for linea in lineas_fisicas:\n        por_codigo = {}\n        for item in linea:\n            cod = item[3]\n            if cod not in por_codigo:\n                por_codigo[cod] = []\n            por_codigo[cod].append(item)\n\n        for cod, items_cod in por_codigo.items():\n            us = [it[1].DotProduct(ex) for it in items_cod]\n            ws = [it[1].DotProduct(ey) for it in items_cod]\n            es_horiz = (max(us) - min(us)) \u003e= (max(ws) - min(ws))\n\n            if es_horiz:\n                items_cod.sort(key=lambda it: it[1].DotProduct(ex))\n            else:\n                items_cod.sort(key=lambda it: it[1].DotProduct(ey))\n\n            sub_grupo = [items_cod[0]]\n            for it in items_cod[1:]:\n                prev = sub_grupo[-1]\n                dist = it[1].DistanceTo(prev[1])\n                if dist \u003c= radio_gap_ft:\n                    sub_grupo.append(it)\n                else:\n                    grupos_finales.append(sub_grupo)\n                    sub_grupo = [it]\n            if sub_grupo:\n                grupos_finales.append(sub_grupo)\n\n    # 3. Aplicar tope máximo si está configurado (\u003e 0)\n    grupos_con_tope = []\n    for g in grupos_finales:\n        if max_tope \u003e 0 and len(g) \u003e max_tope:\n            for sub_i in range(0, len(g), max_tope):\n                grupos_con_tope.append(g[sub_i:sub_i + max_tope])\n        else:\n            grupos_con_tope.append(g)\n\n    return grupos_con_tope\n\n\ndef resolver_posicion_tag(pt_base, ex, ey, dist_pegado, es_horiz, colocados, escala):\n    \"\"\"\n    Desplaza la nota de texto si detecta un texto ya colocado en la misma coordenada.\n    \"\"\"\n    if not colocados:\n        return pt_base\n\n    ft_a_mm_papel = lambda ft: (ft * 304.8) / escala\n    u_b = pt_base.DotProduct(ex)\n    w_b = pt_base.DotProduct(ey)\n    z = pt_base.Z\n\n    candidatos = [pt_base]\n\n    if es_horiz:\n        # Alternar lado (+dist / -dist)\n        candidatos.append(XYZ(ex.Multiply(u_b).Add(ey.Multiply(w_b - 2.0 * dist_pegado)).X,\n                              ex.Multiply(u_b).Add(ey.Multiply(w_b - 2.0 * dist_pegado)).Y, z))\n        # Desplazamientos a lo largo del eje\n        for shift_mm in [12.0, -12.0, 24.0, -24.0]:\n            sh_ft = (shift_mm / 304.8) * escala\n            candidatos.append(XYZ(ex.Multiply(u_b + sh_ft).Add(ey.Multiply(w_b)).X,\n                                  ex.Multiply(u_b + sh_ft).Add(ey.Multiply(w_b)).Y, z))\n    else:\n        candidatos.append(XYZ(ex.Multiply(u_b - 2.0 * dist_pegado).Add(ey.Multiply(w_b)).X,\n                              ex.Multiply(u_b - 2.0 * dist_pegado).Add(ey.Multiply(w_b)).Y, z))\n        for shift_mm in [12.0, -12.0, 24.0, -24.0]:\n            sh_ft = (shift_mm / 304.8) * escala\n            candidatos.append(XYZ(ex.Multiply(u_b).Add(ey.Multiply(w_b + sh_ft)).X,\n                                  ex.Multiply(u_b).Add(ey.Multiply(w_b + sh_ft)).Y, z))\n\n    min_gap_mm = 10.0  # Distancia mínima entre etiquetas en espacio de papel\n\n    for cand in candidatos:\n        conflict = False\n        for exist in colocados:\n            if ft_a_mm_papel(cand.DistanceTo(exist)) \u003c min_gap_mm:\n                conflict = True\n                break\n        if not conflict:\n            return cand\n\n    return candidatos[0]\n\n\ndef crear_texto_etiqueta_multiflecha(v, texto, pt_texto, pts_destino, tt_id, ex):\n    tn = TextNote.Create(doc, v.Id, pt_texto, texto, tt_id)\n    u_texto = pt_texto.DotProduct(ex)\n\n    for pt_dest in pts_destino:\n        u_dest = pt_dest.DotProduct(ex)\n        tipo = TextNoteLeaderTypes.TNLT_STRAIGHT_R if u_dest \u003e= u_texto else TextNoteLeaderTypes.TNLT_STRAIGHT_L\n        try:\n            ld = tn.AddLeader(tipo)\n            ld.End = pt_dest\n        except Exception:\n            pass\n    return tn\n\n\ndef taggear_planta(v, sector, tt_id, mapa):\n    escala = v.Scale or 1\n    papel = lambda mm: float(mm) / 304.8 * escala\n\n    rad_mm = radio_tag_mm if radio_tag_mm \u003e 0 else 50.0\n    radio_gap_ft = papel(rad_mm)\n    dist_pegado = max(papel(sep_tag_mm), papel(5.0))\n\n    if rehacer:\n        for tn in FilteredElementCollector(doc, v.Id).OfClass(TextNote):\n            if RE_CODIGO.match((tn.Text or \u0027\u0027).strip()):\n                try:\n                    doc.Delete(tn.Id)\n                except Exception:\n                    pass\n\n    rieles = [el for el in FilteredElementCollector(doc, v.Id)\n              .OfCategory(BuiltInCategory.OST_ElectricalFixtures)\n              .WhereElementIsNotElementType()\n              if isinstance(el, FamilyInstance) and es_riel(el)]\n    if not rieles:\n        return 0\n\n    ex = v.RightDirection.Normalize()\n    ey = v.UpDirection.Normalize()\n    z_plano = v.Origin.Z\n\n    u0_r, u1_r, w0_r, w1_r = envolvente_de_elementos(rieles, ex, ey)\n    u_mid = (u0_r + u1_r) / 2.0\n    w_mid = (w0_r + w1_r) / 2.0\n\n    rieles_info = []\n    for el in rieles:\n        l = largo_mm(el)\n        if l and l in mapa:\n            bb = el.get_BoundingBox(v) or el.get_BoundingBox(None)\n            if bb:\n                centro = XYZ((bb.Min.X + bb.Max.X) / 2.0, (bb.Min.Y + bb.Max.Y) / 2.0, z_plano)\n                rieles_info.append((el, centro, bb, mapa[l]))\n\n    grupos = agrupar_rieles_contiguos(rieles_info, radio_gap_ft, max_por_texto_in, ex, ey)\n    puestos = 0\n    textos_colocados = []\n\n    for grupo in grupos:\n        codigo = grupo[0][3]\n        pts_destino = [m[1] for m in grupo]\n        us = [p.DotProduct(ex) for p in pts_destino]\n        ws = [p.DotProduct(ey) for p in pts_destino]\n\n        span_u = max(us) - min(us)\n        span_w = max(ws) - min(ws)\n        es_horiz = span_u \u003e= span_w\n\n        u_centro = (min(us) + max(us)) / 2.0\n        w_centro = (min(ws) + max(ws)) / 2.0\n\n        if es_horiz:\n            u_texto = u_centro\n            w_texto = min(ws) - dist_pegado if w_centro \u003e w_mid else max(ws) + dist_pegado\n        else:\n            w_texto = w_centro\n            u_texto = min(us) - dist_pegado if u_centro \u003e u_mid else max(us) + dist_pegado\n\n        pt_base = ex.Multiply(u_texto).Add(ey.Multiply(w_texto))\n        pt_base = XYZ(pt_base.X, pt_base.Y, z_plano)\n\n        pt_texto = resolver_posicion_tag(pt_base, ex, ey, dist_pegado, es_horiz, textos_colocados, escala)\n        textos_colocados.append(pt_texto)\n\n        try:\n            crear_texto_etiqueta_multiflecha(v, codigo, pt_texto, pts_destino, tt_id, ex)\n            puestos += 1\n        except Exception:\n            pass\n\n    return puestos\n\n\n# --- EJECUCIÓN PRINCIPAL ---\nplantas = plantas_de_sector()\nif plantas:\n    dim_type = tipo_de_cota(dim_type_name)\n    tt_id = tipo_de_texto(tipo_texto_nombre)\n\n    TransactionManager.Instance.EnsureInTransaction(doc)\n    rieles_modelo = rieles_del_modelo()\n    mapa = tabla_de_tipos(rieles_modelo)\n\n    cotas, tags, cotas_cond = 0, 0, 0\n    for v, sector in plantas:\n        cotas += anotar_planta(v, sector, dim_type)\n        cotas_cond += acotar_conduits(v, dim_type)\n        if mapa:\n            tags += taggear_planta(v, sector, tt_id, mapa)\n\n    TransactionManager.Instance.ForceCloseTransaction()\n    log.append(\u0027Cadenas de riel: {}   Cotas de largo de conduit: {}   Tags R-xx: {}\u0027.format(\n        cotas, cotas_cond, tags))\n    log.append(\u0027Proceso completado: Etiquetas unificadas por tramo con multiflecha limpias.\u0027)\n\nOUT = log\n",
+                      "Engine":  "PythonNet3",
+                      "VariableInputPorts":  true,
+                      "Id":  "a6010000000000000000000000000001",
+                      "NodeType":  "PythonScriptNode",
+                      "Inputs":  [
+                                     {
+                                         "Id":  "a6010000000000000000000000000010",
+                                         "Name":  "IN[0]",
+                                         "Description":  "Input #0",
+                                         "UsingDefaultValue":  false,
+                                         "Level":  2,
+                                         "UseLevels":  false,
+                                         "KeepListStructure":  false
+                                     },
+                                     {
+                                         "Id":  "a6010000000000000000000000000011",
+                                         "Name":  "IN[1]",
+                                         "Description":  "Input #1",
+                                         "UsingDefaultValue":  false,
+                                         "Level":  2,
+                                         "UseLevels":  false,
+                                         "KeepListStructure":  false
+                                     },
+                                     {
+                                         "Id":  "a6010000000000000000000000000012",
+                                         "Name":  "IN[2]",
+                                         "Description":  "Input #2",
+                                         "UsingDefaultValue":  false,
+                                         "Level":  2,
+                                         "UseLevels":  false,
+                                         "KeepListStructure":  false
+                                     },
+                                     {
+                                         "Id":  "a6010000000000000000000000000013",
+                                         "Name":  "IN[3]",
+                                         "Description":  "Input #3",
+                                         "UsingDefaultValue":  false,
+                                         "Level":  2,
+                                         "UseLevels":  false,
+                                         "KeepListStructure":  false
+                                     },
+                                     {
+                                         "Id":  "a6010000000000000000000000000014",
+                                         "Name":  "IN[4]",
+                                         "Description":  "Input #4",
+                                         "UsingDefaultValue":  false,
+                                         "Level":  2,
+                                         "UseLevels":  false,
+                                         "KeepListStructure":  false
+                                     },
+                                     {
+                                         "Id":  "a6010000000000000000000000000015",
+                                         "Name":  "IN[5]",
+                                         "Description":  "Input #5",
+                                         "UsingDefaultValue":  false,
+                                         "Level":  2,
+                                         "UseLevels":  false,
+                                         "KeepListStructure":  false
+                                     },
+                                     {
+                                         "Id":  "a6010000000000000000000000000016",
+                                         "Name":  "IN[6]",
+                                         "Description":  "Input #6",
+                                         "UsingDefaultValue":  false,
+                                         "Level":  2,
+                                         "UseLevels":  false,
+                                         "KeepListStructure":  false
+                                     },
+                                     {
+                                         "Id":  "a6010000000000000000000000000017",
+                                         "Name":  "IN[7]",
+                                         "Description":  "Input #7",
+                                         "UsingDefaultValue":  false,
+                                         "Level":  2,
+                                         "UseLevels":  false,
+                                         "KeepListStructure":  false
+                                     },
+                                     {
+                                         "Id":  "a6010000000000000000000000000018",
+                                         "Name":  "IN[8]",
+                                         "Description":  "Input #8",
+                                         "UsingDefaultValue":  false,
+                                         "Level":  2,
+                                         "UseLevels":  false,
+                                         "KeepListStructure":  false
+                                     },
+                                     {
+                                         "Id":  "a6010000000000000000000000000019",
+                                         "Name":  "IN[9]",
+                                         "Description":  "Input #9",
+                                         "UsingDefaultValue":  false,
+                                         "Level":  2,
+                                         "UseLevels":  false,
+                                         "KeepListStructure":  false
+                                     },
+                                     {
+                                         "Id":  "a601000000000000000000000000001a",
+                                         "Name":  "IN[10]",
+                                         "Description":  "Input #10",
+                                         "UsingDefaultValue":  false,
+                                         "Level":  2,
+                                         "UseLevels":  false,
+                                         "KeepListStructure":  false
+                                     },
+                                     {
+                                         "Id":  "a601000000000000000000000000001b",
+                                         "Name":  "IN[11]",
+                                         "Description":  "Input #11",
+                                         "UsingDefaultValue":  false,
+                                         "Level":  2,
+                                         "UseLevels":  false,
+                                         "KeepListStructure":  false
+                                     },
+                                     {
+                                         "Id":  "a601000000000000000000000000001c",
+                                         "Name":  "IN[12]",
+                                         "Description":  "Input #12",
+                                         "UsingDefaultValue":  false,
+                                         "Level":  2,
+                                         "UseLevels":  false,
+                                         "KeepListStructure":  false
+                                     },
+                                     {
+                                         "Id":  "a601000000000000000000000000001d",
+                                         "Name":  "IN[13]",
+                                         "Description":  "Input #13",
+                                         "UsingDefaultValue":  false,
+                                         "Level":  2,
+                                         "UseLevels":  false,
+                                         "KeepListStructure":  false
+                                     },
+                                     {
+                                         "Id":  "a601000000000000000000000000001e",
+                                         "Name":  "IN[14]",
+                                         "Description":  "Input #14",
+                                         "UsingDefaultValue":  false,
+                                         "Level":  2,
+                                         "UseLevels":  false,
+                                         "KeepListStructure":  false
+                                     }
+                                 ],
+                      "Outputs":  [
+                                      {
+                                          "Id":  "a6010000000000000000000000000005",
+                                          "Name":  "OUT",
+                                          "Description":  "Result of the python script",
+                                          "UsingDefaultValue":  false,
+                                          "Level":  2,
+                                          "UseLevels":  false,
+                                          "KeepListStructure":  false
+                                      }
+                                  ],
+                      "Replication":  "Disabled",
+                      "Description":  "Runs an embedded Python script."
+                  },
+                  {
+                      "ConcreteType":  "CoreNodeModels.Watch, CoreNodeModels",
+                      "WatchWidth":  620.0,
+                      "WatchHeight":  400.0,
+                      "Id":  "c6010000000000000000000000000001",
+                      "NodeType":  "ExtensionNode",
+                      "Inputs":  [
+                                     {
+                                         "Id":  "c6010000000000000000000000000002",
+                                         "Name":  "",
+                                         "Description":  "Node to show output from",
+                                         "UsingDefaultValue":  false,
+                                         "Level":  2,
+                                         "UseLevels":  false,
+                                         "KeepListStructure":  false
+                                     }
+                                 ],
+                      "Outputs":  [
+                                      {
+                                          "Id":  "c6010000000000000000000000000003",
+                                          "Name":  "",
+                                          "Description":  "Node output",
+                                          "UsingDefaultValue":  false,
+                                          "Level":  2,
+                                          "UseLevels":  false,
+                                          "KeepListStructure":  false
+                                      }
+                                  ],
+                      "Replication":  "Disabled",
+                      "Description":  "Visualizes a node\u0027s output"
+                  },
+                  {
+                      "ConcreteType":  "CoreNodeModels.Input.StringInput, CoreNodeModels",
+                      "SerializedWidth":  0.0,
+                      "SerializedHeight":  0.0,
+                      "Id":  "b6100000000000000000000000000001",
+                      "NodeType":  "StringInputNode",
+                      "Inputs":  [
+
+                                 ],
+                      "Outputs":  [
+                                      {
+                                          "Id":  "b6100000000000000000000000000002",
+                                          "Name":  "",
+                                          "Description":  "String",
+                                          "UsingDefaultValue":  false,
+                                          "Level":  2,
+                                          "UseLevels":  false,
+                                          "KeepListStructure":  false
+                                      }
+                                  ],
+                      "Replication":  "Disabled",
+                      "Description":  "Creates a string.",
+                      "InputValue":  "Longitud"
+                  },
+                  {
+                      "ConcreteType":  "CoreNodeModels.Input.StringInput, CoreNodeModels",
+                      "SerializedWidth":  0.0,
+                      "SerializedHeight":  0.0,
+                      "Id":  "b6110000000000000000000000000001",
+                      "NodeType":  "StringInputNode",
+                      "Inputs":  [
+
+                                 ],
+                      "Outputs":  [
+                                      {
+                                          "Id":  "b6110000000000000000000000000002",
+                                          "Name":  "",
+                                          "Description":  "String",
+                                          "UsingDefaultValue":  false,
+                                          "Level":  2,
+                                          "UseLevels":  false,
+                                          "KeepListStructure":  false
+                                      }
+                                  ],
+                      "Replication":  "Disabled",
+                      "Description":  "Creates a string.",
+                      "InputValue":  "TEXTO PARA TAG"
+                  },
+                  {
+                      "ConcreteType":  "CoreNodeModels.Input.StringInput, CoreNodeModels",
+                      "SerializedWidth":  0.0,
+                      "SerializedHeight":  0.0,
+                      "Id":  "b6120000000000000000000000000001",
+                      "NodeType":  "StringInputNode",
+                      "Inputs":  [
+
+                                 ],
+                      "Outputs":  [
+                                      {
+                                          "Id":  "b6120000000000000000000000000002",
+                                          "Name":  "",
+                                          "Description":  "String",
+                                          "UsingDefaultValue":  false,
+                                          "Level":  2,
+                                          "UseLevels":  false,
+                                          "KeepListStructure":  false
+                                      }
+                                  ],
+                      "Replication":  "Disabled",
+                      "Description":  "Creates a string.",
+                      "InputValue":  "2mm wf 0.85 RomanD"
+                  },
+                  {
+                      "ConcreteType":  "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
+                      "NumberType":  "Integer",
+                      "MaximumValue":  200,
+                      "MinimumValue":  0,
+                      "StepValue":  1,
+                      "Id":  "b6130000000000000000000000000001",
+                      "NodeType":  "NumberInputNode",
+                      "Inputs":  [
+
+                                 ],
+                      "Outputs":  [
+                                      {
+                                          "Id":  "b6130000000000000000000000000002",
+                                          "Name":  "",
+                                          "Description":  "Int64",
+                                          "UsingDefaultValue":  false,
+                                          "Level":  2,
+                                          "UseLevels":  false,
+                                          "KeepListStructure":  false
+                                      }
+                                  ],
+                      "Replication":  "Disabled",
+                      "Description":  "Produces integer values",
+                      "InputValue":  30
+                  },
+                  {
+                      "ConcreteType":  "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
+                      "NumberType":  "Integer",
+                      "MaximumValue":  60,
+                      "MinimumValue":  0,
+                      "StepValue":  1,
+                      "Id":  "b6140000000000000000000000000001",
+                      "NodeType":  "NumberInputNode",
+                      "Inputs":  [
+
+                                 ],
+                      "Outputs":  [
+                                      {
+                                          "Id":  "b6140000000000000000000000000002",
+                                          "Name":  "",
+                                          "Description":  "Int64",
+                                          "UsingDefaultValue":  false,
+                                          "Level":  2,
+                                          "UseLevels":  false,
+                                          "KeepListStructure":  false
+                                      }
+                                  ],
+                      "Replication":  "Disabled",
+                      "Description":  "Produces integer values",
+                      "InputValue":  4
+                  },
+                  {
+                      "ConcreteType":  "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
+                      "NumberType":  "Integer",
+                      "MaximumValue":  20,
+                      "MinimumValue":  0,
+                      "StepValue":  1,
+                      "Id":  "b6150000000000000000000000000001",
+                      "NodeType":  "NumberInputNode",
+                      "Inputs":  [
+
+                                 ],
+                      "Outputs":  [
+                                      {
+                                          "Id":  "b6150000000000000000000000000002",
+                                          "Name":  "",
+                                          "Description":  "Int64",
+                                          "UsingDefaultValue":  false,
+                                          "Level":  2,
+                                          "UseLevels":  false,
+                                          "KeepListStructure":  false
+                                      }
+                                  ],
+                      "Replication":  "Disabled",
+                      "Description":  "Produces integer values",
+                      "InputValue":  4
+                  }
+              ],
+    "Connectors":  [
+                       {
+                           "Start":  "b6010000000000000000000000000002",
+                           "End":  "a6010000000000000000000000000010",
+                           "Id":  "d6010000000000000000000000000010",
+                           "IsHidden":  "False"
+                       },
+                       {
+                           "Start":  "b6020000000000000000000000000002",
+                           "End":  "a6010000000000000000000000000011",
+                           "Id":  "d6010000000000000000000000000011",
+                           "IsHidden":  "False"
+                       },
+                       {
+                           "Start":  "b6030000000000000000000000000002",
+                           "End":  "a6010000000000000000000000000012",
+                           "Id":  "d6010000000000000000000000000012",
+                           "IsHidden":  "False"
+                       },
+                       {
+                           "Start":  "b6040000000000000000000000000002",
+                           "End":  "a6010000000000000000000000000013",
+                           "Id":  "d6010000000000000000000000000013",
+                           "IsHidden":  "False"
+                       },
+                       {
+                           "Start":  "b6050000000000000000000000000002",
+                           "End":  "a6010000000000000000000000000014",
+                           "Id":  "d6010000000000000000000000000014",
+                           "IsHidden":  "False"
+                       },
+                       {
+                           "Start":  "b6060000000000000000000000000002",
+                           "End":  "a6010000000000000000000000000015",
+                           "Id":  "d6010000000000000000000000000015",
+                           "IsHidden":  "False"
+                       },
+                       {
+                           "Start":  "b6070000000000000000000000000002",
+                           "End":  "a6010000000000000000000000000016",
+                           "Id":  "d6010000000000000000000000000016",
+                           "IsHidden":  "False"
+                       },
+                       {
+                           "Start":  "b6080000000000000000000000000002",
+                           "End":  "a6010000000000000000000000000017",
+                           "Id":  "d6010000000000000000000000000017",
+                           "IsHidden":  "False"
+                       },
+                       {
+                           "Start":  "b6090000000000000000000000000002",
+                           "End":  "a6010000000000000000000000000018",
+                           "Id":  "d6010000000000000000000000000018",
+                           "IsHidden":  "False"
+                       },
+                       {
+                           "Start":  "a6010000000000000000000000000005",
+                           "End":  "c6010000000000000000000000000002",
+                           "Id":  "d6010000000000000000000000000005",
+                           "IsHidden":  "False"
+                       },
+                       {
+                           "Start":  "b6100000000000000000000000000002",
+                           "End":  "a6010000000000000000000000000019",
+                           "Id":  "d6010000000000000000000000000019",
+                           "IsHidden":  "False"
+                       },
+                       {
+                           "Start":  "b6110000000000000000000000000002",
+                           "End":  "a601000000000000000000000000001a",
+                           "Id":  "d601000000000000000000000000001a",
+                           "IsHidden":  "False"
+                       },
+                       {
+                           "Start":  "b6120000000000000000000000000002",
+                           "End":  "a601000000000000000000000000001b",
+                           "Id":  "d601000000000000000000000000001b",
+                           "IsHidden":  "False"
+                       },
+                       {
+                           "Start":  "b6130000000000000000000000000002",
+                           "End":  "a601000000000000000000000000001c",
+                           "Id":  "d601000000000000000000000000001c",
+                           "IsHidden":  "False"
+                       },
+                       {
+                           "Start":  "b6140000000000000000000000000002",
+                           "End":  "a601000000000000000000000000001d",
+                           "Id":  "d601000000000000000000000000001d",
+                           "IsHidden":  "False"
+                       },
+                       {
+                           "Start":  "b6150000000000000000000000000002",
+                           "End":  "a601000000000000000000000000001e",
+                           "Id":  "d601000000000000000000000000001e",
+                           "IsHidden":  "False"
+                       }
+                   ],
+    "Dependencies":  [
+
+                     ],
+    "NodeLibraryDependencies":  [
+
+                                ],
+    "EnableLegacyPolyCurveBehavior":  false,
+    "Thumbnail":  "",
+    "GraphDocumentationURL":  null,
+    "ExtensionWorkspaceData":  [
+                                   {
+                                       "ExtensionGuid":  "28992e1d-abb9-417f-8b1b-05e053bee670",
+                                       "Name":  "Properties",
+                                       "Version":  "4.0",
+                                       "Data":  {
+
+                                                }
+                                   },
+                                   {
+                                       "ExtensionGuid":  "DFBD9CC0-DB40-457A-939E-8C8555555A9D",
+                                       "Name":  "Generative Design",
+                                       "Version":  "10.3",
+                                       "Data":  {
+
+                                                }
+                                   }
+                               ],
+    "Author":  "",
+    "Linting":  {
+                    "activeLinter":  "None",
+                    "activeLinterId":  "7b75fb44-43fd-4631-a878-29f4d5d8399a",
+                    "warningCount":  0,
+                    "errorCount":  0
+                },
+    "Bindings":  [
+
+                 ],
+    "View":  {
+                 "Dynamo":  {
+                                "ScaleFactor":  1.0,
+                                "HasRunWithoutCrash":  true,
+                                "IsVisibleInDynamoLibrary":  true,
+                                "Version":  "4.0.2.3852",
+                                "RunType":  "Manual",
+                                "RunPeriod":  "1000"
+                            },
+                 "Camera":  {
+                                "Name":  "_Background Preview",
+                                "EyeX":  -17.0,
+                                "EyeY":  24.0,
+                                "EyeZ":  50.0,
+                                "LookX":  12.0,
+                                "LookY":  -13.0,
+                                "LookZ":  -58.0,
+                                "UpX":  0.0,
+                                "UpY":  1.0,
+                                "UpZ":  0.0
+                            },
+                 "ConnectorPins":  [
+
+                                   ],
+                 "NodeViews":  [
+                                   {
+                                       "Id":  "b6010000000000000000000000000001",
+                                       "Name":  "01. Procesar TODOS los sectores",
+                                       "IsSetAsInput":  true,
+                                       "IsSetAsOutput":  false,
+                                       "Excluded":  false,
+                                       "ShowGeometry":  true,
+                                       "X":  -1766.4466631341916,
+                                       "Y":  39.863394372562766
+                                   },
+                                   {
+                                       "Id":  "b6020000000000000000000000000001",
+                                       "Name":  "02. Filtro de sectores (si TODOS = False)",
+                                       "IsSetAsInput":  true,
+                                       "IsSetAsOutput":  false,
+                                       "Excluded":  false,
+                                       "ShowGeometry":  true,
+                                       "X":  -1402.693189484555,
+                                       "Y":  30.341514068592915
+                                   },
+                                   {
+                                       "Id":  "b6030000000000000000000000000001",
+                                       "Name":  "03. La familia del riel EMPIEZA con",
+                                       "IsSetAsInput":  true,
+                                       "IsSetAsOutput":  false,
+                                       "Excluded":  false,
+                                       "ShowGeometry":  true,
+                                       "X":  -1572.1126155679476,
+                                       "Y":  200.2049084411558
+                                   },
+                                   {
+                                       "Id":  "b6040000000000000000000000000001",
+                                       "Name":  "04. ...y ademas CONTIENE (solo para las cotas; vacio = no filtra mas)",
+                                       "IsSetAsInput":  true,
+                                       "IsSetAsOutput":  false,
+                                       "Excluded":  false,
+                                       "ShowGeometry":  true,
+                                       "X":  -891.9434490860936,
+                                       "Y":  51.16114783321564
+                                   },
+                                   {
+                                       "Id":  "b6050000000000000000000000000001",
+                                       "Name":  "05. Separacion de la cadena al borde del marco (mm de papel)",
+                                       "IsSetAsInput":  true,
+                                       "IsSetAsOutput":  false,
+                                       "Excluded":  false,
+                                       "ShowGeometry":  true,
+                                       "X":  -1053.8884887246304,
+                                       "Y":  226.00746650234896
+                                   },
+                                   {
+                                       "Id":  "b6060000000000000000000000000001",
+                                       "Name":  "06. Separacion minima entre dos cotas de la cadena (mm de papel)",
+                                       "IsSetAsInput":  true,
+                                       "IsSetAsOutput":  false,
+                                       "Excluded":  false,
+                                       "ShowGeometry":  true,
+                                       "X":  -313.92423068393236,
+                                       "Y":  251.36605627437143
+                                   },
+                                   {
+                                       "Id":  "b6070000000000000000000000000001",
+                                       "Name":  "07. Tipo de cota (vacio = el por defecto)",
+                                       "IsSetAsInput":  true,
+                                       "IsSetAsOutput":  false,
+                                       "Excluded":  false,
+                                       "ShowGeometry":  true,
+                                       "X":  -316.41569283221816,
+                                       "Y":  416.24652635036387
+                                   },
+                                   {
+                                       "Id":  "b6080000000000000000000000000001",
+                                       "Name":  "08. Rehacer las cotas y los tags de riel existentes",
+                                       "IsSetAsInput":  true,
+                                       "IsSetAsOutput":  false,
+                                       "Excluded":  false,
+                                       "ShowGeometry":  true,
+                                       "X":  -341.3303143150697,
+                                       "Y":  598.5672314643527
+                                   },
+                                   {
+                                       "Id":  "b6090000000000000000000000000001",
+                                       "Name":  "09. Margen extra del annotation crop (mm de papel)",
+                                       "IsSetAsInput":  true,
+                                       "IsSetAsOutput":  false,
+                                       "Excluded":  false,
+                                       "ShowGeometry":  true,
+                                       "X":  -894.4349112343791,
+                                       "Y":  601.5026619018086
+                                   },
+                                   {
+                                       "Id":  "a6010000000000000000000000000001",
+                                       "Name":  "PY | Cotas entre rieles de suelo + tags de tipo de riel",
+                                       "IsSetAsInput":  false,
+                                       "IsSetAsOutput":  false,
+                                       "Excluded":  false,
+                                       "ShowGeometry":  true,
+                                       "X":  2339.278282028949,
+                                       "Y":  118.37164490669431
+                                   },
+                                   {
+                                       "Id":  "c6010000000000000000000000000001",
+                                       "Name":  "Log",
+                                       "IsSetAsInput":  false,
+                                       "IsSetAsOutput":  false,
+                                       "Excluded":  false,
+                                       "ShowGeometry":  true,
+                                       "X":  3235.030383514448,
+                                       "Y":  240.72895939140176
+                                   },
+                                   {
+                                       "Id":  "b6100000000000000000000000000001",
+                                       "Name":  "10. Parametro con el largo del riel",
+                                       "IsSetAsInput":  true,
+                                       "IsSetAsOutput":  false,
+                                       "Excluded":  false,
+                                       "ShowGeometry":  true,
+                                       "X":  -331.1878937873803,
+                                       "Y":  786.2425992622417
+                                   },
+                                   {
+                                       "Id":  "b6110000000000000000000000000001",
+                                       "Name":  "11. Parametro donde se escribe el codigo de tipo",
+                                       "IsSetAsInput":  true,
+                                       "IsSetAsOutput":  false,
+                                       "Excluded":  false,
+                                       "ShowGeometry":  true,
+                                       "X":  325.93094309234266,
+                                       "Y":  458.887888793954
+                                   },
+                                   {
+                                       "Id":  "b6120000000000000000000000000001",
+                                       "Name":  "12. Tipo de texto del tag (vacio = el por defecto)",
+                                       "IsSetAsInput":  true,
+                                       "IsSetAsOutput":  false,
+                                       "Excluded":  false,
+                                       "ShowGeometry":  true,
+                                       "X":  712.3168191776201,
+                                       "Y":  746.5964096450878
+                                   },
+                                   {
+                                       "Id":  "b6130000000000000000000000000001",
+                                       "Name":  "13. Radio para agrupar rieles bajo un mismo texto (mm de papel)",
+                                       "IsSetAsInput":  true,
+                                       "IsSetAsOutput":  false,
+                                       "Excluded":  false,
+                                       "ShowGeometry":  true,
+                                       "X":  1542.9453771632145,
+                                       "Y":  834.6650577111243
+                                   },
+                                   {
+                                       "Id":  "b6140000000000000000000000000001",
+                                       "Name":  "14. Separacion del texto al grupo (mm de papel)",
+                                       "IsSetAsInput":  true,
+                                       "IsSetAsOutput":  false,
+                                       "Excluded":  false,
+                                       "ShowGeometry":  true,
+                                       "X":  1565.9572175969106,
+                                       "Y":  1000.3530919184285
+                                   },
+                                   {
+                                       "Id":  "b6150000000000000000000000000001",
+                                       "Name":  "15. Maximo de rieles por texto (0 = sin tope)",
+                                       "IsSetAsInput":  true,
+                                       "IsSetAsOutput":  false,
+                                       "Excluded":  false,
+                                       "ShowGeometry":  true,
+                                       "X":  1566.6371506412338,
+                                       "Y":  1145.980343444497
+                                   }
+                               ],
+                 "Annotations":  [
+
+                                 ],
+                 "X":  -564.8122934895599,
+                 "Y":  50.913363298976776,
+                 "Zoom":  0.436610821213238
+             }
 }

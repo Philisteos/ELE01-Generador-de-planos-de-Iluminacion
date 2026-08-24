@@ -1,868 +1,908 @@
 {
-  "Uuid": "5e0f0000-0000-0000-0000-000000000008",
-  "IsCustomNode": false,
-  "Description": "Etiqueta cada conduit con su numero de circuito y apila en grilla los tags de los que se superponen en planta.",
-  "Name": "08_Conduits - tags de circuito",
-  "ElementResolver": {
-    "ResolutionMap": {}
-  },
-  "Inputs": [
-    {
-      "Id": "ba010000000000000000000000000001",
-      "Name": "01. Procesar TODOS los sectores",
-      "Type": "boolean",
-      "Type2": "boolean",
-      "Value": "false",
-      "Description": "Enables selection between True and False"
-    },
-    {
-      "Id": "ba020000000000000000000000000001",
-      "Name": "02. Filtro de sectores (si TODOS = False)",
-      "Type": "string",
-      "Type2": "string",
-      "Value": "SECTOR A",
-      "Description": "Creates a string"
-    },
-    {
-      "Id": "ba030000000000000000000000000001",
-      "Name": "03. Parametro de donde se LEE el numero de circuito",
-      "Type": "string",
-      "Type2": "string",
-      "Value": "NUM_CIRCUITO",
-      "Description": "Creates a string"
-    },
-    {
-      "Id": "ba040000000000000000000000000001",
-      "Name": "04. Parametro que DIBUJA el tag (vacio = el mismo de 03)",
-      "Type": "string",
-      "Type2": "string",
-      "Value": "TAG CIRCUITO",
-      "Description": "Creates a string"
-    },
-    {
-      "Id": "ba050000000000000000000000000001",
-      "Name": "05. Marca para el conduit sin circuito (vacio = no se etiqueta)",
-      "Type": "string",
-      "Type2": "string",
-      "Value": "X",
-      "Description": "Creates a string"
-    },
-    {
-      "Id": "ba060000000000000000000000000001",
-      "Name": "06. Familia del tag de circuito",
-      "Type": "string",
-      "Type2": "string",
-      "Value": "Tag de Cto Tuberia",
-      "Description": "Creates a string"
-    },
-    {
-      "Id": "ba070000000000000000000000000001",
-      "Name": "07. Umbral de superposicion en planta (mm de papel)",
-      "Type": "number",
-      "Type2": "number",
-      "Value": "3",
-      "MaximumValue": 50,
-      "MinimumValue": 0,
-      "StepValue": 1,
-      "NumberType": "Integer",
-      "Description": "Produces integer values"
-    },
-    {
-      "Id": "ba080000000000000000000000000001",
-      "Name": "08. Separacion del apilado respecto al conduit (mm)",
-      "Type": "number",
-      "Type2": "number",
-      "Value": "12",
-      "MaximumValue": 100,
-      "MinimumValue": 0,
-      "StepValue": 1,
-      "NumberType": "Integer",
-      "Description": "Produces integer values"
-    },
-    {
-      "Id": "ba090000000000000000000000000001",
-      "Name": "09. Circulos por columna antes de abrir la siguiente",
-      "Type": "number",
-      "Type2": "number",
-      "Value": "2",
-      "MaximumValue": 10,
-      "MinimumValue": 1,
-      "StepValue": 1,
-      "NumberType": "Integer",
-      "Description": "Produces integer values"
-    },
-    {
-      "Id": "ba0a0000000000000000000000000001",
-      "Name": "10. Diametro del circulo (mm de papel; 0 = medirlo)",
-      "Type": "number",
-      "Type2": "number",
-      "Value": "0",
-      "MaximumValue": 40,
-      "MinimumValue": 0,
-      "StepValue": 1,
-      "NumberType": "Integer",
-      "Description": "Produces integer values"
-    },
-    {
-      "Id": "ba0b0000000000000000000000000001",
-      "Name": "11. Rehacer los tags existentes",
-      "Type": "boolean",
-      "Type2": "boolean",
-      "Value": "false",
-      "Description": "Enables selection between True and False"
-    },
-    {
-      "Id": "ba0c0000000000000000000000000001",
-      "Name": "12. LIMPIEZA: borrar este valor del parametro de 03 (vacio = no limpiar)",
-      "Type": "string",
-      "Type2": "string",
-      "Value": "",
-      "Description": "Creates a string"
-    },
-    {
-      "Id": "ba0d0000000000000000000000000001",
-      "Name": "13. Etiquetar tambien los conduits verticales (bajadas)",
-      "Type": "boolean",
-      "Type2": "boolean",
-      "Value": "true",
-      "Description": "Enables selection between True and False"
-    }
-  ],
-  "Outputs": [
-    {
-      "Id": "ca010000000000000000000000000001",
-      "Name": "Log",
-      "Type": "unknown",
-      "InitialValue": "",
-      "Description": "Visualizes a node's output"
-    }
-  ],
-  "Nodes": [
-    {
-      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
-      "Id": "ba010000000000000000000000000001",
-      "NodeType": "BooleanInputNode",
-      "Inputs": [],
-      "Outputs": [
-        {
-          "Id": "ba010000000000000000000000000002",
-          "Name": "",
-          "Description": "Boolean",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Disabled",
-      "Description": "Enables selection between True and False",
-      "InputValue": false
-    },
-    {
-      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
-      "NodeType": "StringInputNode",
-      "InputValue": "SECTOR A",
-      "Id": "ba020000000000000000000000000001",
-      "Inputs": [],
-      "Outputs": [
-        {
-          "Id": "ba020000000000000000000000000002",
-          "Name": "",
-          "Description": "String",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Disabled",
-      "Description": "Creates a string"
-    },
-    {
-      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
-      "NodeType": "StringInputNode",
-      "InputValue": "NUM_CIRCUITO",
-      "Id": "ba030000000000000000000000000001",
-      "Inputs": [],
-      "Outputs": [
-        {
-          "Id": "ba030000000000000000000000000002",
-          "Name": "",
-          "Description": "String",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Disabled",
-      "Description": "Creates a string"
-    },
-    {
-      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
-      "NodeType": "StringInputNode",
-      "InputValue": "TAG CIRCUITO",
-      "Id": "ba040000000000000000000000000001",
-      "Inputs": [],
-      "Outputs": [
-        {
-          "Id": "ba040000000000000000000000000002",
-          "Name": "",
-          "Description": "String",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Disabled",
-      "Description": "Creates a string"
-    },
-    {
-      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
-      "NodeType": "StringInputNode",
-      "InputValue": "X",
-      "Id": "ba050000000000000000000000000001",
-      "Inputs": [],
-      "Outputs": [
-        {
-          "Id": "ba050000000000000000000000000002",
-          "Name": "",
-          "Description": "String",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Disabled",
-      "Description": "Creates a string"
-    },
-    {
-      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
-      "NodeType": "StringInputNode",
-      "InputValue": "Tag de Cto Tuberia",
-      "Id": "ba060000000000000000000000000001",
-      "Inputs": [],
-      "Outputs": [
-        {
-          "Id": "ba060000000000000000000000000002",
-          "Name": "",
-          "Description": "String",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Disabled",
-      "Description": "Creates a string"
-    },
-    {
-      "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
-      "NumberType": "Integer",
-      "MaximumValue": 50,
-      "MinimumValue": 0,
-      "StepValue": 1,
-      "Id": "ba070000000000000000000000000001",
-      "NodeType": "NumberInputNode",
-      "Inputs": [],
-      "Outputs": [
-        {
-          "Id": "ba070000000000000000000000000002",
-          "Name": "",
-          "Description": "Int64",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Disabled",
-      "Description": "Produces integer values",
-      "InputValue": 3
-    },
-    {
-      "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
-      "NumberType": "Integer",
-      "MaximumValue": 100,
-      "MinimumValue": 0,
-      "StepValue": 1,
-      "Id": "ba080000000000000000000000000001",
-      "NodeType": "NumberInputNode",
-      "Inputs": [],
-      "Outputs": [
-        {
-          "Id": "ba080000000000000000000000000002",
-          "Name": "",
-          "Description": "Int64",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Disabled",
-      "Description": "Produces integer values",
-      "InputValue": 12
-    },
-    {
-      "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
-      "NumberType": "Integer",
-      "MaximumValue": 10,
-      "MinimumValue": 1,
-      "StepValue": 1,
-      "Id": "ba090000000000000000000000000001",
-      "NodeType": "NumberInputNode",
-      "Inputs": [],
-      "Outputs": [
-        {
-          "Id": "ba090000000000000000000000000002",
-          "Name": "",
-          "Description": "Int64",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Disabled",
-      "Description": "Produces integer values",
-      "InputValue": 2
-    },
-    {
-      "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
-      "NumberType": "Integer",
-      "MaximumValue": 40,
-      "MinimumValue": 0,
-      "StepValue": 1,
-      "Id": "ba0a0000000000000000000000000001",
-      "NodeType": "NumberInputNode",
-      "Inputs": [],
-      "Outputs": [
-        {
-          "Id": "ba0a0000000000000000000000000002",
-          "Name": "",
-          "Description": "Int64",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Disabled",
-      "Description": "Produces integer values",
-      "InputValue": 0
-    },
-    {
-      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
-      "Id": "ba0b0000000000000000000000000001",
-      "NodeType": "BooleanInputNode",
-      "Inputs": [],
-      "Outputs": [
-        {
-          "Id": "ba0b0000000000000000000000000002",
-          "Name": "",
-          "Description": "Boolean",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Disabled",
-      "Description": "Enables selection between True and False",
-      "InputValue": false
-    },
-    {
-      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
-      "NodeType": "StringInputNode",
-      "InputValue": "",
-      "Id": "ba0c0000000000000000000000000001",
-      "Inputs": [],
-      "Outputs": [
-        {
-          "Id": "ba0c0000000000000000000000000002",
-          "Name": "",
-          "Description": "String",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Disabled",
-      "Description": "Creates a string"
-    },
-    {
-      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
-      "Id": "ba0d0000000000000000000000000001",
-      "NodeType": "BooleanInputNode",
-      "Inputs": [],
-      "Outputs": [
-        {
-          "Id": "ba0d0000000000000000000000000002",
-          "Name": "",
-          "Description": "Boolean",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Disabled",
-      "Description": "Enables selection between True and False",
-      "InputValue": true
-    },
-    {
-      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
-      "Engine": "PythonNet3",
-      "VariableInputPorts": true,
-      "Id": "aa010000000000000000000000000001",
-      "NodeType": "PythonScriptNode",
-      "Code": "# 08_Conduits - tags de circuito - ILUMINACION\n#\n# Etiqueta cada conduit de las plantas de sector con el numero de circuito al que pertenece,\n# y cuando varios conduits se superponen en planta apila sus tags en una grilla para que se\n# lean todos.\n#\n#            |                    |                     |\n#            O  <- la flecha      O                     O\n#\n#          (3)                  (3)                 (3) (5)\n#                               (4)                 (4) (6)\n#\n#          1 conduit          2 conduits            4 conduits\n#\n# Revit 2027 / Dynamo 4 / CPython3\n# IN[0]  = procesar todos los sectores (bool)\n# IN[1]  = filtro de sectores si IN[0] es False (parcial, comas)\n# IN[2]  = parametro de donde se LEE el numero de circuito (string, ej. NUM_CIRCUITO)\n# IN[3]  = parametro que DIBUJA la familia del tag (string; vacio = dibuja el mismo de IN[2] y\n#          no se copia nada)\n# IN[4]  = texto para el conduit sin numero (string, ej. X; vacio = no se etiqueta)\n# IN[5]  = familia del tag de circuito (string, ej. Tag de Cto Tuberia)\n# IN[6]  = umbral de superposicion en planta, en mm de papel\n# IN[7]  = separacion del apilado respecto al conduit, en mm de papel\n# IN[8]  = cuantos circulos entran en una columna antes de abrir la siguiente (int)\n# IN[9]  = diametro del circulo del tag, en mm de papel (0 = medirlo del tag colocado)\n# IN[10] = rehacer: borra los tags que ya estan puestos y los vuelve a colocar\n# IN[11] = LIMPIEZA: borra este valor del parametro de IN[2] en todo el modelo (vacio = no)\n# IN[12] = etiquetar tambien los conduits verticales, o sea las bajadas (bool)\n#\n#\n# QUE ES \"SUPERPUESTO\" -Y POR QUE EL UMBRAL VA EN MILIMETROS DE PAPEL-\n#\n# Los conduits no estan encimados en el modelo: corren PARALELOS Y SEPARADOS. Los tres\n# primeros del modelo van a 100 mm uno de otro, que a 1:75 son 1,3 mm en la hoja. O sea que el\n# problema no es geometrico sino de ESCALA: dos conduits se superponen cuando el plotter ya no\n# puede separarlos, y eso depende de a cuanto se imprime la vista.\n#\n# Por eso el umbral de IN[6] es en mm de PAPEL y se convierte con la escala de cada vista,\n# igual que todas las distancias de 03, 05 y 06. Un umbral en milimetros de modelo daria\n# grupos distintos segun la escala sin que nadie toque el modelo.\n#\n# Dos conduits van al mismo grupo si ademas de estar cerca son PARALELOS y se SOLAPAN a lo\n# largo. Sin esas dos condiciones, dos conduits que apenas se cruzan en un punto -uno yendo al\n# norte y otro al este- caerian en el mismo grupo y su anotacion diria una mentira: que en ese\n# lugar corren juntos.\n#\n#\n# UN CIRCULO POR CIRCUITO DISTINTO, MOVIDO A SU CASILLA\n#\n# La anotacion apilada NO es un tag con varios valores: son N IndependentTag corridos a las\n# posiciones de la grilla. Solo el primero conserva la flecha; los demas van sin.\n#\n# N NO es la cantidad de conduits del grupo, sino la cantidad de CIRCUITOS DISTINTOS que pasan\n# por ahi. Una corrida que va junta lleva muchas veces el mismo circuito repetido -tres tramos\n# del 3 y uno del 4- y dibujarlos todos daba pilas de cinco circulos que decian \"3 3 4 3 3\". El\n# apilado existe para mostrar QUE CIRCUITOS pasan por ese lugar, y para eso el 3 hace falta una\n# vez: repetirlo no agrega informacion, agrega tinta y esconde el 4.\n#\n# Se colapsa SOLO dentro del grupo. Que el circuito 3 tenga su propio circulo en otra parte de\n# la planta es correcto, y es justamente lo que el plano tiene que decir: por ahi tambien pasa.\n#\n# Lo que NO se colapsa es la copia al parametro que dibuja el tag: esa se escribe en TODOS los\n# conduits del grupo. Es un dato del modelo -el circuito de ese tramo- y no tiene por que\n# depender de a quien le toco representarlo en el dibujo.\n#\n# Se eligio asi para que cada circulo siga siendo un tag DE VERDAD, asociativo a SU conduit: si\n# alguien cambia el circuito de uno, ese circulo se actualiza solo y los otros no se enteran.\n# Un unico tag multi-referencia habria dejado el apilado en manos de Revit, que no da la grilla\n# de dos columnas que pide el plano.\n#\n# El precio: la grilla la sostiene el graph, no Revit. Si alguien mueve un circulo a mano, el\n# apilado se desalinea y no hay nada que lo vuelva a acomodar salvo correr el paso con rehacer.\n#\n# La grilla se llena HACIA ABAJO hasta IN[8] circulos y despues abre columna a la derecha, que\n# es como esta en el plano de referencia: con cuatro circuitos, el 3 y el 5 arriba y el 4 y el\n# 6 abajo.\n#\n#\n# EL PASO DE LA GRILLA SE MIDE, NO SE ESTIMA\n#\n# El tamano del circulo depende de la familia del tag y de la escala de la vista, asi que se\n# coloca el primer tag, se le mide el bounding box en la vista y ese es el paso de la grilla.\n# Estimarlo por el tamano de letra seria adivinar, y errarle deja los circulos separados o\n# encimados. Es el mismo criterio con que 04 y 07 miden la tabla antes de moverla.\n#\n# IN[9] existe como valvula de escape: si Revit no devuelve el bounding box del tag -pasa con\n# algunas familias de anotacion- se usa ese numero y el log lo avisa.\n#\n#\n# LA TRAMPA DEL PARAMETRO QUE DIBUJA EL TAG\n#\n# Un IndependentTag dibuja LO QUE DICE SU FAMILIA, no lo que le pase el graph. Y ninguna API\n# dice que parametro dibuja el label de una anotacion: hay que saberlo o descubrirlo mirando.\n#\n# Esto ya costo caro en 03. Se probo etiquetar los rieles con un tag de categoria y los 195\n# tags salieron VACIOS, porque la familia dibujaba un parametro distinto del que el graph\n# escribia. No hubo ningun error: solo 195 hexagonos en blanco.\n#\n# En este modelo el conduit tiene varios candidatos -NUM_CIRCUITO, TAG CIRCUITO, TEXTO CIRCUITO\n# 1/2/3- y no se puede saber desde afuera cual usa \"Tag de Cto Tuberia\". Por eso hay DOS\n# inputs:\n#\n#   IN[2]  de donde se LEE el numero      el dato de verdad, NUM_CIRCUITO\n#   IN[3]  que parametro DIBUJA el tag    vacio si es el mismo; si no, se copia\n#\n# Si el tag dibuja otro parametro, se pone su nombre en IN[3] y el graph copia el numero ahi.\n# Es la misma maquinaria que usa 04 para el largo del riel, y por el mismo motivo: el dato vive\n# donde tiene que vivir y ademas se copia donde el dibujo lo necesita.\n#\n# QUE MIRAR EN EL PRIMER RUN: que los circulos salgan CON NUMERO. Si salen todos vacios, el tag\n# no dibuja el parametro de IN[3] y hay que cambiarlo. El graph no puede detectarlo solo.\n#\n# EN ESTE MODELO YA SE COMPROBO, Y LA TRAMPA ERA REAL: \"Tag de Cto Tuberia\" dibuja\n# \"TAG CIRCUITO\", NO \"NUM_CIRCUITO\". Se vio filtrando el modelo: hay 2 conduits con\n# TAG CIRCUITO = \"23\" y en el plano hay exactamente 2 circulos con 23, mientras que conduits\n# con NUM_CIRCUITO = \"23\" hay CERO. Por eso IN[3] va en \"TAG CIRCUITO\".\n#\n# La primera corrida fue con IN[3] vacio y el resultado fue el peor posible: los circulos\n# salieron en blanco -porque el tag miraba TAG CIRCUITO, que estaba a medias- y ademas la marca\n# \"X\" se escribio sobre NUM_CIRCUITO en 116 conduits. Para eso esta IN[11].\n#\n#\n# LA X DE LOS QUE NO TIENEN CIRCUITO\n#\n# Hoy solo algunos conduits tienen el numero cargado. Los que no lo tienen se etiquetan igual,\n# con el texto de IN[4] -una X- para que el hueco se VEA en el plano en vez de pasar\n# desapercibido. Es la misma idea que la columna vacia de 07: un dato que falta tiene que\n# notarse.\n#\n# ⚠️ OJO CON DONDE CAE ESA X. Como el tag dibuja un parametro del conduit, la X hay que\n# ESCRIBIRLA en el modelo. Si IN[3] es un parametro de dibujo aparte, la X vive ahi y\n# NUM_CIRCUITO no se toca, que es lo correcto. Pero si el tag dibuja NUM_CIRCUITO directo, la X\n# termina en el dato de verdad y despues no se distingue de un valor cargado a mano. El graph\n# lo avisa en el log cuando pasa; para desactivarlo se deja IN[4] vacio y esos conduits no se\n# etiquetan.\n#\n#\n# QUE SE ETIQUETA Y QUE NO\n#\n# Solo las PLANTAS de sector, y solo la categoria Conduits. Las elevaciones no se tocan: el\n# apilado resuelve un problema de la planta -conduits paralelos que a escala se juntan- y en\n# una elevacion el mismo grupo se ve de canto.\n#\n# Los Conduit Fittings quedan fuera: son codos y uniones, no llevan circuito propio y\n# etiquetarlos duplicaria el numero del tramo que unen.\n#\n# Los 79 tags de esta familia que ya hay en el modelo estan en otras vistas -el plano de\n# referencia DISPOSICION GENERAL ALUMBRADO- y no se tocan, porque los tags se recolectan\n# CONTRA LA VISTA que se esta procesando.\n\nimport clr\nimport math\nclr.AddReference('RevitAPI')\nclr.AddReference('RevitServices')\nfrom Autodesk.Revit.DB import (FilteredElementCollector, ViewPlan, XYZ, Element, ElementId,\n                               BuiltInCategory, StorageType, FamilySymbol, Reference,\n                               IndependentTag, TagOrientation, LocationCurve)\nfrom RevitServices.Persistence import DocumentManager\nfrom RevitServices.Transactions import TransactionManager\n\ndoc = DocumentManager.Instance.CurrentDBDocument\n\nprocess_all = bool(IN[0])\nfilter_text = (IN[1] or '').strip()\nparam_lee = (IN[2] or 'NUM_CIRCUITO').strip()\nparam_dibuja = (IN[3] or '').strip()\ntexto_sin = (IN[4] or '').strip()\nfamilia_tag = (IN[5] or '').strip()\numbral_mm = float(IN[6]) if IN[6] is not None else 3.0\nsep_mm = float(IN[7]) if IN[7] is not None else 12.0\npor_columna = int(IN[8]) if IN[8] else 2\ndiam_mm_in = float(IN[9]) if IN[9] is not None else 0.0\nrehacer = bool(IN[10])\nlimpiar_valor = (IN[11] or '').strip()\ntaggear_verticales = bool(IN[12]) if IN[12] is not None else True\n\nlog = []\naviso_medida = False\naviso_x_en_origen = False\n\n# --- contrato de nombres con 00_Vistas de sector ---\nSUF_PLANTA = ' - PLANTA'\n\n# Dos conduits se consideran paralelos si sus direcciones en planta difieren menos que esto.\n# Es angulo, no distancia, asi que no depende de la escala.\nTOL_PARALELO = 0.02  # rad, poco mas de un grado\n\n\ndef elem_name(e):\n    try:\n        return Element.Name.GetValue(e)\n    except Exception:\n        try:\n            return e.Name\n        except Exception:\n            return ''\n\n\ndef coincide(nombre, texto):\n    # filtro parcial separado por comas, insensible a mayusculas. Mismo criterio que el resto\n    # del pipeline.\n    if not texto:\n        return True\n    alto = (nombre or '').upper()\n    for t in texto.split(','):\n        t = t.strip().upper()\n        if t and t in alto:\n            return True\n    return False\n\n\ndef plantas_de_sector():\n    res = []\n    for v in FilteredElementCollector(doc).OfClass(ViewPlan):\n        if v.IsTemplate:\n            continue\n        n = elem_name(v)\n        if not n.endswith(SUF_PLANTA):\n            continue\n        sector = n[:-len(SUF_PLANTA)]\n        if not process_all and not coincide(sector, filter_text):\n            continue\n        res.append((v, sector, n))\n    res.sort(key=lambda t: t[2])\n    return res\n\n\ndef get_string(el, nombre):\n    if not nombre:\n        return ''\n    try:\n        p = el.LookupParameter(nombre)\n    except Exception:\n        return ''\n    if p is None or p.StorageType != StorageType.String:\n        return ''\n    try:\n        return (p.AsString() or '').strip()\n    except Exception:\n        return ''\n\n\ndef set_string(el, nombre, valor):\n    if not nombre:\n        return None\n    try:\n        p = el.LookupParameter(nombre)\n    except Exception:\n        return None\n    if p is None or p.IsReadOnly or p.StorageType != StorageType.String:\n        return False\n    try:\n        if (p.AsString() or '') != valor:\n            p.Set(valor)\n        return True\n    except Exception:\n        return False\n\n\ndef tipo_de_tag():\n    # Se busca por NOMBRE DE FAMILIA y no por nombre de tipo: la familia tiene un solo tipo hoy,\n    # pero si manana le agregan uno el graph no tiene por que romperse.\n    objetivo = familia_tag.upper()\n    candidatos = []\n    for s in (FilteredElementCollector(doc)\n              .OfCategory(BuiltInCategory.OST_ConduitTags)\n              .WhereElementIsElementType()):\n        if not isinstance(s, FamilySymbol):\n            continue\n        try:\n            fam = s.Family.Name or ''\n        except Exception:\n            fam = ''\n        candidatos.append((fam, s))\n        if objetivo and fam.upper() == objetivo:\n            return s\n    if objetivo:\n        log.append('ERROR: no existe una familia de tag de conduit llamada \"{}\". Las que hay '\n                   'en el modelo son: {}.'.format(\n                       familia_tag,\n                       ', '.join(sorted(set(f for f, _ in candidatos))) or 'ninguna'))\n        return None\n    if candidatos:\n        s = candidatos[0][1]\n        log.append('AVISO: no se pidio familia de tag; se usa \"{}\".'.format(candidatos[0][0]))\n        return s\n    log.append('ERROR: el modelo no tiene ninguna familia de tag de conduit cargada.')\n    return None\n\n\n# ---------------------------- GEOMETRIA EN PLANTA ----------------------------\n\ndef eje_en_planta(el, v, ex, ey):\n    # El conduit reducido a un segmento en las coordenadas de la vista: (u0, w0) - (u1, w1).\n    # Se usa la LocationCurve y no el bounding box porque un conduit diagonal tiene un bbox\n    # enorme que no dice nada de por donde pasa.\n    try:\n        loc = el.Location\n    except Exception:\n        return None\n    if not isinstance(loc, LocationCurve) or loc.Curve is None:\n        return None\n    try:\n        c = loc.Curve\n        p0, p1 = c.GetEndPoint(0), c.GetEndPoint(1)\n    except Exception:\n        return None\n    a = (p0.DotProduct(ex), p0.DotProduct(ey))\n    b = (p1.DotProduct(ex), p1.DotProduct(ey))\n    # Un conduit VERTICAL en planta es un punto: no tiene direccion, asi que no puede\n    # agruparse con nadie. Se devuelve igual como segmento degenerado y termina siendo un\n    # grupo de uno, porque una bajada es justamente donde interesa saber el circuito. Las\n    # primeras corridas lo descartaban y se perdian 67 de 202 conduits sin que nada lo dijera\n    # salvo una linea del log.\n    return a, b\n\n\ndef direccion(seg):\n    a, b = seg\n    du, dw = b[0] - a[0], b[1] - a[1]\n    n = math.hypot(du, dw)\n    if n < 1e-12:\n        return None\n    return du / n, dw / n\n\n\ndef mismo_grupo(s1, s2, umbral):\n    # Tres condiciones, y las tres hacen falta.\n    d1, d2 = direccion(s1), direccion(s2)\n    if d1 is None or d2 is None:\n        return False\n\n    # 1. PARALELOS. El valor absoluto es para que dos conduits dibujados en sentido contrario\n    #    -uno de norte a sur y otro de sur a norte- cuenten como paralelos, que es lo que son.\n    cos = abs(d1[0] * d2[0] + d1[1] * d2[1])\n    if cos < math.cos(TOL_PARALELO):\n        return False\n\n    # 2. CERCA, medido perpendicular al eje. La distancia entre los puntos medios no sirve: dos\n    #    conduits de la misma corrida, uno corto y uno largo, tienen los medios lejos y estan\n    #    encimados igual.\n    a1 = s1[0]\n    a2, b2 = s2\n    nu, nw = -d1[1], d1[0]\n    perp1 = abs((a2[0] - a1[0]) * nu + (a2[1] - a1[1]) * nw)\n    perp2 = abs((b2[0] - a1[0]) * nu + (b2[1] - a1[1]) * nw)\n    if min(perp1, perp2) > umbral:\n        return False\n\n    # 3. SE SOLAPAN a lo largo del eje. Sin esto, dos tramos de la misma linea que estan en\n    #    puntas opuestas de la planta -y no comparten ni un metro- irian al mismo grupo y su\n    #    anotacion diria que ahi corren juntos.\n    def rango(s):\n        x = [(p[0] - a1[0]) * d1[0] + (p[1] - a1[1]) * d1[1] for p in s]\n        return min(x), max(x)\n    r1, r2 = rango(s1), rango(s2)\n    return not (r1[1] < r2[0] - umbral or r2[1] < r1[0] - umbral)\n\n\ndef agrupar(items, umbral):\n    # Union-find simple. Son decenas de conduits por planta, asi que el O(n^2) no molesta y\n    # evita toda la maquinaria de indices espaciales.\n    padre = list(range(len(items)))\n\n    def raiz(i):\n        while padre[i] != i:\n            padre[i] = padre[padre[i]]\n            i = padre[i]\n        return i\n\n    for i in range(len(items)):\n        for j in range(i + 1, len(items)):\n            if raiz(i) == raiz(j):\n                continue\n            if mismo_grupo(items[i][1], items[j][1], umbral):\n                padre[raiz(j)] = raiz(i)\n\n    grupos = {}\n    for i in range(len(items)):\n        grupos.setdefault(raiz(i), []).append(items[i])\n    return list(grupos.values())\n\n\ndef clave_de_orden(texto):\n    # Los circuitos se ordenan como numeros cuando lo son -3, 4, 5, 10 y no 10, 3, 4, 5- y los\n    # que no lo son van al final por orden alfabetico. Los sin circuito, ultimos de todos.\n    if not texto:\n        return (2, 0, '')\n    try:\n        return (0, int(texto), '')\n    except ValueError:\n        return (1, 0, texto.upper())\n\n\ndef medir_tag(tag, v, ex, ey):\n    try:\n        bb = tag.get_BoundingBox(v)\n    except Exception:\n        bb = None\n    if bb is None:\n        return None\n    us, ws = [], []\n    for x in (bb.Min.X, bb.Max.X):\n        for y in (bb.Min.Y, bb.Max.Y):\n            for z in (bb.Min.Z, bb.Max.Z):\n                p = XYZ(x, y, z)\n                us.append(p.DotProduct(ex))\n                ws.append(p.DotProduct(ey))\n    ancho, alto = max(us) - min(us), max(ws) - min(ws)\n    if ancho < 1e-9 or alto < 1e-9:\n        return None\n    return ancho, alto\n\n\ndef proyectar(p, v):\n    n = v.ViewDirection.Normalize()\n    d = p.Subtract(v.Origin).DotProduct(n)\n    return p.Subtract(n.Multiply(d))\n\n\ndef medir_paso(v, sym, conduit, ex, ey):\n    # Coloca un tag de prueba, lo mide y lo borra. Hace falta conocer el tamano del circulo\n    # ANTES de decidir donde cae cada pila -si no, no hay con que comparar para saber si dos se\n    # pisan- y el tamano depende de la familia y de la escala de la vista.\n    escala = v.Scale or 1\n    papel = lambda mm: float(mm) / 304.8 * escala\n    m = None\n    try:\n        bb = conduit.get_BoundingBox(v)\n        pt = XYZ((bb.Min.X + bb.Max.X) / 2.0, (bb.Min.Y + bb.Max.Y) / 2.0,\n                 (bb.Min.Z + bb.Max.Z) / 2.0) if bb else v.Origin\n        prueba = IndependentTag.Create(doc, sym.Id, v.Id, Reference(conduit), False,\n                                       TagOrientation.Horizontal, proyectar(pt, v))\n        doc.Regenerate()\n        m = medir_tag(prueba, v, ex, ey)\n        doc.Delete(prueba.Id)\n    except Exception:\n        m = None\n    if m is not None:\n        return m\n    global aviso_medida\n    d_mm = diam_mm_in if diam_mm_in > 0 else 8.0\n    if not aviso_medida:\n        aviso_medida = True\n        log.append('AVISO: Revit no devolvio el tamano del tag; la grilla usa {:.1f} mm de '\n                   'papel. Si los circulos quedan separados o encimados, ajustar IN[9].'.format(\n                       d_mm))\n    return (papel(d_mm), papel(d_mm))\n\n\ndef posiciones_de_pila(ancla_u, ancla_w, cuantos, paso, sep):\n    # La grilla: hacia abajo hasta \"por_columna\" y despues columna nueva a la derecha.\n    res = []\n    for i in range(cuantos):\n        col, fil = divmod(i, max(por_columna, 1))\n        res.append((ancla_u + col * paso[0],\n                    ancla_w - sep - paso[1] / 2.0 - fil * paso[1]))\n    return res\n\n\ndef desplazamientos(paso):\n    # Por donde se prueba correr una pila que choca. Primero mas abajo -la pila sigue colgando\n    # del mismo lugar, que es lo que la hace legible- y solo despues a los costados.\n    yield (0.0, 0.0)\n    for k in range(1, 7):\n        yield (0.0, -k * paso[1] * 1.1)\n    for k in range(1, 4):\n        for signo in (1.0, -1.0):\n            yield (signo * k * paso[0] * 1.2, 0.0)\n            yield (signo * k * paso[0] * 1.2, -k * paso[1] * 1.1)\n\n\ndef libre(centros, ocupados, paso):\n    # Dos circulos se pisan si sus centros estan a menos de un diametro. Se compara con el lado\n    # mas chico del tag para no separar de mas cuando el circulo no es redondo.\n    minimo = min(paso[0], paso[1]) * 0.95\n    for u, w in centros:\n        for ou, ow in ocupados:\n            if math.hypot(u - ou, w - ow) < minimo:\n                return False\n    return True\n\n\ndef tags_de_la_familia(v, sym_id):\n    res = []\n    for t in FilteredElementCollector(doc, v.Id).OfClass(IndependentTag):\n        try:\n            if t.GetTypeId().Value == sym_id.Value:\n                res.append(t.Id)\n        except Exception:\n            pass\n    return res\n\n\n# ---------------------------- EL TRABAJO DE UNA PLANTA ----------------------------\n\ndef taggear_planta(v, sym, ex, ey):\n    global aviso_medida, aviso_x_en_origen\n    escala = v.Scale or 1\n    papel = lambda mm: float(mm) / 304.8 * escala\n    umbral = papel(umbral_mm)\n    sep = papel(sep_mm)\n\n    existentes = tags_de_la_familia(v, sym.Id)\n    if existentes and not rehacer:\n        return 0, 0, 0, True\n    for tid in existentes:\n        try:\n            doc.Delete(tid)\n        except Exception:\n            pass\n\n    conduits = [el for el in FilteredElementCollector(doc, v.Id)\n                .OfCategory(BuiltInCategory.OST_Conduit)\n                .WhereElementIsNotElementType()]\n    if not conduits:\n        return 0, 0, 0, False\n\n    items = []\n    sin_eje = 0\n    verticales = 0\n    for el in conduits:\n        seg = eje_en_planta(el, v, ex, ey)\n        if seg is None:\n            sin_eje += 1\n            continue\n        if direccion(seg) is None:\n            verticales += 1\n            if not taggear_verticales:\n                continue\n        items.append((el, seg))\n    if sin_eje:\n        log.append('  {}: {} conduit(s) sin curva de recorrido; no se etiquetan.'.format(\n            elem_name(v), sin_eje))\n    if verticales:\n        log.append('  {}: {} conduit(s) verticales -bajadas-{}.'.format(\n            elem_name(v), verticales,\n            ', cada uno con su propio circulo' if taggear_verticales else ', no se etiquetan'))\n    if not items:\n        return 0, 0, 0, False\n\n    # El paso de la grilla se mide ANTES de empezar, con un tag de prueba que se borra: hace\n    # falta conocerlo para poder decidir donde cae cada pila sin pisar a las de al lado, y eso\n    # se decide antes de crear ningun tag definitivo.\n    paso = medir_paso(v, sym, items[0][0], ex, ey)\n\n    grupos = agrupar(items, umbral)\n    # las pilas se colocan de arriba a abajo y de izquierda a derecha para que el resultado no\n    # dependa del orden en que Revit devolvio los conduits\n    grupos.sort(key=lambda g: (-max(p[1] for p in g[0][1]), min(p[0] for p in g[0][1])))\n    puestos = 0\n    sin_numero = 0\n    colapsados = 0\n    ocupados = []\n\n    for grupo in grupos:\n        # cada conduit del grupo con su numero, ya ordenados\n        filas = []\n        for el, seg in grupo:\n            num = get_string(el, param_lee)\n            es_marca = not num\n            if es_marca:\n                sin_numero += 1\n                if not texto_sin:\n                    continue\n                num = texto_sin\n            filas.append((clave_de_orden('' if es_marca else num), num, es_marca, el, seg))\n        if not filas:\n            continue\n        filas.sort(key=lambda f: (f[0], f[3].Id.Value))\n\n        # UN CIRCULO POR CIRCUITO DISTINTO, no uno por conduit.\n        #\n        # Una corrida de conduits que van juntos lleva muchas veces el mismo circuito repetido\n        # -tres tramos del circuito 3 y uno del 4-, y dibujarlos todos daba pilas de cinco\n        # circulos que decian \"3 3 4 3 3\". El apilado existe para mostrar QUE CIRCUITOS pasan\n        # por ahi, y para eso el 3 hace falta una vez. Repetirlo no agrega informacion: agrega\n        # tinta y esconde el 4.\n        #\n        # Se colapsa SOLO dentro del grupo. Que el circuito 3 tenga su propio circulo en otra\n        # parte de la planta es correcto y es justamente lo que dice el plano: por ahi tambien\n        # pasa el 3.\n        #\n        # Ojo con lo que NO se colapsa: la copia al parametro que dibuja el tag se sigue\n        # escribiendo en TODOS los conduits del grupo, tengan circulo o no. Esa copia es un\n        # dato del modelo -el numero de circuito de ese tramo- y no tiene por que depender de\n        # si al tramo le toco o no ser el representante en el dibujo.\n        representantes = []\n        vistos = set()\n        for f in filas:\n            if f[1] in vistos:\n                continue\n            vistos.add(f[1])\n            representantes.append(f)\n        colapsados += len(filas) - len(representantes)\n\n        # el ancla: el punto medio del tramo que comparten, sobre el eje del primero. Un grupo\n        # de una bajada no tiene eje, asi que su ancla es el punto mismo.\n        d = direccion(filas[0][4])\n        a1 = filas[0][4][0]\n        if d is None:\n            ancla_u, ancla_w = a1[0], a1[1]\n        else:\n            proyecciones = []\n            for f in filas:\n                for p in f[4]:\n                    proyecciones.append((p[0] - a1[0]) * d[0] + (p[1] - a1[1]) * d[1])\n            t_medio = (min(proyecciones) + max(proyecciones)) / 2.0\n            ancla_u = a1[0] + d[0] * t_medio\n            ancla_w = a1[1] + d[1] * t_medio\n\n        # DONDE CAE LA PILA. Se prueba colgando del ancla y, si algun circulo pisaria uno ya\n        # puesto, se baja la pila entera de a un circulo y despues se prueba a los costados.\n        # Sin esto, dos corridas paralelas cercanas dejan sus pilas montadas: en el plano se\n        # leen como UNA sola columna larga y se pierde justamente la convencion de dos por\n        # columna. Se mueve la pila COMPLETA y no cada circulo, porque una pila desarmada ya\n        # no dice que esos circuitos van juntos.\n        # La COPIA al parametro que dibuja el tag va sobre TODOS los conduits del grupo, tengan\n        # circulo o no: es un dato del modelo y no depende de a quien le toco representar al\n        # circuito en el dibujo.\n        destino = param_dibuja or param_lee\n        for _clave, num, es_marca, el, _seg in filas:\n            if destino != param_lee:\n                set_string(el, destino, num)\n            elif es_marca:\n                # Si el tag dibuja el mismo parametro del que se lee, la marca de los sin\n                # circuito cae sobre el dato de verdad. Se hace igual -es lo que se pidio- pero\n                # se avisa una vez, porque despues no se distingue de un valor cargado a mano.\n                if not aviso_x_en_origen:\n                    aviso_x_en_origen = True\n                    log.append('AVISO: la marca \"{}\" de los conduits sin circuito se escribe '\n                               'en \"{}\", que es el parametro del dato de verdad, asi que '\n                               'despues no se distingue de un valor cargado a mano. La salida '\n                               'limpia es poner en IN[3] el parametro que dibuja el tag; para '\n                               'no marcarlos, vaciar IN[4].'.format(texto_sin, param_lee))\n                set_string(el, destino, num)\n\n        centros = posiciones_de_pila(ancla_u, ancla_w, len(representantes), paso, sep)\n        for du, dw in desplazamientos(paso):\n            prueba = [(u + du, w + dw) for u, w in centros]\n            if libre(prueba, ocupados, paso):\n                centros = prueba\n                break\n        ocupados.extend(centros)\n\n        for i, (_clave, num, es_marca, el, _seg) in enumerate(representantes):\n            try:\n                pt = proyectar(ex.Multiply(ancla_u).Add(ey.Multiply(ancla_w)), v)\n                tag = IndependentTag.Create(doc, sym.Id, v.Id, Reference(el), i == 0,\n                                            TagOrientation.Horizontal, pt)\n            except Exception:\n                continue\n\n            u, w = centros[i]\n            try:\n                tag.TagHeadPosition = proyectar(ex.Multiply(u).Add(ey.Multiply(w)), v)\n            except Exception:\n                pass\n            if i != 0:\n                try:\n                    tag.HasLeader = False\n                except Exception:\n                    pass\n            puestos += 1\n\n    return puestos, sin_numero, colapsados, False\n\n\n# ---------------------------- EJECUCION ----------------------------\n\nplantas = plantas_de_sector()\nif not plantas:\n    log.append('No hay plantas de sector que coincidan con el filtro. Se esperan vistas '\n               '\"<sector>{}\", creadas por 00.'.format(SUF_PLANTA))\nelse:\n    TransactionManager.Instance.EnsureInTransaction(doc)\n\n    # LIMPIEZA. Herramienta de una sola vez, como el diagnostico de notas de 05: se le pasa un\n    # valor y lo borra de TODOS los conduits del modelo que lo tengan en el parametro de\n    # lectura. Existe porque la primera corrida de este paso escribio la marca \"X\" sobre\n    # NUM_CIRCUITO -el parametro del dato de verdad- en los 116 conduits que estaban vacios, y\n    # esas X no se van solas por mas que despues se configure bien el parametro de dibujo.\n    #\n    # Va sobre todo el modelo y no sobre los sectores filtrados a proposito: el destrozo no\n    # sabe de sectores y limpiarlo a medias seria peor que no limpiarlo.\n    if limpiar_valor:\n        borradas = 0\n        for el in (FilteredElementCollector(doc)\n                   .OfCategory(BuiltInCategory.OST_Conduit)\n                   .WhereElementIsNotElementType()):\n            if get_string(el, param_lee) == limpiar_valor:\n                if set_string(el, param_lee, ''):\n                    borradas += 1\n        log.append('LIMPIEZA: se borro el valor \"{}\" de \"{}\" en {} conduit(s). Vaciar IN[11] '\n                   'para que no vuelva a correr.'.format(limpiar_valor, param_lee, borradas))\n\n    sym = tipo_de_tag()\n    if sym is not None:\n        try:\n            if not sym.IsActive:\n                sym.Activate()\n                doc.Regenerate()\n        except Exception:\n            pass\n\n        total, total_sin, total_col, saltadas = 0, 0, 0, 0\n        for v, sector, nombre in plantas:\n            ex = v.RightDirection.Normalize()\n            ey = v.UpDirection.Normalize()\n            puestos, sin_num, col, saltada = taggear_planta(v, sym, ex, ey)\n            if saltada:\n                saltadas += 1\n                log.append('  {}: ya tiene tags de esta familia, se salta. Corre con rehacer '\n                           'para volver a colocarlos.'.format(nombre))\n                continue\n            total += puestos\n            total_sin += sin_num\n            total_col += col\n            log.append('  {}: {} tag(s) de circuito.'.format(nombre, puestos))\n\n        log.insert(0, '{} tag(s) de circuito en {} planta(s) de sector{}.'.format(\n            total, len(plantas) - saltadas,\n            ' ({} saltada(s))'.format(saltadas) if saltadas else ''))\n        if total_col:\n            log.append('{} tag(s) no se dibujaron porque repetian un circuito que ya estaba en '\n                       'su misma pila. Un circuito se muestra UNA vez por grupo: repetirlo no '\n                       'agrega informacion y esconde a los demas.'.format(total_col))\n        if total_sin:\n            log.append('{} conduit(s) no tienen \"{}\" cargado{}.'.format(\n                total_sin, param_lee,\n                '; salen con la marca \"{}\"'.format(texto_sin) if texto_sin\n                else ' y no se etiquetaron'))\n        log.append('MIRAR EN EL PRIMER RUN: que los circulos salgan CON NUMERO. Si salen todos '\n                   'vacios, la familia \"{}\" no dibuja el parametro \"{}\" y hay que poner el '\n                   'correcto en IN[3]. Ninguna API dice cual dibuja, asi que el graph no puede '\n                   'detectarlo solo.'.format(familia_tag, param_dibuja or param_lee))\n\n    TransactionManager.Instance.ForceCloseTransaction()\n\nOUT = log",
-      "Inputs": [
-        {
-          "Id": "aa010000000000000000000000000010",
-          "Name": "IN[0]",
-          "Description": "Input #0",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        },
-        {
-          "Id": "aa010000000000000000000000000011",
-          "Name": "IN[1]",
-          "Description": "Input #1",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        },
-        {
-          "Id": "aa010000000000000000000000000012",
-          "Name": "IN[2]",
-          "Description": "Input #2",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        },
-        {
-          "Id": "aa010000000000000000000000000013",
-          "Name": "IN[3]",
-          "Description": "Input #3",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        },
-        {
-          "Id": "aa010000000000000000000000000014",
-          "Name": "IN[4]",
-          "Description": "Input #4",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        },
-        {
-          "Id": "aa010000000000000000000000000015",
-          "Name": "IN[5]",
-          "Description": "Input #5",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        },
-        {
-          "Id": "aa010000000000000000000000000016",
-          "Name": "IN[6]",
-          "Description": "Input #6",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        },
-        {
-          "Id": "aa010000000000000000000000000017",
-          "Name": "IN[7]",
-          "Description": "Input #7",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        },
-        {
-          "Id": "aa010000000000000000000000000018",
-          "Name": "IN[8]",
-          "Description": "Input #8",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        },
-        {
-          "Id": "aa010000000000000000000000000019",
-          "Name": "IN[9]",
-          "Description": "Input #9",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        },
-        {
-          "Id": "aa01000000000000000000000000001a",
-          "Name": "IN[10]",
-          "Description": "Input #10",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        },
-        {
-          "Id": "aa01000000000000000000000000001b",
-          "Name": "IN[11]",
-          "Description": "Input #11",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        },
-        {
-          "Id": "aa01000000000000000000000000001c",
-          "Name": "IN[12]",
-          "Description": "Input #12",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Outputs": [
-        {
-          "Id": "aa010000000000000000000000000005",
-          "Name": "OUT",
-          "Description": "Result of the python script",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Disabled",
-      "Description": "Runs an embedded Python script."
-    },
-    {
-      "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
-      "WatchWidth": 460,
-      "WatchHeight": 320,
-      "Id": "ca010000000000000000000000000001",
-      "NodeType": "ExtensionNode",
-      "Inputs": [
-        {
-          "Id": "ca010000000000000000000000000002",
-          "Name": "",
-          "Description": "Node to evaluate.",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Outputs": [
-        {
-          "Id": "ca010000000000000000000000000003",
-          "Name": "",
-          "Description": "Watch contents.",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Disabled",
-      "Description": "Visualizes a node's output"
-    }
-  ],
-  "Connectors": [
-    {
-      "Start": "ba010000000000000000000000000002",
-      "End": "aa010000000000000000000000000010",
-      "Id": "da010000000000000000000000000010",
-      "IsHidden": "False"
-    },
-    {
-      "Start": "ba020000000000000000000000000002",
-      "End": "aa010000000000000000000000000011",
-      "Id": "da010000000000000000000000000011",
-      "IsHidden": "False"
-    },
-    {
-      "Start": "ba030000000000000000000000000002",
-      "End": "aa010000000000000000000000000012",
-      "Id": "da010000000000000000000000000012",
-      "IsHidden": "False"
-    },
-    {
-      "Start": "ba040000000000000000000000000002",
-      "End": "aa010000000000000000000000000013",
-      "Id": "da010000000000000000000000000013",
-      "IsHidden": "False"
-    },
-    {
-      "Start": "ba050000000000000000000000000002",
-      "End": "aa010000000000000000000000000014",
-      "Id": "da010000000000000000000000000014",
-      "IsHidden": "False"
-    },
-    {
-      "Start": "ba060000000000000000000000000002",
-      "End": "aa010000000000000000000000000015",
-      "Id": "da010000000000000000000000000015",
-      "IsHidden": "False"
-    },
-    {
-      "Start": "ba070000000000000000000000000002",
-      "End": "aa010000000000000000000000000016",
-      "Id": "da010000000000000000000000000016",
-      "IsHidden": "False"
-    },
-    {
-      "Start": "ba080000000000000000000000000002",
-      "End": "aa010000000000000000000000000017",
-      "Id": "da010000000000000000000000000017",
-      "IsHidden": "False"
-    },
-    {
-      "Start": "ba090000000000000000000000000002",
-      "End": "aa010000000000000000000000000018",
-      "Id": "da010000000000000000000000000018",
-      "IsHidden": "False"
-    },
-    {
-      "Start": "ba0a0000000000000000000000000002",
-      "End": "aa010000000000000000000000000019",
-      "Id": "da010000000000000000000000000019",
-      "IsHidden": "False"
-    },
-    {
-      "Start": "ba0b0000000000000000000000000002",
-      "End": "aa01000000000000000000000000001a",
-      "Id": "da01000000000000000000000000001a",
-      "IsHidden": "False"
-    },
-    {
-      "Start": "ba0c0000000000000000000000000002",
-      "End": "aa01000000000000000000000000001b",
-      "Id": "da01000000000000000000000000001b",
-      "IsHidden": "False"
-    },
-    {
-      "Start": "ba0d0000000000000000000000000002",
-      "End": "aa01000000000000000000000000001c",
-      "Id": "da01000000000000000000000000001c",
-      "IsHidden": "False"
-    },
-    {
-      "Start": "aa010000000000000000000000000005",
-      "End": "ca010000000000000000000000000002",
-      "Id": "da0100000000000000000000000000f0",
-      "IsHidden": "False"
-    }
-  ],
-  "Dependencies": [],
-  "NodeLibraryDependencies": [],
-  "EnableLegacyPolyCurveBehavior": true,
-  "Thumbnail": "",
-  "GraphDocumentationURL": null,
-  "ExtensionWorkspaceData": [],
-  "Author": "",
-  "Linting": {
-    "activeLinter": "None",
-    "activeLinterId": "7b75fb44-43fd-4631-a878-29f4d5d8399a",
-    "warningCount": 0,
-    "errorCount": 0
-  },
-  "Bindings": [],
-  "View": {
-    "Dynamo": {
-      "ScaleFactor": 1,
-      "HasRunWithoutCrash": false,
-      "IsVisibleInDynamoLibrary": true,
-      "Version": "4.0.2.3852",
-      "RunType": "Manual",
-      "RunPeriod": "1000"
-    },
-    "Camera": {
-      "Name": "_Background Preview",
-      "EyeX": -17,
-      "EyeY": 24,
-      "EyeZ": 50,
-      "LookX": 12,
-      "LookY": -13,
-      "LookZ": -58,
-      "UpX": 0,
-      "UpY": 1,
-      "UpZ": 0
-    },
-    "ConnectorPins": [],
-    "NodeViews": [
-      {
-        "Id": "ba010000000000000000000000000001",
-        "Name": "01. Procesar TODOS los sectores",
-        "IsSetAsInput": true,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "ShowGeometry": true,
-        "X": 0,
-        "Y": 0
-      },
-      {
-        "Id": "ba020000000000000000000000000001",
-        "Name": "02. Filtro de sectores (si TODOS = False)",
-        "IsSetAsInput": true,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "ShowGeometry": true,
-        "X": 0,
-        "Y": 130
-      },
-      {
-        "Id": "ba030000000000000000000000000001",
-        "Name": "03. Parametro de donde se LEE el numero de circuito",
-        "IsSetAsInput": true,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "ShowGeometry": true,
-        "X": 0,
-        "Y": 260
-      },
-      {
-        "Id": "ba040000000000000000000000000001",
-        "Name": "04. Parametro que DIBUJA el tag (vacio = el mismo de 03)",
-        "IsSetAsInput": true,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "ShowGeometry": true,
-        "X": 0,
-        "Y": 390
-      },
-      {
-        "Id": "ba050000000000000000000000000001",
-        "Name": "05. Marca para el conduit sin circuito (vacio = no se etiqueta)",
-        "IsSetAsInput": true,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "ShowGeometry": true,
-        "X": 0,
-        "Y": 520
-      },
-      {
-        "Id": "ba060000000000000000000000000001",
-        "Name": "06. Familia del tag de circuito",
-        "IsSetAsInput": true,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "ShowGeometry": true,
-        "X": 0,
-        "Y": 650
-      },
-      {
-        "Id": "ba070000000000000000000000000001",
-        "Name": "07. Umbral de superposicion en planta (mm de papel)",
-        "IsSetAsInput": true,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "ShowGeometry": true,
-        "X": 0,
-        "Y": 780
-      },
-      {
-        "Id": "ba080000000000000000000000000001",
-        "Name": "08. Separacion del apilado respecto al conduit (mm)",
-        "IsSetAsInput": true,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "ShowGeometry": true,
-        "X": 0,
-        "Y": 910
-      },
-      {
-        "Id": "ba090000000000000000000000000001",
-        "Name": "09. Circulos por columna antes de abrir la siguiente",
-        "IsSetAsInput": true,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "ShowGeometry": true,
-        "X": 0,
-        "Y": 1040
-      },
-      {
-        "Id": "ba0a0000000000000000000000000001",
-        "Name": "10. Diametro del circulo (mm de papel; 0 = medirlo)",
-        "IsSetAsInput": true,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "ShowGeometry": true,
-        "X": 0,
-        "Y": 1170
-      },
-      {
-        "Id": "ba0b0000000000000000000000000001",
-        "Name": "11. Rehacer los tags existentes",
-        "IsSetAsInput": true,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "ShowGeometry": true,
-        "X": 0,
-        "Y": 1300
-      },
-      {
-        "Id": "ba0c0000000000000000000000000001",
-        "Name": "12. LIMPIEZA: borrar este valor del parametro de 03 (vacio = no limpiar)",
-        "IsSetAsInput": true,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "ShowGeometry": true,
-        "X": 0,
-        "Y": 1430
-      },
-      {
-        "Id": "ba0d0000000000000000000000000001",
-        "Name": "13. Etiquetar tambien los conduits verticales (bajadas)",
-        "IsSetAsInput": true,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "ShowGeometry": true,
-        "X": 0,
-        "Y": 1560
-      },
-      {
-        "Id": "aa010000000000000000000000000001",
-        "Name": "Python Script",
-        "IsSetAsInput": false,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "ShowGeometry": true,
-        "X": 620,
-        "Y": 0
-      },
-      {
-        "Id": "ca010000000000000000000000000001",
-        "Name": "Log",
-        "IsSetAsInput": false,
-        "IsSetAsOutput": true,
-        "Excluded": false,
-        "ShowGeometry": true,
-        "X": 980,
-        "Y": 0
-      }
-    ],
-    "Annotations": [],
-    "X": 0,
-    "Y": 0,
-    "Zoom": 0.8
-  }
+    "Uuid":  "5e0f0000-0000-0000-0000-000000000008",
+    "IsCustomNode":  false,
+    "Description":  "Etiqueta cada conduit con su numero de circuito y apila en grilla los tags de los que se superponen en planta.",
+    "Name":  "08_Conduits - tags de circuito",
+    "ElementResolver":  {
+                            "ResolutionMap":  {
+
+                                              }
+                        },
+    "Inputs":  [
+                   {
+                       "Id":  "ba010000000000000000000000000001",
+                       "Name":  "01. Procesar TODOS los sectores",
+                       "Type":  "boolean",
+                       "Type2":  "boolean",
+                       "Value":  "false",
+                       "Description":  "Enables selection between True and False"
+                   },
+                   {
+                       "Id":  "ba020000000000000000000000000001",
+                       "Name":  "02. Filtro de sectores (si TODOS = False)",
+                       "Type":  "string",
+                       "Type2":  "string",
+                       "Value":  "SECTOR A",
+                       "Description":  "Creates a string"
+                   },
+                   {
+                       "Id":  "ba030000000000000000000000000001",
+                       "Name":  "03. Parametro de donde se LEE el numero de circuito",
+                       "Type":  "string",
+                       "Type2":  "string",
+                       "Value":  "NUM_CIRCUITO",
+                       "Description":  "Creates a string"
+                   },
+                   {
+                       "Id":  "ba040000000000000000000000000001",
+                       "Name":  "04. Parametro que DIBUJA el tag (vacio = el mismo de 03)",
+                       "Type":  "string",
+                       "Type2":  "string",
+                       "Value":  "TAG CIRCUITO",
+                       "Description":  "Creates a string"
+                   },
+                   {
+                       "Id":  "ba050000000000000000000000000001",
+                       "Name":  "05. Marca para el conduit sin circuito (vacio = no se etiqueta)",
+                       "Type":  "string",
+                       "Type2":  "string",
+                       "Value":  "X",
+                       "Description":  "Creates a string"
+                   },
+                   {
+                       "Id":  "ba060000000000000000000000000001",
+                       "Name":  "06. Familia del tag de circuito",
+                       "Type":  "string",
+                       "Type2":  "string",
+                       "Value":  "Tag de Cto Tuberia",
+                       "Description":  "Creates a string"
+                   },
+                   {
+                       "Id":  "ba070000000000000000000000000001",
+                       "Name":  "07. Umbral de superposicion en planta (mm de papel)",
+                       "Type":  "number",
+                       "Type2":  "number",
+                       "Value":  "3",
+                       "MaximumValue":  50,
+                       "MinimumValue":  0,
+                       "StepValue":  1,
+                       "NumberType":  "Integer",
+                       "Description":  "Produces integer values"
+                   },
+                   {
+                       "Id":  "ba080000000000000000000000000001",
+                       "Name":  "08. Separacion del apilado respecto al conduit (mm)",
+                       "Type":  "number",
+                       "Type2":  "number",
+                       "Value":  "12",
+                       "MaximumValue":  100,
+                       "MinimumValue":  0,
+                       "StepValue":  1,
+                       "NumberType":  "Integer",
+                       "Description":  "Produces integer values"
+                   },
+                   {
+                       "Id":  "ba090000000000000000000000000001",
+                       "Name":  "09. Circulos por columna antes de abrir la siguiente",
+                       "Type":  "number",
+                       "Type2":  "number",
+                       "Value":  "2",
+                       "MaximumValue":  10,
+                       "MinimumValue":  1,
+                       "StepValue":  1,
+                       "NumberType":  "Integer",
+                       "Description":  "Produces integer values"
+                   },
+                   {
+                       "Id":  "ba0a0000000000000000000000000001",
+                       "Name":  "10. Diametro del circulo (mm de papel; 0 = medirlo)",
+                       "Type":  "number",
+                       "Type2":  "number",
+                       "Value":  "0",
+                       "MaximumValue":  40,
+                       "MinimumValue":  0,
+                       "StepValue":  1,
+                       "NumberType":  "Integer",
+                       "Description":  "Produces integer values"
+                   },
+                   {
+                       "Id":  "ba0b0000000000000000000000000001",
+                       "Name":  "11. Rehacer los tags existentes",
+                       "Type":  "boolean",
+                       "Type2":  "boolean",
+                       "Value":  "false",
+                       "Description":  "Enables selection between True and False"
+                   },
+                   {
+                       "Id":  "ba0c0000000000000000000000000001",
+                       "Name":  "12. LIMPIEZA: borrar este valor del parametro de 03 (vacio = no limpiar)",
+                       "Type":  "string",
+                       "Type2":  "string",
+                       "Value":  "",
+                       "Description":  "Creates a string"
+                   },
+                   {
+                       "Id":  "ba0d0000000000000000000000000001",
+                       "Name":  "13. Etiquetar tambien los conduits verticales (bajadas)",
+                       "Type":  "boolean",
+                       "Type2":  "boolean",
+                       "Value":  "true",
+                       "Description":  "Enables selection between True and False"
+                   }
+               ],
+    "Outputs":  [
+                    {
+                        "Id":  "ca010000000000000000000000000001",
+                        "Name":  "Log",
+                        "Type":  "unknown",
+                        "InitialValue":  "",
+                        "Description":  "Visualizes a node\u0027s output"
+                    }
+                ],
+    "Nodes":  [
+                  {
+                      "ConcreteType":  "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+                      "Id":  "ba010000000000000000000000000001",
+                      "NodeType":  "BooleanInputNode",
+                      "Inputs":  [
+
+                                 ],
+                      "Outputs":  [
+                                      {
+                                          "Id":  "ba010000000000000000000000000002",
+                                          "Name":  "",
+                                          "Description":  "Boolean",
+                                          "UsingDefaultValue":  false,
+                                          "Level":  2,
+                                          "UseLevels":  false,
+                                          "KeepListStructure":  false
+                                      }
+                                  ],
+                      "Replication":  "Disabled",
+                      "Description":  "Enables selection between True and False",
+                      "InputValue":  false
+                  },
+                  {
+                      "ConcreteType":  "CoreNodeModels.Input.StringInput, CoreNodeModels",
+                      "NodeType":  "StringInputNode",
+                      "InputValue":  "SECTOR A",
+                      "Id":  "ba020000000000000000000000000001",
+                      "Inputs":  [
+
+                                 ],
+                      "Outputs":  [
+                                      {
+                                          "Id":  "ba020000000000000000000000000002",
+                                          "Name":  "",
+                                          "Description":  "String",
+                                          "UsingDefaultValue":  false,
+                                          "Level":  2,
+                                          "UseLevels":  false,
+                                          "KeepListStructure":  false
+                                      }
+                                  ],
+                      "Replication":  "Disabled",
+                      "Description":  "Creates a string"
+                  },
+                  {
+                      "ConcreteType":  "CoreNodeModels.Input.StringInput, CoreNodeModels",
+                      "NodeType":  "StringInputNode",
+                      "InputValue":  "NUM_CIRCUITO",
+                      "Id":  "ba030000000000000000000000000001",
+                      "Inputs":  [
+
+                                 ],
+                      "Outputs":  [
+                                      {
+                                          "Id":  "ba030000000000000000000000000002",
+                                          "Name":  "",
+                                          "Description":  "String",
+                                          "UsingDefaultValue":  false,
+                                          "Level":  2,
+                                          "UseLevels":  false,
+                                          "KeepListStructure":  false
+                                      }
+                                  ],
+                      "Replication":  "Disabled",
+                      "Description":  "Creates a string"
+                  },
+                  {
+                      "ConcreteType":  "CoreNodeModels.Input.StringInput, CoreNodeModels",
+                      "NodeType":  "StringInputNode",
+                      "InputValue":  "TAG CIRCUITO",
+                      "Id":  "ba040000000000000000000000000001",
+                      "Inputs":  [
+
+                                 ],
+                      "Outputs":  [
+                                      {
+                                          "Id":  "ba040000000000000000000000000002",
+                                          "Name":  "",
+                                          "Description":  "String",
+                                          "UsingDefaultValue":  false,
+                                          "Level":  2,
+                                          "UseLevels":  false,
+                                          "KeepListStructure":  false
+                                      }
+                                  ],
+                      "Replication":  "Disabled",
+                      "Description":  "Creates a string"
+                  },
+                  {
+                      "ConcreteType":  "CoreNodeModels.Input.StringInput, CoreNodeModels",
+                      "NodeType":  "StringInputNode",
+                      "InputValue":  "X",
+                      "Id":  "ba050000000000000000000000000001",
+                      "Inputs":  [
+
+                                 ],
+                      "Outputs":  [
+                                      {
+                                          "Id":  "ba050000000000000000000000000002",
+                                          "Name":  "",
+                                          "Description":  "String",
+                                          "UsingDefaultValue":  false,
+                                          "Level":  2,
+                                          "UseLevels":  false,
+                                          "KeepListStructure":  false
+                                      }
+                                  ],
+                      "Replication":  "Disabled",
+                      "Description":  "Creates a string"
+                  },
+                  {
+                      "ConcreteType":  "CoreNodeModels.Input.StringInput, CoreNodeModels",
+                      "NodeType":  "StringInputNode",
+                      "InputValue":  "Tag de Cto Tuberia",
+                      "Id":  "ba060000000000000000000000000001",
+                      "Inputs":  [
+
+                                 ],
+                      "Outputs":  [
+                                      {
+                                          "Id":  "ba060000000000000000000000000002",
+                                          "Name":  "",
+                                          "Description":  "String",
+                                          "UsingDefaultValue":  false,
+                                          "Level":  2,
+                                          "UseLevels":  false,
+                                          "KeepListStructure":  false
+                                      }
+                                  ],
+                      "Replication":  "Disabled",
+                      "Description":  "Creates a string"
+                  },
+                  {
+                      "ConcreteType":  "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
+                      "NumberType":  "Integer",
+                      "MaximumValue":  50,
+                      "MinimumValue":  0,
+                      "StepValue":  1,
+                      "Id":  "ba070000000000000000000000000001",
+                      "NodeType":  "NumberInputNode",
+                      "Inputs":  [
+
+                                 ],
+                      "Outputs":  [
+                                      {
+                                          "Id":  "ba070000000000000000000000000002",
+                                          "Name":  "",
+                                          "Description":  "Int64",
+                                          "UsingDefaultValue":  false,
+                                          "Level":  2,
+                                          "UseLevels":  false,
+                                          "KeepListStructure":  false
+                                      }
+                                  ],
+                      "Replication":  "Disabled",
+                      "Description":  "Produces integer values",
+                      "InputValue":  3
+                  },
+                  {
+                      "ConcreteType":  "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
+                      "NumberType":  "Integer",
+                      "MaximumValue":  100,
+                      "MinimumValue":  0,
+                      "StepValue":  1,
+                      "Id":  "ba080000000000000000000000000001",
+                      "NodeType":  "NumberInputNode",
+                      "Inputs":  [
+
+                                 ],
+                      "Outputs":  [
+                                      {
+                                          "Id":  "ba080000000000000000000000000002",
+                                          "Name":  "",
+                                          "Description":  "Int64",
+                                          "UsingDefaultValue":  false,
+                                          "Level":  2,
+                                          "UseLevels":  false,
+                                          "KeepListStructure":  false
+                                      }
+                                  ],
+                      "Replication":  "Disabled",
+                      "Description":  "Produces integer values",
+                      "InputValue":  12
+                  },
+                  {
+                      "ConcreteType":  "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
+                      "NumberType":  "Integer",
+                      "MaximumValue":  10,
+                      "MinimumValue":  1,
+                      "StepValue":  1,
+                      "Id":  "ba090000000000000000000000000001",
+                      "NodeType":  "NumberInputNode",
+                      "Inputs":  [
+
+                                 ],
+                      "Outputs":  [
+                                      {
+                                          "Id":  "ba090000000000000000000000000002",
+                                          "Name":  "",
+                                          "Description":  "Int64",
+                                          "UsingDefaultValue":  false,
+                                          "Level":  2,
+                                          "UseLevels":  false,
+                                          "KeepListStructure":  false
+                                      }
+                                  ],
+                      "Replication":  "Disabled",
+                      "Description":  "Produces integer values",
+                      "InputValue":  2
+                  },
+                  {
+                      "ConcreteType":  "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
+                      "NumberType":  "Integer",
+                      "MaximumValue":  40,
+                      "MinimumValue":  0,
+                      "StepValue":  1,
+                      "Id":  "ba0a0000000000000000000000000001",
+                      "NodeType":  "NumberInputNode",
+                      "Inputs":  [
+
+                                 ],
+                      "Outputs":  [
+                                      {
+                                          "Id":  "ba0a0000000000000000000000000002",
+                                          "Name":  "",
+                                          "Description":  "Int64",
+                                          "UsingDefaultValue":  false,
+                                          "Level":  2,
+                                          "UseLevels":  false,
+                                          "KeepListStructure":  false
+                                      }
+                                  ],
+                      "Replication":  "Disabled",
+                      "Description":  "Produces integer values",
+                      "InputValue":  0
+                  },
+                  {
+                      "ConcreteType":  "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+                      "Id":  "ba0b0000000000000000000000000001",
+                      "NodeType":  "BooleanInputNode",
+                      "Inputs":  [
+
+                                 ],
+                      "Outputs":  [
+                                      {
+                                          "Id":  "ba0b0000000000000000000000000002",
+                                          "Name":  "",
+                                          "Description":  "Boolean",
+                                          "UsingDefaultValue":  false,
+                                          "Level":  2,
+                                          "UseLevels":  false,
+                                          "KeepListStructure":  false
+                                      }
+                                  ],
+                      "Replication":  "Disabled",
+                      "Description":  "Enables selection between True and False",
+                      "InputValue":  false
+                  },
+                  {
+                      "ConcreteType":  "CoreNodeModels.Input.StringInput, CoreNodeModels",
+                      "NodeType":  "StringInputNode",
+                      "InputValue":  "",
+                      "Id":  "ba0c0000000000000000000000000001",
+                      "Inputs":  [
+
+                                 ],
+                      "Outputs":  [
+                                      {
+                                          "Id":  "ba0c0000000000000000000000000002",
+                                          "Name":  "",
+                                          "Description":  "String",
+                                          "UsingDefaultValue":  false,
+                                          "Level":  2,
+                                          "UseLevels":  false,
+                                          "KeepListStructure":  false
+                                      }
+                                  ],
+                      "Replication":  "Disabled",
+                      "Description":  "Creates a string"
+                  },
+                  {
+                      "ConcreteType":  "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+                      "Id":  "ba0d0000000000000000000000000001",
+                      "NodeType":  "BooleanInputNode",
+                      "Inputs":  [
+
+                                 ],
+                      "Outputs":  [
+                                      {
+                                          "Id":  "ba0d0000000000000000000000000002",
+                                          "Name":  "",
+                                          "Description":  "Boolean",
+                                          "UsingDefaultValue":  false,
+                                          "Level":  2,
+                                          "UseLevels":  false,
+                                          "KeepListStructure":  false
+                                      }
+                                  ],
+                      "Replication":  "Disabled",
+                      "Description":  "Enables selection between True and False",
+                      "InputValue":  true
+                  },
+                  {
+                      "ConcreteType":  "PythonNodeModels.PythonNode, PythonNodeModels",
+                      "Engine":  "PythonNet3",
+                      "VariableInputPorts":  true,
+                      "Id":  "aa010000000000000000000000000001",
+                      "NodeType":  "PythonScriptNode",
+                      "Code":  "# 08_Conduits - tags de circuito - ILUMINACION\n#\n# Etiqueta cada conduit de las plantas de sector con el numero de circuito al que pertenece,\n# y cuando varios conduits se superponen en planta apila sus tags en una grilla para que se\n# lean todos.\n#\n#            |                    |                     |\n#            O  \u003c- la flecha      O                     O\n#\n#          (3)                  (3)                 (3) (5)\n#                               (4)                 (4) (6)\n#\n#          1 conduit          2 conduits            4 conduits\n#\n# Revit 2027 / Dynamo 4 / CPython3\n# IN[0]  = procesar todos los sectores (bool)\n# IN[1]  = filtro de sectores si IN[0] es False (parcial, comas)\n# IN[2]  = parametro de donde se LEE el numero de circuito (string, ej. NUM_CIRCUITO)\n# IN[3]  = parametro que DIBUJA la familia del tag (string; vacio = dibuja el mismo de IN[2] y\n#          no se copia nada)\n# IN[4]  = texto para el conduit sin numero (string, ej. X; vacio = no se etiqueta)\n# IN[5]  = familia del tag de circuito (string, ej. Tag de Cto Tuberia)\n# IN[6]  = umbral de superposicion en planta, en mm de papel\n# IN[7]  = separacion del apilado respecto al conduit, en mm de papel\n# IN[8]  = cuantos circulos entran en una columna antes de abrir la siguiente (int)\n# IN[9]  = diametro del circulo del tag, en mm de papel (0 = medirlo del tag colocado)\n# IN[10] = rehacer: borra los tags que ya estan puestos y los vuelve a colocar\n# IN[11] = LIMPIEZA: borra este valor del parametro de IN[2] en todo el modelo (vacio = no)\n# IN[12] = etiquetar tambien los conduits verticales, o sea las bajadas (bool)\n#\n#\n# QUE ES \"SUPERPUESTO\" -Y POR QUE EL UMBRAL VA EN MILIMETROS DE PAPEL-\n#\n# Los conduits no estan encimados en el modelo: corren PARALELOS Y SEPARADOS. Los tres\n# primeros del modelo van a 100 mm uno de otro, que a 1:75 son 1,3 mm en la hoja. O sea que el\n# problema no es geometrico sino de ESCALA: dos conduits se superponen cuando el plotter ya no\n# puede separarlos, y eso depende de a cuanto se imprime la vista.\n#\n# Por eso el umbral de IN[6] es en mm de PAPEL y se convierte con la escala de cada vista,\n# igual que todas las distancias de 03, 05 y 06. Un umbral en milimetros de modelo daria\n# grupos distintos segun la escala sin que nadie toque el modelo.\n#\n# Dos conduits van al mismo grupo si ademas de estar cerca son PARALELOS y se SOLAPAN a lo\n# largo. Sin esas dos condiciones, dos conduits que apenas se cruzan en un punto -uno yendo al\n# norte y otro al este- caerian en el mismo grupo y su anotacion diria una mentira: que en ese\n# lugar corren juntos.\n#\n#\n# UN CIRCULO POR CIRCUITO DISTINTO, MOVIDO A SU CASILLA\n#\n# La anotacion apilada NO es un tag con varios valores: son N IndependentTag corridos a las\n# posiciones de la grilla. Solo el primero conserva la flecha; los demas van sin.\n#\n# N NO es la cantidad de conduits del grupo, sino la cantidad de CIRCUITOS DISTINTOS que pasan\n# por ahi. Una corrida que va junta lleva muchas veces el mismo circuito repetido -tres tramos\n# del 3 y uno del 4- y dibujarlos todos daba pilas de cinco circulos que decian \"3 3 4 3 3\". El\n# apilado existe para mostrar QUE CIRCUITOS pasan por ese lugar, y para eso el 3 hace falta una\n# vez: repetirlo no agrega informacion, agrega tinta y esconde el 4.\n#\n# Se colapsa SOLO dentro del grupo. Que el circuito 3 tenga su propio circulo en otra parte de\n# la planta es correcto, y es justamente lo que el plano tiene que decir: por ahi tambien pasa.\n#\n# Lo que NO se colapsa es la copia al parametro que dibuja el tag: esa se escribe en TODOS los\n# conduits del grupo. Es un dato del modelo -el circuito de ese tramo- y no tiene por que\n# depender de a quien le toco representarlo en el dibujo.\n#\n# Se eligio asi para que cada circulo siga siendo un tag DE VERDAD, asociativo a SU conduit: si\n# alguien cambia el circuito de uno, ese circulo se actualiza solo y los otros no se enteran.\n# Un unico tag multi-referencia habria dejado el apilado en manos de Revit, que no da la grilla\n# de dos columnas que pide el plano.\n#\n# El precio: la grilla la sostiene el graph, no Revit. Si alguien mueve un circulo a mano, el\n# apilado se desalinea y no hay nada que lo vuelva a acomodar salvo correr el paso con rehacer.\n#\n# La grilla se llena HACIA ABAJO hasta IN[8] circulos y despues abre columna a la derecha, que\n# es como esta en el plano de referencia: con cuatro circuitos, el 3 y el 5 arriba y el 4 y el\n# 6 abajo.\n#\n#\n# EL PASO DE LA GRILLA SE MIDE, NO SE ESTIMA\n#\n# El tamano del circulo depende de la familia del tag y de la escala de la vista, asi que se\n# coloca el primer tag, se le mide el bounding box en la vista y ese es el paso de la grilla.\n# Estimarlo por el tamano de letra seria adivinar, y errarle deja los circulos separados o\n# encimados. Es el mismo criterio con que 04 y 07 miden la tabla antes de moverla.\n#\n# IN[9] existe como valvula de escape: si Revit no devuelve el bounding box del tag -pasa con\n# algunas familias de anotacion- se usa ese numero y el log lo avisa.\n#\n#\n# LA TRAMPA DEL PARAMETRO QUE DIBUJA EL TAG\n#\n# Un IndependentTag dibuja LO QUE DICE SU FAMILIA, no lo que le pase el graph. Y ninguna API\n# dice que parametro dibuja el label de una anotacion: hay que saberlo o descubrirlo mirando.\n#\n# Esto ya costo caro en 03. Se probo etiquetar los rieles con un tag de categoria y los 195\n# tags salieron VACIOS, porque la familia dibujaba un parametro distinto del que el graph\n# escribia. No hubo ningun error: solo 195 hexagonos en blanco.\n#\n# En este modelo el conduit tiene varios candidatos -NUM_CIRCUITO, TAG CIRCUITO, TEXTO CIRCUITO\n# 1/2/3- y no se puede saber desde afuera cual usa \"Tag de Cto Tuberia\". Por eso hay DOS\n# inputs:\n#\n#   IN[2]  de donde se LEE el numero      el dato de verdad, NUM_CIRCUITO\n#   IN[3]  que parametro DIBUJA el tag    vacio si es el mismo; si no, se copia\n#\n# Si el tag dibuja otro parametro, se pone su nombre en IN[3] y el graph copia el numero ahi.\n# Es la misma maquinaria que usa 04 para el largo del riel, y por el mismo motivo: el dato vive\n# donde tiene que vivir y ademas se copia donde el dibujo lo necesita.\n#\n# QUE MIRAR EN EL PRIMER RUN: que los circulos salgan CON NUMERO. Si salen todos vacios, el tag\n# no dibuja el parametro de IN[3] y hay que cambiarlo. El graph no puede detectarlo solo.\n#\n# EN ESTE MODELO YA SE COMPROBO, Y LA TRAMPA ERA REAL: \"Tag de Cto Tuberia\" dibuja\n# \"TAG CIRCUITO\", NO \"NUM_CIRCUITO\". Se vio filtrando el modelo: hay 2 conduits con\n# TAG CIRCUITO = \"23\" y en el plano hay exactamente 2 circulos con 23, mientras que conduits\n# con NUM_CIRCUITO = \"23\" hay CERO. Por eso IN[3] va en \"TAG CIRCUITO\".\n#\n# La primera corrida fue con IN[3] vacio y el resultado fue el peor posible: los circulos\n# salieron en blanco -porque el tag miraba TAG CIRCUITO, que estaba a medias- y ademas la marca\n# \"X\" se escribio sobre NUM_CIRCUITO en 116 conduits. Para eso esta IN[11].\n#\n#\n# LA X DE LOS QUE NO TIENEN CIRCUITO\n#\n# Hoy solo algunos conduits tienen el numero cargado. Los que no lo tienen se etiquetan igual,\n# con el texto de IN[4] -una X- para que el hueco se VEA en el plano en vez de pasar\n# desapercibido. Es la misma idea que la columna vacia de 07: un dato que falta tiene que\n# notarse.\n#\n# ⚠️ OJO CON DONDE CAE ESA X. Como el tag dibuja un parametro del conduit, la X hay que\n# ESCRIBIRLA en el modelo. Si IN[3] es un parametro de dibujo aparte, la X vive ahi y\n# NUM_CIRCUITO no se toca, que es lo correcto. Pero si el tag dibuja NUM_CIRCUITO directo, la X\n# termina en el dato de verdad y despues no se distingue de un valor cargado a mano. El graph\n# lo avisa en el log cuando pasa; para desactivarlo se deja IN[4] vacio y esos conduits no se\n# etiquetan.\n#\n#\n# QUE SE ETIQUETA Y QUE NO\n#\n# Solo las PLANTAS de sector, y solo la categoria Conduits. Las elevaciones no se tocan: el\n# apilado resuelve un problema de la planta -conduits paralelos que a escala se juntan- y en\n# una elevacion el mismo grupo se ve de canto.\n#\n# Los Conduit Fittings quedan fuera: son codos y uniones, no llevan circuito propio y\n# etiquetarlos duplicaria el numero del tramo que unen.\n#\n# Los 79 tags de esta familia que ya hay en el modelo estan en otras vistas -el plano de\n# referencia DISPOSICION GENERAL ALUMBRADO- y no se tocan, porque los tags se recolectan\n# CONTRA LA VISTA que se esta procesando.\n\nimport clr\nimport math\nclr.AddReference(\u0027RevitAPI\u0027)\nclr.AddReference(\u0027RevitServices\u0027)\nfrom Autodesk.Revit.DB import (FilteredElementCollector, ViewPlan, XYZ, Element, ElementId,\n                               BuiltInCategory, StorageType, FamilySymbol, Reference,\n                               IndependentTag, TagOrientation, LocationCurve,\n                               Line, ReferenceArray, Dimension, CurveElement, Options,\n                               ViewDetailLevel, GeometryInstance)\nfrom RevitServices.Persistence import DocumentManager\nfrom RevitServices.Transactions import TransactionManager\n\ndoc = DocumentManager.Instance.CurrentDBDocument\n\nprocess_all = bool(IN[0])\nfilter_text = (IN[1] or \u0027\u0027).strip()\nparam_lee = (IN[2] or \u0027NUM_CIRCUITO\u0027).strip()\nparam_dibuja = (IN[3] or \u0027\u0027).strip()\ntexto_sin = (IN[4] or \u0027\u0027).strip()\nfamilia_tag = (IN[5] or \u0027\u0027).strip()\numbral_mm = float(IN[6]) if IN[6] is not None else 3.0\nsep_mm = float(IN[7]) if IN[7] is not None else 12.0\npor_columna = int(IN[8]) if IN[8] else 2\ndiam_mm_in = float(IN[9]) if IN[9] is not None else 0.0\nrehacer = bool(IN[10])\nlimpiar_valor = (IN[11] or \u0027\u0027).strip()\ntaggear_verticales = bool(IN[12]) if IN[12] is not None else True\n\nlog = []\naviso_medida = False\naviso_x_en_origen = False\n\n# --- contrato de nombres con 00_Vistas de sector ---\nSUF_PLANTA = \u0027 - PLANTA\u0027\n\n# Dos conduits se consideran paralelos si sus direcciones en planta difieren menos que esto.\n# Es angulo, no distancia, asi que no depende de la escala.\nTOL_PARALELO = 0.02  # rad, poco mas de un grado\n\n\ndef elem_name(e):\n    try:\n        return Element.Name.GetValue(e)\n    except Exception:\n        try:\n            return e.Name\n        except Exception:\n            return \u0027\u0027\n\n\ndef coincide(nombre, texto):\n    # filtro parcial separado por comas, insensible a mayusculas. Mismo criterio que el resto\n    # del pipeline.\n    if not texto:\n        return True\n    alto = (nombre or \u0027\u0027).upper()\n    for t in texto.split(\u0027,\u0027):\n        t = t.strip().upper()\n        if t and t in alto:\n            return True\n    return False\n\n\ndef plantas_de_sector():\n    res = []\n    for v in FilteredElementCollector(doc).OfClass(ViewPlan):\n        if v.IsTemplate:\n            continue\n        n = elem_name(v)\n        if not n.endswith(SUF_PLANTA):\n            continue\n        sector = n[:-len(SUF_PLANTA)]\n        if not process_all and not coincide(sector, filter_text):\n            continue\n        res.append((v, sector, n))\n    res.sort(key=lambda t: t[2])\n    return res\n\n\ndef get_string(el, nombre):\n    if not nombre:\n        return \u0027\u0027\n    try:\n        p = el.LookupParameter(nombre)\n    except Exception:\n        return \u0027\u0027\n    if p is None or p.StorageType != StorageType.String:\n        return \u0027\u0027\n    try:\n        return (p.AsString() or \u0027\u0027).strip()\n    except Exception:\n        return \u0027\u0027\n\n\ndef set_string(el, nombre, valor):\n    if not nombre:\n        return None\n    try:\n        p = el.LookupParameter(nombre)\n    except Exception:\n        return None\n    if p is None or p.IsReadOnly or p.StorageType != StorageType.String:\n        return False\n    try:\n        if (p.AsString() or \u0027\u0027) != valor:\n            p.Set(valor)\n        return True\n    except Exception:\n        return False\n\n\ndef tipo_de_tag():\n    # Se busca por NOMBRE DE FAMILIA y no por nombre de tipo: la familia tiene un solo tipo hoy,\n    # pero si manana le agregan uno el graph no tiene por que romperse.\n    objetivo = familia_tag.upper()\n    candidatos = []\n    for s in (FilteredElementCollector(doc)\n              .OfCategory(BuiltInCategory.OST_ConduitTags)\n              .WhereElementIsElementType()):\n        if not isinstance(s, FamilySymbol):\n            continue\n        try:\n            fam = s.Family.Name or \u0027\u0027\n        except Exception:\n            fam = \u0027\u0027\n        candidatos.append((fam, s))\n        if objetivo and fam.upper() == objetivo:\n            return s\n    if objetivo:\n        log.append(\u0027ERROR: no existe una familia de tag de conduit llamada \"{}\". Las que hay \u0027\n                   \u0027en el modelo son: {}.\u0027.format(\n                       familia_tag,\n                       \u0027, \u0027.join(sorted(set(f for f, _ in candidatos))) or \u0027ninguna\u0027))\n        return None\n    if candidatos:\n        s = candidatos[0][1]\n        log.append(\u0027AVISO: no se pidio familia de tag; se usa \"{}\".\u0027.format(candidatos[0][0]))\n        return s\n    log.append(\u0027ERROR: el modelo no tiene ninguna familia de tag de conduit cargada.\u0027)\n    return None\n\n\n# ---------------------------- GEOMETRIA EN PLANTA ----------------------------\n\ndef eje_en_planta(el, v, ex, ey):\n    # El conduit reducido a un segmento en las coordenadas de la vista: (u0, w0) - (u1, w1).\n    # Se usa la LocationCurve y no el bounding box porque un conduit diagonal tiene un bbox\n    # enorme que no dice nada de por donde pasa.\n    try:\n        loc = el.Location\n    except Exception:\n        return None\n    if not isinstance(loc, LocationCurve) or loc.Curve is None:\n        return None\n    try:\n        c = loc.Curve\n        p0, p1 = c.GetEndPoint(0), c.GetEndPoint(1)\n    except Exception:\n        return None\n    a = (p0.DotProduct(ex), p0.DotProduct(ey))\n    b = (p1.DotProduct(ex), p1.DotProduct(ey))\n    # Un conduit VERTICAL en planta es un punto: no tiene direccion, asi que no puede\n    # agruparse con nadie. Se devuelve igual como segmento degenerado y termina siendo un\n    # grupo de uno, porque una bajada es justamente donde interesa saber el circuito. Las\n    # primeras corridas lo descartaban y se perdian 67 de 202 conduits sin que nada lo dijera\n    # salvo una linea del log.\n    return a, b\n\n\ndef direccion(seg):\n    a, b = seg\n    du, dw = b[0] - a[0], b[1] - a[1]\n    n = math.hypot(du, dw)\n    if n \u003c 1e-12:\n        return None\n    return du / n, dw / n\n\n\ndef mismo_grupo(s1, s2, umbral):\n    # Tres condiciones, y las tres hacen falta.\n    d1, d2 = direccion(s1), direccion(s2)\n    if d1 is None or d2 is None:\n        return False\n\n    # 1. PARALELOS. El valor absoluto es para que dos conduits dibujados en sentido contrario\n    #    -uno de norte a sur y otro de sur a norte- cuenten como paralelos, que es lo que son.\n    cos = abs(d1[0] * d2[0] + d1[1] * d2[1])\n    if cos \u003c math.cos(TOL_PARALELO):\n        return False\n\n    # 2. CERCA, medido perpendicular al eje. La distancia entre los puntos medios no sirve: dos\n    #    conduits de la misma corrida, uno corto y uno largo, tienen los medios lejos y estan\n    #    encimados igual.\n    a1 = s1[0]\n    a2, b2 = s2\n    nu, nw = -d1[1], d1[0]\n    perp1 = abs((a2[0] - a1[0]) * nu + (a2[1] - a1[1]) * nw)\n    perp2 = abs((b2[0] - a1[0]) * nu + (b2[1] - a1[1]) * nw)\n    if min(perp1, perp2) \u003e umbral:\n        return False\n\n    # 3. SE SOLAPAN a lo largo del eje. Sin esto, dos tramos de la misma linea que estan en\n    #    puntas opuestas de la planta -y no comparten ni un metro- irian al mismo grupo y su\n    #    anotacion diria que ahi corren juntos.\n    def rango(s):\n        x = [(p[0] - a1[0]) * d1[0] + (p[1] - a1[1]) * d1[1] for p in s]\n        return min(x), max(x)\n    r1, r2 = rango(s1), rango(s2)\n    return not (r1[1] \u003c r2[0] - umbral or r2[1] \u003c r1[0] - umbral)\n\n\ndef agrupar(items, umbral):\n    # Union-find simple. Son decenas de conduits por planta, asi que el O(n^2) no molesta y\n    # evita toda la maquinaria de indices espaciales.\n    padre = list(range(len(items)))\n\n    def raiz(i):\n        while padre[i] != i:\n            padre[i] = padre[padre[i]]\n            i = padre[i]\n        return i\n\n    for i in range(len(items)):\n        for j in range(i + 1, len(items)):\n            if raiz(i) == raiz(j):\n                continue\n            if mismo_grupo(items[i][1], items[j][1], umbral):\n                padre[raiz(j)] = raiz(i)\n\n    grupos = {}\n    for i in range(len(items)):\n        grupos.setdefault(raiz(i), []).append(items[i])\n    return list(grupos.values())\n\n\ndef clave_de_orden(texto):\n    # Los circuitos se ordenan como numeros cuando lo son -3, 4, 5, 10 y no 10, 3, 4, 5- y los\n    # que no lo son van al final por orden alfabetico. Los sin circuito, ultimos de todos.\n    if not texto:\n        return (2, 0, \u0027\u0027)\n    try:\n        return (0, int(texto), \u0027\u0027)\n    except ValueError:\n        return (1, 0, texto.upper())\n\n\ndef medir_tag(tag, v, ex, ey):\n    try:\n        bb = tag.get_BoundingBox(v)\n    except Exception:\n        bb = None\n    if bb is None:\n        return None\n    us, ws = [], []\n    for x in (bb.Min.X, bb.Max.X):\n        for y in (bb.Min.Y, bb.Max.Y):\n            for z in (bb.Min.Z, bb.Max.Z):\n                p = XYZ(x, y, z)\n                us.append(p.DotProduct(ex))\n                ws.append(p.DotProduct(ey))\n    ancho, alto = max(us) - min(us), max(ws) - min(ws)\n    if ancho \u003c 1e-9 or alto \u003c 1e-9:\n        return None\n    return ancho, alto\n\n\ndef proyectar(p, v):\n    n = v.ViewDirection.Normalize()\n    d = p.Subtract(v.Origin).DotProduct(n)\n    return p.Subtract(n.Multiply(d))\n\n\ndef medir_paso(v, sym, conduit, ex, ey):\n    # Coloca un tag de prueba, lo mide y lo borra. Hace falta conocer el tamano del circulo\n    # ANTES de decidir donde cae cada pila -si no, no hay con que comparar para saber si dos se\n    # pisan- y el tamano depende de la familia y de la escala de la vista.\n    escala = v.Scale or 1\n    papel = lambda mm: float(mm) / 304.8 * escala\n    m = None\n    try:\n        bb = conduit.get_BoundingBox(v)\n        pt = XYZ((bb.Min.X + bb.Max.X) / 2.0, (bb.Min.Y + bb.Max.Y) / 2.0,\n                 (bb.Min.Z + bb.Max.Z) / 2.0) if bb else v.Origin\n        prueba = IndependentTag.Create(doc, sym.Id, v.Id, Reference(conduit), False,\n                                       TagOrientation.Horizontal, proyectar(pt, v))\n        doc.Regenerate()\n        m = medir_tag(prueba, v, ex, ey)\n        doc.Delete(prueba.Id)\n    except Exception:\n        m = None\n    if m is not None:\n        return m\n    global aviso_medida\n    d_mm = diam_mm_in if diam_mm_in \u003e 0 else 8.0\n    if not aviso_medida:\n        aviso_medida = True\n        log.append(\u0027AVISO: Revit no devolvio el tamano del tag; la grilla usa {:.1f} mm de \u0027\n                   \u0027papel. Si los circulos quedan separados o encimados, ajustar IN[9].\u0027.format(\n                       d_mm))\n    return (papel(d_mm), papel(d_mm))\n\n\ndef posiciones_de_pila(ancla_u, ancla_w, cuantos, paso, sep):\n    # La grilla: hacia abajo hasta \"por_columna\" y despues columna nueva a la derecha.\n    res = []\n    for i in range(cuantos):\n        col, fil = divmod(i, max(por_columna, 1))\n        res.append((ancla_u + col * paso[0],\n                    ancla_w - sep - paso[1] / 2.0 - fil * paso[1]))\n    return res\n\n\ndef desplazamientos(paso):\n    # Por donde se prueba correr una pila que choca. Primero mas abajo -la pila sigue colgando\n    # del mismo lugar, que es lo que la hace legible- y solo despues a los costados.\n    yield (0.0, 0.0)\n    for k in range(1, 7):\n        yield (0.0, -k * paso[1] * 1.1)\n    for k in range(1, 4):\n        for signo in (1.0, -1.0):\n            yield (signo * k * paso[0] * 1.2, 0.0)\n            yield (signo * k * paso[0] * 1.2, -k * paso[1] * 1.1)\n\n\ndef libre(centros, ocupados, paso):\n    # Dos circulos se pisan si sus centros estan a menos de un diametro. Se compara con el lado\n    # mas chico del tag para no separar de mas cuando el circulo no es redondo.\n    minimo = min(paso[0], paso[1]) * 0.95\n    for u, w in centros:\n        for ou, ow in ocupados:\n            if math.hypot(u - ou, w - ow) \u003c minimo:\n                return False\n    return True\n\n\ndef tags_de_la_familia(v, sym_id):\n    res = []\n    for t in FilteredElementCollector(doc, v.Id).OfClass(IndependentTag):\n        try:\n            if t.GetTypeId().Value == sym_id.Value:\n                res.append(t.Id)\n        except Exception:\n            pass\n    return res\n\n\n# ------------------- CADENAS DE COTA: DONDE PARTE Y TERMINA CADA CONDUIT -------------------\n#\n# Cuatro cadenas por planta -arriba, abajo, izquierda y derecha-, POR FUERA de las cadenas\n# de riel que ya pone 03. Cada marca de la cadena es una punta de conduit.\n#\n# CONTRA QUE SE ACOTA, DESPUES DE CINCO CAMINOS CERRADOS\n# -------------------------------------------------------\n# Contra el EJE del conduit. Es la unica referencia de un conduit que esta DEMOSTRADO que\n# sobrevive al commit en este modelo. Lo demas se probo y fallo:\n#   1. Caras de extremo del solido: Revit las descarta al comitear.\n#   2. Curve.GetEndPointReference sobre el eje: devuelve nulo. 149 conduits, cero cotas.\n#   3. Los CONDUIT FITTINGS de las puntas: 133 de 149 conduits no tienen fitting en alguna.\n#   4. Lineas de detalle fabricadas en la coordenada de cada punta: la cota se crea sin\n#      error y Revit la descarta al comitear, igual que las caras. Peor: las lineas SI\n#      sobreviven, asi que cada corrida dejaba ~137 lineas sueltas ensuciando la vista.\n#\n# COMO SE LEE UNA CADENA ASI, QUE NO ES LO QUE SE PIDIO AL PIE DE LA LETRA\n# ------------------------------------------------------------------------\n# Un eje es una linea A LO LARGO del recorrido, asi que sirve como referencia de una cadena\n# que mide PERPENDICULAR a el. La cadena de arriba mide sobre X, y sus referencias son los\n# ejes de los conduits que corren en Y: marca la POSICION EN X de cada corrida norte-sur.\n#\n# En una red ortogonal eso es, en la practica, donde empiezan y terminan los conduits\n# este-oeste: un tramo en X va justamente de una corrida en Y a la siguiente. No es lo mismo\n# que marcar la punta de cada conduit uno por uno -eso no se puede-, pero es la informacion\n# equivalente y ademas es ASOCIATIVA: si alguien mueve una corrida, la cota se actualiza.\n#\n# Cada conduit va al par de cadenas PERPENDICULAR a el, y entre los dos lados de ese par\n# decide de que mitad del plano cae.\n\n# EL EJE DE UN CONDUIT ES GEOMETRIA DE VISTA, NO DE MODELO.\n#\n# Cuando se acota a mano, Revit deja engancharse al eje del conduit sin problema: la\n# referencia EXISTE. El script no la encontraba porque pedia la geometria equivocada.\n#\n# Sin opt.View, get_Geometry devuelve la geometria de MODELO -el cilindro solido- y el eje\n# sencillamente no viene en ella. El eje es lo que Revit DIBUJA en esa vista, asi que hay\n# que pedir la geometria DE LA VISTA.\n#\n# ⚠ opt.View y opt.DetailLevel son MUTUAMENTE EXCLUYENTES: poner los dos lanza excepcion.\n# Con View, el nivel de detalle lo pone la vista. La version anterior seteaba DetailLevel,\n# nunca View, y ademas se comia cualquier excepcion con un except mudo: por eso el log decia\n# \"ningun conduit expuso su eje\" en vez de decir que estaba fallando.\nULTIMO_ERROR_EJE = []     # se guarda el primer error real, para que el log lo pueda contar\nestrategia_eje = {}       # que estrategia funciono -\u003e cuantos conduits\n\n\ndef linea_del_eje(el, v):\n    # Devuelve (estrategia, Line) del eje del conduit, o (None, None).\n    # 1. La geometria DE LA VISTA es la que trae el eje. 2. Si no, se cae a la geometria de\n    # modelo por nivel de detalle, que es lo unico que habia antes.\n    intentos = ((\u0027vista\u0027, v, None), (\u0027Coarse\u0027, None, ViewDetailLevel.Coarse),\n                (\u0027Medium\u0027, None, ViewDetailLevel.Medium))\n    for nombre, vista, detalle in intentos:\n        try:\n            opt = Options()\n            opt.ComputeReferences = True\n            opt.IncludeNonVisibleObjects = True\n            if vista is not None:\n                opt.View = vista          # NO se toca DetailLevel: son excluyentes\n            else:\n                opt.DetailLevel = detalle\n            geo = el.get_Geometry(opt)\n        except Exception as ex:\n            if len(ULTIMO_ERROR_EJE) \u003c 3:\n                ULTIMO_ERROR_EJE.append(\u0027{} -\u003e {}: {}\u0027.format(\n                    nombre, type(ex).__name__, str(ex)[:120]))\n            continue\n        if geo is None:\n            continue\n        pila = [geo]\n        while pila:\n            for g in pila.pop():\n                if isinstance(g, GeometryInstance):\n                    pila.append(g.GetInstanceGeometry())\n                    continue\n                if isinstance(g, Line):\n                    try:\n                        if g.Reference is not None:\n                            estrategia_eje[nombre] = estrategia_eje.get(nombre, 0) + 1\n                            return nombre, g\n                    except Exception as ex:\n                        if len(ULTIMO_ERROR_EJE) \u003c 3:\n                            ULTIMO_ERROR_EJE.append(\u0027{} / Reference -\u003e {}: {}\u0027.format(\n                                nombre, type(ex).__name__, str(ex)[:120]))\n    return None, None\n\n\ndef refs_de_las_puntas(linea):\n    # Las referencias del PUNTO donde nace y del PUNTO donde termina el eje.\n    #\n    # Esto ya se habia probado y daba nulo, pero se probaba sobre la geometria de MODELO\n    # -que para un conduit es el cilindro solido y no contiene ninguna linea-. Sobre la\n    # linea DE LA VISTA es otro objeto y sus puntas pueden existir. Si existen, cada conduit\n    # aporta DOS marcas a la cadena y cada tramo de la cadena es un conduit entero: es lo que\n    # se pidio. Si no existen, se cae al modo eje, que es lo que hoy ya funciona.\n    try:\n        r0 = linea.GetEndPointReference(0)\n        r1 = linea.GetEndPointReference(1)\n    except Exception as ex:\n        if len(ULTIMO_ERROR_EJE) \u003c 6:\n            ULTIMO_ERROR_EJE.append(\u0027puntas -\u003e {}: {}\u0027.format(\n                type(ex).__name__, str(ex)[:120]))\n        return None\n    if r0 is None or r1 is None:\n        return None\n    return r0, r1\n\n\ndef limpiar_marcas_huerfanas(v):\n    # Barre las lineas de detalle que dejo la version de las marcas fabricadas: sus cotas\n    # nunca sobrevivieron al commit, asi que quedaron sueltas. Se reconocen por su largo\n    # exacto -LARGO_MARCA_MM*2 de papel- y se informa cuantas se borraron, porque borrar\n    # geometria de una vista ajena a ciegas seria peor que dejarla.\n    escala = v.Scale or 1\n    largo = 2.0 * LARGO_MARCA_MM / 304.8 * escala\n    n = 0\n    for c in list(FilteredElementCollector(doc, v.Id).OfClass(CurveElement)):\n        try:\n            cur = c.GeometryCurve\n            if cur is None:\n                continue\n            if abs(cur.Length - largo) \u003c 1e-4:\n                doc.Delete(c.Id)\n                n += 1\n        except Exception:\n            pass\n    return n\n\nLADOS_CONDUIT = (\u0027arriba\u0027, \u0027abajo\u0027, \u0027izquierda\u0027, \u0027derecha\u0027)\nOFF_CADENA_MM = 25.0     # mm de papel por fuera de la envolvente: deja pasar la cadena de riel\nSEP_MIN_CADENA_MM = 1.0  # dos puntas mas juntas que esto en el papel se funden en una marca\nLARGO_MARCA_MM = 1.5     # media longitud de la marca de punta, en mm de papel\n\n\ndef id_entero(eid):\n    # NUNCA se comparan ElementId como objetos: bajo PythonNet la igualdad depende de que se\n    # mapee Equals/GetHashCode, y cuando no se mapea falla EN SILENCIO. Revit 2024 ademas\n    # cambio IntegerValue por Value.\n    for attr in (\u0027Value\u0027, \u0027IntegerValue\u0027):\n        try:\n            n = getattr(eid, attr)\n            if n is not None:\n                return int(n)\n        except Exception:\n            pass\n    return None\n\n\n# Los ejes que entran a una misma cadena corren todos en el mismo sentido -es el criterio con\n# el que se los eligio-, pero igual se descarta el que se desvie: basta UNO torcido para que\n# Revit rechace la cadena entera, y esa trampa ya esta documentada en las cadenas de riel.\nTOL_PARALELO_EJE = 0.02   # rad, poco mas de un grado\n\n\ndef envolvente_de_la_planta(v, ex, ey):\n    # Envolvente de TODO lo que se anota en la planta -conduits y rieles-, para que la\n    # cadena nueva salga por fuera de la de riel que 03 ya puso sobre los rieles.\n    us, ws = [], []\n    for cat in (BuiltInCategory.OST_Conduit, BuiltInCategory.OST_ElectricalFixtures):\n        for el in (FilteredElementCollector(doc, v.Id)\n                   .OfCategory(cat).WhereElementIsNotElementType()):\n            bb = el.get_BoundingBox(None)\n            if bb is None:\n                continue\n            for x in (bb.Min.X, bb.Max.X):\n                for y in (bb.Min.Y, bb.Max.Y):\n                    for z in (bb.Min.Z, bb.Max.Z):\n                        p = XYZ(x, y, z)\n                        us.append(p.DotProduct(ex))\n                        ws.append(p.DotProduct(ey))\n    if not us:\n        return None\n    return min(us), max(us), min(ws), max(ws)\n\n\ndef tipo_de_cota_de_la_vista(v):\n    # \"Del mismo tipo que las que ya tenemos\": se lee de una cota que YA esta en la vista en\n    # vez de nombrarla por string, que se rompe con cualquier renombre del tipo.\n    for dim in FilteredElementCollector(doc, v.Id).OfClass(Dimension):\n        try:\n            dt = doc.GetElement(dim.GetTypeId())\n            if dt is not None:\n                return dt\n        except Exception:\n            pass\n    return None\n\n\ndef limpiar_cadenas_de_conduit(v):\n    # Una cadena es de este bloque si tiene MAS DE DOS referencias y todas apuntan a\n    # conduits. Las cadenas de riel de 03 apuntan a rieles; sus cotas de largo de conduit\n    # apuntan a fittings y ademas tienen exactamente dos. Ninguna se confunde con estas.\n    ids_conduit = set()\n    for c in (FilteredElementCollector(doc, v.Id)\n              .OfCategory(BuiltInCategory.OST_Conduit).WhereElementIsNotElementType()):\n        ids_conduit.add(id_entero(c.Id))\n    n = 0\n    for dim in list(FilteredElementCollector(doc, v.Id).OfClass(Dimension)):\n        try:\n            refs = list(dim.References)\n            if len(refs) \u003c= 2:\n                continue\n            ids = [id_entero(r.ElementId) for r in refs]\n            if all(i is not None and i in ids_conduit for i in ids):\n                doc.Delete(dim.Id)\n                n += 1\n        except Exception:\n            pass\n    return n\n\n\ndef tender_cadena(v, items, eje_medida, eje_perp, valor_perp, sep_min, z, dt):\n    # items: [(pos, ref, dir_en_planta), ...]. Devuelve el ElementId de la cota creada, o\n    # None. NO afirma que la cadena quedo hecha: eso solo se sabe DESPUES del commit, y de\n    # verificarlo se encarga quien llama. Confundir \"se creo sin error\" con \"quedo\" es el\n    # error que hizo reportar cuatro cadenas tendidas cuando no habia ninguna.\n    if len(items) \u003c 2:\n        return None\n    # El filtro de paralelismo solo aplica al modo EJE. Una referencia de PUNTO -it[2] es\n    # None- no tiene direccion y no puede desalinear la cadena, asi que no se filtra.\n    if items[0][2] is None:\n        rectos = list(items)\n    else:\n        dom = items[0][2]\n        rectos = []\n        for it in items:\n            d = it[2]\n            if d is None:\n                continue\n            if abs(d[0] * dom[1] - d[1] * dom[0]) \u003c= math.sin(TOL_PARALELO_EJE):\n                rectos.append(it)\n    if len(rectos) \u003c 2:\n        return None\n    rectos.sort(key=lambda it: it[0])\n    filtrados, ultimo = [], None\n    for it in rectos:\n        if ultimo is None or it[0] - ultimo \u003e sep_min:\n            filtrados.append(it)\n            ultimo = it[0]\n    if len(filtrados) \u003c 2:\n        return None\n    ra = ReferenceArray()\n    for it in filtrados:\n        ra.Append(it[1])\n    p1 = eje_medida.Multiply(filtrados[0][0]).Add(eje_perp.Multiply(valor_perp))\n    p2 = eje_medida.Multiply(filtrados[-1][0]).Add(eje_perp.Multiply(valor_perp))\n    p1, p2 = XYZ(p1.X, p1.Y, z), XYZ(p2.X, p2.Y, z)\n    if p1.DistanceTo(p2) \u003c 1e-6:\n        return None\n    try:\n        linea = Line.CreateBound(p1, p2)\n        d = (doc.Create.NewDimension(v, linea, ra, dt) if dt is not None\n             else doc.Create.NewDimension(v, linea, ra))\n        return d.Id if d is not None else None\n    except Exception:\n        return None\n\n\ndef acotar_bordes(v, ex, ey):\n    # Devuelve (lista de (lado, ElementId, cuantas_referencias), huerfanas_borradas).\n    escala = v.Scale or 1\n    papel = lambda x: float(x) / 304.8 * escala\n    env = envolvente_de_la_planta(v, ex, ey)\n    if env is None:\n        return [], 0\n    u0, u1, w0, w1 = env\n    u_mid, w_mid = (u0 + u1) / 2.0, (w0 + w1) / 2.0\n    off = papel(OFF_CADENA_MM)\n    sep_min = papel(SEP_MIN_CADENA_MM)\n    z = v.Origin.Z\n    dt = tipo_de_cota_de_la_vista(v)\n\n    huerfanas = limpiar_marcas_huerfanas(v)\n    if rehacer:\n        limpiar_cadenas_de_conduit(v)\n\n    # Cada conduit va al par de cadenas PERPENDICULAR a su recorrido: su eje es una linea a\n    # lo largo, asi que solo sirve como referencia de una cadena que mide cruzada a el.\n    grupos = dict((lado, []) for lado in LADOS_CONDUIT)\n    verticales = sin_ref = con_puntas = solo_eje = 0\n    for el in (FilteredElementCollector(doc, v.Id)\n               .OfCategory(BuiltInCategory.OST_Conduit)\n               .WhereElementIsNotElementType()):\n        seg = eje_en_planta(el, v, ex, ey)\n        if seg is None:\n            continue\n        d = direccion(seg)\n        if d is None:\n            verticales += 1\n            continue\n        estrategia, linea = linea_del_eje(el, v)\n        if linea is None:\n            sin_ref += 1\n            continue\n\n        puntas = refs_de_las_puntas(linea)\n        if puntas is not None:\n            # MODO PUNTAS -lo que se busca-. Cada conduit aporta DOS marcas, en donde nace y\n            # en donde termina, asi que un tramo de la cadena ES un conduit entero y los\n            # tramos intermedios son los huecos entre conduits.\n            #\n            # Va al par de cadenas PARALELO a su recorrido, no al perpendicular: sus dos\n            # puntas se separan a lo largo de SU propia direccion, y una cadena mide sobre\n            # un solo eje. Es al reves del modo eje, y por eso el reparto no se comparte.\n            #\n            # Las posiciones salen de la MISMA linea de la que salieron las referencias, no\n            # de la LocationCurve: si una viniera dada vuelta respecto de la otra, la cota\n            # se tenderia contra la punta equivocada.\n            p0, p1 = linea.GetEndPoint(0), linea.GetEndPoint(1)\n            q0 = (p0.DotProduct(ex), p0.DotProduct(ey))\n            q1 = (p1.DotProduct(ex), p1.DotProduct(ey))\n            if abs(q1[0] - q0[0]) \u003e= abs(q1[1] - q0[1]):\n                lado = \u0027abajo\u0027 if (q0[1] + q1[1]) / 2.0 \u003c w_mid else \u0027arriba\u0027\n                grupos[lado].append((q0[0], puntas[0], None))\n                grupos[lado].append((q1[0], puntas[1], None))\n            else:\n                lado = \u0027izquierda\u0027 if (q0[0] + q1[0]) / 2.0 \u003c u_mid else \u0027derecha\u0027\n                grupos[lado].append((q0[1], puntas[0], None))\n                grupos[lado].append((q1[1], puntas[1], None))\n            con_puntas += 1\n        else:\n            # MODO EJE -respaldo-. Una sola referencia: el eje entero. Marca DONDE PASA la\n            # corrida, no donde empieza y termina. Es lo que ya funcionaba.\n            a, b = seg\n            if abs(d[0]) \u003e= abs(d[1]):\n                lado = \u0027izquierda\u0027 if (a[0] + b[0]) / 2.0 \u003c u_mid else \u0027derecha\u0027\n                pos = (a[1] + b[1]) / 2.0\n            else:\n                lado = \u0027abajo\u0027 if (a[1] + b[1]) / 2.0 \u003c w_mid else \u0027arriba\u0027\n                pos = (a[0] + b[0]) / 2.0\n            try:\n                grupos[lado].append((pos, linea.Reference, d))\n            except Exception:\n                sin_ref += 1\n            solo_eje += 1\n\n    # Los dos modos NO se mezclan en una misma cadena: una referencia de punto y una de eje\n    # no conviven bien en una cadena de Revit, y mezclarlas arriesga perder la cadena entera.\n    # Si hubo puntas, mandan las puntas y los de solo-eje quedan fuera.\n    if con_puntas:\n        for lado in LADOS_CONDUIT:\n            grupos[lado] = [it for it in grupos[lado] if it[2] is None]\n\n    creadas = []\n    for lado, eje_medida, eje_perp, valor in (\n            (\u0027arriba\u0027, ex, ey, w1 + off), (\u0027abajo\u0027, ex, ey, w0 - off),\n            (\u0027izquierda\u0027, ey, ex, u0 - off), (\u0027derecha\u0027, ey, ex, u1 + off)):\n        did = tender_cadena(v, grupos[lado], eje_medida, eje_perp, valor, sep_min, z, dt)\n        creadas.append((lado, did, len(grupos[lado])))\n\n    log.append(\u0027  {}: modo {} ({} con puntas, {} solo eje, {} sin referencia,\u0027\n               \u0027 {} bajadas verticales).\u0027.format(\n                   elem_name(v),\n                   \u0027PUNTAS: cada tramo es un conduit\u0027 if con_puntas\n                   else \u0027EJE: cada marca es una corrida\u0027,\n                   con_puntas, solo_eje, sin_ref, verticales))\n    if con_puntas and solo_eje:\n        log.append(\u0027    {} conduit(s) quedaron fuera por no dar sus puntas: no se mezclan\u0027\n                   \u0027 referencias de punto con referencias de eje en una misma cadena.\u0027\n                   .format(solo_eje))\n    return creadas, huerfanas\n\n\n# ---------------------------- EL TRABAJO DE UNA PLANTA ----------------------------\n\ndef taggear_planta(v, sym, ex, ey):\n    global aviso_medida, aviso_x_en_origen\n    escala = v.Scale or 1\n    papel = lambda mm: float(mm) / 304.8 * escala\n    umbral = papel(umbral_mm)\n    sep = papel(sep_mm)\n\n    existentes = tags_de_la_familia(v, sym.Id)\n    if existentes and not rehacer:\n        return 0, 0, 0, True\n    for tid in existentes:\n        try:\n            doc.Delete(tid)\n        except Exception:\n            pass\n\n    conduits = [el for el in FilteredElementCollector(doc, v.Id)\n                .OfCategory(BuiltInCategory.OST_Conduit)\n                .WhereElementIsNotElementType()]\n    if not conduits:\n        return 0, 0, 0, False\n\n    items = []\n    sin_eje = 0\n    verticales = 0\n    for el in conduits:\n        seg = eje_en_planta(el, v, ex, ey)\n        if seg is None:\n            sin_eje += 1\n            continue\n        if direccion(seg) is None:\n            verticales += 1\n            if not taggear_verticales:\n                continue\n        items.append((el, seg))\n    if sin_eje:\n        log.append(\u0027  {}: {} conduit(s) sin curva de recorrido; no se etiquetan.\u0027.format(\n            elem_name(v), sin_eje))\n    if verticales:\n        log.append(\u0027  {}: {} conduit(s) verticales -bajadas-{}.\u0027.format(\n            elem_name(v), verticales,\n            \u0027, cada uno con su propio circulo\u0027 if taggear_verticales else \u0027, no se etiquetan\u0027))\n    if not items:\n        return 0, 0, 0, False\n\n    # El paso de la grilla se mide ANTES de empezar, con un tag de prueba que se borra: hace\n    # falta conocerlo para poder decidir donde cae cada pila sin pisar a las de al lado, y eso\n    # se decide antes de crear ningun tag definitivo.\n    paso = medir_paso(v, sym, items[0][0], ex, ey)\n\n    grupos = agrupar(items, umbral)\n    # las pilas se colocan de arriba a abajo y de izquierda a derecha para que el resultado no\n    # dependa del orden en que Revit devolvio los conduits\n    grupos.sort(key=lambda g: (-max(p[1] for p in g[0][1]), min(p[0] for p in g[0][1])))\n    puestos = 0\n    sin_numero = 0\n    colapsados = 0\n    ocupados = []\n\n    for grupo in grupos:\n        # cada conduit del grupo con su numero, ya ordenados\n        filas = []\n        for el, seg in grupo:\n            num = get_string(el, param_lee)\n            es_marca = not num\n            if es_marca:\n                sin_numero += 1\n                if not texto_sin:\n                    continue\n                num = texto_sin\n            filas.append((clave_de_orden(\u0027\u0027 if es_marca else num), num, es_marca, el, seg))\n        if not filas:\n            continue\n        filas.sort(key=lambda f: (f[0], f[3].Id.Value))\n\n        # UN CIRCULO POR CIRCUITO DISTINTO, no uno por conduit.\n        #\n        # Una corrida de conduits que van juntos lleva muchas veces el mismo circuito repetido\n        # -tres tramos del circuito 3 y uno del 4-, y dibujarlos todos daba pilas de cinco\n        # circulos que decian \"3 3 4 3 3\". El apilado existe para mostrar QUE CIRCUITOS pasan\n        # por ahi, y para eso el 3 hace falta una vez. Repetirlo no agrega informacion: agrega\n        # tinta y esconde el 4.\n        #\n        # Se colapsa SOLO dentro del grupo. Que el circuito 3 tenga su propio circulo en otra\n        # parte de la planta es correcto y es justamente lo que dice el plano: por ahi tambien\n        # pasa el 3.\n        #\n        # Ojo con lo que NO se colapsa: la copia al parametro que dibuja el tag se sigue\n        # escribiendo en TODOS los conduits del grupo, tengan circulo o no. Esa copia es un\n        # dato del modelo -el numero de circuito de ese tramo- y no tiene por que depender de\n        # si al tramo le toco o no ser el representante en el dibujo.\n        representantes = []\n        vistos = set()\n        for f in filas:\n            if f[1] in vistos:\n                continue\n            vistos.add(f[1])\n            representantes.append(f)\n        colapsados += len(filas) - len(representantes)\n\n        # el ancla: el punto medio del tramo que comparten, sobre el eje del primero. Un grupo\n        # de una bajada no tiene eje, asi que su ancla es el punto mismo.\n        d = direccion(filas[0][4])\n        a1 = filas[0][4][0]\n        if d is None:\n            ancla_u, ancla_w = a1[0], a1[1]\n        else:\n            proyecciones = []\n            for f in filas:\n                for p in f[4]:\n                    proyecciones.append((p[0] - a1[0]) * d[0] + (p[1] - a1[1]) * d[1])\n            t_medio = (min(proyecciones) + max(proyecciones)) / 2.0\n            ancla_u = a1[0] + d[0] * t_medio\n            ancla_w = a1[1] + d[1] * t_medio\n\n        # DONDE CAE LA PILA. Se prueba colgando del ancla y, si algun circulo pisaria uno ya\n        # puesto, se baja la pila entera de a un circulo y despues se prueba a los costados.\n        # Sin esto, dos corridas paralelas cercanas dejan sus pilas montadas: en el plano se\n        # leen como UNA sola columna larga y se pierde justamente la convencion de dos por\n        # columna. Se mueve la pila COMPLETA y no cada circulo, porque una pila desarmada ya\n        # no dice que esos circuitos van juntos.\n        # La COPIA al parametro que dibuja el tag va sobre TODOS los conduits del grupo, tengan\n        # circulo o no: es un dato del modelo y no depende de a quien le toco representar al\n        # circuito en el dibujo.\n        destino = param_dibuja or param_lee\n        for _clave, num, es_marca, el, _seg in filas:\n            if destino != param_lee:\n                set_string(el, destino, num)\n            elif es_marca:\n                # Si el tag dibuja el mismo parametro del que se lee, la marca de los sin\n                # circuito cae sobre el dato de verdad. Se hace igual -es lo que se pidio- pero\n                # se avisa una vez, porque despues no se distingue de un valor cargado a mano.\n                if not aviso_x_en_origen:\n                    aviso_x_en_origen = True\n                    log.append(\u0027AVISO: la marca \"{}\" de los conduits sin circuito se escribe \u0027\n                               \u0027en \"{}\", que es el parametro del dato de verdad, asi que \u0027\n                               \u0027despues no se distingue de un valor cargado a mano. La salida \u0027\n                               \u0027limpia es poner en IN[3] el parametro que dibuja el tag; para \u0027\n                               \u0027no marcarlos, vaciar IN[4].\u0027.format(texto_sin, param_lee))\n                set_string(el, destino, num)\n\n        centros = posiciones_de_pila(ancla_u, ancla_w, len(representantes), paso, sep)\n        for du, dw in desplazamientos(paso):\n            prueba = [(u + du, w + dw) for u, w in centros]\n            if libre(prueba, ocupados, paso):\n                centros = prueba\n                break\n        ocupados.extend(centros)\n\n        for i, (_clave, num, es_marca, el, _seg) in enumerate(representantes):\n            try:\n                pt = proyectar(ex.Multiply(ancla_u).Add(ey.Multiply(ancla_w)), v)\n                tag = IndependentTag.Create(doc, sym.Id, v.Id, Reference(el), i == 0,\n                                            TagOrientation.Horizontal, pt)\n            except Exception:\n                continue\n\n            u, w = centros[i]\n            try:\n                tag.TagHeadPosition = proyectar(ex.Multiply(u).Add(ey.Multiply(w)), v)\n            except Exception:\n                pass\n            if i != 0:\n                try:\n                    tag.HasLeader = False\n                except Exception:\n                    pass\n            puestos += 1\n\n    return puestos, sin_numero, colapsados, False\n\n\n# ---------------------------- EJECUCION ----------------------------\n\nplantas = plantas_de_sector()\nif not plantas:\n    log.append(\u0027No hay plantas de sector que coincidan con el filtro. Se esperan vistas \u0027\n               \u0027\"\u003csector\u003e{}\", creadas por 00.\u0027.format(SUF_PLANTA))\nelse:\n    TransactionManager.Instance.EnsureInTransaction(doc)\n\n    # LIMPIEZA. Herramienta de una sola vez, como el diagnostico de notas de 05: se le pasa un\n    # valor y lo borra de TODOS los conduits del modelo que lo tengan en el parametro de\n    # lectura. Existe porque la primera corrida de este paso escribio la marca \"X\" sobre\n    # NUM_CIRCUITO -el parametro del dato de verdad- en los 116 conduits que estaban vacios, y\n    # esas X no se van solas por mas que despues se configure bien el parametro de dibujo.\n    #\n    # Va sobre todo el modelo y no sobre los sectores filtrados a proposito: el destrozo no\n    # sabe de sectores y limpiarlo a medias seria peor que no limpiarlo.\n    if limpiar_valor:\n        borradas = 0\n        for el in (FilteredElementCollector(doc)\n                   .OfCategory(BuiltInCategory.OST_Conduit)\n                   .WhereElementIsNotElementType()):\n            if get_string(el, param_lee) == limpiar_valor:\n                if set_string(el, param_lee, \u0027\u0027):\n                    borradas += 1\n        log.append(\u0027LIMPIEZA: se borro el valor \"{}\" de \"{}\" en {} conduit(s). Vaciar IN[11] \u0027\n                   \u0027para que no vuelva a correr.\u0027.format(limpiar_valor, param_lee, borradas))\n\n    # LAS CADENAS DE COTA VAN PRIMERO Y APARTE.\n    # No dependen de los tags de circuito: son otra anotacion, con otras referencias y otro\n    # motivo. Colgarlas del bloque de los tags las dejaba sin correr cuando la familia de tag\n    # no aparecia o cuando la planta se salteaba por ya tener tags.\n    pendientes, huerfanas_tot = [], 0\n    for v, sector, nombre in plantas:\n        creadas, huerfanas = acotar_bordes(v, v.RightDirection.Normalize(),\n                                           v.UpDirection.Normalize())\n        huerfanas_tot += huerfanas\n        for lado, did, cuantas in creadas:\n            pendientes.append((nombre, lado, did, cuantas))\n\n    # SE COMITEA ACA, ANTES DE AFIRMAR NADA.\n    # Una cota se crea sin error y Revit la descarta al comitear: es la trampa que ya esta\n    # documentada para las caras de solido en 03, y que aca hizo reportar cuatro cadenas\n    # tendidas cuando en la vista no habia ninguna. \"NewDimension no tiro excepcion\" no es\n    # \"la cadena quedo\": lo unico que lo prueba es volver a buscarla por Id despues.\n    TransactionManager.Instance.ForceCloseTransaction()\n    TransactionManager.Instance.EnsureInTransaction(doc)\n\n    vivas = muertas = 0\n    for nombre, lado, did, cuantas in pendientes:\n        if did is None:\n            log.append(\u0027  {} / {}: {} referencia(s) -\u003e no se pudo crear.\u0027.format(\n                nombre, lado, cuantas))\n            continue\n        if doc.GetElement(did) is None:\n            muertas += 1\n            log.append(\u0027  {} / {}: {} referencia(s) -\u003e se creo y Revit la DESCARTO al\u0027\n                       \u0027 comitear.\u0027.format(nombre, lado, cuantas))\n        else:\n            vivas += 1\n            log.append(\u0027  {} / {}: {} referencia(s) -\u003e cadena VIVA (id {}).\u0027.format(\n                nombre, lado, cuantas, did))\n    log.append(\u0027{} cadena(s) de conduit vivas en el modelo, {} descartada(s) por Revit.\u0027\n               .format(vivas, muertas))\n    if estrategia_eje:\n        log.append(\u0027Referencia de eje obtenida con: {}\u0027.format(\n            \u0027, \u0027.join(\u0027{} -\u003e {}\u0027.format(k, n) for k, n in sorted(estrategia_eje.items()))))\n    else:\n        log.append(\u0027NINGUN conduit expuso la referencia de su eje.\u0027)\n        if ULTIMO_ERROR_EJE:\n            log.append(\u0027Errores reales al pedir la geometria -antes se tragaban en silencio-:\u0027)\n            for e in ULTIMO_ERROR_EJE:\n                log.append(\u0027    \u0027 + e)\n        else:\n            log.append(\u0027Y no hubo ninguna excepcion: la geometria se pidio bien y devolvio\u0027)\n            log.append(\u0027cero lineas con Reference. Si a mano SI se puede acotar el conduit,\u0027)\n            log.append(\u0027entonces la referencia se obtiene por una via distinta de get_Geometry.\u0027)\n    if huerfanas_tot:\n        log.append(\u0027Se borraron {} linea(s) de detalle huerfanas que habian quedado de la\u0027\n                   \u0027 version anterior de este paso.\u0027.format(huerfanas_tot))\n\n    sym = tipo_de_tag()\n    if sym is not None:\n        try:\n            if not sym.IsActive:\n                sym.Activate()\n                doc.Regenerate()\n        except Exception:\n            pass\n\n        total, total_sin, total_col, saltadas = 0, 0, 0, 0\n        for v, sector, nombre in plantas:\n            ex = v.RightDirection.Normalize()\n            ey = v.UpDirection.Normalize()\n            puestos, sin_num, col, saltada = taggear_planta(v, sym, ex, ey)\n            if saltada:\n                saltadas += 1\n                log.append(\u0027  {}: ya tiene tags de esta familia, se salta. Corre con rehacer \u0027\n                           \u0027para volver a colocarlos.\u0027.format(nombre))\n                continue\n            total += puestos\n            total_sin += sin_num\n            total_col += col\n            log.append(\u0027  {}: {} tag(s) de circuito.\u0027.format(nombre, puestos))\n\n        log.insert(0, \u0027{} tag(s) de circuito en {} planta(s) de sector{}.\u0027.format(\n            total, len(plantas) - saltadas,\n            \u0027 ({} saltada(s))\u0027.format(saltadas) if saltadas else \u0027\u0027))\n        if total_col:\n            log.append(\u0027{} tag(s) no se dibujaron porque repetian un circuito que ya estaba en \u0027\n                       \u0027su misma pila. Un circuito se muestra UNA vez por grupo: repetirlo no \u0027\n                       \u0027agrega informacion y esconde a los demas.\u0027.format(total_col))\n        if total_sin:\n            log.append(\u0027{} conduit(s) no tienen \"{}\" cargado{}.\u0027.format(\n                total_sin, param_lee,\n                \u0027; salen con la marca \"{}\"\u0027.format(texto_sin) if texto_sin\n                else \u0027 y no se etiquetaron\u0027))\n        log.append(\u0027MIRAR EN EL PRIMER RUN: que los circulos salgan CON NUMERO. Si salen todos \u0027\n                   \u0027vacios, la familia \"{}\" no dibuja el parametro \"{}\" y hay que poner el \u0027\n                   \u0027correcto en IN[3]. Ninguna API dice cual dibuja, asi que el graph no puede \u0027\n                   \u0027detectarlo solo.\u0027.format(familia_tag, param_dibuja or param_lee))\n\n    TransactionManager.Instance.ForceCloseTransaction()\n\nOUT = log\n",
+                      "Inputs":  [
+                                     {
+                                         "Id":  "aa010000000000000000000000000010",
+                                         "Name":  "IN[0]",
+                                         "Description":  "Input #0",
+                                         "UsingDefaultValue":  false,
+                                         "Level":  2,
+                                         "UseLevels":  false,
+                                         "KeepListStructure":  false
+                                     },
+                                     {
+                                         "Id":  "aa010000000000000000000000000011",
+                                         "Name":  "IN[1]",
+                                         "Description":  "Input #1",
+                                         "UsingDefaultValue":  false,
+                                         "Level":  2,
+                                         "UseLevels":  false,
+                                         "KeepListStructure":  false
+                                     },
+                                     {
+                                         "Id":  "aa010000000000000000000000000012",
+                                         "Name":  "IN[2]",
+                                         "Description":  "Input #2",
+                                         "UsingDefaultValue":  false,
+                                         "Level":  2,
+                                         "UseLevels":  false,
+                                         "KeepListStructure":  false
+                                     },
+                                     {
+                                         "Id":  "aa010000000000000000000000000013",
+                                         "Name":  "IN[3]",
+                                         "Description":  "Input #3",
+                                         "UsingDefaultValue":  false,
+                                         "Level":  2,
+                                         "UseLevels":  false,
+                                         "KeepListStructure":  false
+                                     },
+                                     {
+                                         "Id":  "aa010000000000000000000000000014",
+                                         "Name":  "IN[4]",
+                                         "Description":  "Input #4",
+                                         "UsingDefaultValue":  false,
+                                         "Level":  2,
+                                         "UseLevels":  false,
+                                         "KeepListStructure":  false
+                                     },
+                                     {
+                                         "Id":  "aa010000000000000000000000000015",
+                                         "Name":  "IN[5]",
+                                         "Description":  "Input #5",
+                                         "UsingDefaultValue":  false,
+                                         "Level":  2,
+                                         "UseLevels":  false,
+                                         "KeepListStructure":  false
+                                     },
+                                     {
+                                         "Id":  "aa010000000000000000000000000016",
+                                         "Name":  "IN[6]",
+                                         "Description":  "Input #6",
+                                         "UsingDefaultValue":  false,
+                                         "Level":  2,
+                                         "UseLevels":  false,
+                                         "KeepListStructure":  false
+                                     },
+                                     {
+                                         "Id":  "aa010000000000000000000000000017",
+                                         "Name":  "IN[7]",
+                                         "Description":  "Input #7",
+                                         "UsingDefaultValue":  false,
+                                         "Level":  2,
+                                         "UseLevels":  false,
+                                         "KeepListStructure":  false
+                                     },
+                                     {
+                                         "Id":  "aa010000000000000000000000000018",
+                                         "Name":  "IN[8]",
+                                         "Description":  "Input #8",
+                                         "UsingDefaultValue":  false,
+                                         "Level":  2,
+                                         "UseLevels":  false,
+                                         "KeepListStructure":  false
+                                     },
+                                     {
+                                         "Id":  "aa010000000000000000000000000019",
+                                         "Name":  "IN[9]",
+                                         "Description":  "Input #9",
+                                         "UsingDefaultValue":  false,
+                                         "Level":  2,
+                                         "UseLevels":  false,
+                                         "KeepListStructure":  false
+                                     },
+                                     {
+                                         "Id":  "aa01000000000000000000000000001a",
+                                         "Name":  "IN[10]",
+                                         "Description":  "Input #10",
+                                         "UsingDefaultValue":  false,
+                                         "Level":  2,
+                                         "UseLevels":  false,
+                                         "KeepListStructure":  false
+                                     },
+                                     {
+                                         "Id":  "aa01000000000000000000000000001b",
+                                         "Name":  "IN[11]",
+                                         "Description":  "Input #11",
+                                         "UsingDefaultValue":  false,
+                                         "Level":  2,
+                                         "UseLevels":  false,
+                                         "KeepListStructure":  false
+                                     },
+                                     {
+                                         "Id":  "aa01000000000000000000000000001c",
+                                         "Name":  "IN[12]",
+                                         "Description":  "Input #12",
+                                         "UsingDefaultValue":  false,
+                                         "Level":  2,
+                                         "UseLevels":  false,
+                                         "KeepListStructure":  false
+                                     }
+                                 ],
+                      "Outputs":  [
+                                      {
+                                          "Id":  "aa010000000000000000000000000005",
+                                          "Name":  "OUT",
+                                          "Description":  "Result of the python script",
+                                          "UsingDefaultValue":  false,
+                                          "Level":  2,
+                                          "UseLevels":  false,
+                                          "KeepListStructure":  false
+                                      }
+                                  ],
+                      "Replication":  "Disabled",
+                      "Description":  "Runs an embedded Python script."
+                  },
+                  {
+                      "ConcreteType":  "CoreNodeModels.Watch, CoreNodeModels",
+                      "WatchWidth":  460,
+                      "WatchHeight":  320,
+                      "Id":  "ca010000000000000000000000000001",
+                      "NodeType":  "ExtensionNode",
+                      "Inputs":  [
+                                     {
+                                         "Id":  "ca010000000000000000000000000002",
+                                         "Name":  "",
+                                         "Description":  "Node to evaluate.",
+                                         "UsingDefaultValue":  false,
+                                         "Level":  2,
+                                         "UseLevels":  false,
+                                         "KeepListStructure":  false
+                                     }
+                                 ],
+                      "Outputs":  [
+                                      {
+                                          "Id":  "ca010000000000000000000000000003",
+                                          "Name":  "",
+                                          "Description":  "Watch contents.",
+                                          "UsingDefaultValue":  false,
+                                          "Level":  2,
+                                          "UseLevels":  false,
+                                          "KeepListStructure":  false
+                                      }
+                                  ],
+                      "Replication":  "Disabled",
+                      "Description":  "Visualizes a node\u0027s output"
+                  }
+              ],
+    "Connectors":  [
+                       {
+                           "Start":  "ba010000000000000000000000000002",
+                           "End":  "aa010000000000000000000000000010",
+                           "Id":  "da010000000000000000000000000010",
+                           "IsHidden":  "False"
+                       },
+                       {
+                           "Start":  "ba020000000000000000000000000002",
+                           "End":  "aa010000000000000000000000000011",
+                           "Id":  "da010000000000000000000000000011",
+                           "IsHidden":  "False"
+                       },
+                       {
+                           "Start":  "ba030000000000000000000000000002",
+                           "End":  "aa010000000000000000000000000012",
+                           "Id":  "da010000000000000000000000000012",
+                           "IsHidden":  "False"
+                       },
+                       {
+                           "Start":  "ba040000000000000000000000000002",
+                           "End":  "aa010000000000000000000000000013",
+                           "Id":  "da010000000000000000000000000013",
+                           "IsHidden":  "False"
+                       },
+                       {
+                           "Start":  "ba050000000000000000000000000002",
+                           "End":  "aa010000000000000000000000000014",
+                           "Id":  "da010000000000000000000000000014",
+                           "IsHidden":  "False"
+                       },
+                       {
+                           "Start":  "ba060000000000000000000000000002",
+                           "End":  "aa010000000000000000000000000015",
+                           "Id":  "da010000000000000000000000000015",
+                           "IsHidden":  "False"
+                       },
+                       {
+                           "Start":  "ba070000000000000000000000000002",
+                           "End":  "aa010000000000000000000000000016",
+                           "Id":  "da010000000000000000000000000016",
+                           "IsHidden":  "False"
+                       },
+                       {
+                           "Start":  "ba080000000000000000000000000002",
+                           "End":  "aa010000000000000000000000000017",
+                           "Id":  "da010000000000000000000000000017",
+                           "IsHidden":  "False"
+                       },
+                       {
+                           "Start":  "ba090000000000000000000000000002",
+                           "End":  "aa010000000000000000000000000018",
+                           "Id":  "da010000000000000000000000000018",
+                           "IsHidden":  "False"
+                       },
+                       {
+                           "Start":  "ba0a0000000000000000000000000002",
+                           "End":  "aa010000000000000000000000000019",
+                           "Id":  "da010000000000000000000000000019",
+                           "IsHidden":  "False"
+                       },
+                       {
+                           "Start":  "ba0b0000000000000000000000000002",
+                           "End":  "aa01000000000000000000000000001a",
+                           "Id":  "da01000000000000000000000000001a",
+                           "IsHidden":  "False"
+                       },
+                       {
+                           "Start":  "ba0c0000000000000000000000000002",
+                           "End":  "aa01000000000000000000000000001b",
+                           "Id":  "da01000000000000000000000000001b",
+                           "IsHidden":  "False"
+                       },
+                       {
+                           "Start":  "ba0d0000000000000000000000000002",
+                           "End":  "aa01000000000000000000000000001c",
+                           "Id":  "da01000000000000000000000000001c",
+                           "IsHidden":  "False"
+                       },
+                       {
+                           "Start":  "aa010000000000000000000000000005",
+                           "End":  "ca010000000000000000000000000002",
+                           "Id":  "da0100000000000000000000000000f0",
+                           "IsHidden":  "False"
+                       }
+                   ],
+    "Dependencies":  [
+
+                     ],
+    "NodeLibraryDependencies":  [
+
+                                ],
+    "EnableLegacyPolyCurveBehavior":  true,
+    "Thumbnail":  "",
+    "GraphDocumentationURL":  null,
+    "ExtensionWorkspaceData":  [
+
+                               ],
+    "Author":  "",
+    "Linting":  {
+                    "activeLinter":  "None",
+                    "activeLinterId":  "7b75fb44-43fd-4631-a878-29f4d5d8399a",
+                    "warningCount":  0,
+                    "errorCount":  0
+                },
+    "Bindings":  [
+
+                 ],
+    "View":  {
+                 "Dynamo":  {
+                                "ScaleFactor":  1,
+                                "HasRunWithoutCrash":  false,
+                                "IsVisibleInDynamoLibrary":  true,
+                                "Version":  "4.0.2.3852",
+                                "RunType":  "Manual",
+                                "RunPeriod":  "1000"
+                            },
+                 "Camera":  {
+                                "Name":  "_Background Preview",
+                                "EyeX":  -17,
+                                "EyeY":  24,
+                                "EyeZ":  50,
+                                "LookX":  12,
+                                "LookY":  -13,
+                                "LookZ":  -58,
+                                "UpX":  0,
+                                "UpY":  1,
+                                "UpZ":  0
+                            },
+                 "ConnectorPins":  [
+
+                                   ],
+                 "NodeViews":  [
+                                   {
+                                       "Id":  "ba010000000000000000000000000001",
+                                       "Name":  "01. Procesar TODOS los sectores",
+                                       "IsSetAsInput":  true,
+                                       "IsSetAsOutput":  false,
+                                       "Excluded":  false,
+                                       "ShowGeometry":  true,
+                                       "X":  0,
+                                       "Y":  0
+                                   },
+                                   {
+                                       "Id":  "ba020000000000000000000000000001",
+                                       "Name":  "02. Filtro de sectores (si TODOS = False)",
+                                       "IsSetAsInput":  true,
+                                       "IsSetAsOutput":  false,
+                                       "Excluded":  false,
+                                       "ShowGeometry":  true,
+                                       "X":  0,
+                                       "Y":  130
+                                   },
+                                   {
+                                       "Id":  "ba030000000000000000000000000001",
+                                       "Name":  "03. Parametro de donde se LEE el numero de circuito",
+                                       "IsSetAsInput":  true,
+                                       "IsSetAsOutput":  false,
+                                       "Excluded":  false,
+                                       "ShowGeometry":  true,
+                                       "X":  0,
+                                       "Y":  260
+                                   },
+                                   {
+                                       "Id":  "ba040000000000000000000000000001",
+                                       "Name":  "04. Parametro que DIBUJA el tag (vacio = el mismo de 03)",
+                                       "IsSetAsInput":  true,
+                                       "IsSetAsOutput":  false,
+                                       "Excluded":  false,
+                                       "ShowGeometry":  true,
+                                       "X":  0,
+                                       "Y":  390
+                                   },
+                                   {
+                                       "Id":  "ba050000000000000000000000000001",
+                                       "Name":  "05. Marca para el conduit sin circuito (vacio = no se etiqueta)",
+                                       "IsSetAsInput":  true,
+                                       "IsSetAsOutput":  false,
+                                       "Excluded":  false,
+                                       "ShowGeometry":  true,
+                                       "X":  0,
+                                       "Y":  520
+                                   },
+                                   {
+                                       "Id":  "ba060000000000000000000000000001",
+                                       "Name":  "06. Familia del tag de circuito",
+                                       "IsSetAsInput":  true,
+                                       "IsSetAsOutput":  false,
+                                       "Excluded":  false,
+                                       "ShowGeometry":  true,
+                                       "X":  0,
+                                       "Y":  650
+                                   },
+                                   {
+                                       "Id":  "ba070000000000000000000000000001",
+                                       "Name":  "07. Umbral de superposicion en planta (mm de papel)",
+                                       "IsSetAsInput":  true,
+                                       "IsSetAsOutput":  false,
+                                       "Excluded":  false,
+                                       "ShowGeometry":  true,
+                                       "X":  0,
+                                       "Y":  780
+                                   },
+                                   {
+                                       "Id":  "ba080000000000000000000000000001",
+                                       "Name":  "08. Separacion del apilado respecto al conduit (mm)",
+                                       "IsSetAsInput":  true,
+                                       "IsSetAsOutput":  false,
+                                       "Excluded":  false,
+                                       "ShowGeometry":  true,
+                                       "X":  0,
+                                       "Y":  910
+                                   },
+                                   {
+                                       "Id":  "ba090000000000000000000000000001",
+                                       "Name":  "09. Circulos por columna antes de abrir la siguiente",
+                                       "IsSetAsInput":  true,
+                                       "IsSetAsOutput":  false,
+                                       "Excluded":  false,
+                                       "ShowGeometry":  true,
+                                       "X":  0,
+                                       "Y":  1040
+                                   },
+                                   {
+                                       "Id":  "ba0a0000000000000000000000000001",
+                                       "Name":  "10. Diametro del circulo (mm de papel; 0 = medirlo)",
+                                       "IsSetAsInput":  true,
+                                       "IsSetAsOutput":  false,
+                                       "Excluded":  false,
+                                       "ShowGeometry":  true,
+                                       "X":  0,
+                                       "Y":  1170
+                                   },
+                                   {
+                                       "Id":  "ba0b0000000000000000000000000001",
+                                       "Name":  "11. Rehacer los tags existentes",
+                                       "IsSetAsInput":  true,
+                                       "IsSetAsOutput":  false,
+                                       "Excluded":  false,
+                                       "ShowGeometry":  true,
+                                       "X":  0,
+                                       "Y":  1300
+                                   },
+                                   {
+                                       "Id":  "ba0c0000000000000000000000000001",
+                                       "Name":  "12. LIMPIEZA: borrar este valor del parametro de 03 (vacio = no limpiar)",
+                                       "IsSetAsInput":  true,
+                                       "IsSetAsOutput":  false,
+                                       "Excluded":  false,
+                                       "ShowGeometry":  true,
+                                       "X":  0,
+                                       "Y":  1430
+                                   },
+                                   {
+                                       "Id":  "ba0d0000000000000000000000000001",
+                                       "Name":  "13. Etiquetar tambien los conduits verticales (bajadas)",
+                                       "IsSetAsInput":  true,
+                                       "IsSetAsOutput":  false,
+                                       "Excluded":  false,
+                                       "ShowGeometry":  true,
+                                       "X":  0,
+                                       "Y":  1560
+                                   },
+                                   {
+                                       "Id":  "aa010000000000000000000000000001",
+                                       "Name":  "Python Script",
+                                       "IsSetAsInput":  false,
+                                       "IsSetAsOutput":  false,
+                                       "Excluded":  false,
+                                       "ShowGeometry":  true,
+                                       "X":  620,
+                                       "Y":  0
+                                   },
+                                   {
+                                       "Id":  "ca010000000000000000000000000001",
+                                       "Name":  "Log",
+                                       "IsSetAsInput":  false,
+                                       "IsSetAsOutput":  true,
+                                       "Excluded":  false,
+                                       "ShowGeometry":  true,
+                                       "X":  980,
+                                       "Y":  0
+                                   }
+                               ],
+                 "Annotations":  [
+
+                                 ],
+                 "X":  0,
+                 "Y":  0,
+                 "Zoom":  0.8
+             }
 }
